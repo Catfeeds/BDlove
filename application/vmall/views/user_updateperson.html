@@ -1,0 +1,293 @@
+<!doctype>
+<html>
+<head>
+<meta charset="utf-8">
+<title>个人信息</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+
+<link rel="stylesheet" href="<{TEMPLE}>css/framework7.picker.min.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/LArea.css">
+
+<script src="<{TEMPLE}>js/zepto.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<!-- <script type="text/javascript" src="<{TEMPLE}>js/example.js"></script> -->
+
+</head>
+<style>
+	.mt-0{
+		margin-top: 0;
+	}
+	.headimg{
+		width: 60px;
+		height: 60px;
+		margin: 20px auto 15px auto;
+	}
+	.username{
+		text-align: center;
+		font-size: 18px;
+		color: #000;
+		margin-bottom: 5px;
+	}
+	.img-responsive{
+		width: 100%;
+		height: auto;
+		border-radius: 50%;
+	}
+	.level{
+		text-align: center;
+		font-size: 15px;
+		margin-left:15px;
+		margin-bottom: 15px;
+	}
+	.level span{
+		color: #ff9c00;
+		padding-right: 15px;
+	}
+    a:link { 
+        text-decoration: none; 
+    } 
+    a:visited { 
+        text-decoration: none; 
+    } 
+    a:hover { 
+        text-decoration: underline; 
+    } 
+
+</style>
+<body ontouchstart>
+	<div class="weui-cells mt-0">
+		<div class="headimg"><img src="<{if !empty($wxuser_info.head_portrait)}><{$wxuser_info.head_portrait}><{/if}>" alt="" class="img-responsive"/></div>
+		<p class="username"><{$wxuser_info.wx_nickname}></p>
+		<p class="level">等级：<span style="font-style: italic;"><{$wxuser_info.lv}></span>积分：<span><{$wxuser_info.integral_total}></span></p>
+    </div>
+	<div class="weui-cells">
+            <a class="weui-cell weui-cell_access" href="javascript:;" id="showPicker">
+                <div class="weui-cell__bd">
+                    <p>性别</p>
+                </div>
+                <div class="weui-cell__ft" >
+                    <form id="wxuser_sex">
+                    <span id="wxsex">
+                        <{if $wxuser_info.member_sex == 0}>保密<{/if}>
+                        <{if $wxuser_info.member_sex == 1}>男<{/if}>
+                        <{if $wxuser_info.member_sex == 2}>女<{/if}>    
+                    </span>
+                    </form>
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;" id="showDatePicker">
+                <div class="weui-cell__bd">
+                    <p>生日</p>
+                </div>
+                <div class="weui-cell__ft">
+                <{if $wxuser_info.birthday == ""}>
+                <{else}><{$wxuser_info.birthday}><{/if}>
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;" id="address">
+                <div class="weui-cell__bd">
+                    <p>所在地</p>
+                </div>
+                <div class="weui-cell__ft" >
+                    <input id="addressPicker"  onfocus = "javascript:this.blur()" style="text-align:right;" class="weui-input" type="text" value="<{if !empty($address.addressPicker)}><{$address.addressPicker}><{/if}>" >
+                    <input id="addressPickers" type="hidden"  value="<{if !empty($address.addressPickers)}><{$address.addressPickers}><{/if}>" >
+                </div>
+            </a>
+   </div>
+        <div class="weui-cells">
+            <a class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">
+                    <p>手机</p>
+                </div>
+                <div class="weui-cell__ft">
+                <span id="phone">
+                <{if $wxuser_info.tel == ""}>
+                请输入手机号码
+                <{else}><{$wxuser_info.tel}><{/if}>
+                </span>
+                </div>
+            </a>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>邮箱</p>
+                </div>
+                <div class="weui-cell__ft">
+                <!-- <a style=" text-decoration:none;" href="<{base_url()}>vmall.php/user/user_valteemail"> -->
+                <input style="text-align:right;" class="weui-input" type="text" id="email" placeholder="<{if $wxuser_info.user_email == ''}>
+                请输入邮箱<{else}><{$wxuser_info.user_email}><{/if}>">
+                <!-- <{if $wxuser_info.user_email == ""}>
+                请输入邮箱
+                <{else}><{$wxuser_info.user_email}><{/if}> -->
+                <!-- </a> -->
+                </div>
+            </div>
+            
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>QQ</p>
+                </div>
+                <div class="weui-cell__ft">
+                <input style="text-align:right;" id="qqnum" name="qqnum"  type="tel" class="weui-input" placeholder="<{if $wxuser_info.qq == ''}>
+                请输入QQ号码
+                <{else}><{$wxuser_info.qq}><{/if}>" >
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--<a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker">日期选择器</a>-->
+
+	
+</body>
+<script type="text/javascript" src="<{TEMPLE}>js/framework7.picker.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+<script src="<{TEMPLE}>js/LArea.js"></script>
+<script type="text/javascript">
+    
+    //生日
+	$('#showDatePicker').on('click', function () {
+        weui.datePicker({
+            start: 1990,
+            end: new Date().getFullYear(),
+            // onChange: function (result) {
+            // 	$("#showDatePicker .weui-cell__ft").text(result[0]+'-'+result[1]+'-'+result[2]);
+            // },
+            onConfirm: function (result) {
+                var data = result[0]+'-'+result[1]+'-'+result[2];
+                //console.log(data);return;
+                $.ajax({
+                    type : "POST",
+                    url : "wu_info",
+                    data : {"wxbir":data},
+                    dataType:'json',
+                    success : function(msg) {
+                        //alert(msg.sex);
+                        $("#showDatePicker .weui-cell__ft").text(msg[0]+'-'+msg[1]+'-'+msg[2]);
+                        
+                    }  
+                });
+            }
+        });
+    });
+
+    //性别
+	$('#showPicker').on('click', function () {
+        weui.picker([{
+            label: '男',
+            value: '男'
+        }, {
+            label: '女',
+            value: '女'
+        },{
+            label: '保密',
+            value: '保密'
+        }],{
+            // onChange: function (result) {
+            // 	$("#showPicker .weui-cell__ft").text(result);
+            // },
+            onConfirm: function (result) {
+                //console.log(result['0']);
+            	var data = result['0'];
+                $.ajax({
+                    type : "POST",
+                    url : "wu_info",
+                    data : {"wxsex":data},
+                    dataType:'json',
+                    success : function(msg) {
+                        //alert(msg.sex);
+                        $("#showPicker .weui-cell__ft").text(msg.sex);
+                    }  
+                });   
+            }
+        });
+    });
+
+
+    //地址
+    var provs_data =<{$area_info.provs_data}>;
+    var citys_data =<{$area_info.citys_data}>;
+    var dists_data =<{$area_info.dists_data}>;
+    var area = new LArea();
+    area.init({
+        'trigger': '#addressPicker',
+        'valueTo': '#addressPickers',
+
+        'keys': {
+            id: 'value',
+            name: 'text'
+        },
+        'type': 2,
+        'data': [provs_data, citys_data, dists_data]
+    });
+    $('#addressPicker').on('blur',function(){
+        var data = $('#addressPickers').val();//数据错误，获取的是显示的地址的id
+        console.log(data);
+        $.ajax({
+            type : "POST",
+            url : "wu_info",
+            data : {"wxadd":data},
+            dataType:'json',
+            success : function(msg) {
+                //alert(msg.sex);
+                //$('#qqnum').val(msg);
+            }
+        });
+        return false;
+    });
+    
+    //qq
+    $('#qqnum').on('change',function(){
+        var data = $('#qqnum').val();
+        //console.log(data);return;
+        $.ajax({
+            type : "POST",
+            url : "wu_info",
+            data : {"wxqq":data},
+            dataType:'json',
+            success : function(msg) {
+                //alert(msg.sex);
+                $('#qqnum').val(msg);
+            }
+        });
+    });
+
+    //手机页面跳转
+    $("#phone").click(function(){
+        window.location.href = '<{base_url()}>vmall.php/user/user_valtephone';
+    })
+
+    //邮箱
+    $("#email").on("change",function(){
+        var email = $("#email").val();
+        var reg = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
+
+        //alert(email);return;
+        if(!reg.test(email)){
+            alert("请输入正确的邮箱");
+        }else{
+            $.ajax({
+                type : "POST",
+                url : "send_email",
+                data : {"email":email},
+                dataType:'json',
+                success : function(msg) {
+                    // console.log(msg.state);
+                    // alert(typeof(msg.state))
+                    if(msg.state==true){
+                        alert(msg.errmsg);
+                    }else if(msg.state==false){
+                        alert(msg.errmsg);
+                    } 
+                }
+            });
+        }
+    })
+
+</script>
+
+</html>

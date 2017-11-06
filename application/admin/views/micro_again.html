@@ -1,0 +1,1133 @@
+<{include file="pageheader.html" }>
+<style>
+	.mb-special-layout{background-color: #fff;}
+	.mb-special-layout div{float: left;}
+	.mb-special-layout .ncap-form-default{width: 72.5%;}
+	.select2{margin-bottom:0;}
+	.limit_container{
+		width:500px;
+		height:100px;
+		border:1px solid #efefef;
+		margin-top:10px;
+		background: #f5f5f5;
+	}
+	.selected-group-goods{
+		width:180px;
+		border:1px solid #eee;
+		text-align: center;
+		padding:5px;
+		margin:2px;
+	}
+	.selected-group-goods div{
+		width:100%;
+		margin:0 auto;
+		display:block;
+		white-space:nowrap;
+		overflow:hidden;
+		text-overflow:ellipsis;
+	}
+	.selected-group-goods img{
+		width:180px;
+		height:180px;
+	}
+	.search_goods{
+		border:1px solid #eee;
+		padding: 10px;
+		width:100%;
+	}
+	.col-xs-3{
+		width:22%!important;
+	}
+	.choice_title{
+		border-bottom: 1px solid #eee;
+		padding-bottom: 10px;
+		margin-bottom:10px;
+		width:100%;
+	}
+	p{
+		margin-bottom:0 ;
+	}
+	.preview_img{
+		width:90px;
+		height: 90px;
+		vertical-align: top;
+		margin-right: 7px;
+		margin-bottom: 5px;
+	}
+	.uploadimg{
+		position: relative;
+		float: left;
+	}
+	.fa-close:before, .fa-times:before {
+		position: absolute;
+		top: -7px;
+		left: 88px;
+	}
+	.ncap-form-default{display:none;}
+	.active{display:block;}
+	.el-form-item__content div{
+		float: none;
+	}
+	.w_80{
+		width:80px;
+		margin:5px 10px;
+	}
+	.panel-header{
+		padding:4px 15px;
+	}
+	.panel{
+		margin-top:10px;
+		border-radius: 2px;
+	}
+	.myself{
+		float: none!important;
+		background: #f7f7f7;
+		padding: 5px;
+	}
+	.tarea{
+		width: 350px;
+		height:70px;
+	}
+	.clear{
+		clear: both;
+	}
+	.myself_title{
+		margin:5px 10px;
+	}
+	.btn{
+		margin-right: 10px;
+	}
+	.w_50{
+		width:50px!important;
+	}
+	.remove_s{
+		margin-right:5px;
+	}
+	.add_num a{
+		text-decoration: underline;
+	}
+	.div_goods_search_result{
+		width:998px;
+	}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+	<div class="fixed-bar">
+		<div class="item-title">
+			<a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+			<div class="subject">
+				<{if $key == "edit"}>
+					<h3>微砍价-编辑活动</h3>
+					<h5>编辑微砍价活动</h5>
+				<{elseif $key == "restart"}>
+					<h3>微砍价-重启活动</h3>
+					<h5>重启微砍价活动</h5>
+				<{/if}>
+				<input type="hidden" name="key" id="key" b_id="<{$bargain_Info.bargain_id}>" key="<{$key}>" >
+			</div>
+			<ul class="tab-base nc-row">
+				<li><a href="JavaScript:void(0);" id = 'bargain_setings1' class="bargainset current">第一步：基础设置</a></li>
+				<li><a href="JavaScript:void(0);" id = 'bargain_setings2' class="bargainset ">第二步：活动设置</a></li>
+				<li><a href="JavaScript:void(0);" id = 'bargain_setings3' class="bargainset ">第三步：高级设置</a></li>
+			</ul>
+		</div>
+
+	</div>
+	<!-- 操作说明 -->
+	<div class="explanation" id="explanation">
+		<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+			<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+			<span id="explanationZoom" title="收起提示"></span> </div>
+		<ul>
+			<li> 注意：创建好优惠券后就不可以修改，请确认后再创建</li>
+		</ul>
+	</div>
+
+	<div class="mb-special-layout">
+		<div class="mb-item-box" style="padding-left: 25px;padding-top: 50px;">
+			<img src="<{TEMPLE}>images/bargain_img.png"  width="300px"  height="540px"/>
+		</div>
+		
+		<div class="ncap-form-default active" id="add_form_op">
+		
+		
+		
+		
+		
+			<!--基础设置-->
+			<span id="bargain_seting1"  class="bargain_seting">
+			  <form id="add_form1" method="post" name="add_form1" enctype="multipart/form-data">
+				<dl class="row">
+					<dt class="tit">
+						<label for="bargain_title"><em>*</em>活动标题：</label>
+					</dt>
+					<dd class="opt">
+					    <input id="bargain_title" name="bargain_title" type="text" class="input-txt" value="<{$bargain_Info.bargain_title}>">
+						<span class="err"></span>
+					</dd>
+				</dl>
+			   	<dl class="row">
+					<dt class="tit"><label for="start_end_time"><em>*</em>活动时间：</label></dt>
+					<dd class="opt">
+						<input type="text" id="start_time" onclick="laydate()" value="<{if $key=='edit'}><{$time.start_time}><{else}><{/if}>" name="start_time" style="background-color: #fff" class="data-start">
+						至&nbsp;<input type="text" id="end_time" onclick="laydate()" value="<{if $key=='edit'}><{$time.end_time}><{else}><{/if}>" name="end_time" style="background-color: #fff" class="data-end">
+						<span class="err"></span>
+
+					</dd>
+			   	</dl>
+				<dl class="row">
+					<dt class="tit">
+						<label for="goods_image"><em>*</em>砍价轮播图：</label>
+					</dt>
+					<dd class="opt">
+						<div class="formControls">
+							<div id="previews1" style="float:left" goods_src="<{base_url()}>data/shop/album_pic/<{$goods_image.0}>"></div>
+							<div id="previews2" style="float:left" goods_src="<{base_url()}>data/shop/album_pic/<{$goods_image.1}>"></div>
+							<div id="previews3" style="float:left" goods_src="<{base_url()}>data/shop/album_pic/<{$goods_image.2}>"></div>
+							<div style="float:left">
+								<input type="file" id="goods_images1" name ="goods_images1"   onchange="previews1(this)" style="opacity:0" />
+								<input type="hidden" id="goods_image1" name ="goods_image1" value="<{$goods_image.0}>"/>
+								<span class="btn btn-secondary radius size-S mb-10" style="margin-left:-243px"><i class="fa fa-cloud-download"></i>上传图片1</span>
+								<br>
+
+								<input type="file" id="goods_images2" name ="goods_images2"   onchange="previews2(this)" style="opacity:0" />
+								<input type="hidden" id="goods_image2" name ="goods_image2" value="<{$goods_image.1}>"/>
+								<span class="btn btn-secondary radius size-S mb-10" style="margin-left:-243px"><i class="fa fa-cloud-download"></i>上传图片2</span>
+								<br>
+
+								<input type="file" id="goods_images3" name ="goods_images3"   onchange="previews3(this)" style="opacity:0" />
+								<input type="hidden" id="goods_image3" name ="goods_image3" value="<{$goods_image.2}>"/>
+								<span class="btn btn-secondary radius size-S mb-10" style="margin-left:-243px"><i class="fa fa-cloud-download"></i>上传图片3</span>
+							</div>
+						</div>
+						<input type="hidden" id="goods_image" name ="goods_image" value=""/><span class="err"></span>
+						<p class="notic">建议尺寸：750x400素，最多三张哦</p>
+					</dd>
+				</dl>
+				<dl class="row">
+					<dt class="tit">
+						<label for="bargain_rule">活动说明：</label>
+					</dt>
+					<dd class="opt">
+						<textarea name="bargain_rule" rows="6" class="tarea" id="bargain_rule"><{$bargain_Info.bargain_rule}></textarea>
+						<span class="err"></span>
+
+					</dd>
+				</dl>
+				
+				<!-- 
+				<dl class="row">
+					<dt class="tit"><label for="store_type">门店类型：</label></dt>
+					<dd class="opt">
+						<input type="radio" id="store_type_1" name="store_type" value="1" <{if $store_info.ous_type == 1}>checked<{/if}> ><label for="store_type_1">实体店</label>
+						<input type="radio" id="store_type_2" name="store_type" value="2" <{if $store_info.ous_type == 2}>checked<{/if}> ><label for="store_type_2">电商店</label>
+						<span class="err"></span>
+					</dd>
+				</dl>
+				
+				<dl class="row">
+					<dt class="tit"><label for="goods_pos">商品类型：</label></dt>
+					<dd class="opt">
+						<input type="radio" id="goods_pos_1" name="goods_pos" value="0" <{if $goods_info.goods_pos == 0}>checked<{/if}> ><label for="goods_pos_1">总库</label>
+						<input type="radio" id="goods_pos_2" name="goods_pos" value="1" <{if $goods_info.goods_pos != 0}>checked<{/if}> ><label for="goods_pos_2">自建</label>
+				        <span class="err"></span>
+					</dd>
+				</dl> -->
+				
+			    <dl class="row" >
+					<dt class="tit"><label for="store_id"><em>*</em>活动门店:</label></dt>
+					<dd class="opt">
+						   <input type="text" id="store_name" name="store_name"  value="<{$store_info.store_name}>" disabled>
+					       <input type="hidden" id="store_id" name="store_id"  value="<{$store_info.store_id}>" >
+					</dd>
+			    </dl>
+			    
+				<dl class="row" >
+					<dt class="tit">
+						<label for="goods_id"><em>*</em>活动商品:</label>
+					</dt>
+					<dd class="opt">
+						<div class="selected-group-goods" >
+							<div class="goods-thumb"><img id="groupbuy_goods_image" src="<{if !empty($goods_info.goods_image)}><{base_url()}>data/shop/album_pic/<{$goods_info.goods_image}><{else}><{PLUGIN}>data/images/<{$defaultImg}><{/if}>"></div>
+							<div class="goods-name" id="groupbuy_goods_name"><{$goods_info.goods_name}></div>
+							<div class="goods-price">吊牌价：￥<span id="groupbuy_goods_price"><{$goods_info.goods_marketprice}></span></div>
+						</div>
+						<input id="goods_id" name="goods_id" type="hidden" value="<{$goods_info.goods_id}>">
+						<input id="goods_price1" name="goods_price1" type="hidden" value="<{$goods_info.goods_price}>">
+						<span class="err" id="micro_goods_nums"></span>
+						<div style="clear: both;"></div>
+						<!-- <div class="row search_goods" style="margin-top: 10px;">
+							<div class="choice_title">
+								搜索店内商品 <input type="text" name="search_goods_name" id="search_goods_name">
+								<input type="text" name="change_goods_spu" id="change_goods_spu" placeholder="款号">
+								  <input type="text" name="change_stocks_sn" id="change_stocks_sn" placeholder="货号">
+								<a href="javascript:;" id="btn_search_goods" class="btn btn-primary radius size-S">搜索</a><br>
+								<span style="margin-left: 7%;">备注：不输入名称直接搜索将显示店内所有普通商品，特殊商品不能参加</span>
+							</div>
+							<div style="clear: both;"></div>
+							<div class="div_goods_search_result" style="display:none;">
+							</div>
+						</div> -->
+					</dd>
+				</dl>
+				<div class="bot">
+					<a href="javascript:void(0)"  flag="1"  id="submitnext1" class="btn btn-success radius submitnext">下一步</a>
+				</div>
+				</form>
+			</span>
+			
+			
+			
+			
+			
+			<!--活动设置-->
+			<span id="bargain_seting2"  class="bargain_seting" style="display:none">
+			   <form id="add_form2" method="post"   name="add_form2" enctype="multipart/form-data">
+			   
+				<dl class="row">
+					<dt class="tit"><label for="goods_nums"><em>*</em>活动商品数量：</label></dt>
+					<dd class="opt">
+						<input id="goods_nums" name="goods_nums" type="text" value="<{$bargain_Info.goods_nums}>">&nbsp;&nbsp;件
+						<span class="err"></span>
+						<p class="notic">活动发布后无法更新</p>
+					</dd>
+				</dl>
+				
+				
+				<dl class="row">
+					<dt class="tit"><label for="goods_price">商品原价：</label></dt>
+					<dd class="opt">
+					    <input id="goods_price" name="goods_price" type="hidden" value="" >
+						<input id="goodss_price" name="goodss_price" type="text" value="" disabled>&nbsp;&nbsp;元
+						<span class="err"></span>
+						<p class="notic">活动发布后无法更新</p>
+					</dd>
+				</dl>
+				
+				
+				
+				
+				
+				<dl class="row">
+					<dt class="tit"><label for="depreciate_odds"><em>*</em>砍价设置：</label></dt>
+					<dd class="opt">
+						<div class="el-form-item__content">
+							<p class="notic">(涨价概率及金额最好小于降价概率及金额，避免出现砍不到最低价的情况)</p>
+							<table class="table table-border table-bg table-bordered">
+							  	<thead>
+									<tr class="text-c">
+										<th>阶段</th>
+										<th>人数</th>
+										<th>降价</th>
+										<th>降价概率</th>
+										<th>降价范围</th>
+										<th>升价概率</th>
+										<th>升价范围</th>
+										<th>操作</th>
+									</tr>
+							  	</thead>
+							  	<tbody class="add_stage">
+							  	    <{if !empty($bargains)}>
+							  	        <{foreach $bargains as $ks=>$vs}>
+								  	        <tr class="text-c">
+												<td class="stage"><{$ks+1}></td>
+												<td><input type="text" name ="user_number[]" class="numbers w_50" value="<{$vs.user_number}>" ></td>
+												<td><input type="text" name ='depreciate_prices[]' class="prices w_50" value="<{$vs.depreciate_prices}>" >&nbsp;元</td>
+												<td><input type="text" name = "depreciate_odds[]" class="depreciate_odds w_50" onchange="update_odds(this)" value="<{$vs.depreciate_odds}>" >&nbsp;%</td>
+												<td><input type="text" name ="price_low[]" class="price_low w_50" value="<{$vs.price_low}>" >&nbsp;%&nbsp;-&nbsp;<input name ="price_height[]" type="text" class="price_height w_50" value="<{$vs.price_height}>" >&nbsp;%</td>
+												<td><input type="text" name ="depreciate_odds_low[]" class="depreciate_odds_low w_50" disabled value="<{100-$vs.depreciate_odds}>">&nbsp;&nbsp;%</td>
+												<td><input type="text" name ="prices_lows[]" class="prices_lows w_50" value="<{$vs.prices_lows}>" >&nbsp;%&nbsp;-&nbsp;<input name ="prices_heights[]" type="text" class="prices_heights w_50" value="<{$vs.prices_heights}>">&nbsp;%</td>
+												<td class="add_num"><{if $ks+1 eq $bargains_count}><a href="javascript:;" class="add_s">添加</a><{/if}>            </td>
+										  	</tr>
+							  	        <{/foreach}>
+							  	    <{else}>
+							  	    	<tr class="text-c">
+										<td class="stage">1</td>
+										<td><input type="text" name ="user_number[]" class="numbers w_50" value="" ></td>
+										<td><input type="text" name ='depreciate_prices[]' class="prices w_50" value="" >&nbsp;元</td>
+										<td><input type="text" name = "depreciate_odds[]" class="depreciate_odds w_50" onchange="update_odds(this)" value="" >&nbsp;%</td>
+										<td><input type="text" name ="price_low[]" class="price_low w_50" value="" >&nbsp;%&nbsp;-&nbsp;<input name ="price_height[]" type="text" class="price_height w_50" value="" >&nbsp;%</td>
+										<td><input type="text" name ="depreciate_odds_low[]" class="depreciate_odds_low w_50" disabled value="">&nbsp;&nbsp;%</td>
+										<td><input type="text" name ="prices_lows[]" class="prices_lows w_50" value="" >&nbsp;%&nbsp;-&nbsp;<input name ="prices_heights[]" type="text" class="prices_heights w_50" value="">&nbsp;%</td>
+										<td class="add_num"><a href="javascript:;" class="add_s">添加</a></td>
+									  </tr>
+							  	    <{/if}>
+							  	</tbody>
+							</table>
+				         <div class="text-small bargain-time">
+					         <div class="bot">
+								<a id="submit_depreciate" href="javascript:void(0)"  style="float: right;margin-right: 0px;" class="btn btn-primary">确认</a>
+							</div>
+				         </div> 
+				         <div class="error-msg" style="display: none;"></div><!---->
+				         </div>
+					</dd>
+				</dl>
+				
+				
+				
+				<dl class="row">
+					<dt class="tit"><label for="bargain_prices">预计可降价：</label></dt>
+					<dd class="opt">
+						<input id="bargain_prices" name="bargain_prices" type="text" value="<{if isset($bargain_Info.bargain_price)}><{$bargain_Info.bargain_price}><{/if}>"  disabled>&nbsp;&nbsp;元
+						<span class="err"></span>
+						<p class="notic">活动发布后无法更新</p>
+					</dd>
+				</dl>
+				
+			   <dl class="row">
+					<dt class="tit"><label for="bargain_price"><em>*</em>砍价目标：</label></dt>
+					<dd class="opt">
+						<input id="bargain_price" name="bargain_price" type="text" value="<{if isset($bargain_Info.bargain_price)}><{$bargain_Info.bargain_price}><{/if}>" >&nbsp;&nbsp;元
+						<span class="err"></span>
+						<p class="notic">活动发布后无法更新</p>
+					</dd>
+				</dl>
+				
+
+				
+				<dl class="row">
+					<dt class="tit"><label for="bargain_again"><em>*</em>活动重启最低人数：</label></dt>
+					<dd class="opt">
+						<input id="bargain_again" name="bargain_again" type="text" value="<{$bargain_Info.bargain_again}>" >&nbsp;&nbsp;
+						<span class="err"></span>
+						<p class="notic">活动发布后无法更新</p>
+					</dd>
+				</dl>
+				
+				
+             	<div class="bot">
+<!-- 					<a id="" href="javascript:void(0)" flag="2" class="btn btn-primary submitgo">上一步</a> -->
+					<a href="javascript:void(0)" flag="2" id="submitnext2"  class="btn btn-success submitnext">下一步</a>
+				</div>
+				</form>
+             </span>
+             
+             
+			<!--高级设置-->
+			<span id="bargain_seting3" class="bargain_seting" style="display:none">
+			   <form id="add_form3" method="post" name="add_form3" enctype="multipart/form-data">
+				<dl class="row">
+					<dt class="tit">
+						<label for="bargain_key"><em>*</em>关键词：</label>
+					</dt>
+					<dd class="opt">
+					    <input id="bargain_key" name="bargain_key" type="text" class="input-txt" value="<{$bargain_Info.bargain_key}>">
+						<span class="err"></span>
+					</dd>
+				</dl>
+				
+				<dl class="row">
+					<dt class="tit">
+						<label for="bargain_image"><em>*</em>活动图片：</label>
+					</dt>
+					<dd class="opt">
+						<div class="formControls">
+							<div id="preview1" goods_src="<{$bargain_url}>"></div>
+							<div style="clear:both"></div>
+							<input type="file" id="bargain_images" name ="bargain_images" onchange="preview1(this)" style="opacity:0" />
+							<input type="hidden" id="bargain_images_h" name ="bargain_images_h" value="<{$bargain_Info.bargain_image}>"/>
+							<span class="btn btn-secondary radius size-S mb-10" style="margin-left:-243px"><i class="fa fa-cloud-download"></i>上传图片</span>
+						</div>
+						<input type="hidden" id="bargain_image" name ="bargain_image" value="<{$bargain_Info.bargain_image}>"/><span class="err"></span>
+						<p class="notic">图片建议尺寸：900*500 ,图片支持格式：jpg、jpeg、png</p>
+					</dd>
+				</dl>
+
+
+
+				  <dl class="row">
+					<dt class="tit">
+						<label for="bargain_image_wx"><em>*</em>推文图片：</label>
+					</dt>
+					<dd class="opt">
+						<div class="formControls">
+							<div id="preview4" goods_src="<{$bargain_url_wx}>"></div>
+							<div style="clear:both"></div>
+							<input type="file" id="bargain_image_wx" name ="bargain_image_wx" onchange="preview4(this)" style="opacity:0" />
+							<input type="hidden" id="bargain_images_h_wx" name ="bargain_images_h_wx" value="<{$bargain_Info.bargain_image_wx}>"/>
+							<span class="btn btn-secondary radius size-S mb-10" style="margin-left:-243px"><i class="fa fa-cloud-download"></i>上传图片</span>
+						</div>
+						<input type="hidden" id="bargain_image_wxs" name ="bargain_image_wxs" value="<{$bargain_Info.bargain_image_wx}>"/><span class="err"></span>
+						<p class="notic">图片建议尺寸：360*200 ,图片支持格式：jpg、jpeg、png</p>
+					</dd>
+				</dl>
+
+				
+				<dl class="row">
+					<dt class="tit">
+						<label for="bargain_note">活动介绍：</label>
+					</dt>
+					<dd class="opt">
+						<textarea name="bargain_note" rows="6" class="tarea" id="bargain_note"><{$bargain_Info.bargain_note}></textarea>
+						<span class="err"></span>
+					</dd>
+				</dl>
+					
+				<dl class="row">
+					<dt class="tit"><label for="">分享设置：</label></dt>
+					<dd class="opt">
+						<input type="radio" id="ous_tag_1" name="ous_tag" value="1"  <{if $bargain_Info.share_way eq 1}>checked<{/if}>   ><label for="ous_tag_1">默认设置</label>
+						<input type="radio" id="ous_tag_2" name="ous_tag" value="2"  <{if $bargain_Info.share_way eq 2}>checked<{/if}> ><label for="ous_tag_2">自定义设置</label>
+						<div class="myself"   style="display:<{if  $bargain_Info.share_way eq 1}>none<{else}>block<{/if}>" >
+							<div class="myself_title">分享图&nbsp;&nbsp;&nbsp;</div>
+							<div>
+								<div class="formControls">
+									<div id="preview2"><{if isset($bargain_Info.share_image)}><img src="<{base_url()}>data/shop/album_pic/<{$bargain_Info.share_image}>" class="preview_img"/><{/if}></div>
+									<div style="clear:both"></div>
+									<input type="file" name ="share_images" onchange="preview2(this)" style="opacity:0" />
+									<input type="hidden" id="share_images_h" name ="share_images_h" value="<{$bargain_Info.share_image}>"/>
+									<span class="btn btn-secondary radius size-S mb-10" style="margin-left:-243px;margin-top: 3px;"><i class="fa fa-cloud-download"></i>上传图片</span>
+								</div>
+							</div>
+							<p class="clear"></p>
+							<div class="myself_title">分享标题</div><div><input type="text" name="share_title" style="width: 220px" value="<{$bargain_Info.share_title}>"></div>
+							<p class="clear"></p>
+							<div class="myself_title">分享内容</div><div><textarea name="share_content" class="tarea" id=""><{$bargain_Info.share_content}></textarea></div>
+							<p class="clear"></p>
+						</div>
+					</dd>
+				</dl>
+				<div class="bot">
+<!-- 					<a  href="javascript:void(0)" flag="3" class="btn btn-primary submitgo">上一步</a> -->
+					<a  href="javascript:void(0)" class="btn btn-success radius " id="submitnext3">保存</a>
+				</div>
+				</form>
+			</span>
+		</div>
+	</div>
+</div>
+
+<div id="goTop">
+	<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+	<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+</body>
+<script type="text/javascript">
+
+
+var  bargain_id = '';
+//砍价计算
+$("#submit_depreciate").click(function(){
+	var lows =0.00;heights=0.00;
+	var indexs = $(".add_stage tr").length;
+	$(".add_stage tr").each(function(index){
+		var user_number = Number($(this).find(".numbers").val());
+		    depreciate_prices = Number($(this).find(".prices").val());
+		    depreciate_odds = Number($(this).find(".depreciate_odds").val());
+		    price_low = Number($(this).find(".price_low").val());
+		    price_height = Number($(this).find(".price_height").val());
+		    depreciate_odds_low = Number($(this).find(".depreciate_odds_low").val());
+		    prices_lows = Number($(this).find(".prices_lows").val());
+		    prices_heights = Number($(this).find(".prices_heights").val());
+		    console.log("user_number:"+user_number+"//"+"depreciate_prices:"+depreciate_prices+"//"+"depreciate_odds:"+depreciate_odds+"//"+"price_low:"+price_low+"//"+"price_height:"+price_height+"//"+"depreciate_odds_low:"+depreciate_odds_low+"//"+"prices_lows:"+prices_lows+"//"+"prices_heights:"+prices_heights);
+		    
+	  var prices1_low = 	user_number*(depreciate_odds/100)*depreciate_prices*(price_low/100);
+		  prices1_height = 	user_number*(depreciate_odds/100)*depreciate_prices*(price_height/100);
+		  prices2_low = 	user_number*(depreciate_odds_low/100)*depreciate_prices*(prices_lows/100);
+		  prices2_height = 	user_number*(depreciate_odds_low/100)*depreciate_prices*(prices_heights/100);
+		  console.log("prices1_low:"+prices1_low+"//"+"prices1_height:"+prices1_height+"//prices2_low:"+prices2_low+"//"+"prices2_height:"+prices2_height);
+    
+     var  low =  prices1_height - prices2_low;
+          height = prices1_low - prices2_height;
+          lows = lows+low;
+          heights = heights +height;
+          console.log("low:"+low+"//"+"height:"+height+"lows:"+lows+"//"+"heights:"+heights);
+	   if(Number(index)+1==Number(indexs)){
+		   var Nheights = returnFloat(heights);
+		   var Nlows = Math.ceil(lows);
+		   console.log("Nheights:"+Nheights+"//Nlows:"+Nlows)
+		   $("#bargain_prices").val(Nlows+'.00');
+		   $("#bargain_price").val(Nlows+'.00');
+	   }
+	});
+	
+	
+});
+
+function returnFloat(value){
+	 var value=Math.round(parseFloat(value)*100)/100;
+	 var xsd=value.toString().split(".");
+	 if(xsd.length==1){
+	 value=value.toString()+".00";
+	 return value;
+	 }
+	 if(xsd.length>1){
+	 if(xsd[1].length<2){
+	  value=value.toString()+"0";
+	 }
+	 return value;
+	 }
+	}
+
+
+function toDecimal2(x) { 
+    var f = parseFloat(x); 
+    if (isNaN(f)) { 
+      return false; 
+    } 
+    var f = Math.round(x*100)/100; 
+    var s = f.toString(); 
+    var rs = s.indexOf('.'); 
+    if (rs < 0) { 
+      rs = s.length; 
+      s += '.'; 
+    } 
+    while (s.length <= rs + 2) { 
+      s += '0'; 
+    } 
+    return s; 
+  } 
+  
+  
+  
+function update_odds(obj){
+	var nums = 100-Number($(obj).val());
+	$(obj).parents("tr").find(".depreciate_odds_low").html(nums);
+	$(obj).parents("tr").find(".depreciate_odds_low").val(nums);
+}
+
+
+
+
+
+	$("table").on('click','.add_s',function () {
+	    var html = `<tr class="text-c">
+	                    <td class="stage"></td>
+						<td><input type="text" name ="user_number[]" class="numbers w_50"></td>
+						<td><input type="text" name ='depreciate_prices[]' class="prices w_50">&nbsp;元</td>
+						<td><input type="text" name = "depreciate_odds[]" class="depreciate_odds w_50" onchange="update_odds(this)">&nbsp;%</td>
+						<td><input type="text" name ="price_low[]"class="price_low w_50">&nbsp;%&nbsp;-&nbsp;<input name ="price_height[]"type="text" class="price_height w_50">&nbsp;%</td>
+						<td><input type="text" name ="depreciate_odds_low[]" class="depreciate_odds_low w_50" disabled>&nbsp;&nbsp;%</td>
+						<td><input type="text" name ="prices_lows[]"class="prices_lows w_50">&nbsp;%&nbsp;-&nbsp;<input name ="prices_heights[]" type="text" class="prices_heights w_50">&nbsp;%</td>
+						<td class="add_num"><a href="javascript:;" class="add_s">添加</a></td>
+					</tr>`;
+		$(".add_stage").append(html);
+		$(this).parent().parent().next().find("td:first").html($(".stage").length);
+		$(".add_num").each(function(index){
+		    if(index==$(".add_num").length-1){
+                $(this).html('<a href="javascript:;" class="remove_s">删除</a><a href="javascript:;" class="add_s">添加</a>')
+			}else{
+		        $(this).html('')
+			}
+		})
+    })
+
+    $("table").on('click','.remove_s',function () {
+        $(this).parents('tr').remove();
+        if($(".add_num").length==1){
+            $(".add_num").html('<a href="javascript:;" class="add_s">添加</a>');
+		}else{
+            $(".add_num").each(function(index){
+                if(index==$(".add_num").length-1){
+                    $(this).html('<a href="javascript:;" class="remove_s">删除</a><a href="javascript:;" class="add_s">添加</a>')
+                }else{
+                    $(this).html('')
+                }
+            })
+		}
+	})
+
+function changePrice(obj){
+	var num = Number($(obj).val());
+	var nums = 100 -num;
+	$("#depreciate_odds_low").val(nums);
+}
+//结束时间不能大于开始时间且不能小于现在
+jQuery.validator.methods.greaterThanStartDate = function(value, element) {
+	var start_date = $("#start_time").val();
+	var date1 = new Date(Date.parse(start_date.replace(/-/g, "/")));
+	var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+	return date1 < date2;
+};
+jQuery.validator.methods.greaterThanNowDate = function(value, element) {
+	var date1 = new Date();
+	var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+	return date1 < date2;
+};
+
+
+
+
+$("#submitnext1").click(function(){
+	if($("#goods_image1").val() && $("#goods_image2").val() && $("#goods_image3").val()){
+		$("#goods_image").val("1");
+	}
+	$("#add_form1").validate({
+		errorPlacement: function(error, element){
+			var error_td = element.parent('dd').children('span.err');
+			error_td.append(error);
+		},
+		rules : {
+			bargain_title : {
+				required : true
+			},
+			start_time : {
+				required : true
+			},
+
+			end_time : {
+				required : true,
+				greaterThanStartDate : true,
+				greaterThanNowDate : true,
+			},
+			store_id : {
+				required : true
+			},
+			goods_id : {
+				required : true
+			},
+			goods_image: {
+				required : true
+			}
+		
+		},
+		messages : {
+			bargain_title : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入活动标题'
+			},
+			start_time : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入活动开始时间'
+			},
+			end_time : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入活动结束时间',
+				greaterThanStartDate : '<i class="icon-exclamation-sign">结束时间不能小于开始时间</i>',
+				greaterThanNowDate : '<i class="icon-exclamation-sign">结束时间不能小于当前时间</i>',
+			},
+			store_id : {
+				required : '<i class="fa fa-exclamation-circle"></i>请限制参加活动的门店'
+			},
+			goods_id : {
+				required : '<i class="fa fa-exclamation-circle"></i>请选择参加活动的商品'
+			},
+			goods_image : {
+				required : '<i class="fa fa-exclamation-circle"></i>请选择活动轮播图'
+			},
+		
+		}
+	});
+	if($('#add_form1').valid()){
+       	var data = new FormData($("form")[0]);
+       	var b_id = $("#key").attr("b_id");
+       	var b_key = $("#key").attr("key");
+  	    $.ajax({
+			type: "POST",
+	        url: "micro_again_edit_one?key="+b_key+"&bargain_id="+b_id,
+	        data: data,
+	        dataType: "json",
+	        processData: false,
+            contentType: false,
+	        success: function(data){
+	        	console.log(data)
+	         	if(data.state){
+	         		 bargain_id = data.id;
+		         	 $(".bargainset").removeClass("current");
+					 $("#bargain_setings2").addClass("current");
+					 $(".bargain_seting").siblings().css("display","none");
+					 $("#bargain_seting2").css("display","block"); 
+	        	}else{
+	        		 layer.msg(data.msg)
+	        	}
+	        }
+		});
+	}else{
+		 return false;
+	}
+});
+
+
+
+
+
+$("#submitnext2").click(function(){
+	$("#add_form2").validate({
+		errorPlacement: function(error, element){
+			var error_td = element.parent('dd').children('span.err');
+			error_td.append(error);
+		},
+		rules : {
+			bargain_price : {
+				required    : true,
+                number      : true,
+			},
+			goods_nums : {
+				required : true,
+				number      : true
+			},
+			bargain_again :{
+				required : true,
+				number      : true
+			}
+		
+		},
+		messages : {
+			bargain_price : {
+	              required: '<i class="fa fa-exclamation-circle"></i>最低价格不能为空',
+                  number: '<i class="fa fa-exclamation-circle"></i>商品价格只能是数字'
+			},
+			goods_nums  : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入商品数量',
+				 number: '<i class="fa fa-exclamation-circle"></i>商品数量只能是数字'
+			},
+			bargain_again  : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入最低人数',
+				 number: '<i class="fa fa-exclamation-circle"></i>只能填写数字'
+			}
+
+		}
+	});
+	if($('#add_form2').valid()){
+       	var data = new FormData($("form")[1]);
+  	    $.ajax({
+			type: "POST",
+	        url: "micro_again_edit_two?bargain_id="+bargain_id,
+	        data: data,
+	        dataType: "json",
+	        processData: false,
+            contentType: false,
+	        success: function(data){
+	        	console.log(data)
+	         	if(data.state){
+		         	 $(".bargainset").removeClass("current");
+					 $("#bargain_setings3").addClass("current");
+					 $(".bargain_seting").siblings().css("display","none");
+					 $("#bargain_seting3").css("display","block"); 
+	        	}else{
+	        		layer.msg(data.msg)
+	        	}
+	        }
+		});
+	}else{
+		 return false;
+	}
+});
+
+
+
+$("#submitnext3").click(function(){
+	if($("#bargain_images_h").val()){
+		$("#bargain_image").val("1");
+	}
+	$("#add_form3").validate({
+		errorPlacement: function(error, element){
+			var error_td = element.parent('dd').children('span.err');
+			error_td.append(error);
+		},
+		rules : {
+			bargain_key : {
+				required : true
+			},
+			bargain_image : {
+				required : true
+			}
+		
+		},
+		messages : {
+			bargain_key : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入关键词'
+			},
+			bargain_image : {
+				required : '<i class="fa fa-exclamation-circle"></i>请选择活动图片'
+			}
+		}
+	});
+	
+	if($('#add_form3').valid()){
+        	var data = new FormData($("form")[2]);
+      	    $.ajax({
+   				type: "POST",
+   		        url: "micro_again_edit_three?bargain_id="+bargain_id,
+   		        data: data,
+   		        dataType: "json",
+   		        processData: false,
+   	            contentType: false,
+   		        success: function(data){
+   		        	if(data.state){
+   		        		layer.msg(data.msg);
+   		        		setTimeout(" window.location.href='<{base_url()}>admin.php/MicroBargain/micro';",2000)
+   		        	}else{
+   		        		layer.msg(data.msg);
+   		        	    return false;
+   		        	}
+   		        }
+   			});
+	 }else{
+	 	 return false;
+	}
+});
+
+
+
+$(document).ready(function () {
+	var store_type = $("input[name='store_type']:checked").val();
+  	ajax_get_store_list(store_type);
+  	var goods_id = $('#goods_id').val();
+  	var goods_image = $('#groupbuy_goods_image').attr('src');
+  	var goods_marketprice = $('#groupbuy_goods_price').text();
+  	var goods_name = $('#groupbuy_goods_name').text();
+  	var goods_price1 = $('#goods_price1').val();
+	$('#goods_id').val(goods_id);
+	$('#groupbuy_goods_image').attr('src',goods_image);
+	$('#groupbuy_goods_price').text(goods_marketprice);
+	$('#groupbuy_goods_name').text(goods_name);
+	$('#goods_price').val(goods_price1);
+	$('#goodss_price').val(goods_price1);
+	
+	//轮播图片
+	var goods_url1 = $("#previews1").attr('goods_src');
+	var goods_url2 = $("#previews2").attr('goods_src');
+	var goods_url3 = $("#previews3").attr('goods_src');
+	var goods_image1 = $("#goods_image1").val();
+	var goods_image2 = $("#goods_image2").val();
+	var goods_image3 = $("#goods_image3").val();
+	var prevDiv1 = document.getElementById('previews1');
+	var prevDiv2 = document.getElementById('previews2');
+	var prevDiv3 = document.getElementById('previews3');
+	//console.log(goods_image1);console.log(goods_image2);console.log(goods_image3);return;
+	//console.log(goods_url1);console.log(goods_url2);console.log(goods_url3);return;
+	if(goods_image1 != 'no'){
+		prevDiv1.innerHTML = '<div class="uploadimg"><img src="' +goods_url1+ '" class="preview_img"/><i class="fa fa-times remove" aria-hidden="true"></i></div>';
+	}
+	if(goods_image2 != 'no'){
+		prevDiv2.innerHTML = '<div class="uploadimg"><img src="' +goods_url2+ '" class="preview_img"/><i class="fa fa-times remove" aria-hidden="true"></i></div>';
+	}
+	if(goods_image3 != 'no'){
+		prevDiv3.innerHTML = '<div class="uploadimg"><img src="' +goods_url3+ '" class="preview_img"/><i class="fa fa-times remove" aria-hidden="true"></i></div>';
+	}
+
+	//活动图片
+	var bargain_url = $("#preview1").attr('goods_src');
+	var prevDiv = document.getElementById('preview1');
+	prevDiv.innerHTML = '<div><img src="' + bargain_url + '" class="preview_img"/></div>';
+	
+	//活动图片
+	var bargain_url_wx = $("#preview4").attr('goods_src');
+	var prevDiv = document.getElementById('preview4');
+	prevDiv.innerHTML = '<div><img src="' + bargain_url_wx + '" class="preview_img"/></div>';
+
+	
+});
+
+$("input[name='store_type']").change(function() {
+	ajax_get_store_list($("input[name='store_type']:checked").val());
+});
+
+function ajax_get_store_list(type){
+	var store_id = $("select[name='store_id']").attr('store_id');
+	var sttr='';
+	$.ajax({
+		type:'get',
+		data:'type='+type,
+		url:'ajax_get_store_list',
+		success:function(data){
+			console.log(data);
+			if(data.state){
+				$.each(data.data,function(k,v){
+					if(v.store_id==store_id ){
+                       sttr+='<option value="'+v.store_id+'" selected>'+v.store_name+'</option>';
+					}else{
+						sttr+='<option value="'+v.store_id+'">'+v.store_name+'</option>';
+					}
+					
+				}) 
+			}else{
+				sttr +="<option value=''>店铺为空</option>";
+			}
+			$("#store_id").html("");
+			$("#store_id").append(sttr);
+		},
+		dataType:'json'
+	});
+}
+//	添加图片的方法
+    function previews1(file){
+        var prevDiv = document.getElementById('previews1');
+        if(file.files && file.files[0]){
+            var reader = new FileReader();
+            reader.onload = function(evt){
+                prevDiv.innerHTML = '<div class="uploadimg"><img src="' + evt.target.result + '" class="preview_img"/><i class="fa fa-times remove" aria-hidden="true"></i></div>';
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+        $("#goods_image1").val("1");
+    }
+    
+    
+    
+
+    
+    
+    function previews2(file){
+        var prevDiv = document.getElementById('previews2');
+        if(file.files && file.files[0]){
+            var reader = new FileReader();
+            reader.onload = function(evt){
+                prevDiv.innerHTML = '<div class="uploadimg"><img src="' + evt.target.result + '" class="preview_img"/><i class="fa fa-times remove" aria-hidden="true"></i></div>';
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+        $("#goods_image2").val("1");
+    }
+
+    function previews3(file){
+        var prevDiv = document.getElementById('previews3');
+        if(file.files && file.files[0]){
+            var reader = new FileReader();
+            reader.onload = function(evt){
+                prevDiv.innerHTML = '<div class="uploadimg"><img src="' + evt.target.result + '" class="preview_img"/><i class="fa fa-times remove" aria-hidden="true"></i></div>';
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+        $("#goods_image3").val("1");
+    }
+    
+    
+    
+    function preview1(file){
+        var prevDiv = document.getElementById('preview1');
+        if(file.files && file.files[0]){
+            var reader = new FileReader();
+            reader.onload = function(evt){
+                prevDiv.innerHTML = '<div><img src="' + evt.target.result + '" class="preview_img"/></div>';
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+        $("#bargain_images_h").val("1");
+    }
+    
+    
+    function preview4(file){
+        var prevDiv = document.getElementById('preview4');
+        if(file.files && file.files[0]){
+            var reader = new FileReader();
+            reader.onload = function(evt){
+                prevDiv.innerHTML = '<div><img src="' + evt.target.result + '" class="preview_img"/></div>';
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+        $("#bargain_images_h_wx").val("1");
+    }
+    
+    
+	function preview2(file){
+		var prevDiv = document.getElementById('preview2');
+		if(file.files && file.files[0]){
+			var reader = new FileReader();
+			reader.onload = function(evt){
+				prevDiv.innerHTML = '<div><img src="' + evt.target.result + '" class="preview_img"/></div>';
+			}
+			reader.readAsDataURL(file.files[0]);
+		}
+	}
+    
+    $("body").on("click","#preview .uploadimg .remove",function(){
+        var urls = $(this).parent().attr("imgname");$(this).parent().remove();
+    });
+
+//选择商品
+$('#btn_show_search_goods').on('click', function() {
+	$('#div_search_goods').show();
+});
+//关闭 选择商品弹出
+$('#btn_hide_search_goods').on('click', function() {
+	$('#div_search_goods').hide();
+});
+//选择商品  搜索
+$("#btn_search_goods").click(function(){
+	search_goods_name = $('#search_goods_name').val();
+	change_goods_spu = $('#change_goods_spu').val();
+	change_stocks_sn = $('#change_stocks_sn').val();
+	group_id = $('#now_groupbuy_id').val();
+	store_id = $('#store_id').val();
+	goods_pos = $("input[name='goods_pos']:checked").val();
+	if(!store_id){
+		layer.msg('请先选择活动门店!');return false;
+	}
+	function show_content(curr,group_id){
+		$.ajax({
+			type: "post",
+			url: "goods_search",
+			data: {search_goods_name:search_goods_name,page:curr,group_id:group_id,store:store_id,goods_pos:goods_pos,change_goods_spu:change_goods_spu,change_stocks_sn:change_stocks_sn},
+			dataType: "json",
+			success: function(data){
+				if(data.state=='403'){
+					login_ajax('shopadmin');return false;
+				}
+				page = parseInt(data.page);data_goods = data.data;total_page = parseInt(data.total_page);rp = parseInt(data.rp);
+				if(data.state){
+
+					if(data_goods!=''){
+						str ='';
+						$.each(data_goods,function(k,v){
+
+							fg_v = JSON.stringify(v).replace(/ /g,"！");
+
+							str +='<div class="selected-group-goods col-xs-3">'+
+									'<div class="goods-thumb"><img id="groupbuy_goods_image" src="'+v.goods_image+'"></div>'+
+									'<input name="search_goods_id" class="search_goods_id" type="hidden" value="'+v.goods_id+'">'+
+									'<div class="goods-name">'+v.goods_name+'</div>'+
+									'<div class="goods-price">吊牌价：￥<span nctype="groupbuy_goods_price">'+v.goods_marketprice+'</span></div>'+
+									'<a href="javascript:;" class="btn btn-primary" onclick=select_goods('+fg_v+')><i class="fa fa-check-circle-o"></i>选择该商品</a>'+
+									'</div>';
+
+						})
+						str +='<div class="pagination"></div> ';
+					}
+					$('.div_goods_search_result').show();
+					$('.div_goods_search_result').html(str);
+					pages = total_page
+					curr = page
+					laypage({
+						cont: $('div.pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+						pages: pages, //通过后台拿到的总页数
+						curr:  curr || 1, //当前页
+						first: '首页',
+						last: '末页',
+						groups:5,
+						jump: function(obj, first){ //触发分页后的回调
+							if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+								show_content(obj.curr,group_id);
+							}
+						}
+					});
+				}else{
+					str = '<div style="font-size:20px;color:red;">未找到符合条件的商品！</div>';
+					$('.div_goods_search_result').show();
+					$('.div_goods_search_result').html(str);
+
+				}
+			}
+		})
+	}
+	show_content(1,group_id)
+	
+});
+
+
+function select_goods(goods){
+	console.log(goods)
+	re = new RegExp("！","g");
+	groupbuy_goods_name = data_null(goods.goods_name).replace(re," ");
+	$('#goods_id').val(goods.goods_id);
+	$('#groupbuy_goods_image').attr('src',data_null(goods.goods_image));
+	$('#groupbuy_goods_price').text(data_null(goods.goods_marketprice));
+	$('#groupbuy_goods_name').text(groupbuy_goods_name);
+	$('.div_goods_search_result').hide();
+	$('#goods_price').val(data_null(goods.goods_price));
+	$('#goodss_price').val(data_null(goods.goods_price));
+	$("#micro_goods_nums").html('');
+	
+}
+$("input[name='ous_tag']").change(function() {
+    console.log($(this).val())
+    if($(this).val()==1) {
+        $(".myself").hide();
+    } else {
+        $(".myself").fadeIn();
+    }
+});
+</script>
+
+</html>

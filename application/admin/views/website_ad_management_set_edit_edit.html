@@ -1,0 +1,205 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="website_ad_management_set_edit?&ap_id=<{$adv.ap_id}>" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>广告管理 - 编辑广告"<{$adv.adv_title}>"</h3>
+                <h5>网站广告位及广告内容管理</h5>
+            </div>
+        </div>
+    </div>
+    <form id="adv_form" enctype="multipart/form-data" method="post">
+        <input type="hidden" name="form_submit" value="ok">
+        <div class="ncap-form-default" id="main_table">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="adv_name"><em>*</em>广告名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="adv_name" id="adv_name" class="input-txt" value="<{$adv.adv_title}>">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+			        <dt class="tit">
+			          	<label>所属广告位</label>
+			        </dt>
+			        <dd class="opt"><{$adv.ap_name}>
+                       <span class="err"></span>
+			          	<p class="notic"></p>
+			        </dd>
+	      	 </dl>
+	      	 <dl class="row">
+		        <dt class="tit">
+		          	<label>类别</label>
+		        </dt>
+		        <dd class="opt"><{if $adv.ap_class=="0"}>图片
+		        				<{elseif $adv.ap_class=="1"}>文字
+		        				<{elseif $adv.ap_class=="2"}>幻灯
+		        				<{else}>Flash
+		        				<{/if}>
+		             	 <span class="err"></span>
+		         	 <p class="notic"></p>
+		        </dd>
+	      	</dl>
+	 
+            <dl class="row">
+                <dt class="tit">
+                    <label for="adv_start_time"><em>*</em>开始时间</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text"  name="adv_start_time" onclick="laydate()" id="adv_start_time" value="<{$adv.adv_start_date}>">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="adv_end_time"><em>*</em>结束时间</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="adv_end_time" id="adv_end_time" onclick="laydate()" value="<{$adv.adv_end_date}>">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row" id="adv_pic">
+                <dt class="tit">
+                    <label for="file_adv_pic">图片上传</label>
+                </dt>
+                <dd class="opt">
+                    <div class="input-file-show">
+                    	<span class="show">
+                        	<a class="nyroModal" rel="gal" href=""><i class="fa fa-picture-o"  id="" data-geo='<img src="<{if empty($adv.adv_content.adv_slide_pic)}><{TEMPLE}>images/default_user_portrait.gif <{else}><{base_url()}><{$adv.adv_content.adv_slide_pic}><{/if}>" width=100px height=50px>'></i></a>
+                        </span>
+                        <span class="type-file-box">
+	                        <input type='text' name='textfield' id='textfield1' class='type-file-text' value='<{if empty($adv.adv_content.adv_slide_pic)}><{TEMPLE}>images/default_user_portrait.gif <{else}><{$adv.adv_content.adv_slide_pic}><{/if}>'/>
+	                        <input type='button' name='button' id='button1' value='选择上传...' class='type-file-button' />
+                            <input type="file" class="type-file-file" id="file_adv_pic" name="adv_pic" size="30" hidefocus="true" nc_type="upload_file_adv_pic" title="点击按钮选择文件并提交表单后上传生效">
+            			</span>
+            		</div>
+                    <span class="err"></span>
+                    <p class="notic">系统支持的图片格式为:gif,jpg,jpeg,png</p>
+                </dd>
+            </dl>
+            
+            <dl class="row" id="adv_pic_url">
+                <dt class="tit">
+                    <label for="type_adv_pic_url">链接地址</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="adv_pic_url" class="input-txt" id="type_adv_pic_url" value="<{$adv.adv_content.adv_slide_url}>">
+                    <span class="err"></span>
+                    <p class="notic">链接地址请添加加http://</p>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script>
+
+
+$(function(){
+
+    $("#file_adv_pic").change(function(){
+        $("#textfield1").val($("#file_adv_pic").val());
+    });
+
+
+//按钮先执行验证再提交表单
+    $(function(){
+        $("#submitBtn").click(function(){
+            if($("#adv_form").valid()){
+            	var data = new FormData($('#adv_form')[0]);
+       			$.ajax({
+       				data:data,
+       				type:'post',
+       				dataType:'json',
+       				url:"website_ad_management_set_adv_update?adv_id="+<{$adv.adv_id}>,
+       				cache: false,
+                    processData: false,
+                    contentType: false,
+       				success:function(res){
+       					if(res=="success"){
+       						layer.alert('广告修改成功');
+       						setTimeout("window.location.href = '<{base_url()}>admin.php/Website/website_ad_management_set_edit?&ap_id=<{$adv.ap_id}>'",3000);
+       					}else if(res.state=="article_position_false"){
+       						layer.alert(res.msg);
+       					}else if(res.state=="file_type_false"){
+       						layer.alert(res.msg);
+       					}else if(res.state=="file_copy_false"){
+       						layer.alert(res.msg);
+       					}else if(res=="false"){
+       						layer.alert('广告修改失败');
+       					}
+       				}
+       			});
+            }
+        });
+    });
+//
+    $(document).ready(function(){
+        $('#adv_form').validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parents('dl').find('span.err');
+                error_td.append(error);
+            },
+            rules : {
+                adv_name : {
+                    required : true
+                },
+                aptype_hidden : {
+                    required : true
+                },
+                adv_start_time  : {
+                    required : true,
+                    date	 : false
+                },
+                adv_end_time  : {
+                    required : true,
+                    date	 : false
+                },
+                adv_pic:{
+                    required :function(){ if($("#adv_pic").css('display') == 'block'){return true;}else{return false}},
+                    accept : 'png|jpe?g|gif'
+                },
+                flash_swf:{
+                    required :function(){ if($("#adv_flash_swf").css('display') == 'block'){return true;}else{return false}},
+                    accept : 'swf'
+                }
+            },
+            messages : {
+                adv_name : {
+                    required : '<i class="fa fa-exclamation-circle"></i>名称不能为空'
+                },
+                aptype_hidden : {
+                    required : '<i class="fa fa-exclamation-circle"></i>请选择广告位'
+                },
+                adv_start_time  : {
+                    required : '<i class="fa fa-exclamation-circle"></i>广告开始时间不能为空'
+                },
+                adv_end_time  : {
+                    required : '<i class="fa fa-exclamation-circle"></i>广告结束时间不能为空'
+                },
+                adv_pic: {
+                    required : '<i class="fa fa-exclamation-circle"></i>请上传图片',
+                    accept   : '<i class="fa fa-exclamation-circle"></i>图片格式错误'
+                },
+                flash_swf: {
+                    required : '<i class="fa fa-exclamation-circle"></i>请上传Flash',
+                    accept   : '<i class="fa fa-exclamation-circle"></i>Flash格式错误'
+                }
+            }
+        });
+    });
+
+})
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a
+        href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

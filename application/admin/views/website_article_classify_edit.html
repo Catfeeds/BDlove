@@ -1,0 +1,90 @@
+
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+      <div class="item-title"><a class="back" href="<{base_url()}>admin.php/Website/website_article_classify" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+          <div class="subject">
+              <h3>文章分类 - 编辑</h3>
+              <h5>网站文章分类修改与更新</h5>
+          </div>
+      </div>
+  </div>
+    <form id="article_class_form" method="post">
+        <input type="hidden" name="form_submit" value="ok">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="ac_name"><em>*</em>分类名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{$article_info.ac_name}>" name="ac_name" id="ac_name" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="ac_sort">排序</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{$article_info.ac_sort}>" name="ac_sort" id="ac_sort" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script>
+
+//按钮先执行验证再提交表
+$(document).ready(function(){
+	//按钮先执行验证再提交表单
+	$("#submitBtn").click(function(){
+	    if($("#article_class_form").valid()){
+	    	var id=<{$article_info.ac_id}>
+			var data = $('#article_class_form').serialize();
+			$.ajax({
+				data:data,
+				type:'post',
+				dataType:'json',
+				url:"website_article_classify_edit?&id="+id,
+				success:function(res){
+					if(res=="success"){
+						layer.alert('文章分类更新成功');
+					}else{
+						layer.alert('文章分类更新失败');
+					}
+					
+				}
+			});
+		}
+	});
+	$("#article_class_form").validate({
+		errorPlacement: function(error, element){
+			var error_td = element.parent('dd').children('span.err');
+            error_td.append(error);
+        },
+        rules : {
+            ac_name : {
+                required : true,
+            },
+        },
+        messages : {
+            ac_name : {
+                required : '<i class="fa fa-exclamation-circle"></i>分类名称不能为空',
+            },
+        }
+	});
+});
+
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

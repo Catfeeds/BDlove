@@ -1,0 +1,358 @@
+<{include file="pageheader.html"}>
+<style>
+ dt.tit {
+    width: 100px !important;
+    padding-right: 2px !important;
+ 	font-size:14px !important;
+}
+.ncap-form-default dl.row{
+	padding:4px 0 !important;
+}
+.input-text{
+	width:150px ;
+	height:30px !important;
+}
+.mDiv h5{
+	display: inline !important;
+}
+.ncap-form-default dd.opt {
+    text-align: left;
+    width: 20%;
+}
+.ncap-form-default dd.opt1 {
+    text-align: left;
+    width: 80%;
+}
+.ncap-form-default dd.opt2 {
+    text-align: left;
+    min-width: 155px !important;
+}
+dl.row1{
+	float:left;
+	width:30%;
+}
+dl.row2{
+	float:left;
+	width:40% !important;
+}
+span.check{
+	padding:0 4px;
+	border-left:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	border-top:1px solid #ccc;
+	display:inline-block;
+	height:28px;
+	line-height:28px;
+}
+span.check_box{
+	display:inline-block;
+	height:30px;
+    cursor:pointer;
+	border-right:1px solid #ccc;
+}
+span.current{
+	background-color:#ccc;
+}
+
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+	  <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 会员管理 <span class="c-gray en">&gt;</span> 会员管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+  </div>
+
+	<!-- 操作说明 -->
+	<!--  <div class="explanation" id="explanation">
+    <!--<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+          <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+          <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+          <li>通过会员管理，你可以进行查看、编辑会员资料等操作</li>
+          <li>你可以根据条件搜索会员，然后选择相应的操作</li>
+        </ul>
+      </div>-->
+	<form id="formSearch" method="post" action="user_list" enctype="multipart/form-data">
+		<div class="ncap-form-default">
+			<dl class="row">
+				<dt class="tit">
+					<label for="class_sort">加入时间：</label>
+				</dt>
+				<dd class="opt opt1">
+					<div class="area-region-select">
+						<input type="text" id="start_time" onclick="laydate()" value="" name="start_time"
+							   style="background-color: #fff" class="input-text  data-start">
+						至&nbsp;<input type="text" id="end_time" onclick="laydate()" value="" name="end_time"
+									  style="background-color: #fff" class="input-text  data-end">
+						<input name="time" class="check_i" type="hidden" value=""/>
+						<span class="check_box  check_boxtime">
+								 <span class="check  all current" data-para="all">全部</span>
+								 <span class="check time" data-start="<{$now_start}>" data-end="<{$now_end}>">今日</span>
+								 <span class="check time" data-start="<{$tom_start}>" data-end="<{$tom_end}>">昨日</span>
+								 <span class="check time" data-start="<{$week_start}>"
+									   data-end="<{$now_end}>">最近7天</span>
+								 <span class="check time" data-start="<{$mon_start}>"
+									   data-end="<{$now_end}>">最近30天</span>
+						        </span>
+					</div>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="class_name">消费金额：</label>
+				</dt>
+				<dd class="opt opt1">
+					<input type="number" id="start_monney" value="" name="start_monney" style="background-color: #fff"
+						   class="input-text  data-start">
+					至&nbsp;<input type="number" id="end_monney" value="" name="end_monney"
+								  style="background-color: #fff" class="input-text  data-end">
+					<input name="monney" class="check_i" type="hidden" value=""/>
+					<span class="check_box check_boxmoney">
+							 <span class="check all current" data-para="all">全部</span>
+							 <span class="check money" data-start="100" data-end="500">100~500元</span>
+							 <span class="check money" data-start="500" data-end="2000">500~2000元</span>
+							 <span class="check money" data-start="2000" data-end="">2000元以上</span>
+						    </span>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="class_name">消费单数：</label>
+				</dt>
+				<dd class="opt opt1">
+					<input type="number" id="start_num" value="" name="start_num" style="background-color: #fff"
+						   class="input-text  data-start">
+					至&nbsp;<input type="number" id="end_num" value="" name="end_num" style="background-color: #fff"
+								  class="input-text  data-end">
+					<input name="num" class="check_i" type="hidden" value=""/>
+					<span class="check_box check_boxnumber">
+							 <span class="check all current" data-para="all">全部</span>
+							 <span class="check number" data-start="0" data-end="10">0~10单</span>
+							 <span class="check number" data-start="10" data-end="50">10~50单</span>
+							 <span class="check number" data-start="50" data-end="">50单以上</span>
+						    </span>
+				</dd>
+			</dl>
+			<{if $store_type eq 1}>
+			<dl class="row row1 yincan">
+				<dt class="tit">
+					<label for="class_sort">所属门店：</label>
+				</dt>
+				<dd class="opt">
+					<div class="area-region-select">
+						<{$store_name}>
+						<span class="err"></span></div>
+					<span class="err"></span>
+
+				</dd>
+			</dl>
+			<dl class="row row1 yincan">
+				<dt class="tit">
+					<label for="class_sort">所属导购：</label>
+				</dt>
+				<dd class="opt">
+					<div class="area-region-select">
+						<select class="valid" name="underguide" id="area_region_select_guide">
+							<option value="0" class="underguide">-请选择-</option>
+								<{if !empty($guides)}>
+								<{foreach $guides as $key=>$val}>
+								<option value="<{$val.spg_id}>" class="understore">-<{$val.spg_name}>-</option>
+								<{/foreach}>
+								<{/if}>
+						</select>
+						<span class="err"></span>
+					</div>
+					<span class="err"></span>
+
+				</dd>
+			</dl>
+			<{/if}>
+			<dl class="row row1">
+				<dt class="tit">
+					<label for="class_sort">姓名：</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" id="true_name" value="" name="true_name" style="background-color: #fff"
+						   class="input-text">
+				</dd>
+			</dl>
+			<{if $store_type eq 1}>
+			<dl class="row row1 yincan">
+				<dt class="tit">
+					<label for="class_sort">微信昵称：</label>
+				</dt>
+				<dd class="opt">
+					<input id="wx_nike" name="wx_nike" type="text" class="input-text" value="">
+					<span class="err"></span>
+
+				</dd>
+			</dl>
+			<{/if}>
+			<dl class="row row1 row2">
+				<dt class="tit">
+					<label for="class_sort">手机号：</label>
+				</dt>
+				<dd class="opt opt2">
+					<input type="text" id="mobile" value="" name="mobile" style="background-color: #fff"
+						   class="input-text">
+				</dd>
+				<a id="submit" href="javascript:void(0)" class="btn btn-warning radius">搜索</a>
+			</dl>
+		</div>
+	</form>
+  <div class="">
+	  <table class="table table-border table-bordered table-hover table-bg table-content mt-20">
+		  <thead>
+		  <tr>
+			  <th scope="col" colspan="13">会员列表</th>
+		  </tr>
+		  <tr class="text-c">
+			  <th width=""><input type="checkbox" value="" name="" onclick="content_checkAll(this)"></th>
+			  <{if $store_type eq 1}>
+			  <th width="">操作</th>
+			  <{/if}>
+			  <th width="">会员名称</th>
+			  <th width="10%">手机号</th>
+			  <th width="">性别</th>
+			  <{if $store_type eq 1}>
+			  <th width="10%">最近绑定导购</th>
+			  <{/if}>
+			  <th width="10%">付款订单数</th>
+			  <th width="10%">付款订单额</th>
+			  <{if $store_type eq 1}>
+			  <th width="">剩余积分</th>
+			  <th width="">账户余额</th>
+			  <{/if}>
+			  <th width="">加入时间</th>
+		  </tr>
+
+		  </thead>
+		  <tbody>
+		  <tr>
+			  <td colspan="13"><li class="goods_list mb-20 no-data"><i class="fa fa-exclamation-circle"></i>数据加载中...</li></td>
+		  </tr>
+		  </tbody>
+	  </table>
+  </div>
+	<div class="flexigrid">
+		<{include file="common_list_page.html"}>
+	</div>
+</div>
+<script type="text/javascript">
+
+  $(function(){
+	  var url = '<{$url}>';
+	  $(".select2").select2();
+	  $('#submit').click(function(){
+		  load_page_to(url);
+	  });
+	  load_page(url);
+	$('span.check').click(function(){
+		$(this).parents('dd').find('.check_i').val("");
+		$(this).parents('dd').find('.data-start').val("");
+		$(this).parents('dd').find('.data-end').val("");
+		$(this).siblings('span').removeClass('current');
+		if($(this).hasClass("all")){
+			var time = $(this).attr('data-para');
+			$(this).parents('dd').find('.check_i').val(time);
+		}else{
+			var datastart =$(this).attr('data-start');
+			var dataend =$(this).attr('data-end');
+			$(this).parents('dd').find('.data-start').val(datastart);
+			$(this).parents('dd').find('.data-end').val(dataend);
+		}
+		$(this).addClass('current');
+	});
+
+      $("body").on('click',"#submit",function () {
+        var stime=$("#start_time").val();
+        var  etime=$("#end_time").val();
+        if(stime||etime)
+        {
+            if(Date.parse(stime)>Date.parse(etime))
+            {
+                layer.msg('开始时间必须小于结束时间');
+                return false;
+            }
+        }
+        $("#flexigrid").flexOptions({url: 'user_list?'+$("#formSearch").serialize(),query:'',qtype:''}).flexReload();
+    });
+
+
+  });
+
+
+  function fg_operate(name, grid) {
+	    if (name == 'delete') {
+	        if($('.trSelected',grid).length>0){
+	            var itemlist = new Array();
+	            $('.trSelected',grid).each(function(){
+	            	itemlist.push($(this).attr('data-id'));
+	            });
+	            fg_delete(itemlist);
+	        }else{
+	            return false;
+	        }
+	    }else if (name == 'add') {
+	    	window.location.href="user_management_add";
+	    }else if (name == 'csv'){
+	    	var itemlist = new Array();
+	        if($('.trSelected',grid).length>0){
+	            $('.trSelected',grid).each(function(){
+	            	itemlist.push($(this).attr('data-id'));
+	            });
+	        }
+            fg_csv(itemlist);
+        }
+	}
+
+	function fg_delete(id, name) {
+		if (typeof id == 'number') {
+	    	var id = new Array(id.toString()); 
+		};
+		if(typeof name == 'undefined'){
+			var str = '删除后将不能恢复，确认删除 这' + id.length + ' 项吗？';
+		}else{
+			var str = '删除后将不能恢复，确认删除 ' + name + ' 吗？';
+		}
+		layer.confirm(str, {
+			  btn: ['确定','取消'] //按钮
+			}, function(){
+			  layer.msg('删除中', {icon: 1});
+			  $.ajax({
+			        type: "post",
+			        dataType: "json",
+			        url: "member_del",
+			        data: "id="+id,
+			        success: function(data){
+                        if(data.state == '403'){
+                            layer.msg(data.msg);
+                            window.top.location.href = "<{base_url('pay.php/Index/')}>login_out";
+                        }else if(data.state == '401'){
+                            layer.msg(data.msg);
+                            return false;
+                        }else{
+                            layer.msg(data);
+						}
+	    				$("#flexigrid").flexReload();
+			        }
+			    });
+			}, function(){
+			    return ;
+	    });
+	}
+	function fg_csv(ids){
+		if(ids.length == 0 ){
+			layer.msg('请至少选择一项需要导出的数据');
+			return false;
+		}
+		
+		id = ids.join(',');
+		window.location.href = 'user_management_excel?id=' + id;
+
+	}
+	
+
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="mall_payment" title="返回支付方式列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>支付方式 - 设置“微信支付”</h3>
+                <h5>商城购物可使用支付方式/接口设置</h5>
+            </div>
+        </div>
+    </div>
+        <!--操作提示-->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>如果启用微信在线退款功能需要在服务器设置“证书”，证书文件不能放在web服务器虚拟目录，应放在有访问权限控制的目录中，防止被他人下载。</li>
+            <li>证书路径在“admin\api\refund\wxpay\WxPay.Config.php”中。退款有一定延时，用零钱支付的20分钟内到账，银行卡支付的至少3个工作日。</li>
+        </ul>
+    </div>
+    <form id="post_form" action="mall_payment_submit" method="post" name="form1">
+        <input type="hidden" name="form_submit" value="ok">
+        <input type="hidden" name="payment_code" value="wx">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">商户公众号APPID</dt>
+                <dd class="opt">
+                    <input type="hidden" name="config_name" value="appid,mchid,key">
+                    <input name="appid" id="appid" value="<{if isset($payment.account)}><{$payment.account}><{/if}>" class="input-txt" type="text">
+                    <span class="err"></span>
+                    <p class="notic">绑定支付的APPID（必须配置，开户邮件中可查看）</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">商户号</dt>
+                <dd class="opt">
+                    <input name="mchid" id="mchid" value="<{if isset($payment.id)}><{$payment.id}><{/if}>" class="input-txt" type="text">
+                    <span class="err"></span>
+                    <p class="notic">商户号（必须配置，开户邮件中可查看）</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">密钥</dt>
+                <dd class="opt">
+                    <input name="key" id="key" value="<{if isset($payment.key)}><{$payment.key}><{/if}>" class="input-txt" type="text">
+                    <span class="err"></span>
+                    <p class="notic">商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">启用</dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <label for="payment_state1" class="cb-enable <{if isset($payment.state)}><{if $payment.state neq 0}>selected<{/if}><{else}>selected<{/if}>">是</label>
+                        <label for="payment_state2" class="cb-disable <{if isset($payment.state)}><{if $payment.state eq 0}>selected<{/if}><{/if}>">否</label>
+                        <input type="radio" <{if isset($payment.state)}><{if $payment.state neq 0}>checked<{/if}><{else}>checked<{/if}> value="1" name="payment_state" id="payment_state1">
+                        <input type="radio" <{if isset($payment.state)}><{if $payment.state eq 0}>checked<{/if}><{/if}> value="0" name="payment_state" id="payment_state2">
+                    </div>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script>
+$(document).ready(function(){
+    //按钮先执行验证再提交表单
+    $("#submitBtn").click(function(){
+        if($("#post_form").valid()){
+            $("#post_form").submit();
+        }
+    });
+    $('#post_form').validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parent('dd').children('span.err');
+            error_td.append(error);
+        },
+        rules : {
+        	appid : {
+                required   : true
+            },
+            mchid : {
+                required   : true
+            },
+            key : {
+                required   : true
+            }
+        },
+        messages : {
+        	appid  : {
+                required : '<i class="fa fa-exclamation-circle"></i>商户公众号不能为空'
+            },
+            mchid  : {
+                required : '<i class="fa fa-exclamation-circle"></i>商户号不能为空'
+            },
+            key  : {
+                required : '<i class="fa fa-exclamation-circle"></i>商户支付密钥不能为空'
+            }
+        }
+    });
+});
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

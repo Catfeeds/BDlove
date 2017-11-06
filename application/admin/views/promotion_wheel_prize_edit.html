@@ -1,0 +1,380 @@
+<{include file="pageheader.html" }>
+<style>
+    .mb-special-layout{background-color: #fff;}
+    .mb-special-layout div{float: left;}
+    .mb-special-layout .ncap-form-default{width: 72.5%;}
+    .select2{margin-bottom:0;}
+    .limit_container{
+        width:500px;
+        height:100px;
+        border:1px solid #efefef;
+        margin-top:10px;
+        background: #f5f5f5;
+    }
+    .selected-group-goods{
+        width:180px;
+        border:1px solid #eee;
+        text-align: center;
+        padding:5px;
+        margin:2px;
+    }
+    .selected-group-goods div{
+        width:100%;
+        margin:0 auto;
+        display:block;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .selected-group-goods img{
+        width:180px;
+        height:180px;
+    }
+    .search_goods{
+        border:1px solid #eee;
+        padding: 10px;
+        width:100%;
+    }
+    .col-xs-3{
+        width:22%!important;
+    }
+    .choice_title{
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom:10px;
+        width:100%;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>大转盘-奖品修改</h3>
+                <h5>奖品中奖修改</h5>
+            </div>
+            <ul class="tab-base nc-row">
+                <li><a href="JavaScript:void(0);" >设置活动规则</a></li>
+                <li><a href="JavaScript:void(0);"class="current">奖品设置</a></li>
+                <li><a href="JavaScript:void(0);">完成</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <!-- 操作说明 -->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li> 注意：创建好优惠券后就不可以修改，请确认后再创建</li>
+        </ul>
+    </div>
+    <form id="edit_form3" style="display: none" method="post" action="wheel_prize_edit" enctype="multipart/form-data">
+        <div class="mb-special-layout">
+            <div class="mb-item-box" style="padding-left: 25px;padding-top: 50px;">
+                <img src="<{TEMPLE}>images/gameLottery.jpg"  width="300px"  height="540px"/>
+            </div>
+            <div class="ncap-form-default">
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>奖品类型 :</label>
+                    </dt>
+                    <dd class="opt">
+                        <label>积分</label>
+                    </dd>
+                </dl>
+
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>每个奖品积分数 :</label>
+                    </dt>
+
+                    <dd class="opt">
+                        <label><{$res['0']['point']}>积分</label>
+                    </dd>
+                </dl>
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>奖品剩余数 :</label>
+                    </dt>
+                    <dd class="opt">
+                        <label><{$res['0']['prize_have']}></label>
+                    </dd>
+                </dl>
+                <a id="3"></a>
+                <div class="bot">
+                    <!--		<a id="submit" href="javascript:void(0)" class="btn btn-success radius">提交</a>-->
+                    <input type="hidden" value="<{$res['0']['prize_type']}>" name="prize_type">
+                    <input type="hidden" value="<{$res['0']['wheels_prize_id']}>" name="wheels_prize_id">
+                    <input type="submit" value="提交">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <!--style="display: none"-->
+
+
+    <form id="edit_form5" style="display: none" method="post" action="wheel_prize_edit" enctype="multipart/form-data">
+        <div class="mb-special-layout">
+            <div class="mb-item-box" style="padding-left: 25px;padding-top: 50px;">
+                <img src="<{TEMPLE}>images/gameLottery.jpg"  width="300px"  height="540px"/>
+            </div>
+            <div class="ncap-form-default">
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>奖品类型 :</label>
+                    </dt>
+                    <dd class="opt">
+                        <label>红包</label>
+                    </dd>
+                </dl>
+
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>红包分量 :</label>
+                    </dt>
+
+                    <dd class="opt">
+                        <label><{$res['0']['coupon_id']}>人民币</label>
+                    </dd>
+                </dl>
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>奖品剩余数 :</label>
+                    </dt>
+                    <dd class="opt">
+                        <label><{$res['0']['prize_have']}></label>
+                    </dd>
+                </dl>
+                <a id="5"></a>
+                <div class="bot">
+                    <!--		<a id="submit" href="javascript:void(0)" class="btn btn-success radius">提交</a>-->
+                    <input type="hidden" value="<{$res['0']['prize_type']}>" name="prize_type">
+                    <input type="hidden" value="<{$res['0']['wheels_prize_id']}>" name="wheels_prize_id">
+                    <input type="submit" value="提交">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!--style="display: none"  折扣-->
+
+    <form id="edit_form1" style="display: none" method="post" action="wheel_prize_edit" enctype="multipart/form-data">
+        <div class="mb-special-layout">
+            <div class="mb-item-box" style="padding-left: 25px;padding-top: 50px;">
+                <img src="<{TEMPLE}>images/gameLottery.jpg"  width="300px"  height="540px"/>
+            </div>
+            <div class="ncap-form-default">
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>奖品类型 :</label>
+                    </dt>
+                    <dd class="opt">
+                        <label>折扣</label>
+                    </dd>
+                </dl>
+
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>折扣比例 :</label>
+                    </dt>
+
+                    <dd class="opt">
+                        <label><{$res['0']['goods_id']}>折</label>
+                    </dd>
+                </dl>
+                <dl class="row" >
+                    <dt class="tit">
+                        <label>奖品剩余数 :</label>
+                    </dt>
+                    <dd class="opt">
+                        <label><{$res['0']['prize_have']}></label>
+                    </dd>
+                </dl>
+                <a id="1"></a>
+
+                <div class="bot">
+                    <!--		<a id="submit" href="javascript:void(0)" class="btn btn-success radius">提交</a>-->
+                    <input type="hidden" value="<{$res['0']['prize_type']}>" name="prize_type">
+                    <input type="hidden" value="<{$res['0']['wheels_prize_id']}>" name="wheels_prize_id">
+                    <input type="submit" value="提交">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+</div>
+
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+</body>
+
+<script>
+
+
+
+   $(function(){
+        var id=<{$res['0']['prize_type']}>;
+
+            $('#edit_form'+id).show();
+
+            $('#'+id).html('<dl class="row" >'+
+                '<dt class="tit">'+
+                    '<label><em>*</em>中奖概率:</label>'+
+                    '</dt>'+
+                '<dd class="opt">'+
+                    '<input id="goods_id" name="prize_percent"  type="text" value="">%'+
+                        '</dd>'+
+                '</dl>'+
+            '<dl class="row" >'+
+                '<dt class="tit">'+
+                    '<label for="day">允许中奖时间段 :</label>'+
+                    '</dt>'+
+                '<dd class="opt">'+
+                    '<div class="area-region-select">'+
+                        '<select class="valid select2" id="day" name="">'+
+                            '<option value="0">不限制</option>'+
+                            '<option value="1">限制</option>'+
+                            '</select>'+
+                        '</div>'+
+                    '<input id="day_input_start" name="prize_start_time" style="display: none;"onclick="laydate()" type="text" value="">'+
+                        '<em id="cr">至</em>'+
+                        '<input id="day_input_end" name="prize_end_time" style="display: none;"onclick="laydate()" type="text" value="">'+
+                            '</dd>'+
+                '</dl>'+
+            '<dl class="row" >'+
+                '<dt class="tit"><label for="num_limit">中奖次数限制:</label></dt>'+
+                '<dd class="opt">'+
+                    '<div class="area-region-select">'+
+                        '<select class="valid select2" id="num_limit" name="">'+
+                            '<option value="0">不限制</option>'+
+                            '<option value="1">限制</option>'+
+                            '</select>'+
+                        '</div>'+
+                    '<input id="num_input" name="prize_limit" style="display: none;" type="text" value="">'+
+                        '</dd></dl>');
+
+            })
+
+</script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $("#num_limit").change(function() {
+            if(document.getElementById("num_limit").selectedIndex == 1) {
+                document.getElementById("num_input").style.display = 'block';
+            } else {
+
+                document.getElementById("limit_input").style.display = 'none';
+            }
+        });
+        $("#day").change(function() {
+            if(document.getElementById("day").selectedIndex == 1) {
+                document.getElementById("day_input_start").style.display = 'block';
+                document.getElementById("cr").style.display = 'block';
+                document.getElementById("day_input_end").style.display = 'block';
+            } else {
+
+                document.getElementById("day_input_start").style.display = 'none';
+                document.getElementById("cr").style.display = 'none';
+                document.getElementById("day_input_end").style.display = 'none';
+            }
+        });
+        $("#goods_limit").change(function() {
+            if(document.getElementById("goods_limit").selectedIndex == 1) {
+                document.getElementById("goods_input").style.display = 'block';
+                document.getElementById("goods_input_edit").style.display = 'block';
+            } else {
+                document.getElementById("goods_input").style.display = 'none';
+                document.getElementById("goods_input_edit").style.display = 'none';
+            }
+        });
+        $("#store_limit").change(function() {
+            if(document.getElementById("store_limit").selectedIndex == 1) {
+                document.getElementById("store_input").style.display = 'block';
+                document.getElementById("store_input_edit").style.display = 'block';
+            } else {
+                document.getElementById("store_input").style.display = 'none';
+                document.getElementById("store_input_edit").style.display = 'none';
+            }
+        });
+        $("#add_form").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parent('dd').children('span.err');
+                error_td.append(error);
+            },
+            rules : {
+                wheels_name : {
+                    required : true
+                },
+                start_time : {
+                    required : true
+                },
+                end_time : {
+                    required : true
+                },
+                /* store_id : {
+                 required : true
+                 },
+                 goods_id : {
+                 required : true
+                 }, */
+                rule : {
+                    required : true
+                },
+            },
+            messages : {
+                wheels_name : {
+                    required : '<i class="fa fa-exclamation-circle"></i>请输入活动名称'
+                },
+                start_time : {
+                    required : '<i class="fa fa-exclamation-circle"></i>请输入活动开始时间'
+                },
+                end_time : {
+                    required : '<i class="fa fa-exclamation-circle"></i>请输入活动结束时间'
+                },
+                /*  store_id : {
+                 required : '<i class="fa fa-exclamation-circle"></i>请限制参加活动的门店'
+                 },
+                 goods_id : {
+                 required : '<i class="fa fa-exclamation-circle"></i>请输入角色名称'
+                 }, */
+                rule : {
+                    required : '<i class="fa fa-exclamation-circle"></i>请填写活动规则'
+                },
+            }
+        });
+        $('#submit').click(function(){
+
+        })
+    })
+    $("#goods_input_edit").on('click',function(){
+        layer.open({
+            type: 1,
+            title:'选择商品',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['420px', '240px'], //宽高
+            btn:['确定','取消'],
+            content: 'html内容'
+        });
+    })
+
+</script>
+
+</html>

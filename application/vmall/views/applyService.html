@@ -1,0 +1,507 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>申请售后</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/weui.min.js"></script>
+
+
+</head>
+<style>
+	.clear{
+		clear: both;
+	}
+.weui-picker__action {
+    display: block;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    color: #1AAD19 !important;
+}
+	.weui-uploader__input-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 3px;
+}
+.weui-uploader__file {
+    width: 50px;
+    height: 50px;
+}
+.weui-uploader__input-box:before {
+    width: 39.5px;
+    height: 39.5px;
+    background: url(<{TEMPLE}>images/addprice.png) no-repeat center;
+    background-size:80% 70%;  
+}
+.weui-uploader__input-box:after {
+    width: 0px;
+    height:0px; 
+}
+.weui-uploader__input-box{
+	border: none;
+}
+.btn-sub{
+	width:100%;
+	position: fixed;
+	height: 50px;
+	bottom: 0;
+	line-height: 50px;
+	text-align: center;
+	background: #dd2727;
+	color: #fff;
+	z-index:999;
+	font-size: 18px;
+}
+.weui-cells_radio .weui-check:checked + .weui-icon-checked:before {
+    color: #dd2727;
+}
+.weui-icon-success-no-circle {
+    font-size: 14px;
+    color: #dd2727;
+}
+.illustrate{
+	display: flex;
+}
+.illustrate .weui-cell__bd{
+	font-size: 15px;
+}
+.illustrate .weui-cell__bd span{
+	font-size: 14px;
+	color: #999;
+	margin-left: 10px;
+}
+.takeover{
+	display: none;
+}
+.weui-cells__title{
+	font-size: 16px;
+	color: #333;
+	font-weight: bold;
+}
+.weui-cells__title span{
+	color: #dd2727;
+}
+.small{
+	font-size: 13px;
+	color: #999!important;
+	margin-left: 7px;
+}
+.ill{
+	font-size: 14px;color: #999;
+	line-height: 23px;
+}
+
+/*new*/
+.good_property{
+	color: #999;
+	margin-right: 20px;
+}
+.weui-cells {
+    font-size: 15px;
+    margin-top: 10px;
+}
+.good_property_content{
+	width: 70%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.good_property_content a{
+	color: #DD2727;
+	margin-left: 10px;
+}
+.good_info{
+	margin: 15px;
+}
+.good_info p{
+	float: left;
+}
+
+</style>
+<body ontouchstart>
+   <form  method="post" enctype="multipart/form-data" id="form_email_guide"  name="settingForm">
+   <input type="hidden" id="order_sn" name="order_sn" value="<{$orderInfo.0.order_sn}>"/>
+   <input type="hidden" id="goods_id" name="goods_id" value="<{$orderInfo.0.goods_id}>"/>
+   <input type="hidden" id="goods_ea_id" name="goods_ea_id" value="<{$orderInfo.0.goods_ea_id}>"/>
+   <input type="hidden" id="goods_name" name="goods_name" value="<{$orderInfo.0.goods_name}>"/>
+   <input type="hidden" id="goods_num" name="goods_num" value="<{$orderInfo.0.goods_num}>"/>
+   <input type="hidden" id="goods_image" name="goods_image" value="<{$orderInfo.0.goods_image}>"/>
+       <!--<input type="hidden" id="user_coupon_id" name="user_coupon_id[]" value="<{$orderInfo.0.user_coupon_id}>"/>-->
+   <input type="hidden" id="pay_sn" name="pay_sn" value="<{$orderInfo.0.pay_sn}>"/>
+   <input type="hidden" id="store_id" name="store_id" value="<{$orderInfo.0.store_id}>"/>
+   <input type="hidden" id="store_name" name="store_name" value="<{$orderInfo.0.store_name}>"/>
+   <input type="hidden" id="refund_id" name="refund_id" value="<{$refund_id}>"/>
+   <input type="hidden" id="counpon_amount" name="counpon_amount" value="<{$orderInfo.0.coupon_amount}>"/>
+        <div class="weui-cells" style="padding: 10px 0 5px 0;margin-top: 0;">
+            <div class="good_info">
+            		<p class="good_property">商品名称</p>
+                    <p class="good_property_content"><{$orderInfo.0.goods_name}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">订单金额</p>
+                    <p class="good_property_content">￥<{$orderInfo.0.goods_pay_price * $orderInfo.0.goods_num}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">订单编号</p>
+                    <p class="good_property_content"><{$orderInfo.0.order_sn}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">订单时间</p>
+                    <p class="good_property_content"><{date("Y-m-d H:i:s",$orderInfo.0.created_time)}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            	    <p class="good_property">服务顾问</p>
+                      <{if !empty($guide_info) and isset($guide_info.spg_id)}>
+                    	<p class="good_property_content"><{$guide_info.spg_name}><a href="<{base_url()}>vmall.php/Store/shopping_guide_chat?spg_id=<{$guide_info.spg_id}>">联系TA</a></p>
+                    	<{else}>
+                    	<p class="good_property_content">暂无<a href="<{base_url()}>vmall.php/store/Stores">联系其他店铺导购</a></p>
+                    	<{/if}>
+                    <div class="clear"></div>
+            </div>
+        </div>
+
+
+        <div class="weui-cells">
+            <a class="weui-cell weui-cell_access" href="javascript:;" id="showPicker_way">
+            	<div class="weui-cell__hd">
+            		<p class="good_property">处理方式</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <{if $orderInfo.0.order_status < 30}>
+                    <input type="hidden" name="refund_type" id="refund_type" value="1" />
+                    <p id="way">退款不退货</p>
+                    <{else}>
+                    <input type="hidden" name="refund_type" id="refund_type" value="" />
+                    <p id="way">请选择处理方式</p>
+                    <{/if}>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;" id="showPicker_reason">
+            	<div class="weui-cell__hd">
+            		<p class="good_property">退款原因</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <input type="hidden" name="reason_id" id="reason_id" value="" />
+                    <p id="reason">请选择退款原因</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <div class="weui-cell">
+            	<div class="weui-cell__hd">
+            		<p class="good_property">退款金额</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <input name="refund_amount_apply" id="refund_amount_apply" class="weui-input money" type="text" placeholder="请输入退款金额" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+            	<div class="weui-cell__hd">
+            		<p class="good_property">手机号码</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <input name="refund_tel" id="refund_tel" class="weui-input" type="text" placeholder="请输入手机号码" />
+                </div>
+            </div>
+            <div class="weui-cell">
+            	<div class="weui-cell__hd">
+            		<p class="good_property">备注信息</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <input name="buyer_message" id="buyer_message" class="weui-input" type="text" placeholder="请输入备注" />
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            <div class="weui-cell" style="align-items: top!important;">
+            	<div class="weui-cell__hd" style="align-self: flex-start;">
+            		<p class="good_property">图片举证</p>
+            	</div>
+                <div class="weui-cell__bd">
+                	<p class="ill">可上传5张图，如可拍摄商品质量问题图片</p>
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id="uploaderFiles"> 
+                            </ul>
+                            <div class="weui-uploader__input-box">
+									<input id="uploaderInput"  class="weui-uploader__input" type="file" accept="image/*" multiple/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	  
+    <div class="weui-gallery" id="gallery">
+            <span class="weui-gallery__img" id="galleryImg"></span>
+            <div class="weui-gallery__opr">
+                <a href="javascript:" class="weui-gallery__del">
+                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                </a>
+            </div>
+       </div>
+
+		<div style="height: 80px;"></div>
+	
+	<div class="btn-sub">提交</div>
+  </form>
+</body>
+<script type="text/javascript">
+//		上传图片方法
+        var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+            $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+            $uploaderInput = $("#uploaderInput"),
+            $uploaderFiles = $("#uploaderFiles");
+    	var idds = "";
+        
+        
+        $uploaderInput.on("change", function(e){
+        	var lengs = $('#uploaderFiles').children('li').length;
+        	if(lengs>4){
+        		  mobileAlert("亲，最多只能上传5张图片哦！",2000,"");
+        		  return false;
+        	  }
+        	  
+            var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
+            var ids = "weui-uploader__file"+lengs;
+    	        tmpl = '<li class="weui-uploader__file" id="'+ids+'" style="background-image:url(#url#)"></li>';
+    	        
+    			if(files.length +lengs >5){
+   				 		mobileAlert("亲，最多只能上传5张图片哦！",2000,"");
+   					    return false;
+   			    }
+    			
+    	    var forms = document.getElementById("form_email_guide");
+       	    var form_datas =new FormData(forms);
+            for (var i = 0, len = files.length; i < len; ++i) {
+	                var file = files[i];
+	                var idsids = ids+'_'+i;
+	        	      tmpl = '<li class="weui-uploader__file"  id="'+idsids+'" style="background-image:url(#url#)"></li>';
+	                if (url) {
+	                    src = url.createObjectURL(file);
+	                } else {
+	                    src = e.target.result;
+	                }
+
+	                $uploaderFiles.append($(tmpl.replace('#url#', src)));
+	                form_datas.append("file["+i+"]", file);
+	                form_datas.append("idsids", idsids);
+	          	    $.ajax({
+	       				type: "POST",
+	       		        url: "apply_set_onload",
+	       		        data: form_datas,
+	       		        dataType: "json",
+	       		        processData: false,
+	       	            contentType: false,
+	       		        success: function(data){
+	       		        	console.log(data)
+	       		        	if(data.state){
+	       		        		$("#"+data.idsids).attr("urls",data.msg);
+	       		        	}else{
+	       		        		mobileAlert(data.msg,2000,"");
+	       		        		$("#"+data.idsids).remove();
+	       		        	}
+	       		        }
+	       			});
+              }
+        }); 
+        
+        $uploaderFiles.on("click", "li", function(){
+        	idds = $(this).attr("id");
+            $galleryImg.attr("style", this.getAttribute("style"));
+            $gallery.fadeIn(100);
+            
+        });
+        
+        $gallery.on("click", function(){
+            $gallery.fadeOut(100);
+        });
+    
+        
+        $("body").on("touchstart",".weui-gallery__opr",function(){
+        	//var urls = $("#galleryImg").css("background-image");
+        	var urls = $("#"+idds).attr("urls");
+        	$("#"+idds).remove();
+        	if(urls){
+        		$.ajax({
+       				type: "POST",
+       		        url: "del_set_onload?url="+urls,
+       		        data: 123,
+       		        dataType: "json",
+       		        success: function(data){
+       		        }
+       			});
+       	    }
+        });
+	
+	
+	
+	$("input:checked").parent().prev().css("color","#DD2727");
+	$(".weui-cell").click(function(){
+		$(".weui-cell__bd").css("color","#333");
+		$("input:checked").parent().prev().css("color","#DD2727");
+	})
+	
+//	选择退款方式
+	$('#showPicker_way').on('click', function () {
+		var order_status = "<{if !empty($orderInfo.0.order_status)}><{$orderInfo.0.order_status}><{else}>0<{/if}>";
+		if(Number(order_status)<30){
+			return false;
+		}
+		weui.picker([{
+            label: '退款不退货',
+            value: 1
+        }, {
+            label: '退款并退货',
+            value: 2
+        }], {
+            onChange: function (result) {
+                console.log(result);
+            },
+            onConfirm: function (result) {
+            	if(result>1){
+            		$("#refund_type").val(result);
+                    $("#way").html("退款并退货");
+            	}else{
+            		$("#refund_type").val(result);
+                    $("#way").html("退款不退货");
+            		
+            	}
+                
+            }
+        });
+    });
+	
+	
+//  选择退款原因
+    $('#showPicker_reason').on('click', function () {
+		var  reason = <{if !empty($reason)}><{$reason}><{/if}>;
+      weui.picker(reason, 
+      	{
+          onConfirm: function (result) {
+          	var refundreason = <{if !empty($refundreason)}><{$refundreason}><{/if}>;
+          		console.log(refundreason)
+          	 $.each(refundreason,function(k,v){
+          		 if(result == v.reason_id){
+          			   $("#reason").html(v.reason_info);
+                       $("#reason_id").val(v.reason_id);
+          		 }
+          	 })
+          	console.log(result)
+              
+          }
+      });
+    });
+
+
+    $("#refund_tel").blur(function(){
+    	var val=$("#refund_tel").val();
+        var reg=/^1[23456789]\d{9}$/;
+        if (val=='') {
+        	 mobileAlert("请输入手机号！",2000,"");
+        	 $("#refund_tel").focus();
+        	 return false; 
+        }else if(reg.test(val)){
+  
+        }else{
+        	mobileAlert("请输入有效的手机号！",2000,"");
+        	$("#refund_tel").focus();
+       	    return false; 
+        }  
+    });
+    
+    $("#refund_amount_apply").blur(function(){
+	   var yes_num1 = "<{if !empty($orderInfo.0.goods_pay_price)}><{$orderInfo.0.goods_pay_price}><{else}>0<{/if}>";//实际支付金额（打折后）
+	   var yes_num2 = "<{if !empty($orderInfo.0.counpon_amount)}><{$orderInfo.0.counpon_amount}><{else}>0<{/if}>";//优惠券支付金额
+	   var nums = "<{if !empty($orderInfo.0.goods_num)}><{$orderInfo.0.goods_num}><{else}>0<{/if}>";//商品数目
+//	   var max_num = (Number(yes_num1)*Number(nums))-(Number(yes_num2));//最多退款金额
+        var max_num = (Number(yes_num1)*Number(nums));//最多退款金额
+	   var true_num = $("#refund_amount_apply").val();//申请退款金额
+	   if(true_num==''){
+		   mobileAlert("亲,请输入退款金额！",2000,"");
+		   $("#refund_amount_apply").focus();
+		   return false;
+	   }
+	   if(Number(yes_num2)){
+		   //使用了优惠券
+		   if(Number(true_num) > Number(max_num)){
+			   mobileAlert("该订单优惠券已支付￥ "+yes_num2+"元,最多退款￥"+max_num+"元！",3000,"");
+			   $("#refund_amount_apply").focus();
+			   return false;
+		   }
+	   }else{
+		   //未使用了优惠券
+		   if(Number(true_num) > Number(max_num)){
+			   mobileAlert("亲,退款金额不能超过￥"+max_num+"元！",3000,"");
+			   $("#refund_amount_apply").focus();
+			   return false;
+		   }
+	   }
+    });
+    
+   
+    
+   $("body").on("touchstart",".btn-sub",function(){
+	   if($("#refund_type").val()<1){
+		   mobileAlert("亲,请选择处理方式！",2000,"");
+		   return false;
+	   }
+	   if($("#reason_id").val()<1){
+		   mobileAlert("亲,请选择退款原因！",2000,"");
+		   return false;
+	   }
+	   
+	   if($("#refund_amount_apply").val()==''){
+		   mobileAlert("亲,请输入退款金额！",2000,"");
+		   $("#refund_amount_apply").focus();
+		   return false;
+	   }
+
+	   if($("#refund_tel").val()==''){
+		   mobileAlert("亲,请输入手机号码！",2000,"");
+		   $("#refund_tel").focus();
+		   return false;
+	   }
+	   
+		 var form = document.getElementById("form_email_guide");
+	     var form_data =new FormData(form);
+		 $.ajax({
+				type: "POST",
+		        url: "post_apply",
+		        data: form_data,
+		        dataType: "json",
+		        processData: false,
+	            contentType: false,
+		        success: function(data){
+		        	if(data.state){
+		        		var spg_id = "<{if !empty($orderInfo.0.spg_id)}><{$orderInfo.0.spg_id}><{else}>0<{/if}>";
+		        		setTimeout("window.location.href='../order/post_apply_confirm?refund_id="+data.refund_id+"&spg_id="+parseInt(spg_id)+"&reason="+encodeURI($("#reason").html())+"&refund_type="+encodeURI($("#way").html())+"'",1000);
+	        	    }else{
+	        	    	mobileAlert(data.msg,2000,"");
+	        	    }
+		        }
+			});
+			
+		
+	})
+</script>
+</html>

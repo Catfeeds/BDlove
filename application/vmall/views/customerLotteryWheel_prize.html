@@ -1,0 +1,58 @@
+<html lang="zh-cn">
+
+<head>
+    <title>个人中心</title>
+    <{include file="lib/Hlink-c.html" }>
+    <link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+    .prize_list li{
+        padding:.15rem;
+        border-bottom:1px solid #e7e7e7;
+    }
+    .prize_list li a{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .prize_name{
+        color: #333;
+        font-weight: 500;
+        font-size: .15rem;
+    }
+    .prize_img{
+        width:.5rem;
+    }
+    .prize_img img{
+        width:100%;
+        height:auto;
+    }
+</style>
+<body>
+<ul class="prize_list">
+    <li>
+        <a href="javascript:;">
+            <div class="prize_name">满100送50</div>
+            <div class="prize_img"><img src="<{TEMPLE}>images/loty_p_1.png" alt=""></div>
+        </a>
+    </li>
+    <li>
+        <a href="javascript:;">
+            <div class="prize_name">500积分</div>
+            <div class="prize_img"><img src="<{TEMPLE}>images/prize_interation.png" alt=""></div>
+        </a>
+    </li>
+    <li>
+        <a href="javascript:;">
+            <div class="prize_name">50红包</div>
+            <div class="prize_img"><img src="<{TEMPLE}>images/prize_money.png" alt=""></div>
+        </a>
+    </li>
+</ul>
+
+</body>
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script>
+
+</script>
+</html>

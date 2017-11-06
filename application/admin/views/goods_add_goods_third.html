@@ -1,0 +1,389 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css"/>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="<{TEMPLE}>js/jquery.fileupload.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/ajaxfileupload.js"></script>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page wrapper_search">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>商品库管理</h3>
+        <h5>管理数据的新增、编辑、删除</h5>
+      </div>
+    </div>
+  </div>
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>请使用jpg\jpeg\png等格式、单张大小不超过4M的正方形图片。</li>
+            <li>上传图片最大尺寸将被保留为1280像素。</li>
+            <li>每种颜色最多可上传5张图片或从图片空间中选择已有的图片，上传后的图片也将被保存在店铺图片空间中以便其它使用。</li>
+            <li>通过更改排序数字修改商品图片的排列显示顺序。</li>
+            <li>图片质量要清晰，不能虚化，要保证亮度充足。</li>
+            <li>操作完成后请点下一步，否则无法在网站生效。</li>
+        </ul>
+    </div>
+    <form action="<{if isset($goods_img_arr)}>goods_add_goods_fourth?op=edit<{else}>goods_add_goods_fourth<{/if}>" class="mt-20" id="goods_image" method="post">
+    	<input name="goods_id" type="hidden" value="<{$goods_id}>">
+        <div class="ncsc-form-goods-pic">
+            <div class="container">
+             <{foreach from=$goods_info item=v key=key}> <!--循环商品的颜色-->
+             <{if isset($goods_img_arr) && !empty($goods_img_arr) && $key<count($goods_img_arr)}><!--如果没有图片或者当前循环的次数小于图片数组-->
+	         <{foreach from=$goods_img_arr item=img_arr key=color_id}>
+	         <{if $color_id == $v.goods_a_id}>
+                <div class="ncsc-goodspic-list">
+                    <{if !empty($v.color)}>
+                    <div class="title">
+                        <h3>颜色：<{if !empty($v.color_remark)}><{$v.color_remark}><{else}><{$v.color}><{/if}></h3>
+                    </div>
+                    <{/if}>
+                    <ul class="goods-pic-list" nctype="ul_<{$v.goods_a_id}>">
+                        <{foreach from=$img_arr key=kk item=vv }> <!--循环商品的颜色的所有照片-->
+                        <{if $vv.is_default==1}>
+                        <li class="ncsc-goodspic-upload">
+                        	<!--  <input type="hidden" name="img[<{$key}>][<{$kk}>][goods_image_id]" value="<{$vv.goods_image_id}>">-->
+                        	<input type="hidden" name="img[<{$key}>][<{$kk}>][color_id]" value="<{$v.goods_a_id}>">
+                            <input type="hidden" name="img[<{$key}>][<{$kk}>][goods_id]" value="<{$v.goods_id}>">
+                            <div class="upload-thumb"><img src="<{if empty($vv.goods_image)}><{$default_pic}><{else}><{base_url()}>data/shop/album_pic/<{$vv.goods_image}><{/if}>" nctype="file_<{$key}><{$kk}>">
+                                <input type="hidden" name="img[<{$key}>][<{$kk}>][goods_image]" value="<{$vv.goods_image}>" nctype="file_<{$key}><{$kk}>">
+                            </div>
+                            <div class="show-default selected" nctype="file_<{$key}><{$kk}>">
+                                <p><i class="icon-ok-circle"></i>默认主图
+                                    <input type="hidden" name="img[<{$key}>][<{$kk}>][is_default]" value="1">
+                                </p><a href="javascript:void(0)" nctype="del" class="del" title="移除">X</a>
+                            </div>
+                            <div class="show-sort">排序：<input name="img[<{$key}>][<{$kk}>][goods_image_sort]" type="text" class="text" value="0" size="1" maxlength="1">
+                            </div>
+                            <div class="ncsc-upload-btn"><a href="javascript:void(0);">
+                            <span><input type="file" hidefocus="true" size="1" class="input-file" name="file_<{$key}><{$kk}>" id="file_<{$key}><{$kk}>">
+                            </span><p><i class="fa fa-upload"></i>上传</p>
+                            </a></div>
+                        </li>
+                        <{elseif $vv.is_default!=1}>
+                         <li class="ncsc-goodspic-upload">
+                        	<input type="hidden" name="img[<{$key}>][<{$kk}>][color_id]" value="<{$v.goods_a_id}>">
+                            <input type="hidden" name="img[<{$key}>][<{$kk}>][goods_id]" value="<{$v.goods_id}>">
+                            <div class="upload-thumb"><img src="<{if empty($vv.goods_image)}><{$default_pic}><{else}><{base_url()}>data/shop/album_pic/<{$vv.goods_image}><{/if}>" nctype="file_<{$key}><{$kk}>">
+                                <input type="hidden" name="img[<{$key}>][<{$kk}>][goods_image]" value="<{if !empty($vv.goods_image)}><{$vv.goods_image}><{/if}>" nctype="file_<{$key}><{$kk}>">
+                            </div>
+                            <div class="show-default" nctype="file_<{$key}><{$kk}>">
+                                <p><i class="icon-ok-circle"></i>默认主图
+                                    <input type="hidden" name="img[<{$key}>][<{$kk}>][is_default]" value="0">
+                                </p><a href="javascript:void(0)" nctype="del" class="del" title="移除">X</a>
+                            </div>
+                            <div class="show-sort">排序：<input name="img[<{$key}>][<{$kk}>][goods_image_sort]" type="text" class="text" value="<{if isset($vv.goods_image_sort)}><{$vv.goods_image_sort}><{else}>0<{/if}>" size="1" maxlength="1">
+                            </div>
+                            <div class="ncsc-upload-btn"><a href="javascript:void(0);">
+                            <span><input type="file" hidefocus="true" size="1" class="input-file" name="file_<{$key}><{$kk}>" id="file_<{$key}><{$kk}>">
+                            </span><p><i class="fa fa-upload"></i>上传</p>
+                            </a></div>
+                        </li>
+                        <{/if}>
+                        <{/foreach}>
+                    </ul>
+                    <div class="ncsc-select-album">
+                        <a class="ncbtn selected" href="javascript:;" nctype="select-0" data-name="jumpMenu_default"><i class="fa fa-photo"></i>从图片空间选择</a>
+                        <a href="javascript:void(0);" nctype="close_album" class="ncbtn ml5" style="display: none" ><i class="fa fa-arrow-circle-up"></i>关闭相册</a>
+                    </div>
+                    <div nctype="album-0 " class="hide demo">
+                        <div class="goods-gallery" nctype="gallery-0"><!--<a class="sample_demo" href="">提交</a>-->
+                            <div class="nav"><span class="l">用户相册 &gt;全部图片        </span>
+                            <span class="r">
+                                <select name="jumpMenu_default" style="width:100px;" data-function="insert_img" data-id="<{$v.goods_a_id}>" onchange="get_pic(this,1)">
+                                     <option value="" style="width:80px;">请选择...</option>
+                                     <{if !empty($shop_albums)}>
+                                     <{foreach from=$shop_albums item=v}>
+                                     <option value="<{$v.aclass_id}>" style="width:80px;"><{$v.aclass_name}></option>
+                                     <{/foreach}>
+                                     <{/if}>
+                                </select>
+                            </span>
+                            </div>
+                            <ul class="list pic_list">
+                            </ul>
+                            <div class="pagination">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <{/if}>
+            <{/foreach}>
+            <{elseif (!isset($goods_img_arr)) || $key>=count($goods_img_arr)}><!--没有相册数组或者循环次数大于图片数组的大小-->
+             <div class="ncsc-goodspic-list">
+                    <{if !empty($v.color)}>
+                    <div class="title">
+                        <h3>颜色：<{if !empty($v.color_remark)}><{$v.color_remark}><{else}><{$v.color}><{/if}></h3>
+                    </div>
+                    <{/if}>
+                    <ul class="goods-pic-list" nctype="ul_<{$v.goods_a_id}>">
+                        <li class="ncsc-goodspic-upload">
+                        	<input type="hidden" name="img[<{$key}>][0][color_id]" value="<{$v.goods_a_id}>">
+                            <input type="hidden" name="img[<{$key}>][0][goods_id]" value="<{$v.goods_id}>">
+                            <div class="upload-thumb"><img src="<{if empty($v.goods_image)}><{$default_pic}><{else}><{base_url()}>data/shop/album_pic/<{$v.goods_image}><{/if}>" nctype="file_<{$key}>0">
+                                <input type="hidden" name="img[<{$key}>][0][goods_image]" value="<{$v.goods_image}>" nctype="file_<{$key}>0">
+                            </div>
+                            <div class="show-default selected" nctype="file_<{$key}>0">
+                                <p><i class="icon-ok-circle"></i>默认主图
+                                    <input type="hidden" name="img[<{$key}>][0][is_default]" value="1">
+                                </p><a href="javascript:void(0)" nctype="del" class="del" title="移除">X</a>
+                            </div>
+                            <div class="show-sort">排序：<input name="img[<{$key}>][0][goods_image_sort]" type="text" class="text" value="0" size="1" maxlength="1">
+                            </div>
+                            <div class="ncsc-upload-btn"><a href="javascript:void(0);">
+                            <span><input type="file" hidefocus="true" size="1" class="input-file" name="file_<{$key}>0" id="file_<{$key}>0">
+                            </span><p><i class="fa fa-upload"></i>上传</p>
+                            </a></div>
+                        </li>
+                         <{foreach from=$arr item=vv key=kk}>
+                         <li class="ncsc-goodspic-upload">
+                        	<input type="hidden" name="img[<{$key}>][<{$kk}>][color_id]" value="<{$v.goods_a_id}>">
+                            <input type="hidden" name="img[<{$key}>][<{$kk}>][goods_id]" value="<{$v.goods_id}>">
+                            <div class="upload-thumb"><img src="<{TEMPLE}>img/default_goods_image_240.gif" nctype="file_<{$key}><{$kk}>">
+                                <input type="hidden" name="img[<{$key}>][<{$kk}>][goods_image]" value="" nctype="file_<{$key}><{$kk}>">
+                            </div>
+                            <div class="show-default" nctype="file_<{$key}><{$kk}>">
+                                <p><i class="icon-ok-circle"></i>默认主图
+                                    <input type="hidden" name="img[<{$key}>][<{$kk}>][is_default]" value="0">
+                                </p><a href="javascript:void(0)" nctype="del" class="del" title="移除">X</a>
+                            </div>
+                            <div class="show-sort">排序：<input name="img[<{$key}>][<{$kk}>][goods_image_sort]" type="text" class="text" value="0" size="1" maxlength="1">
+                            </div>
+                            <div class="ncsc-upload-btn"><a href="javascript:void(0);">
+                            <span><input type="file" hidefocus="true" size="1" class="input-file" name="file_<{$key}><{$kk}>" id="file_<{$key}><{$kk}>">
+                            </span><p><i class="fa fa-upload"></i>上传</p>
+                            </a></div>
+                        </li>
+                        <{/foreach}>
+                    </ul>
+                    <div class="ncsc-select-album">
+                        <a class="ncbtn selected" href="javascript:;" nctype="select-0" data-name="jumpMenu_default"><i class="fa fa-photo"></i>从图片空间选择</a>
+                        <a href="javascript:void(0);" nctype="close_album" class="ncbtn ml5" style="display: none" ><i class="fa fa-arrow-circle-up"></i>关闭相册</a>
+                    </div>
+                    <div nctype="album-0 " class="hide demo">
+                        <div class="goods-gallery" nctype="gallery-0"><!--<a class="sample_demo" href="">提交</a>-->
+                            <div class="nav"><span class="l">用户相册 &gt;全部图片        </span>
+                            <span class="r">
+                                <select name="jumpMenu_default" style="width:100px;" data-function="insert_img" data-id="<{$v.goods_a_id}>" onchange="get_pic(this,1)">
+                                     <option value="" style="width:80px;">请选择...</option>
+                                     <{if !empty($shop_albums)}>
+                                     <{foreach from=$shop_albums item=v}>
+                                     <option value="<{$v.aclass_id}>" style="width:80px;"><{$v.aclass_name}></option>
+                                     <{/foreach}>
+                                     <{/if}>
+                                </select>
+                            </span>
+                            </div>
+                            <ul class="list pic_list">
+                            </ul>
+                            <div class="pagination">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <{/if}>
+            <{/foreach}>
+            </div>
+        </div>
+        <div class="bottom tc hr32"><label class="submit-border"><input type="submit" class="submit" value="下一步，确认商品发布"></label></div>
+    </form>
+
+</div>
+<script type="text/javascript">
+    $(function(){
+        // 商品图片ajax上传
+        $('.ncsc-upload-btn').find('input[type="file"]').unbind().bind('change', function(){
+            var id = $(this).attr('id');
+            ajaxFileUpload(id);
+        });
+       /* //凸显鼠标触及区域、其余区域半透明显示
+        $(".container > div").jfade({
+            start_opacity:"1",
+            high_opacity:"1",
+            low_opacity:".5",
+            timing:"200"
+        });*/
+       /* //浮动导航  waypoints.js
+        $("#uploadHelp").waypoint(function(event, direction) {
+            $(this).parent().toggleClass('sticky', direction === "down");
+            event.stopPropagation();
+        });*/
+        // 关闭相册
+        /*$('a[nctype="close_album"]').click(function(){
+            $(this).hide();
+            $(this).prev().show();
+            $(this).parent().next().html('');
+        });*/
+        // 绑定点击事件
+        $('div[nctype^="file"]').each(function(){
+            if ($(this).prev().find('input[type="hidden"]').val() != '') {
+                selectDefaultImage($(this));
+            }
+        });
+    });
+		
+		
+    // 图片上传ajax
+    function ajaxFileUpload(id, o) {
+        //$('img[nctype="' + id + '"]').attr('src', SHOP_TEMPLATES_URL + "/images/loading.gif");
+
+        $.ajaxFileUpload({
+            url : 'goods_pic_upload?op=ajax_upload',
+            secureuri : false,
+            fileElementId : id,
+            dataType : 'json',
+            data : {name : id},
+            success : function (data, status) {
+            	console.log(data);
+                if (typeof(data.error) != 'undefined') {
+                    layer.msg(data.error);
+                    $('img[nctype="' + id + '"]').attr('src','<{TEMPLE}>img/default_goods_image_240.gif');
+                } else {
+                    $('input[nctype="' + id + '"]').val(data.data);
+                    $('img[nctype="' + id + '"]').attr('src', data.pic_info.pic_url);
+                    selectDefaultImage($('div[nctype="' + id + '"]'));      // 选择默认主图
+                    checkDefaultImage($('div[nctype="' + id + '"]'));
+                }
+                //$.getScript(SHOP_RESOURCE_SITE_URL+ '/js/store_goods_add.step3.js');
+            },
+            error : function (data, status, e) {
+            	layer.msg(e);
+                //$.getScript(SHOP_RESOURCE_SITE_URL+ '/js/store_goods_add.step3.js');
+            }
+        });
+        return false;
+
+    }
+    //从图片空间选择
+    $(".ncsc-select-album .selected").click(function(){
+        $(this).hide();
+        $(this).next('a[nctype="close_album"]').show();
+        var name = $(this).data("name");
+        var obj = $(this).parents("div").find('select[name="'+name+'"]');
+        get_pic(obj,1);
+        $(this).parents(".ncsc-select-album").next().show();
+    })
+    //关闭相册
+    $('a[nctype="close_album"]').click(function(){
+        $(this).hide();
+        $(this).prev('a[nctype="select-0"]').show();
+        $(this).parents(".ncsc-select-album").next().hide();
+    })
+    //点击 设置默认图片
+    selectDefaultImage($(".show-default"))
+    // 选择默认主图&&删除
+    function selectDefaultImage($this) {
+        // 默认主题
+        $this.click(function(){
+            $(this).parents('ul:first').find('.show-default').removeClass('selected').find('input').val('0');
+            $(this).addClass('selected').find('input').val('1');
+            
+            $(".show-default:not('.selected')").mouseenter(function(){
+							if(!$(this).prev().find('input').val()==''){
+								$(this).css('border-color','#27A9E3');
+								$(this).find('p').css({'display':'block','color':'#27A9E3'});
+								$(this).find('.del').css({'display':'block','color':'#27A9E3'});
+							}
+						})
+						
+						$(".show-default:not('.selected')").mouseleave(function(){
+							if(!$(this).prev().find('input').val()==''){
+								$(this).css('border-color','#fff');
+								$(this).find('p').css({'display':'none','color':'#27A9E3'});
+								$(this).find('.del').css({'display':'none','color':'#27A9E3'});
+							}
+						})
+
+        });
+        // 删除
+        $this.parents('li:first').find('a[nctype="del"]').click(function(){
+        		$(this).parent().css('border-color','#fff');
+						$(this).prev().css({'display':'none','color':'#27A9E3'});
+						$(this).css({'display':'none','color':'#27A9E3'});
+            $this.unbind('click').removeClass('selected').find('input').val('0');
+            $this.prev().find('input').val('').end().find('img').attr('src', '<{TEMPLE}>img/default_goods_image_240.gif');
+            checkDefaultImage($this);
+        });
+    }
+
+    // 验证是否存在默认主题，没有选择第一个图片
+    function checkDefaultImage($this) {
+        if ($this.parents('ul:first').find('.show-default').find('input[value="1"]').length == 0) {
+            $_thumb = $this.parents('ul:first').find('.upload-thumb').each(function(){
+                if ($(this).find('input').val() != '') {
+                    $(this).next().parents('ul:first').find('.show-default').removeClass('selected').find('input').val('0');
+                    $(this).next().addClass('selected').find('input').val('1');
+                    return false;
+                }
+            });
+        }
+    }
+    // 从图片空间插入主图
+    function insert_img(obj) {
+    	var name = $(obj).data('name');
+    	var src = $(obj).data('src');
+    	var a_id = $(obj).data('id');
+    	
+        $_thumb = $('ul[nctype="ul_'+ a_id +'"]').find('.upload-thumb').each(function(){
+            if ($(this).find('input').val() == '') {
+                $(this).find('img').attr('src', src);
+                $(this).find('input').val(name);
+                selectDefaultImage($(this).next());      // 选择默认主图
+                checkDefaultImage($(this).next());
+                return false;
+            }
+        });
+    }
+    function get_pic(this_obj,curr){
+    	var aid = $(this_obj).data('id');
+    	var aclass_id = $(this_obj).val();
+    	  $.getJSON('goods_pic_room_view?op=page', {aclass_id:aclass_id,rp:24,
+    		  curpage:curr //向服务端传的参数，此处只是演示
+    	  }, function(data){
+    		  var content = '';
+    		  var onclick_function = $(this_obj).data('function');
+    		 if(data.pic_info){
+    			 $.each(data.pic_info,function(k,v){
+    				 content += '<li data-name="'+v.apic_cover+'" data-src="'+v.pic_url+'" data-id="'+aid+'" onclick="'+onclick_function+'(this)">'+
+    				 '<a href="JavaScript:void(0);"><img src='+v.pic_url+' ></a></li>';
+    			 })
+    		 }
+    		  $(this_obj).parents('.demo').find('.pic_list').html(content);
+    	    //显示分页
+    	    laypage({
+    	      cont: $(this_obj).parents('.demo').find(".pagination"),
+    	      skin: '#41BEDD',
+    	      pages: data.page_info.page_count, //通过后台拿到的总页数
+    	      curr: data.page_info.curr, //当前页
+    	      jump: function(obj, first){ //触发分页后的回调
+    	        if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+    	        	get_pic(this_obj,obj.curr);
+    	        }
+    	      }
+    	    });
+    	});
+    }
+    
+    $(".show-default:not('.selected')").mouseenter(function(){
+			if(!$(this).prev().find('input').val()==''){
+				$(this).css('border-color','#27A9E3');
+				$(this).find('p').css({'display':'block','color':'#27A9E3'});
+				$(this).find('.del').css({'display':'block','color':'#27A9E3'});
+			}
+		})
+		
+		$(".show-default:not('.selected')").mouseleave(function(){
+			if(!$(this).prev().find('input').val()==''){
+				$(this).css('border-color','#fff');
+				$(this).find('p').css({'display':'none','color':'#27A9E3'});
+				$(this).find('.del').css({'display':'none','color':'#27A9E3'});
+			}
+		})
+</script>
+
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

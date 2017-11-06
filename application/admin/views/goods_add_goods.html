@@ -1,0 +1,219 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css"/>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page wrapper_search">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>商品库管理</h3>
+        <h5>管理数据的新增、编辑、删除</h5>
+      </div>
+    </div>
+  </div>
+  <div class="wp_sort">
+    <div id="dataLoading" class="wp_data_loading">
+      <div class="data_loading">加载中...</div>
+    </div>
+    <div class="sort_selector">
+      <div class="sort_title">常用的商品分类：
+        <div class="text" id="commSelect">
+          <div>请选择</div>
+          <div class="select_list" id="commListArea" style="display: none;">
+            <ul>
+              <li data-param="{stapleid:112}"><span nctype="staple_name">数码办公 &gt;手机通讯 &gt;合约机</span><a href="JavaScript:void(0);" nctype="del-comm-cate" title="">X</a></li>
+              <li data-param="{stapleid:113}"><span nctype="staple_name">礼品箱包 &gt;礼品 &gt;收藏品</span><a href="JavaScript:void(0);" nctype="del-comm-cate" title="">X</a></li>
+              <li data-param="{stapleid:118}"><span nctype="staple_name">服饰鞋帽 &gt;运动 &gt;篮球鞋</span><a href="JavaScript:void(0);" nctype="del-comm-cate" title="">X</a></li>
+              <li data-param="{stapleid:120}"><span nctype="staple_name">服饰鞋帽 &gt;女鞋 &gt;凉鞋</span><a href="JavaScript:void(0);" nctype="del-comm-cate" title="">X</a></li>
+              <li id="select_list_no" style="display: none;"><span class="title">还没有添加过常用的分类</span></li>
+            </ul>
+          </div>
+        </div>
+        <i class="icon-angle-down"></i>
+      </div>
+    </div>
+    <div id="class_div" class="wp_sort_block">
+      <div class="sort_list">
+        <div class="wp_category_list <{if empty($first_classes)}>blank<{/if}>">
+          <div id="class_div_1" class="category_list ps-container ps-active-y">
+            <ul>
+            <{if !empty($first_classes)}>
+            <{foreach from=$first_classes item=first_class}>
+              <li class="" nctype="selClass" data-param="{gcid:<{$first_class.gc_id}>,deep:1,tid:31}"> 
+              <a class="<{if isset($goods_info) && ($first_class.gc_id == $goods_info.gc_id_1)}>classDivClick<{/if}>" href="javascript:void(0)">
+              <i class="fa fa-angle-double-right"></i><{$first_class.gc_name}></a></li>
+            <{/foreach}>
+            <{/if}>
+            </ul>
+            <div class="ps-scrollbar-x-rail" ><div class="ps-scrollbar-x" ></div></div><div class="ps-scrollbar-y-rail"><div class="ps-scrollbar-y" ></div></div></div>
+        </div>
+      </div>
+      <div class="sort_list">
+        <div class="wp_category_list <{if empty($second_classes)}>blank<{/if}>">
+          <div id="class_div_2" class="category_list ps-container">
+            <ul>
+            <{if isset($second_classes)}>
+            <{foreach from=$second_classes item=second_class}>
+              <li class="" nctype="selClass" data-param="{gcid:<{$second_class.gc_id}>,deep:2,tid:31}"> 
+              <a class="<{if isset($goods_info) && ($second_class.gc_id == $goods_info.gc_id_2)}>classDivClick<{/if}>" href="javascript:void(0)">
+              <i class="fa fa-angle-double-right"></i><{$second_class.gc_name}></a></li>
+            <{/foreach}>
+            <{/if}>
+            </ul>
+            <div class="ps-scrollbar-x-rail" ><div class="ps-scrollbar-x" ></div></div><div class="ps-scrollbar-y-rail" ><div class="ps-scrollbar-y" ></div></div></div>
+        </div>
+      </div>
+      <div class="sort_list sort_list_last">
+        <div class="wp_category_list <{if empty($second_classes)}>blank<{/if}>">
+          <div id="class_div_3" class="category_list ps-container">
+            <ul>
+            <{if isset($thrid_classes)}>
+            <{foreach from=$thrid_classes item=thrid_class}>
+              <li class="" nctype="selClass" data-param="{gcid:<{$thrid_class.gc_id}>,deep:3,tid:31}"> 
+              <a class="<{if isset($goods_info) && ($thrid_class.gc_id == $goods_info.gc_id_3)}>classDivClick<{/if}>" href="javascript:void(0)">
+              <i class="fa fa-angle-double-right"></i><{$thrid_class.gc_name}></a></li>
+            <{/foreach}>
+            <{/if}>
+            </ul>
+            <div class="ps-scrollbar-x-rail" ><div class="ps-scrollbar-x" ></div></div><div class="ps-scrollbar-y-rail"><div class="ps-scrollbar-y" ></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="alert">
+    <dl class="hover_tips_cont">
+      <dt id="commodityspan" <{if !empty($goods_info.gc1_name)}>style="display: none;"<{/if}>><span style="color:#F00;">请选择商品类别</span></dt>
+      <dt id="commoditydt" <{if empty($goods_info.gc1_name)}>style="display: none;"<{/if}> class="current_sort">当前选择的商品类别是：</dt>
+      <dd id="commoditydd">
+      	<{if !empty($goods_info.gc1_name)}>
+      		<{$goods_info.gc1_name}>
+      	<{/if}>
+      	<{if !empty($goods_info.gc2_name)}>
+      		<i class="fa fa-angle-double-right"></i>
+      		<{$goods_info.gc2_name}>
+      	<{/if}>
+      	<{if !empty($goods_info.gc3_name)}>
+      		<i class="fa fa-angle-double-right"></i>
+      		<{$goods_info.gc3_name}>
+      	<{/if}>
+      </dd>
+    </dl>
+  </div>
+  <div class="wp_confirm">
+    <form method="post" action="<{if !isset($goods_info)&&empty($goods_info.gc_id)}>goods_add_goods_second<{else}>goods_edit_goods_second<{/if}>">
+      <input type="hidden" name="act" value="lib_goods">
+      <input type="hidden" name="op" value="goods_add">
+      <{if isset($goods_info)&&!empty($goods_info.gc_id)}>
+      <input type="hidden" name="goods_id" value="<{$goods_info.goods_id}>">
+      <{/if}>
+      <input type="hidden" name="class_id" id="class_id" value="<{if isset($goods_info)&&!empty($goods_info.gc_id)}><{$goods_info.gc_id}><{/if}>">
+      <input type="hidden" name="t_id" id="t_id" value="">
+      <div class="bottom tc">
+        <label class="submit-border">
+        <input <{if !isset($goods_info)&&empty($goods_info.gc_id)}>disabled="disabled"<{/if}> nctype="buttonNextStep" value="下一步，填写商品信息" type="submit" class="submit" style=" width: 200px;">
+        </label>
+      </div>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+  // 选择商品分类
+  function selClass($this){
+    $('.wp_category_list').css('background', '');
+    $("#commodityspan").hide();
+    $("#commoditydt").show();
+    $("#commoditydd").show();
+    $this.siblings('li').children('a').attr('class', '');
+    $this.children('a').attr('class', 'classDivClick');
+
+    $('#dataLoading').show();
+    var data_str = '';
+    eval('data_str = ' + $this.attr('data-param'));
+    $('#class_id').val(data_str.gcid);
+    $('#t_id').val(data_str.tid);
+    $('#dataLoading').show();
+    var deep = parseInt(data_str.deep) + 1;
+    
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        url:'get_next_classes?gc_parent_id='+data_str.gcid,
+        data: '',
+        success: function(data){
+	        if (data && data.length > 0) {
+	            $('input[nctype="buttonNextStep"]').attr('disabled', true);
+	            $('#class_div_' + deep).children('ul').html('').end()
+	                .parents('.wp_category_list:first').removeClass('blank')
+	                .parents('.sort_list:first').nextAll('div').children('div').addClass('blank').children('ul').html('');
+	            $.each(data, function(i, n){
+	                $('#class_div_' + deep).children('ul').append('<li data-param="{gcid:'
+	                        + n.gc_id +',deep:'+ deep +',tid:'+ n.type_id +'}"><a class="" href="javascript:void(0)"><i class="fa fa-angle-double-right"></i>'
+	                        + n.gc_name + '</a></li>')
+	                        .find('li:last').click(function(){
+	                            selClass($(this));
+	                        });
+	            });
+	        } else {
+	            $('#class_div_' + data_str.deep).parents('.sort_list:first').nextAll('div').children('div').addClass('blank').children('ul').html('');
+	            disabledButton();
+	        }
+	        // 显示选中的分类
+	        showCheckClass();
+	        $('#dataLoading').hide();
+        	}
+	  });
+	}
+  
+  function disabledButton() {
+    if ($('#class_id').val() != '') {
+      $('input[nctype="buttonNextStep"]').attr('disabled', false).css('cursor', 'pointer');
+    } else {
+      $('input[nctype="buttonNextStep"]').attr('disabled', true).css('cursor', 'auto');
+    }
+  }
+  $(function(){
+    //自定义滚定条
+    $('#class_div_1').perfectScrollbar();
+    $('#class_div_2').perfectScrollbar();
+    $('#class_div_3').perfectScrollbar();
+
+    // li点击
+    $('li[nctype="selClass"]').click(function(){
+      selClass($(this));
+    });
+
+    // 返回分类选择
+    /*$('a[nc_type="return_choose_sort"]').unbind().click(function(){
+      $('#class_id').val('');
+      $('#t_id').val('');
+      $("#commodityspan").show();
+      $("#commoditydt").hide();
+      $('#commoditydd').html('');
+      $('.wp_search_result').hide();
+      $('.wp_sort').show();
+    });*/
+
+    // 常用分类选择 展开与隐藏
+    $('#commSelect').hover(
+            function(){
+              $('#commListArea').show();
+            },function(){
+              $('#commListArea').hide();
+            }
+    );
+  });
+  //显示选中的分类
+  function showCheckClass(){
+      var str = "";
+     
+      $.each($('a[class=classDivClick]'), function(i) {
+          str += $(this).text() + '<i class="fa fa-angle-double-right"></i>';
+      });
+      str = str.substring(0, str.length - 40);
+      $('#commoditydd').html(str);
+  }
+
+
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

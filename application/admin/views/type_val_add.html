@@ -1,0 +1,182 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+    <div class="page">
+        <div class="fixed-bar">
+            <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+
+                <div class="subject">
+                    <h3>类型管理 - <{if isset($type_val)}>编辑属性<{else}>新增属性<{/if}></h3>
+                    <h5>商品类型的管理可用于绑定商品分类</h5>
+                </div>
+            </div>
+        </div>
+        <div class="explanation" id="explanation">
+            <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+                <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+                <span id="explanationZoom" title="收起提示"></span></div>
+            <ul>
+                <li>关联规格不是必选项，它会影响商品发布时的规格及价格的录入。不选为没有规格。</li>
+                <li>关联品牌不是必选项，它会影响商品发布时的品牌选择。</li>
+                <li>属性值可以添加多个，每个属性值之间需要使用逗号隔开。</li>
+                <li>选中属性的“显示”选项，该属性将会在商品列表页显示。</li>
+                <li>自定义属性只需要填写属性名称，属性值由商家自行填写。注意：自定义属性不作为商品检索项使用。</li>
+            </ul>
+        </div>
+        <form id="type_form" action="type_val_submit" method="post">
+            <{if isset($type_val)}>
+            <input type="hidden" name="param[type_id]" value="<{$type_val.sp_id}>">
+            <{/if}>
+            <div class="ncap-form-default">
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="t_mane"><em>*</em>属性名称</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="text" class="input-txt" name="param[type_name]" id="t_mane" value="<{if isset($type_val)}><{$type_val.sp_name}><{/if}>">
+                        <span class="err"></span>
+
+                       <p class="notic">属性名称应在2-10个字符之间</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label class="" for="s_sort">所属商品类型</label>
+                    </dt>
+                    <dd class="opt">
+                        <div id="">
+                            <input type="hidden" value=""  class="mls_id">
+                            <input type="hidden" value="" name="param[class_name]" class="mls_name">
+                            <select class="class-select mr-5" name="param[class_id]" onchange="get_next_classes(this)" data-data="add_spec"  validate="required:true" min="1">
+                                <option value="0" selected>-请选择-</option>
+                                <{foreach from=$type item=v}>
+                                    <{if $type_id eq $v.sp_cl_id}>
+                                        <option selected value="<{$v.sp_cl_id}>"><{$v.sp_cl_name}></option>
+                                    <{else}>
+                                        <option value="<{$v.sp_cl_id}>"><{$v.sp_cl_name}></option>
+                                    <{/if}>
+                                <{/foreach}>
+                            </select>
+                        </div>
+                        <p class="notic">选择分类，可关联到任意级分类。（关系到商品添加时该分类下的所有可以操作的品牌、属性、自定义属性）</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="t_sort"><em>*</em>属性是否可选</label>
+                    </dt>
+                    <dd class="opt">
+
+                        <input type="radio" class=""   checked  name="param[check]"  value="1">唯一属性
+                        <input type="radio" class=""  <{if isset($type_val) and $type_val.sp_is_select eq 2}> checked <{/if}>  name="param[check]"  value="2">单选属性
+                        <input type="radio" class=""  <{if isset($type_val) and $type_val.sp_is_select eq 3}> checked <{/if}>  name="param[check]"  value="3">复选属性
+                        <span class="err"></span>
+
+                        <p class="notic">选择"单选/复选属性"时，可以对商品该属性设置多个值，同时还能对不同属性值指定不同的价格加价，用户购买商品时需要选定具体的属性值。选择"唯一属性"时，商品的该属性值只能设置一个值，用户只能查看该值。</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>该属性值的录入方式</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="radio" class=""  checked  name="param[check_type]"  value="1">手工录入
+                        <input type="radio" class="" <{if isset($type_val) and $type_val.sp_input_type eq 2}> checked <{/if}> name="param[check_type]"  value="2">从下面的列表中选择（一行代表一个可选值）
+                        <input type="radio" class="" <{if isset($type_val) and $type_val.sp_input_type eq 3}> checked <{/if}> name="param[check_type]"  value="3">多行文本框
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">可选值列表</dt>
+                    <dd class="opt">
+                      <textarea id="textarea" name="param[check_value]"  style="width:300px;height:100px;" disabled><{if isset($type_val) and $type_val.sp_input_type}><{$type_val.sp_select_lists}><{/if}></textarea>
+                       <span class="err red" id="texterr">可选值不能为空</span>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="t_mane">属性排序</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="text" class="input-txt" name="param[sp_sort]"  value="<{if isset($type_val) and $type_val.sp_sort }><{$type_val.sp_sort}><{else}>127<{/if}>" id="sp_sort">
+                        <span class="err"></span>
+
+                       <p class="notic"></p>
+                    </dd>
+                </dl>
+
+                    <div class="bot"><a id="submitBtn" class="ncap-btn-big ncap-btn-green" href="JavaScript:void(0);">确认提交</a></div>
+
+            </div>
+        </form>
+    </div>
+    <script>
+    check_val_type();
+
+    function check_val_type() {
+        if ($('input[name="param[check_type]"]:checked').val()==2){
+            $('textarea[name="param[check_value]"]').attr('disabled',false);
+        }
+
+    }
+     $(function(){
+         $('#texterr').hide();
+         $(":radio").click(function(){
+             if($('input[name="param[check_type]"]:checked').val()==2){
+                 $('textarea[name="param[check_value]"]').attr('disabled',false);
+             }else{
+                 $('textarea[name="param[check_value]"]').attr('disabled',true);
+                 $('#texterr').hide();
+             }
+         });
+
+         $('#textarea').focus(function () {
+             $('#texterr').hide();
+         });
+
+    	 $('#type_form').validate({
+             errorPlacement: function (error, element) {
+                 __formSubmit = false;
+                 $(element).nextAll('span.err').append(error);
+             },
+             rules: {
+             	"param[type_name]": {
+                     required: true,
+                     minlength: 2,
+                     maxlength: 10
+                 },
+             },
+             messages: {
+          	   "param[type_name]": {
+                     required: '<i class="fa fa-exclamation-circle"></i>属性名不能为空',
+                     minlength: '<i class="fa fa-exclamation-circle"></i>长度最少2个字符',
+                     maxlength: '<i class="fa fa-exclamation-circle"></i>不能超过10个字符',
+                 },
+             }
+    	 });
+    	 $('#submitBtn').click(function(){
+    		 if($('#type_form').valid()){
+                 if($('input[name="param[check_type]"]:checked').val()==2) {
+                     if (trim($('textarea[name="param[check_value]"]').val()).length < 1) {
+                         $('#texterr').show();
+                         return false;
+                     }
+                 }
+                 $('#type_form').submit();
+    		 }
+         });
+
+         $('input[name="param[check_type]"]').click(function(){
+        	 if($(this).is(':checked')){
+        		 if($(this).val()==2){
+        			 $('textarea[name="param[check_value]"]').attr('disabled',false);
+        		 }else{
+        			 //$('textarea[name="param[check_value]"]').text('');
+        			 $('textarea[name="param[check_value]"]').attr('disabled',true);
+        		 }
+        	 }
+         })
+     })
+    </script>
+    <div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a
+            href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

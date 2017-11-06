@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>云聚客门店收银系统 | 智慧店铺</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<{include file="lib/link.html"}>
+			<link href="<{TEMPLE}>css/cashier.css" type="text/css" rel="stylesheet">
+			<link href="<{TEMPLE}>css/datepicker3.css" type="text/css" rel="stylesheet">
+		<!-- Mainly scripts -->
+		<script src="<{TEMPLE}>js/Chart.min.js" type="text/javascript"></script>
+		<script src="<{TEMPLE}>js/bootstrap-datepicker.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<div id="wrapper">
+			<{include file="lib/header.html" }>
+		    <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>本平台商家支付数据统计新</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a>智慧店铺</a>
+                    </li>
+                    <li>
+                        <a>数据统计</a>
+                    </li>
+                    <li class="active">
+                        <strong>本平台商家支付数据统计</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>各渠道支付总数
+                                <small>单位：次数</small>
+                            </h5>
+                            <div ibox-tools=""></div>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="paynum" style="height: 634.333px; width: 951.5px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background: transparent;" _echarts_instance_="ec_1492006050818"><div style="position: relative; overflow: hidden; width: 952px; height: 634px; cursor: default;"><canvas width="952" height="634" data-zr-dom-id="zr_0" style="position: absolute; left: 0px; top: 0px; width: 952px; height: 634px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas></div><div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>各渠道支付总金额
+                                <small>单位：元</small>
+                            </h5>
+                            <div ibox-tools=""></div>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="allmoney" style="height: 634.333px; width: 951.5px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background: transparent;" _echarts_instance_="ec_1492006050819"><div style="position: relative; overflow: hidden; width: 952px; height: 634px;"><canvas width="952" height="634" data-zr-dom-id="zr_0" style="position: absolute; left: 0px; top: 0px; width: 952px; height: 634px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas></div><div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<script> 
+var browser_width = browserheight()*1.5;
+var browser_height = browserheight();
+chgwh(browser_width,browser_height);
+$(window).resize(function() { 
+    var browser_width = browserheight()*1.5;
+    var browser_height = browserheight();
+    chgwh(browser_width,browser_height);
+}); 
+function chgwh(browser_width,browser_height){
+    $("#paynum").css({"width":browser_width,"height":browser_height}); 
+    $("#paynum div").css({"width":browser_width,"height":browser_height}); 
+    $("#paynum canvas").css({"width":browser_width,"height":browser_height});
+    $("#allmoney").css({"width":browser_width,"height":browser_height}); 
+    $("#allmoney div").css({"width":browser_width,"height":browser_height}); 
+    $("#allmoney canvas").css({"width":browser_width,"height":browser_height}); 
+}
+function browserheight(){
+    var browser_width = $(document.body).width();
+    var browser_height=500;
+    if(browser_width>1092){
+        browser_height=browser_width/3;
+    }else if(browser_width<=1092 && browser_width>750){
+        browser_height=browser_width/1.5;
+    }else if(browser_width<=750){
+        browser_height=browser_width=450;
+    }
+    return browser_height;
+}
+</script> 
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>支付来源总体统计</h5>
+                            <div ibox-tools=""></div>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <canvas id="doughnutChart" height="150"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                        <div class="form-group">
+                            <label class="font-noraml">选择收银方式</label>
+                            <div class="form-group input-group" style="display: block;width:77%;">
+                                <select class="form-control m-b" id="store">
+                                                                            <option>全部</option>
+                                                                                                                <!--查询微信门店-->
+                                        <!--<option value="--><!--">--><!--</option>-->
+                                        <!--查询平台门店-->
+                                        <option value="958">微信</option><option value="958">支付宝</option>
+                                                                    </select>
+                            </div>
+                        </div>
+                        <div id="dataselect" class="form-group">
+                                <label class="font-noraml">选择日期</label>
+                                <div id="datepicker" class="input-daterange input-group">
+                                    <input type="text" value="2017-04-05" name="start" class="input-sm form-control" id="datestart">
+                                    &nbsp;<span> 到 </span>&nbsp;
+                                    <input type="text" value="2017-04-12" name="end" class="input-sm form-control" id="dateend">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary"> 查 询 </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="ibox-content" id="cibox-content">
+                                    <div id="canvasdesc">
+                                        <h2 class="m-b-xs">每天扫码次数情况</h2>
+                                        <h3 class="m-b-xs" id="daysres">
+                                           <!--<span>微信刷卡次数<strong class="price1">0</strong></span>
+                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>微信扫码次数<strong class="price2">0</strong></span><br/>
+                                              <span>支付宝条码次数<strong class="price3">0</strong></span>
+                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>支付宝扫码次数<strong class="price4">0</strong></span>
+                                              -->
+                                        </h3>
+                                    </div>
+
+                                <div id="canvascontext">
+                                    <canvas height="100" id="linecountChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        
+
+        </div>
+        <{include file="lib/footer.html"}>
+        </div>
+
+</body>
+</html>

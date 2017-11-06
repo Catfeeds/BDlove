@@ -1,0 +1,997 @@
+<html lang="zh-cn">
+
+<head>
+    <title><{if !empty($bargain_Info.goods_name)}><{$bargain_Info.goods_name}><{else}>微砍价<{/if}></title>
+    <{include file="lib/Hlink-c.html" }>
+    <link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<{TEMPLE}>css/idangerous.swiper.css">
+</head>
+<style>
+ body{
+        background: #f44848;
+    }
+    .topnav{
+        background: url("<{TEMPLE}>images/topnav_bg.png") no-repeat;
+        background-size: 3.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+        font-size:.14rem;
+        padding:.1rem 0;
+    }
+    .user_name{
+        color:#ffd412;
+        width: 1.6rem;
+        margin-bottom: .02rem;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .user_img{
+        margin-left:.4rem;
+        width:.4rem;
+        height:.4rem;
+        border:1px solid #ffe800;
+        border-radius: 50%;
+    }
+    .user_img img{
+        width:100%;
+        height:100%;
+        border-radius: 50%;
+    }
+    .action_rule{
+        width:.65rem;
+    }
+    .silder{
+        height:2rem;
+        width: 100%;
+        position: relative;
+    }
+    .action_time{
+        position: absolute;
+        bottom:-.12rem;
+        left:.68rem;
+        display: block;
+        width:1.8rem;
+        border:2px solid #552000;
+        color: #552000;
+        border-radius: 6px;
+        background: #fff;
+        letter-spacing: 0.5px;
+        margin:0 auto;
+        height:0.22rem;
+        line-height: 0.23rem;
+        text-align: center;
+        font-size: .12rem;
+        z-index: 999;
+    }
+    .time{
+        color: #f44848;
+        padding:0 .02rem;
+    }
+    .goods_name{
+        color: #fff;
+        width:2.3rem;
+        display:inline-block;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        vertical-align: middle;
+        margin-left:.2rem;
+        font-size: .14rem;
+    }
+    .residus{
+        font-size: .1rem;
+        vertical-align: bottom;
+    }
+    .price{
+        margin-left: .2rem;
+        color: #ffd700;
+    }
+    .price span{
+        font-size: .2rem;
+    }
+    .reduce_price{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .action_price{
+        width:1.8rem;
+        height:.1rem;
+        border:2px solid #552000;
+        border-radius: 10px;
+    }
+    .reduce_price{
+        margin:.3rem .1rem .08rem .1rem;
+        text-align: center;
+        color: #fff;
+        position: relative;
+    }
+    .order_price span{
+        font-size: .13rem;
+        color: #f2d603;
+    }
+    .new_price span{
+        font-size: .13rem;
+        color: #f2d603;
+    }
+    .rate{
+        width:.5rem;
+        height:100%;
+        border-radius: 10px;
+        background: #a0cd3f;
+    }
+    .cut{
+        background-color: #333;
+        color: #fff;
+        font-size: .12rem;
+        text-align: center;
+        border-radius: 4px;
+        padding: .04rem .09rem;
+        position: absolute;
+        z-index: 99;
+        bottom: .38rem;
+        left: 0.7rem;
+        margin-left: -60px;
+    }
+    .cut:after{
+        content: "";
+        position: absolute;
+        top: .225rem;
+        left: .4rem;
+        margin-left: -.05rem;
+        border-width: .05rem;
+        border-style: solid;
+        border-color: #333 transparent transparent transparent;
+    }
+    .cut span{
+        color: #f2d603;
+    }
+    .cut_btn{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin:0 .37rem;
+    }
+    .cut_btn div{
+        width:1.1rem;
+    }
+    .cut_btn div img{
+        width:100%;
+        height:auto;
+    }
+    .joinpeople{
+        text-align: center;
+        font-size: .12rem;
+        margin-top:.03rem;
+        margin-bottom:.17rem;
+    }
+    .juke{
+        text-align: center;
+        font-size: .12rem;
+        margin:.15rem 0;
+    }
+    .line{
+        display: flex;
+        margin:0 .35rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .line span{
+        display: inline-block;
+        width: .02rem;
+        height:.02rem;
+        border: 1px solid #333;
+        border-radius: 50%;
+    }
+    .line p{
+        border-top:1px dashed #333;
+        height: 1px;
+        width:100%;
+    }
+    .r-1{
+        margin-right:.06rem;
+    }
+    .lol{
+        border:1px solid #552000;
+        background: #f2d603;
+        color: #333;
+        margin:.3rem;
+        padding:.1rem;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+    .lol_img{
+        width:1.4rem;
+        height: .25rem;
+        margin:-.2rem auto 0 auto;
+    }
+    .lol_img img{
+        width:100%;
+        height: 100%;
+    }
+    .friend_img{
+        width:.4rem;
+        height: .4rem;
+        border:1px solid #fff;
+        border-radius: 50%;
+    }
+    .friend_img img{
+        width:100%;
+        height:100%;
+        border-radius: 50%;
+    }
+    .lol_people li{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding:.1rem 0;
+        border-bottom: 1px solid #552000;
+    }
+    .lol_people li:last-child{
+        border-bottom: none;
+    }
+    .friend_name{
+        margin-bottom: .03rem;
+    }
+    .friend_time{
+        font-size: .1rem;
+        width:1.25rem;
+    }
+    .friend_money{
+        color:#f44848;
+        font-size: .17rem;
+    }
+    .nomore{
+        color: #fff;
+        text-align: center;
+    }
+    .nopeople{
+        color: #333;
+        text-align: center;
+    }
+    .nopeople span{
+        font-size: .15rem;
+        font-weight: 500;
+    }
+    /*轮播图样式*/
+    .swiper-slide{
+        height:2rem!important;
+     }
+    .swiper-wrapper{
+        height:2rem!important;
+    }
+    .swiper-slide img{
+        width: 100%;
+        height:2rem;
+    }
+    .pagination {
+        position: absolute;
+        left: 0;
+        text-align: center;
+        bottom:25px;
+        width: 100%;
+        z-index: 99;
+    }
+    .swiper-pagination-switch {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 10px;
+        background: #fff;
+        margin: 0 3px;
+        cursor: pointer;
+        opacity: 0.4;
+    }
+    .swiper-active-switch {
+        background: #f60;
+        opacity: 1;
+    }
+    #action_rule{
+        position: fixed;
+        top: .7rem;
+        left:.3rem;
+        width:2.6rem;
+        height: 3.7rem;
+        background: #fffadc;
+        border:2px solid #f2d603;
+        z-index: 99999;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .rule_title{
+        padding: .1rem .5rem;
+        background: #f34949;
+        border:1px solid #f2d603;
+        color: #fff;
+        font-size: .18rem;
+        border-radius: 8px;
+    }
+    #action_rule p{
+        margin:.1rem .2rem .3rem .2rem;
+        font-size: .14rem;
+        letter-spacing: .02rem;
+        font-weight: 500;
+        line-height: .24rem;
+        text-align: left;
+        overflow: auto;
+        height: 2.7rem;
+        word-break: break-all;
+    }
+    .read_img{
+        width: 1.7rem;
+        position: absolute;
+        bottom: -.25rem;
+        left:.45rem;
+    }
+    .read_img img{
+        width: 100%;
+        height:auto;
+    }
+    .mask{
+        position: fixed;
+        top:0;
+        bottom: 0;
+        left:0;
+        right:0;
+        background: #000;
+        opacity: 0.5;
+        z-index: 9999;
+    }
+    #cut_success{
+        position: fixed;
+        top: 2rem;
+        left:.3rem;
+        width:2.6rem;
+        height: .8rem;
+        padding-top:.3rem;
+        background: #fffadc;
+        border:2px solid #f2d603;
+        z-index: 99999;
+        border-radius: 8px;
+        text-align: center;
+        font-size: .16rem;
+    }
+    .nothinks_img{
+        width: 1.7rem;
+        position: absolute;
+        bottom: -.25rem;
+        left:.45rem;
+    }
+    .nothinks_img img{
+        width: 100%;
+        height:auto;
+    }
+    #cut_success span{
+        color: #f34949;
+        font-size: .16rem;
+        padding:0 .02rem;
+    }
+    .choice{
+        position: fixed;
+        width:84%;
+        left:4%;
+        bottom: .5rem;
+        border:2px solid #fed500;
+        background: #fff9d9;
+        z-index: 99999;
+        border-radius: 8px;
+        padding:4%;
+    }
+    .choice_title{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #fed500;
+        padding-bottom: .1rem;
+    }
+    .title_img{
+        width: .6rem;
+        height:.6rem;
+        margin:0 .08rem;
+    }
+    .title_img img{
+        width: 100%;
+        height:100%;
+    }
+    .choice_goods_name{
+        font-size: .13rem;
+        width:1.9rem;
+        margin-bottom: .05rem;
+    }
+    .choice_price{
+        color: #fe0000;
+        font-size: .13rem;
+    }
+    .choice_price span{
+        font-size: .20rem;
+        font-family: 楷体;
+    }
+    .choice_content{
+        height:2.1rem;
+        overflow-y: auto;
+        color: #3f0503;
+        font-size: .14rem;
+        padding:.1rem .05rem;
+    }
+    .choice_content span{
+        font-size: .13rem;
+        display: inline-block;
+        padding:.03rem .1rem;
+        margin:.07rem 0 .07rem .07rem;
+        border:1px solid #3f0503;
+        background: #fff;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+    .choice_content span.active{
+        background: #fed73a;
+    }
+    .sure{
+        width:80%;
+        position: absolute;
+        bottom: -.2rem;
+        left:10%;
+    }
+    .removechoice{
+        position: absolute;
+        right:.08rem;
+        top:-.1rem;
+        border:2px solid #fed500;
+        background: #fe0000;
+        border-radius: 50%;
+        width:.11rem;
+        height: .11rem;
+        padding:.03rem .03rem .04rem .03rem;
+    }
+    .removechoice img{
+        width:100%;
+        height:100%;
+        border-radius: 50%;
+    }
+    #qrCodeWrap{
+	position:fixed;
+    	top:0;
+    	left:0;
+    	width:100%;
+    	height:100%;
+    	z-index:999999999;
+    	
+    }
+    .weui-mask{
+		position:fixed;
+    	top:0;
+    	left:0;
+    	width:100%;
+    	height:100%;
+    	background:#000;
+    	opacity:0.8;
+    	z-index:999
+    }
+    .weui-dialog__bd{
+	background:#fff;
+    	width:80%;
+    	padding-bottom:.2rem;
+    	margin-left: auto;
+    	margin-right: auto;
+    	border-radius:5px
+    }
+    .ous_ewm_span{
+        border:.02rem solid #fff;
+        border-radius:50%;
+        position: absolute;
+        top: 75%;
+        width:.2rem;
+        padding:.1rem;
+        left:1.4rem;
+    }
+</style>
+<body>
+<div class="topnav">
+    <div class="user_img"><img src="<{if !empty($userinfo.head_portrait)}><{$userinfo.head_portrait}><{/if}>" onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.member_logo}>'"  class="uw100 uh100 br50"></div>
+    <div>
+        <p class="user_name"><{$userinfo.wx_nickname}></p>
+    </div>
+    <div class="action_rule"><img src="<{TEMPLE}>images/action_ill.png" alt=""></div>
+</div>
+<div class="silder">
+    <div class="swiper-container" >
+        <div class="swiper-wrapper">
+    
+        </div>
+    </div>
+    <div class="pagination"></div>
+    <span class="action_time">仅剩<span class="iconfont time">&#xe657;</span><span class="overtime"></span></span>
+</div>
+<div style="margin-top: .2rem;"><span class="goods_name"><{if !empty($bargain_Info.goods_name)}><{$bargain_Info.goods_name}><{/if}></span><span class="residus">(还剩<{if isset($bargain_Info.goods_nums)}><{$bargain_Info.goods_nums}><{/if}>件)</span></div>
+<div class="price">商品原价￥<span style="margin-right: .15rem;"><{if !empty($bargain_Info.goods_marketprice)}><{$bargain_Info.goods_marketprice}><{/if}></span>商品售价￥<span><{if !empty($bargain_Info.stocks_price)}><{$bargain_Info.stocks_price}><{/if}></span></div>
+<div class="reduce_price">
+    <div class="cut">已砍￥<span><{if isset($bargain_Info.cut_price)}><{$bargain_Info.cut_price}><{else}>0.00<{/if}></span></div>
+    <div class="order_price"><span>￥<{if !empty($bargain_Info.stocks_price)}><{$bargain_Info.stocks_price}><{/if}></span><br>售价</div>
+    <div class="action_price"><div class="rate" data-width="<{if isset($bargain_Info.data_width)}><{$bargain_Info.data_width}><{else}>0<{/if}>"></div></div>
+    <div class="new_price"><span>￥ <{$bargain_Info.bargain_stocks_price}></span><br>砍后最低</div>
+</div>
+<div class="cut_btn">
+    <!--帮忙砍一刀-->
+    <!-- <div class="helpcut"><img src="<{TEMPLE}>images/helpcut.png" alt=""></div> -->
+    <!--我也要抢-->
+<!--     <div class="megrab"><img src="<{TEMPLE}>images/megrab.png" alt=""></div> -->
+    <!--我要参加-->
+    <div class="mejoin"><img src="<{TEMPLE}>images/mejoin.png" alt=""></div>
+    <!--自己砍一刀-->
+ <!--    <div class="mecut"><img src="<{TEMPLE}>images/mecut.png" alt=""></div> -->
+</div>
+<p class="joinpeople">(已有<{if isset($bargain_Info.bargain_total)}><{$bargain_Info.bargain_total}><{else}>0<{/if}>人参加)</p>
+
+
+<!-- <div class="cut_btn">
+    <div class="nowshop"><img src="<{TEMPLE}>images/nowshop.png" alt=""></div>
+</div> -->
+<p class="juke"><span class="iconfont r-1">&#xe61d;</span>聚客360 提供</p>
+<div class="line"><span></span><p></p><span></span></div>
+<div class="lol">
+    <div class="lol_img"><img src="<{TEMPLE}>images/lol.png" alt=""></div>
+    <p class="nopeople"><span>·砍价第一好汉·</span><br>招募中...</p>
+   <!--  <{if !empty($bargain_Info.cut_info)}>
+    <ul class="lol_people">
+        <{foreach $bargain_Info.cut_info as $ks=>$vs}>
+        <li>
+            <div class="friend_img"><img src="<{if !empty($vs.head_portrait)}><{$vs.head_portrait}><{/if}>" onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.member_logo}>'"  class="uw100 uh100 br50"></div>
+            <div>
+                <div class="friend_name"><{if !empty($vs.wx_nickname)}><{$vs.wx_nickname}><{/if}></div>
+                <div class="friend_time"><{if !empty($vs.bargain_time)}><{date("Y-m-d H:i:s",$vs.bargain_time)}><{/if}></div>
+            </div>
+            <div class="friend_money"><{if !empty($vs.price)}><{$vs.price}><{/if}></div>
+        </li>
+        <{/foreach}>
+    </ul>
+    <p class="nomore">无更多数据</p>
+    <{else}>
+    <p class="nopeople"><span>·砍价第一好汉·</span><br>招募中...</p>
+    <{/if}> -->
+</div>
+
+
+
+
+	<!-- B 二维码 -->
+<div class="weui-mask" style="display:none"></div>
+<div class="js_dialog" id="qrCodeWrap" style="display:none">
+	
+	<div class="weui-dialog" style="z-index:9999999999999">
+		<div class="weui-dialog__bd">
+			<div style="width: 85%;margin: 25% auto .1rem auto;padding-top:.1rem"><img src="<{PLUGIN}><{$bargain_Info.ous_ewm}>" alt="wei-log" style="max-width: 100%;height: auto"></div>
+			<p style="color: #99999c;text-align:center;font-size:.14rem">长按二维码关注后即可参加活动</p>
+			<p class="ous_ewm_span" style="color: #99999c;text-align:center;font-size:.14rem"><img src="<{TEMPLE}>images/X.png" alt=""></p>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--活动说明弹出框-->
+<div id="action_rule" style="display: none">
+    <span class="rule_title">活动说明</span>
+    <p>
+        <{if isset($bargain_Info.bargain_rule)}><{$bargain_Info.bargain_rule}><{/if}>
+    </p>
+    <div class="read_img"><img src="<{TEMPLE}>images/read.png" alt=""></div>
+</div>
+<!--模糊层-->
+<div class="mask" style="display: none"></div>
+<!--砍刀成功弹出框-->
+<div id="cut_success" style="display: none">
+        哎呦~手气不错哦！<br>
+        成功砍掉<span>6.29</span>元耶~
+<div class="nothinks_img"><img src="<{TEMPLE}>images/nothinks.png" alt=""></div>
+</div>
+
+
+<!--选择颜色尺码弹出框-->
+<div class="choice" style="display: none">
+    <div class="choice_title">
+        <div class="title_img"><img src="<{if !empty($goods_info.goods_image)}><{GOODIMAGE}><{$goods_info.goods_image}><{else}><{DEFAULTIMAGE}><{$config_images.goods_image}><{/if}>" alt=""></div>
+        <div class="title_content">
+            <p class="choice_goods_name"><{$goods_info.goods_name}></p>
+            <p class="choice_price" price="">砍后价￥<span><{$bargain_Info.stocks_price- $bargain_Info.bargain_price}></span></p>
+        </div>
+    </div>
+    <div class="choice_content">
+        <div class="take_style">
+            <p>收货方式</p>
+            <{if $goods_info.logistics_type eq 0}>
+               <p><span  class="active" data-type="2">到店自提</span><span   data-type="1">快递发货</span></p>
+            <{elseif $base_info.logistics_type eq 1}>
+               <p><span class="active"  data-type="1">快递发货</span></p>
+            <{else}>
+               <p ><span class="active" data-type="2">到店自提</span></p>
+            <{/if}>
+        </div>
+        
+        <{if !empty($goods_info.goods_color)}>
+             <div class="color">
+	            <p>颜色</p>
+	            <p  id="colorSkus">
+	               <{foreach $goods_info.goods_color as $k=>$v}>
+                       <span <{if $k eq 0}>class="active"<{/if}> goods_color="<{if !empty($v.color)}><{$v.color}><{/if}>" color_remark ="<{if !empty($v.color_remark)}><{$v.color_remark}><{else}>''<{/if}>" title="<{$v.stocks_sku}>" goods_a_id="<{$v.goods_a_id}>" ><{if !empty($v.color_remark)}><{$v.color_remark}><{else}><{$v.color}><{/if}></span>
+                   <{/foreach}>
+	            </p>
+	        </div>
+	        <div class="size">
+	            <p>尺码</p>
+	            <p id="sizeSkus">
+	            
+	            </p>
+        	</div>
+	        
+         
+         <{/if}>
+        
+        
+    </div>
+    <div class="sure" id="skuConfirmBtn"><img src="<{TEMPLE}>images/sure.png" alt=""></div>
+    <div class="removechoice"><img src="<{TEMPLE}>images/X.png" alt=""></div>
+</div>
+</body>
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script src="<{TEMPLE}>js/idangerous.swiper.min.js"></script>
+
+
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/framework7.picker.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+<script>
+
+    var rule = $("#action_rule p").html().replace(/\n/ig,'<br>');
+    $("#action_rule p").html(rule);
+
+$('body').on('touchstart','.ous_ewm_span',function(){
+	$('#qrCodeWrap').css("display",'none');
+	$('.weui-mask').css("display",'none');
+})
+$('body').on('touchstart','.mejoin',function() {
+	$('#qrCodeWrap').css("display",'block');
+	$('.weui-mask').css("display",'block');
+});
+
+
+var goods_id = "<{$bargain_Info.goods_id}>";
+goods_name = "<{$bargain_Info.goods_name}>";
+store_id = "<{$bargain_Info.store_id}>";
+store_name = "<{$bargain_Info.store_name}>";
+bargain_price = "<{$bargain_Info.cut_price}>";
+goods_images = "<{GOODIMAGE}>"+"<{$goods_info.goods_image}>";
+bargain_title = "<{$bargain_Info.bargain_title}>";
+bargain_id = "<{$bargain_Info.bargain_id}>";
+
+$(document).ready(function(){ 
+    //goods_aid = $("#colorSkus .active").attr("goods_a_id");
+	//get_size_by_ajax(goods_id,goods_aid,true);
+	
+    $.ajax({
+        url : 'image_ajax',
+        type : 'post',
+        data : 'bargain_id='+bargain_id,
+        dataType : 'json',
+        success : function(msg){
+        	console.log(msg)
+        	var infoStrs = ''; 
+        	if(msg.state){
+        		$.each(msg.data,function(k,v){
+		            var imgs = '';
+		            if(v && v!='no'){
+		            	imgs = '<{base_url()}>data/shop/album_pic/'+v;
+		            	infoStrs +='<div class="swiper-slide"><img src="'+imgs+'"> </div>';
+		            }
+        		 });
+        	}else{
+        		 infoStrs +='<div class="swiper-slide"><img src="<{TEMPLE}>images/1.png"> </div>';
+        	}
+        	 $(".swiper-wrapper").html('');
+        	 $(".swiper-wrapper").append(infoStrs);
+        	    var mySwiper = new Swiper('.swiper-container',{
+        	        pagination: '.pagination',
+        	        loop:true
+        	    })
+        }
+    });
+}); 
+
+//选择收货方式
+$(".take_style span").on('click',function(){
+    $(".take_style span").removeClass('active');
+    $(this).addClass('active');
+})
+//选择颜色
+$(".color span").on('click',function(){
+    $(".color span").removeClass('active');
+    $(this).addClass('active');
+    goods_aid = $(this).attr("goods_a_id");
+    get_size_by_ajax(goods_id,goods_aid,true);
+})
+//选择尺码        
+$("body").on('click','#sizeSkus span',function(){
+    $(".size span").removeClass('active');
+    $(this).addClass('active');
+    goods_aid = $(this).attr("goods_a_id");
+    size = $(this).attr("title");
+    goods_ea_id = $(this).attr("goods_ea_id");
+    get_price_by_ajax(goods_id,size,goods_ea_id,goods_a_id);
+})
+
+//立即购买    
+$("#skuConfirmBtn").on("click",function(){
+	add_user_shop_cart(goods_id,store_id,goods_name,goods_image);
+});
+function get_size_by_ajax(goods_id,goods_a_id,flag){
+qjflag = true;
+$.getJSON("get_size_by_ajax?goods_id="+goods_id+"&goods_a_id="+goods_a_id+"&store_id="+store_id,function(data){
+	 if(data.state){
+		 var htmls = "";
+		 var sizetitle = "";
+		 var sizeremark="";
+		 var numlength = data.data.length;
+			$.each(data.data,function(k,v){
+				if(v.size_note){
+					sizetitle = v.size_note;
+					sizeremark = v.size_note;
+				}else{
+					sizetitle = v.size;
+				}
+				if(numlength>1){
+					//console.log("k:"+k+"//goodsamount:"+v.goodsamount)
+						if(k){
+							if(v.goodsamount){
+								htmls +='<span size_remark="'+sizeremark+'" goods_ea_id="'+v.goods_ea_id+'" goods_a_id="'+v.goods_a_id+'" flag="'+v.goods_id+v.goods_a_id+'" title="'+v.size+'" >'+sizetitle+'</span><br>';
+							}else{
+								htmls +='<span  class="active" size_remark="'+sizeremark+'" goods_ea_id="'+v.goods_ea_id+'" goods_a_id="'+v.goods_a_id+'" flag="'+v.goods_id+v.goods_a_id+'" title="'+v.size+'" >'+sizetitle+'</span><br>';
+							}
+
+						}else{
+							if(v.goodsamount){
+								htmls +='<span class="active" size_remark="'+sizeremark+'" goods_ea_id="'+v.goods_ea_id+'" goods_a_id="'+v.goods_a_id+'"  flag="'+v.goods_id+v.goods_a_id+'" title="'+v.size+'">'+sizetitle+'</span><br>';
+							}else{
+								htmls +='<span  size_remark="'+sizeremark+'" goods_ea_id="'+v.goods_ea_id+'" goods_a_id="'+v.goods_a_id+'"  flag="'+v.goods_id+v.goods_a_id+'" title="'+v.size+'">'+sizetitle+'</span><br>';
+							}
+						}
+					}else{
+						if(v.goodsamount){
+							htmls +='<span class="active" size_remark="'+sizeremark+'" goods_ea_id="'+v.goods_ea_id+'" goods_a_id="'+v.goods_a_id+'"  flag="'+v.goods_id+v.goods_a_id+'" title="'+v.size+'">'+sizetitle+'</span><br>';
+						}else{
+							htmls +='<span size_remark="'+sizeremark+'" goods_ea_id="'+v.goods_ea_id+'" goods_a_id="'+v.goods_a_id+'"  flag="'+v.goods_id+v.goods_a_id+'" title="'+v.size+'">'+sizetitle+'</span><br>';
+						}
+
+					}
+
+			});
+		$('#sizeSkus').html("");
+		$('#sizeSkus').html(htmls);
+		if(flag){
+		    size = $("#sizeSkus .active").attr("title");
+		    goods_ea_id = $("#sizeSkus .active").attr("goods_ea_id");
+	    	get_price_by_ajax(goods_id,size,goods_ea_id,goods_a_id);
+		}
+	 }
+});
+}
+
+function get_price_by_ajax(goods_id,size,goods_ea_id,goods_a_id){
+$.getJSON("get_price_by_ajax?goods_a_id="+goods_a_id+"&goods_id="+goods_id+"&size="+size+"&goods_ea_id="+goods_ea_id+"&store_id="+store_id,function(data){
+	var GOODIMAGE = "<{GOODIMAGE}>";
+	    DEFAULTIMAGES = "<{DEFAULTIMAGE}>"+"<{$config_images.goods_image}>";
+	if(data.state){
+		if(data.data.img_info){
+			 goods_image = GOODIMAGE+data.data.img_info;
+		}else{
+			 goods_image = DEFAULTIMAGES;
+		}
+		var  true_goods_price = returnFloat(data.data.stocks_price - bargain_price);
+		$(".title_img img").attr("src",goods_image);
+		$(".choice_price span").html(true_goods_price);
+		$(".choice_price").attr("price",data.data.stocks_price);
+	}
+});
+}   
+
+
+function add_user_shop_cart(goods_id,store_id,goods_name,goods_image){
+var type = $(".take_style .active").attr("data-type");
+if(typeof(type)== "undefined"){
+	type =1;
+}
+
+color = $("#colorSkus .active").attr("goods_color");
+stocks_sn = $("#colorSkus .active").attr("title");
+goods_a_id = $("#colorSkus .active").attr("goods_a_id");
+color_remark = $("#colorSkus .active").attr("color_remark");
+size = $("#sizeSkus .active").attr("title");
+size_remark = $("#sizeSkus .active").attr("size_remark");
+goods_ea_id = $("#sizeSkus .active").attr("goods_ea_id");
+
+number = 1;//购买件数 当前默认为每个用户在一次活动中只能购买以一件
+ssa_id = "<{$goods_info.ssa_id}>";
+stocks_price = Number($(".choice_price span").html());
+stocks_price_old = Number($(".choice_price").attr("price"));
+
+var goods_prices  = stocks_price*number;
+stockArray = [];
+var goodsMsg = {
+	    "goods_id":goods_id,
+        "goods_a_id":goods_a_id,
+        "goods_spec" :size,
+        "ssa_id" :ssa_id,
+        "stocks_price" :stocks_price,
+        "bl_id" :'',
+        "goods_num" :number,
+        "cart_id" :'',
+        "goods_img" :goods_images,
+        "goods_color" :color,
+        "goods_name" :goods_name,
+        "goods_price" :goods_prices,
+        "receive_type" :type,
+        "size_remark":size_remark,
+        "color_remark":color_remark,
+        "goods_ea_id":goods_ea_id,
+};
+var stockMsg = {
+        "storeName":store_name,
+        "storeId":store_id,
+        "goods" :goodsMsg,
+        "cart_id" :'',
+        'bargain_title':bargain_title,
+        'bargain_id':bargain_id
+      };
+ stockArray.push(stockMsg);
+var stockInfo = JSON.stringify(stockArray);
+sessionStorage.stockInfo = JSON.stringify(stockArray);
+window.location.href="<{base_url()}>vmall.php/order/buy_confirm?op=buy_now&source=micro&goods_ea_id="+goods_ea_id+"&size_remark="+encodeURI(size_remark)+"&color_remark="+encodeURI(color_remark)+"&type="+type+"&goods_id="+goods_id+"&goods_a_id="+goods_a_id+"&goods_spec="+size+"&ssa_id="+ssa_id+"&stocks_price="+stocks_price+"&stocks_price_old="+stocks_price_old +"&goods_num="+number+"&goods_img="+goods_images+"&goods_color="+color+"&goods_name="+goods_name+"&goods_price="+goods_prices+"&storeId="+store_id+"&storeName="+store_name;
+}
+
+
+
+
+
+
+
+
+function returnFloat(value){
+ var value=Math.round(parseFloat(value)*100)/100;
+ var xsd=value.toString().split(".");
+ if(xsd.length==1){
+ value=value.toString()+".00";
+ return value;
+ }
+ if(xsd.length>1){
+ if(xsd[1].length<2){
+  value=value.toString()+"0";
+ }
+ return value;
+ }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(function(){
+	MicroTimeOver();
+	setInterval("MicroTimeOver()","1000");
+})
+//活动结束倒计时
+function MicroTimeOver(){
+	var OverTimes = "<{if !empty($bargain_Info.end_time)}><{$bargain_Info.end_time}><{/if}>";
+	var OverTime = Number(OverTimes);
+	var timestamp = (Date.parse(new Date()))/1000;
+	//console.log("timestamp:"+timestamp+"//type:"+typeof(timestamp));
+	//console.log("OverTime:"+OverTime+"//type:"+typeof(OverTime));
+	var leftTime = (OverTime - Number(timestamp))*1000;
+	
+	 var days = parseInt(leftTime / 1000 / 60 / 60 / 24 , 10); //计算剩余的天数 
+	 var hours = parseInt(leftTime / 1000 / 60 / 60 % 24 , 10); //计算剩余的小时 
+	 var minutes = parseInt(leftTime / 1000 / 60 % 60, 10);//计算剩余的分钟 
+	 var seconds = parseInt(leftTime / 1000 % 60, 10);//计算剩余的秒数 
+	 hours = checkTime(hours); 
+	 minutes = checkTime(minutes); 
+	 seconds = checkTime(seconds); 
+	var overs =  days+"天" + hours+"小时" + minutes+"分"+seconds+"秒"; 
+	//console.log(overs)
+	$(".action_time .overtime").html("");
+	$(".action_time .overtime").html(overs);
+}
+
+function checkTime(i){ //将0-9的数字前面加上0，例1变为01 
+ if(i<10) 
+ { 
+  i = "0" + i; 
+ } 
+ return i; 
+} 
+
+function toDecimal2(x) { 
+    var f = parseFloat(x); 
+    if (isNaN(f)) { 
+      return false; 
+    } 
+    var f = Math.round(x*100)/100; 
+    var s = f.toString(); 
+    var rs = s.indexOf('.'); 
+    if (rs < 0) { 
+      rs = s.length; 
+      s += '.'; 
+    } 
+    while (s.length <= rs + 2) { 
+      s += '0'; 
+    } 
+    return s; 
+  } 
+
+
+
+
+$('.topnav a').click(function () {
+    $('.topnav a').removeClass('active');
+    $(this).addClass('active');
+    $('.content>div').hide();
+    $("#"+$(this).attr('data-id')).show();
+})
+var rate_width = $('.rate').attr('data-width')/100*1.8,
+    cut_left = $('.rate').attr('data-width')/100*1.8+0.7;
+    $('.rate').css('width',rate_width+'rem');
+    $(".cut").css('left',cut_left+'rem');
+
+$(".read_img").click(function(){
+    $("#action_rule").fadeOut();
+    $(".mask").fadeOut();
+})
+$(".action_rule").click(function () {
+    $("#action_rule").fadeIn();
+    $(".mask").fadeIn();
+})
+
+$(".nothinks_img").click(function(){
+    $("#cut_success").fadeOut();
+    $(".mask").fadeOut();
+})
+
+
+//点立即购买弹出选择颜色尺码
+$('.nowshop').click(function () {
+$(".choice").fadeIn();
+$(".mask").fadeIn();
+})
+
+//关闭立即购买界面    
+$(".removechoice").click(function () {
+   $(".choice").fadeOut();
+   $(".mask").fadeOut();
+})
+</script>
+</html>

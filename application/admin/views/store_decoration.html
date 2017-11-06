@@ -1,0 +1,112 @@
+<{include file="pageheader.html" }>
+
+	<body style="background-color: #FFF; overflow: auto;">
+		<div id="append_parent"></div>
+		<div id="ajaxwaitid"></div>
+
+		<div class="page">
+			<div class="fixed-bar">
+				<div class="item-title">
+					<div class="subject">
+						<h3>店铺微商城装修</h3>
+						<h5>设计装修店铺微商城的版式</h5>
+					</div>
+					<ul class="tab-base nc-row">
+						<li>
+							<a class="current">门店列表</a>
+						</li>
+						<li>
+							<a href="store_decoration_template.html">装修模版管理</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 操作说明 -->
+			<div class="explanation" id="explanation">
+				<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+					<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+					<span id="explanationZoom" title="收起提示"></span> </div>
+				<ul>
+					<li>查看门店是否启用了模板</li>
+				</ul>
+		     </div>
+            <div id="flexigrid">
+            </div>
+            
+	</div>
+	
+	<script>
+$(function(){
+
+	$("#flexigrid").flexigrid({
+		url: 'get_store_decoration',
+		dataType : 'xml',
+		colModel : [
+			{display: '门店Logo', name : 'operation', width : 200, sortable : false, align: 'center', className: 'handle-s'},
+			{display: '门店名称', name : 'member_name', width : 400, sortable : true, align: 'center'},
+			{display: '使用中的模版', name : 'name', width : 300, sortable : true, align: 'left'},
+			
+		],
+	/* 	buttons : [
+			{display: '<i class="fa fa-plus"></i>批量设置装修模版', name : 'edit', bclass : 'edit', title : '批量设置装修模版', onpress : fg_operate },
+		
+		], */
+		searchitems : [
+			{display: '装修模版', name : 'sdt_name'},
+			{display: '门店名称', name : 'store_name'}
+		],
+		title: '门店列表'
+	});
+	function fg_operate(name, grid) {
+	    if (name == 'edit') {
+	        if($('.trSelected',grid).length>0){
+	            var itemlist = new Array();
+	            $('.trSelected',grid).each(function(){
+	            	itemlist.push($(this).attr('data-id'));
+	            });
+	            fg_edit(itemlist);
+	        }else{
+	            return false;
+	        }
+	    }
+	}
+
+});
+
+
+
+//更换模板
+function fg_edit(id){
+	if(typeof(id)=='object'){
+		var size = id.length;
+		id = id.join(',');
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	//console.log(typeof(id))
+}
+</script>
+			<div id="goTop">
+				<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+				<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+			</div>
+	</body>
+
+	</html>

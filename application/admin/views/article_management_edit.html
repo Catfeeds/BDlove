@@ -1,0 +1,350 @@
+
+<{include file="pageheader.html"}>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.config.js"></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/lang/zh-cn/zh-cn.js"></script>
+
+
+
+<link rel="stylesheet" type="text/css" href="<{PLUGIN}>plugins/bigcolorpicker/jquery.bigcolorpicker.css" />
+<script type="text/javascript" src="<{PLUGIN}>plugins/bigcolorpicker/jquery.bigcolorpicker.min.js"></script>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>新闻管理 - 编辑添加新闻</h3>
+                <h5>平台中的所有新闻的管理</h5>
+            </div>
+        </div>
+    </div>
+    <form id="add_form" method="post" >
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>新闻标题</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" id="title" name="title" value="<{$Artinfo.article_title}>" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">120个汉字以内</p>
+                </dd>
+            </dl>
+            
+            <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>标题颜色</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="title_colcor" readonly="readonly" id="color" value="<{$Artinfo.article_title_color}>"/><input id="color_button" type="button" class="btn btn-primary radius ml-10" value="选色" />
+                    <span class="err"></span>
+                    <p class="notic">点击“选色”按钮选取颜色</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="">自定义属性</label>
+                </dt>
+                <dd class="opt">
+                      <label class="mr10">
+                        <input name="flag" type="radio" value="0"  <{if $Artinfo.article_custom_flag eq 0}> checked="checked" <{/if}>/>置顶
+                        </label>
+                    <label class="mr10">
+                        <input name="flag" type="radio" value="1" <{if $Artinfo.article_custom_flag eq 1}> checked="checked" <{/if}> />推荐
+                        </label>
+                    <label class="mr10">
+                        <input name="flag" type="radio" value="2" <{if $Artinfo.article_custom_flag eq 2}> checked="checked" <{/if}> />热点
+                        </label>
+                    <label class="mr10">
+                        <input name="flag" type="radio" value="3" <{if $Artinfo.article_custom_flag eq 3}> checked="checked" <{/if}> />幻灯
+                        </label>
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            
+            <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>所属分类</label>
+                </dt>
+                <dd class="opt">
+                    <select name="cate_id" class="input-txt input-text" id="mySelect">
+                        <option value="">请选择...</option>
+                        	<{foreach $Artclass as $k=>$v}>
+						 	  	<option value="<{$v.class_id}>" <{if $Artinfo.article_class_id==$v.class_id}> selected="selected"<{/if}> ><{$v.class_name}></option>
+							<{/foreach}>
+                    </select>
+                    <span class="err"></span>
+                    <p class="notic">当选择发布新闻时，还需要设置下面的“显示位置”项</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>显示</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                    	<{if $Artinfo.article_show eq 1}>
+	                        <label for="audit1" class="cb-enable selected" id="cb" title="显示">是</label>
+	                        <label for="audit2" class="cb-disable " id="bc" title="不显示">不</label>
+	                        <input type="radio" id="audit1" name="is_audit" value="1"  checked="checked">
+	                        <input type="radio" id="audit2" name="is_audit" value="0"  >
+                       <{else}>
+                       		<label for="audit1" class="cb-enable" id="cb" title="显示">是</label>
+	                        <label for="audit2" class="cb-disable selected" id="bc" title="不显示">不</label>
+	                        <input type="radio" id="audit1" name="is_audit" value="1"  >
+	                        <input type="radio" id="audit2" name="is_audit" value="0"  checked="checked">
+                       <{/if}>
+                    </div>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>评论</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                    	<{if $Artinfo.article_comment_flag eq 1}>
+	                        <label for="comment1" class="cb-enable selected" id="cb" title="开">开</label>
+	                        <label for="comment2" class="cb-disable " id="bc" title="关">关</label>
+	                        <input type="radio" id="comment1" name="is_comment" value="1" checked="checked">
+	                        <input type="radio" id="comment2" name="is_comment" value="0" >
+                        <{else}>
+	                        <label for="comment1" class="cb-enable" id="cb" title="开">开</label>
+	                        <label for="comment2" class="cb-disable selected" id="bc" title="关">关</label>
+	                        <input type="radio" id="comment1" name="is_comment" value="1" >
+	                        <input type="radio" id="comment2" name="is_comment" value="0" checked="checked">
+                        <{/if}>
+                    </div>
+                    <p class="notic"></p>
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>心情</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                   		 <{if $Artinfo.article_attitude_flag eq 1}>
+	                        <label for="comment1" class="cb-enable selected" id="" title="开">开</label>
+	                        <label for="comment2" class="cb-disable" id="" title="关">关</label>
+	                        <input type="radio" id="" name="is_xq" value="1"  checked="checked">
+	                        <input type="radio" id="" name="is_xq" value="0" >
+                         <{else}>
+	                         <label for="comment1" class="cb-enable" id="" title="开">开</label>
+	                         <label for="comment2" class="cb-disable selected" id="" title="关">关</label>
+	                         <input type="radio" id="" name="is_xq" value="1">
+	                         <input type="radio" id="" name="is_xq" value="0" checked="checked">
+                        <{/if}>
+                    </div>
+                    <p class="notic"></p>
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>文章来源</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" id="article_origin" name="article_origin" value="<{$Artinfo.article_origin}>" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">注明文章来源</p>
+                </dd>
+            </dl>
+            <dl class="row">
+	             <dt class="tit">
+	                 <label for=""><em>*</em>文章来源链接</label>
+	             </dt>
+	             <dd class="opt">
+	                 <input type="text" id="article_origin_address" name="article_origin_address" value="<{$Artinfo.article_origin_address}>" class="input-txt">
+	                 <span class="err"></span>
+	                 <p class="notic">链接地址格式 http：// </p>
+	             </dd>
+            </dl>
+            <dl class="row">
+	             <dt class="tit">
+	                 <label for=""><em>*</em>文章关键字</label>
+	             </dt>
+	             <dd class="opt">
+	                 <input type="text" id="article_keyword" name="article_keyword" value="<{$Artinfo.article_keyword}>" class="input-txt">
+	                 <span class="err"></span>
+	                 <p class="notic">20个汉字以内</p>
+	             </dd>
+            </dl>
+            <dl class="row">
+	             <dt class="tit">
+	                 <label for=""><em>*</em>文章作者</label>
+	             </dt>
+	             <dd class="opt">
+	                 <input type="text" id="article_author" name="article_author" value="<{$Artinfo.article_author}>" class="input-txt">
+	                 <span class="err"></span>
+	                 <p class="notic">该文章的原作者</p>
+	             </dd>
+            </dl>
+             <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>文章标签</label>
+                </dt>
+                <dd class="opt">
+                    <select name="article_tag" class="input-txt input-text" id="mySelect">
+                        <option value="">请选择...</option>
+                        		<{foreach $Arttag as $k=>$v}>
+						 	  	<option value="<{$v.tag_id}>" <{if $Artinfo.article_tag==$v.tag_id}> selected="selected"<{/if}> ><{$v.tag_name}></option>
+								<{/foreach}>
+                    </select>
+                    <span class="err"></span>
+                </dd>
+            </dl>
+             <dl class="row">
+                <dt class="tit">
+                    <label for="article_start_time"><em>*</em>有效期开始时间</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text"  name="article_start_time" onclick="laydate()" id="article_start_time" value="<{$Artinfo.article_start_time}>">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="article_end_time"><em>*</em>有效期结束时间</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="article_end_time" onclick="laydate()" id="article_end_time" value="<{$Artinfo.article_end_time}>">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="">文章描述</label>
+                </dt>
+                <dd class="opt">
+                    <textarea name="description" id="description" class="pd-5 select " cols=" " rows=" " style="width:300px;height:100px;"><{$Artinfo.article_abstract}></textarea>
+                    <span class="err"></span>
+                    <p class="notic">文章的简要描述</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for=""><em>*</em>文章</label>
+                </dt>
+                <dd class="opt">
+                    <div class="" style="width: 70%;">
+                        <!-- 加载编辑器的容器 -->
+                        <script id="container" name="content" type="text/plain"><{$Artinfo.article_content}></script>
+
+                        <!-- 实例化编辑器 -->
+                        <script type="text/javascript">
+                            var ue = UE.getEditor('container');
+                        </script>
+
+                    </div>
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+           <dl class="row">
+                <dt class="tit">图片上传</dt>
+                <dd class="opt">
+                    <div class="input-file-show" id="divComUploadContainer">
+                    	<span class="show">
+							<a class="nyroModal" rel="gal" href="">
+								<i class="fa fa-picture-o"  id="view_img" data-geo="<img src='<{TEMPLE}>images/default_user_portrait.gif' width=100px height=50px>" ></i>
+							</a>
+						</span>
+                    	<span class="type-file-box">
+				            <input class="type-file-file" id="fileupload" name="fileupload" type="file" size="30" multiple="" hidefocus="true" title="点击按钮选择文件上传">
+				            <input type="text" name="text" id="text" class="type-file-text">
+				            <input type="button" name="button" id="button" value="选择上传..." class="type-file-button">
+				         </span>
+				     </div>
+                    <div id="thumbnails" class="ncap-thumb-list">
+                        <h5><i class="fa fa-exclamation-circle"></i>上传后的图片可以插入到富文本编辑器中使用，无用附件请手动删除，如不处理系统会始终保存该附件图片。</h5>
+                        <ul>
+                        </ul>
+                    </div>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="btn btn-warning radius" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script>
+    $(function(){
+        $("#color_button").bigColorpicker("color");
+    })
+    //上传显示
+	$("#fileupload").change(function () {
+	    $("#text").val($(this).val());
+	});
+    //按钮先执行验证再提交表
+    $(document).ready(function(){
+        //按钮先执行验证再提交表单
+        $("#submitBtn").click(function(){
+            //$("textarea").show();
+            var flag = true;
+            if (ue.getContentTxt() == '') {
+                // 显示错误
+                $("#container").parents("dd.opt").find('span.err').html('<span class="error" style="color:#E84C3D"><i class="fa fa-exclamation-circle"></i>请输入文章内容！</span>');
+                flag = false;
+            }
+            if($("#add_form").valid()&& flag == true){
+                add();
+            }
+        });
+        //表单验证
+        $('#add_form').validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parents("dd.opt").find('span.err');
+                error_td.append(error);
+            },
+            rules : {
+                title : {required : true},
+                title_colcor : {required : true},
+                cate_id : {required : true},
+                content: {required : true}
+            },
+            messages : {
+                title : {required :  '<i class="fa fa-exclamation-circle"></i> 请填写新闻标题'},
+                title_colcor : {required :  '<i class="fa fa-exclamation-circle"></i> 请选取标题颜色'},
+                cate_id : {required :  '<i class="fa fa-exclamation-circle"></i> 请选择所属分类'},
+                content : {required : '<i class="fa fa-exclamation-circle"></i> 填写文章内容'}
+            }
+        });
+
+    });
+    function add(){
+    	var data = new FormData($('#add_form')[0]);
+			$.ajax({
+				data:data,
+				type:'post',
+				dataType:'json',
+				url: "<{base_url()}>admin.php/Article/article_management_edit?id="+<{$Artinfo.article_id}>,
+				cache: false,
+            	processData: false,
+            	contentType: false,
+				success:function(res){
+					if(res=="success"){
+						layer.alert('文章修改成功');
+					}else if(res.state=="article_position_false"){
+						layer.alert(res.msg);
+					}else if(res.state=="file_type_false"){
+						layer.alert(res.msg);
+					}else if(res.state=="file_copy_false"){
+						layer.alert(res.msg);
+					}else if(res=="false"){
+						layer.alert('文章修改失败');
+					}
+				}
+			});
+    }
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

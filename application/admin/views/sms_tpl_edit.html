@@ -1,0 +1,117 @@
+<{include file="pageheader.html"}>
+<!-- 配置文件 -->
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="<{PLUGIN}>plugins/UEditor/lang/zh-cn/zh-cn.js"></script>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back(-1);" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>短信模版- 编辑模板</h3>
+        <h5>平台短信消息模板设定</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+    <{literal}>
+      	<li>插入的变量必需包括尖括号和花括号“{}”，当应用范围不支持该变量时，该变量将不会在前台显示(变量后边的分隔符也不会显示)，留空为系统默认设置。</li>
+		<li>变量函数说明：站点名称 {$site_name} | 时间点 {$send_time} | 验证码 {$verify_code} 。</li>
+	<{/literal}>
+    </ul>
+  </div>
+  <form id="form_templates" method="post" action="../tp_edit/<{$tpl_list.template_id}>" name="form1">
+    <input type="hidden" name="form_submit" value="ok" />
+    <input type="hidden" name="code" value="<{$tpl_list.template_code}>" />
+    <div class="ncap-form-default">
+      <div class="title">
+        <h3><strong>[修改]</strong><{$tpl_list.template_code}></h3>
+      </div>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>标题</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" value="<{$tpl_list.template_subject}>" name="title" class="input-txt">
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>短信平台模板ID</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" value="<{$tpl_list.template_sms_id}>" name="template_sms_id" class="input-txt">
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>模板类型</label>
+        </dt>
+        <dd class="opt">
+          <input type="radio" name="template_cate_id" value="0" <{if $tpl_list.template_cate_id eq 0 }>checked<{/if}>>系统模板
+          <input type="radio" name="template_cate_id" value="1" <{if $tpl_list.template_cate_id eq 1 }>checked<{/if}>>开放模板
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>正文</label>
+        </dt>
+        <dd class="opt">
+        	<div class="" style="width: 70%;">
+                <!-- 加载编辑器的容器 -->
+                <script id="content" name="content" type="text/plain"><{$tpl_list.template_content}></script>
+                <!-- 实例化编辑器 -->
+                <script type="text/javascript">
+                    var ue = UE.getEditor('content');
+                </script>
+
+            </div>
+
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="put_it">确认提交</a></div>
+    </div>
+  </form>
+</div>
+
+<script>
+	
+  	$(document).ready(function(){
+  		$("#put_it").click(function(){
+			var data = $("form").serialize();
+			$.ajax({
+				type:'POST',
+				data:data,
+				url:'../tp_edit/<{$tpl_list.template_id}>',
+				errer:function(){
+					layer.alert('修改失败');
+				},
+				success:function(data){
+				if(data.state=='403'){
+							    login_ajax('shopadmin',data);
+							}
+					layer.alert(data,{
+						icon: 1,
+						skin: 'layer-ext-moon'
+					},
+					function(){
+						history.go(-1);
+					});
+				},
+				dataType:'json'
+			});
+		});
+  	});
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

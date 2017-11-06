@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta charset="UTF-8">
+<title><{$errand_store}></title>
+<link href="<{TEMPLE}>css/index.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="msgpage">
+  <div class="msgbox">
+    <div class="pic"></div>
+    <div class="con">
+      <{$msg_detail}><!--反馈消息-->
+	</div>
+    <div class="scon"><{$handle_jump}></div>
+    <div class="button">
+	<!--此为上一页连接，或也可以调准到其他页面-->
+		<{foreach from=$links item=link}>
+      <a href="<{$link.href}>"  class="ncap-btn"><{$link.text}></a> 
+	  <{/foreach}>
+	  <!--自动跳转链接，和跳转时间-->
+	<{if $auto_redirect}>
+      <script type="text/javascript"> 
+      
+	  var seconds = 3;
+	  var defaultUrl = <{$default_url}>;
+	  onload = function()
+	{
+		if (defaultUrl == 'javascript:history.go(-1)' && window.history.length == 0)
+		  {
+			return;
+		  }
+		window.setInterval(redirection, 1000);
+		
+	
+	}
+function redirection()
+{
+  if (seconds <= 0)
+  {
+    window.clearInterval();
+    return;
+  }
+
+  seconds --;
+  //document.getElementById('spanSeconds').innerHTML = seconds;
+  if (seconds == 0)
+  {
+    window.clearInterval();	//取消setInterval设置的timeout
+    location.href = defaultUrl;
+  }
+}
+	  </script>
+	<{/if}>
+    </div>
+  </div>
+</div>
+</body>
+</html>

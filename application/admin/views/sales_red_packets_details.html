@@ -1,0 +1,126 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>平台红包 - 红包详情</h3>
+        <h5>平台红包新增与管理</h5>
+      </div>
+    </div>
+  </div>
+  <div class="ncap-form-default">
+    <dl class="row">
+      <dt class="tit">红包名称：</dt>
+      <dd class="opt">新人加油包</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">领取方式：</dt>
+      <dd class="opt">积分兑换</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">有效期：</dt>
+      <dd class="opt">
+        2016-10-09 至
+        2018-10-31        </dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">面额：</dt>
+      <dd class="opt">10&nbsp;&nbsp;元</dd>
+    </dl>
+    <dl class="row" id="points_dl">
+      <dt class="tit">兑换所需积分：</dt>
+      <dd class="opt">1</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">可发放总数：</dt>
+      <dd class="opt">10000</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">每人限领：</dt>
+      <dd class="opt">1</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">消费限额：</dt>
+      <dd class="opt">20.00&nbsp;&nbsp;元</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">会员级别：</dt>
+      <dd class="opt">V0</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">红包描述：</dt>
+      <dd class="opt">
+        <textarea id="rpt_desc" name="rpt_desc" class="w300" readonly="">10元</textarea>
+      </dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">红包图片：</dt>
+      <dd class="opt">
+        <img onload="javascript:DrawImage(this,220,95);" src="<{TEMPLE}>images/default_user_portrait.gif" height="95" width="95">
+      </dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">最近修改时间：</dt>
+      <dd class="opt">2016-10-09 16:31:33</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">最近修改人：</dt>
+      <dd class="opt">admin</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">已领取：</dt>
+      <dd class="opt">0  张</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">已使用：</dt>
+      <dd class="opt">0  张</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">状态：</dt>
+      <dd class="opt">有效</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">是否推荐：</dt>
+      <dd class="opt">
+        否        </dd>
+    </dl>
+  </div>
+  <div id="flexigrid"></div>
+  <div class="ncap-form-default">
+    <div style="text-align: center;"><a href="" class="ncap-btn-big ncap-btn-green" id="submitBtn">返回列表</a></div>
+  </div>
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+
+  $(function(){
+
+    $("#flexigrid").flexigrid({
+      url: '',
+      colModel: [
+        {display: '红包编码', name: 'rpacket_code', width: 250, sortable: false, align: 'center'},
+        {display: '使用状态', name: 'rpacket_statetext', width: 150, sortable: false, align: 'center'},
+        {display: '所属会员', name: 'rpacket_owner_name', width: 150, sortable: false, align: 'left'},
+        {display: '领取时间', name: 'rpacket_active_datetext', width: 200, sortable: false, align: 'center'}
+      ],
+      buttons : [
+        {display: '<i class="fa fa-file-excel-o"></i>导出数据', name : 'csv', bclass : 'csv', title : '将选定行数据导出excel文件,如果不选中行，将导出列表所有数据', onpress : fg_operate }
+      ],
+      sortname: "rpacket_id",
+      sortorder: "desc",
+      title: '红包列表'
+    });
+
+  });
+  function fg_operate() {
+    window.location.href = ''
+  }
+
+</script>
+</body>
+</html>

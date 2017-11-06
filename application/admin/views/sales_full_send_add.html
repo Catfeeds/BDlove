@@ -1,0 +1,366 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+<link type="text/css" href="http://code.jquery.com/ui/1.9.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<!-- <link href="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.js" ></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-zh-CN.js"></script> -->
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+	<a class="back" href="sales_full_send" title="返回满就送活动列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>满即送——编辑添加</h3>
+        <h5>满即送活动相关设定及管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>满即送活动包括店铺所有商品，活动时间不能和已有活动重叠</li>
+      <li>每个满即送活动最多可以设置3个价格级别，点击新增级别按钮可以增加新的级别，价格级别应该由低到高</li>
+      <li>每个级别可以有减现金、送礼品2种促销方式，至少需要选择一种</li>
+    </ul>
+  </div>
+    <div class="ncsc-form-default mt-20">
+        <form id="add_form" action="sales_full_send_add?op=submit" method="post">
+        <input name="now_mansong_id" id="now_mansong_id" type="hidden" value="">
+            <dl>
+                <dt><i class="required">*</i>活动名称：</dt>
+                <dd>
+                    <input id="mansong_name" name="mansong_name" type="text" maxlength="25" class="w400 text">
+                    <span class="error-message"></span>
+                    <p class="hint">活动名称最多为25个字符</p>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>开始时间：</dt>
+                <dd>
+                    <input id="start_time" name="start_time" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" type="text" class="text w130 " ><em class="add-on"><i class="fa fa-calendar"></i></em>
+                    <span class="error-message"></span>
+                    <p class="hint">开始时间不能为空且不能早于2016-12-01 00:00</p>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>结束时间：</dt>
+                <dd>
+                    <input id="end_time" name="end_time" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" type="text" class="text w130 "><em class="add-on"><i class="fa fa-calendar"></i></em>
+                    <span class="error-message"></span>
+                    <p class="hint">
+                    </p>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>满即送规则：</dt>
+                <dd>
+                    <input type="hidden" id="mansong_rule_count" name="rule_count">
+                    <ul id="mansong_rule_list" class="ncsc-mansong-rule-list">
+                    </ul>
+                    <a href="javascript:void(0);" id="btn_add_rule" class="ncbtn ncbtn-aqua"><i class="fa fa-plus-circle"></i>添加规则</a>
+                    <div id="div_add_rule" style="display:none;">
+                        <div class="ncsc-mansong-error"><span id="mansong_price_error" style="display:none;"><i class="fa fa-exclamation-circle"></i>规则金额不能为空且必须为数字</span><span id="mansong_discount_error" style="display:none;"><i class="fa fa-exclamation-circle"></i>满减金额必须小于规则金额</span></div>
+                        <div class="ncsc-mansong-rule">
+                            <span>单笔订单满&nbsp;<input id="mansong_price" type="text" class="text w50"><em class="add-on"><i class="fa fa-rmb"></i></em>，</span>
+                            <span>立减现金&nbsp;<input id="mansong_discount" type="text" class="text w50"><em class="add-on"><i class="fa fa-rmb"></i></em>，</span>
+                            <input id="mansong_goods_image" name="mansong_goods_image" type="hidden" >
+                            <input id="mansong_goods_id" name="mansong_goods_id" type="hidden" >
+                            <input id="mansong_goods_src" name="mansong_goods_src" type="hidden" >
+                            <input id="mansong_goods_name" name="mansong_goods_name" type="hidden" >
+                            <span>送礼品&nbsp;<a href="javascript:void(0);" id="btn_show_search_goods" class="ncbtn"><i class="fa fa-gift"></i>选择礼品</a></span>
+                            <div id="mansong_goods_item" class="gift"></div>
+
+                            <div id="div_search_goods" class="div-goods-select mt10" style="display: none;">
+                                <table class="search-form">
+                                    <tbody><tr>
+                                        <th class="w150">
+                                            <strong>第一步：搜索店内商品</strong>
+                                        </th>
+                                        <td class="w160">
+                                            <input id="search_goods_name" type="text w150" class="text" name="goods_name" value="">
+                                        </td>
+                                        <td class="w70 tc">
+                                            <a href="javascript:void(0);" id="btn_search_goods" class="ncbtn"><i class="icon-search"></i>搜索</a>
+                                        </td>
+                                        <td class="w10"></td>
+                                        <td>
+                                            <p class="hint">不输入名称直接搜索将显示店内所有出售中的商品</p>
+                                        </td>
+                                    </tr>
+                                    </tbody></table>
+                                <a id="btn_hide_search_goods" class="close" href="javascript:void(0);">X</a>
+                                <div id="div_goods_search_result" class="search-result" style="width:739px;"></div>
+                            </div>
+                        </div>
+                        <div id="mansong_rule_error" style="display:none;">请至少选择一种促销方式</div>
+                        <div class="mt10">
+                            <a href="javascript:void(0);" id="btn_save_rule" class="ncbtn ncbtn-aqua"><i class="fa fa-check-circle"></i>确定规则设置</a>
+                            <a href="javascript:void(0);" id="btn_cancel_add_rule" class="ncbtn ncbtn-bittersweet"><i class="fa fa-times-circle"></i>取消</a></div>
+                    </div>
+                    <span class="error-message"></span>
+                    <p class="hint">设置当单笔订单满足金额时（必填选项），减免金额（选填）或赠送的礼品（选填）；留空为不做减免金额或赠送礼品处理。<br>系统最多支持设置三组等级规则。</p>
+                </dd>
+            </dl>
+            <dl>
+                <dt>备注：</dt>
+                <dd>
+                    <textarea name="remark" rows="3" id="remark" maxlength="100" class="textarea w400"></textarea>
+                    <p class="hint">活动备注最多为100个字符</p>
+                </dd>
+            </dl>
+            <div class="bottom">
+                <label class="submit-border"><input id="submit_button" type="submit" value="提交" class="submit"></label>
+            </div>
+        </form>
+    </div>
+
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+    	
+
+        //页面输入内容验证
+         jQuery.validator.methods.greaterThanDate = function(value, element, param) {
+        var date1 = new Date(Date.parse(param.replace(/-/g, "/")));
+        var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+        return date1 < date2;
+        };
+
+        jQuery.validator.methods.greaterThanStartDate = function(value, element) {
+        var start_date = $("#start_time").val();
+        var date1 = new Date(Date.parse(start_date.replace(/-/g, "/")));
+        var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+        return date1 < date2;
+    };
+        $("#add_form").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parent('dd').children('span.error-message');
+                error_td.append(error);
+            },
+            rules : {
+                mansong_name : {
+                    required : true,
+                    remote	: {
+                        url :'sales_full_send_add?op=check_name',
+                        type:'get',
+                        cache:false,
+                        async:false,
+                        data:{
+                      	  xianshi_name : function(){
+                                return $('#mansong_name').val();
+                            },
+                      	  xianshi_id : function(){
+                                return $('#now_mansong_id').val();
+                            }
+                        }
+                    }
+                },
+                start_time : {
+                    required : true,
+                    greaterThanDate : '2016-11-01 00:00'
+                },
+                end_time : {
+                    required : true,
+                    greaterThanStartDate : true
+                },
+                rule_count: {
+                    required: true,
+                    min: 1
+                }
+            },
+            messages : {
+                mansong_name : {
+                    required : '<i class="fa fa-exclamation-circle"></i>活动名称不能为空',
+                    remote   : '<i class="fa fa-exclamation-circle"></i>该活动名称已存在'
+                },
+                start_time : {
+                    required : '<i class="fa fa-exclamation-circle"></i>开始时间不能为空且不能早于2016-12-01 00:00',
+                    greaterThanDate : '<i class="fa fa-exclamation-circle"></i>开始时间不能为空且不能早于2016-12-01 00:00'
+                },
+                end_time : {
+                    required : '<i class="fa fa-exclamation-circle"></i>结束时间不能为空且不能晚于1970-01-01 08:00',
+                    greaterThanStartDate : '<i class="fa fa-exclamation-circle"></i>结束时间必须大于开始时间'
+                },
+                rule_count: {
+                    required: '<i class="fa fa-exclamation-circle"></i>请至少添加一条规则并确定',
+                    min: '<i class="fa fa-exclamation-circle"></i>请至少添加一条规则并确定'
+                }
+            }
+        });
+
+        // 限时添加规则窗口
+        $('#btn_add_rule').on('click', function() {
+            $('#mansong_price').val('');
+            $('#mansong_discount').val('');
+            $('#mansong_goods_image').val('');
+            $('#mansong_goods_id').val('');
+            $('#mansong_goods_name').val('');
+            $('#mansong_goods_src').val('');
+            $('#mansong_goods_item').html('');
+            $('#mansong_price_error').hide();
+            $('#mansong_rule_error').hide();
+            $('#div_add_rule').show();
+            $('#btn_add_rule').hide();
+        });
+
+        // 规则保存
+        $('#btn_save_rule').on('click', function() {
+            var mansong = {};
+            mansong.goods_image = $('#mansong_goods_image').val();
+            mansong.goods_id = Number($('#mansong_goods_id').val());
+            mansong.goods_name = $('#mansong_goods_name').val();
+            mansong.goods_src = $('#mansong_goods_src').val();
+            mansong.price = Number($('#mansong_price').val());
+            if(isNaN(mansong.price) || mansong.price <= 0) {
+                $('#mansong_price_error').show();
+                return false;
+            } else {
+                $('#mansong_price_error').hide();
+            }
+            mansong.discount = Number($('#mansong_discount').val());
+            if(isNaN(mansong.discount) || mansong.discount < 0 || mansong.discount >= mansong.price) {
+                $('#mansong_discount_error').show();
+                return false;
+            } else {
+                $('#mansong_discount_error').hide();
+            }
+            if(isNaN(mansong.goods_id)) {
+                mansong.goods_id = 0;
+            }
+            if(mansong.discount == 0 && mansong.goods_id == 0) {
+                $('#mansong_rule_error').show();
+                return false;
+            } else {
+                $('#mansong_rule_error').hide();
+            }
+            var mansong_rule_item = '<li nctype="mansong_rule_item"> <span>单笔订单满<strong>'+mansong.price+
+            '</strong>元， </span> <span>立减现金<strong>'+mansong.discount+'</strong>元， </span> '+
+            '<span>送礼品 <a href="" title="" class="goods-thumb" target="_blank"><img src="'+mansong.goods_image+'"></a>'+
+            '<input nctype="mansong_goods_id" type="hidden" value="'+mansong.goods_id+'"></span>'+
+            '<input type="hidden" name="mansong_rule[]" value="'+mansong.price+','+mansong.discount+','+mansong.goods_id+','+mansong.goods_src+','+mansong.goods_name+
+            '"> <a nctype="btn_del_mansong_rule" href="javascript:void(0);" class="ncbtn-mini ncbtn-grapefruit"><i class="icon-trash"></i>删除</a> </li>';
+            $('#mansong_rule_list').append(mansong_rule_item);
+            close_div_add_rule();
+        });
+
+        // 删除已添加的规则
+        $('#mansong_rule_list').on('click', '[nctype="btn_del_mansong_rule"]', function() {
+            $(this).parents('[nctype="mansong_rule_item"]').remove();
+            close_div_add_rule();
+        });
+
+        // 取消添加规则
+        $('#btn_cancel_add_rule').on('click', function() {
+            close_div_add_rule();
+        });
+
+        // 关闭规则添加窗口
+        function close_div_add_rule() {
+            var rule_count = $('#mansong_rule_list').find('[nctype="mansong_rule_item"]').length;
+            if( rule_count >= 3) {
+                $('#btn_add_rule').hide();
+            } else {
+                $('#btn_add_rule').show();
+            }
+            $('#div_add_rule').hide();
+            $('#mansong_rule_count').val(rule_count);
+        }
+
+        // 限时商品选择窗口
+        $('#btn_show_search_goods').on('click', function() {
+            $('#div_search_goods').show();
+        });
+
+        // 搜索商品
+        $('#btn_search_goods').on('click', function() {
+        	search_goods_name = $('#search_goods_name').val();
+        	group_id = $('#now_mansong_id').val();
+            function show_content(curr,group_id){
+          	  $.ajax({
+        			type: "post",
+        	        url: "sales_full_send_add?op=search_goods_name",
+        	        data: {search_goods_name:search_goods_name,page:curr,group_id:group_id},
+        	        dataType: "json",
+        	        success: function(data){
+					if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+        	        	page = parseInt(data.page);data_goods = data.data;total_page = parseInt(data.total_page);rp = parseInt(data.rp);
+        	        	if(data.state){
+        	        		str = '<ul class="goods-list" style="width:760px;"> ';
+        	        		$.each(data_goods,function(k,v){
+        	        	      str +='<li><input type="hidden" name="goods_src" class="goods_src" value="'+v.goods_image+'"><div class="goods-thumb"> <img src="<{PLUGIN}>data/shop/album_pic/'+v.thumb+'"></div> <dl class="goods-info"><dt>' +
+        	        	      '<a href="" target="_blank">'+v.goods_name+'</a> </dt><dd>销售价：¥'+v.goods_price+'</dd></dl>' +
+        	                  ' <a nctype="btn_add_mansong_goods" data-goods-id="'+v.goods_id+'" data-goods-name="'+v.goods_name+'" data-goods-image-url="<{PLUGIN}>data/shop/album_pic/'+v.thumb+'"  href="javascript:void(0);" class="ncbtn-mini ncbtn-mint">' +
+        	                  '<i class="fa fa-check-circle "></i>选择为礼品</a> </li>';
+        	        		})	
+        	        		str +='</ul><input type="hidden" name="total_pages" id="total_pages" value="'+total_page+'"><input type="hidden" name="now_pages" id="now_pages" value="'+page+'"><div class="pagination"></div>';
+        	                //console.log(str)
+        	                $('#div_goods_search_result').html(str)
+        	                pages = $('#total_pages').val()
+        	                curr = $('#now_pages').val()
+        	                laypage({
+        	          	      cont: $('div.pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+        	          	      pages: pages, //通过后台拿到的总页数
+        	          	      curr:  curr || 1, //当前页
+        	          	      first: '首页',
+        	          	      last: '末页',
+        	          	      groups:5,
+        	          	      jump: function(obj, first){ //触发分页后的回调
+        	          	        if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+        	          	           show_content(obj.curr,group_id);
+        	          	        }
+        	          	      }
+        	          	    });
+        	        	}else{
+        	        		str = '<div style="font-size:20px;color:red;">未找到符合条件的商品！</div>';
+        	        		$('#div_goods_search_result').html(str)
+        	        		
+        	        	}
+        	        }
+               })
+             }   
+            show_content(1,group_id)
+            
+        });
+
+        // 关闭商品选择窗口
+        $('#btn_hide_search_goods').on('click', function() {
+            $('#div_search_goods').hide();
+        });
+
+        // 选择商品
+        $('#div_goods_search_result').on('click', '[nctype="btn_add_mansong_goods"]', function() {
+            var goods = {};
+            goods.goods_id = $(this).attr('data-goods-id');
+            goods.goods_name = $(this).attr('data-goods-name');
+            goods.goods_image_url = $(this).attr('data-goods-image-url');
+            goods.goods_src = $(this).parents('li').find('input.goods_src').val();
+            $('#mansong_goods_image').val(goods.goods_image_url);
+            $('#mansong_goods_id').val(goods.goods_id);
+            $('#mansong_goods_name').val(goods.goods_name);
+            $('#mansong_goods_src').val(goods.goods_src);
+            //console.log(goods.goods_image_url)
+            //goods.goods_url = $(this).attr('data-goods-url');
+            var mansong_goods_item = '<div nctype="mansong_goods" class="selected-mansong-goods"> ' +
+                    '<a href="" title="户外登山鞋" class="goods-thumb" target="_blank"> <img src="'+goods.goods_image_url+'"> </a></div>' +
+                    '<a nctype="btn_del_mansong_goods" href="javascript:void(0);" class="ncbtn-mini ncbtn-grapefruit"><i class="fa fa-trash"></i>删除已选择的礼品</a>';
+            $('#mansong_goods_item').html(mansong_goods_item);
+            $('#div_search_goods').hide();
+        });
+
+        // 删除以选的商品
+        $('#mansong_goods_item').on('click', '[nctype="btn_del_mansong_goods"]', function() {
+            $('#mansong_goods_item').html('');
+        });
+    });
+</script>
+</body>
+</html>

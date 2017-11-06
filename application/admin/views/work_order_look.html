@@ -1,0 +1,165 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+<style>
+  .ncap-order-style {
+	width:100%;
+	}
+	.title-show{
+		background:#ebedf1;
+		border-radius: 2px;
+		padding: 5px;
+	}
+	.title-show p span{
+		color: #bbb;
+	}
+	.clear{
+		clear: both;
+	}
+	.ncap-order-flow .num5 li {
+	    width: 30%;
+	}
+	.pl-15{
+		padding-left: 15px;
+	}
+	.ncap-order-flow{
+		margin-bottom: 30px;
+	}
+	.panel-header{
+		background: #EDFBF8!important;
+	}
+	.userimg{
+		width: 40px;
+		height: 40px;
+	}
+	.userimg img{
+		width: 100%;
+		height: auto;
+		border-radius: 50%;
+	}
+	.log .talk .content{
+		color: #999;
+		font-size: 14px;
+	}
+	.service .talk .content{
+		color: #333;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	.talk p{
+		margin-bottom: 0;
+	}
+	.cl-red{
+		color: red;
+	}
+	.history>div{
+		border-bottom: 1px dashed #bbb;
+	}
+	.time{
+		color: #999;
+	}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>工单管理-工单处理</h3>
+                <h5>管理线上线下门店</h5>
+            </div>
+        </div>
+    </div>
+    <div class="ncap-order-style">
+        <div class="titile">
+            <h3></h3>
+        </div>
+        <div class="ncap-order-flow">
+
+            <ol class="num5">
+                <li class="current">
+                    <h5>发起工单</h5>
+                    <i class="fa fa-arrow-circle-right"></i>
+                    <time>2017-02-10 12:12:21</time>
+                </li>
+                <li class="current">
+                    <h5>处理工单</h5>
+                    <i class="fa fa-arrow-circle-right"></i>
+                    <time>2017-02-10 12:12:21</time>
+                </li>
+                <li class="">
+                    <h5>确认工单</h5>
+                    <time>2017-02-10 12:12:21</time>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="title-show">
+        	<p class="pl-15 pt-10">问题标题：商品怎么添加不了？</p>
+        	<p class="col-xs-3 text-l"><span>工单编号：</span>JK12345656</p>
+        	<p class="col-xs-3 text-l"><span>提交时间：</span>2017-05-02 12:12:20</p>
+        	<p class="col-xs-3 text-l"><span>工单类型：</span>商品类</p>
+        	<div class="clear"></div>
+        </div>
+        
+        <div class="panel panel-default mt-20">
+			<div class="panel-header">沟通日志</div>
+			<div class="panel-body history">
+				<div class="log pb-10 pt-10">
+					<div class="userimg f-l">
+						<img src="<{TEMPLE}>images/default_user_portrait.gif" alt="" />
+					</div>
+					<div class="talk f-l ml-10">
+						<p class="content">
+							liy**@internetdc.com:域名：购买域名的时候选择免费哟想是那个吗？<br>
+							问题描述：是163的还是阿里云的不知道在哪里登录
+						</p>
+						<div class="time">2016-20-30 12:21:30</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="service pt-10 pb-10">
+					<div class="userimg f-l">
+						<img src="<{TEMPLE}>images/default_user_portrait.gif" alt="" />
+					</div>
+					<div class="talk f-l ml-10">
+						<p class="content">
+							售后工程师：您的问题我们已收到，会尽快为您查看。请您耐心等待，谢谢
+						</p>
+						<div class="time">2016-20-30 12:21:30</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="panel panel-default mt-20">
+			<div class="panel-header">平台处理</div>
+			<div class="panel-body">
+				<p>留言</p>
+				<textarea name="" rows="" cols="" style="width: 100%;height: 100px;padding:5px;" placeholder="此处限定5000字符"></textarea>
+				<div class="upload mt-20">
+					<div class="f-l pt-10">上传附件：</div>
+					<div class="f-l ml-20">
+						<div class="up">
+							<input type="file" name="" id="" value="" multiple="multiple"/>
+							<p class="mt-5">可上传<span class="cl-red">5个附件</span>每个附件大小不得超过8M。附件支持的格式有：'jpg','jpeg','bmp','png','gif','txt','rar','zip'
+								,'doc','docx','ini','conf','eml','xlsx','xls','pdf'</p>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<button class="btn btn-warning">提交</button>
+			</div>
+		</div>
+		
+    </div>
+</div>
+<script type="text/javascript">
+
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+<script type="text/javascript">
+	 $(".history>div:last").css('border-bottom','none');
+</script>
+</html>

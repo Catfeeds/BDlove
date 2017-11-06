@@ -1,0 +1,65 @@
+<{include file="pageheader.html"}>
+<style>
+    .waybill_back {
+        position: relative;
+        width: 870.2px;
+        height: 478.8px;
+    }
+    .waybill_design {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 870.2px;
+        height: 478.8px;
+    }
+    .waybill_item {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100px;
+        height: 20px;
+        border: 1px solid #CCCCCC;
+    }
+    .waybill_back img {
+        width: 870px;
+        height: 480px;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="waybill_back">
+    <img src="<{$img}>" alt="">
+</div>
+
+<div class="waybill_design">
+    <{if isset($buyer_name)}><{if $buyer_name.check eq 'on'}><div class="waybill_item" style="left:<{$buyer_name.left}>px; top:<{$buyer_name.top}>px; width:<{$buyer_name.width}>px; height:<{$buyer_name.height}>px;">收货人</div><{/if}><{/if}>
+    <{if isset($buyer_area)}><{if $buyer_area.check eq 'on'}><div class="waybill_item" style="left:<{$buyer_area.left}>px; top:<{$buyer_area.top}>px; width:<{$buyer_area.width}>px; height:<{$buyer_area.height}>px;">收货人地区</div><{/if}><{/if}>
+    <{if isset($buyer_address)}><{if $buyer_address.check eq 'on'}><div class="waybill_item" style="left:<{$buyer_address.left}>px; top:<{$buyer_address.top}>px; width:<{$buyer_address.width}>px; height:<{$buyer_address.height}>px;">收货人地址</div><{/if}><{/if}>
+    <{if isset($buyer_mobile)}><{if $buyer_mobile.check eq 'on'}><div class="waybill_item" style="left:<{$buyer_mobile.left}>px; top:<{$buyer_mobile.top}>px; width:<{$buyer_mobile.width}>px; height:<{$buyer_mobile.height}>px;">收货人手机</div><{/if}><{/if}>
+    <{if isset($buyer_phone)}><{if $buyer_phone.check eq 'on'}><div class="waybill_item" style="left:<{$buyer_phone.left}>px; top:<{$buyer_phone.top}>px; width:<{$buyer_phone.width}>px; height:<{$buyer_phone.height}>px;">收货人电话</div><{/if}><{/if}>
+    <{if isset($seller_name)}><{if $seller_name.check eq 'on'}><div class="waybill_item" style="left:<{$seller_name.left}>px; top:<{$seller_name.top}>px; width:<{$seller_name.width}>px; height:<{$seller_name.height}>px;">发货人</div><{/if}><{/if}>
+    <{if isset($seller_area)}><{if $seller_area.check eq 'on'}><div class="waybill_item" style="left:<{$seller_area.left}>px; top:<{$seller_area.top}>px; width:<{$seller_area.width}>px; height:<{$seller_area.height}>px;">发货人地区</div><{/if}><{/if}>
+    <{if isset($seller_address)}><{if $seller_address.check eq 'on'}><div class="waybill_item" style="left:<{$seller_address.left}>px; top:<{$seller_address.top}>px; width:<{$seller_address.width}>px; height:<{$seller_address.height}>px;">发货人地址</div><{/if}><{/if}>
+    <{if isset($seller_phone)}><{if $seller_phone.check eq 'on'}><div class="waybill_item" style="left:<{$seller_phone.left}>px; top:<{$seller_phone.top}>px; width:<{$seller_phone.width}>px; height:<{$seller_phone.height}>px;">发货人电话</div><{/if}><{/if}>
+    <{if isset($seller_company)}><{if $seller_company.check eq 'on'}><div class="waybill_item" style="left:<{$seller_company.left}>px; top:<{$seller_company.top}>px; width:<{$seller_company.width}>px; height:<{$seller_company.height}>px;">发货人公司</div><{/if}><{/if}>
+</div>
+<div class="control">
+    <a id="btn" href="javascript:;">打印123</a>
+    <input type="hidden" id="hidden_url" value="<{base_url('data/print/CNPrintSetup.exe')}>">
+</div>
+<script type="text/javascript" src="<{TEMPLE}>js/cainiao.js"></script>
+<script>
+    $(document).ready(function() {
+    	doConnect();
+        $('#btn').on('click', function() {
+        	//getPrinters();//获取打印机列表
+        	//getPrinterConfig();
+        	//printerConfig();//获取打印机配置(弹出打印机配置界面)
+        	//setPrinterConfig();
+        	doPrint();
+        });
+      
+    });
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

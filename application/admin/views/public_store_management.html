@@ -1,0 +1,329 @@
+<{include file="pageheader.html" }>
+<style>
+th.percentage-s div{text-align:center !important;}
+.download:hover{
+	border: 1px solid #5a98de!important;
+	color: #5a98de!important;
+}
+.delete:hover{
+	border: 1px solid red!important;
+	color: red!important;
+}
+.stop:hover{
+	color: #f37b1d!important;
+	border: 1px solid #f37b1d!important;
+}
+
+</style>
+	<body style="background-color: #FFF; overflow: auto;">
+		<div id="append_parent"></div>
+		<div id="ajaxwaitid"></div>
+		<div class="page">
+			<div class="fixed-bar">
+				<div class="item-title">
+					<div class="subject">
+						<h3>店铺管理</h3>
+						<h5><{if isset($role) && $role eq 'w'}>微商城<{else if $role eq 'd' }>电商<{else if $role eq 'g' }>供应仓库<{else}>平台<{/if}>中的店铺管理</h5>
+					</div>
+					<ul class="tab-base nc-row">
+						<li>
+							<a <{if !isset($op)}>class="current"<{else}>href="store_management?role=<{if isset($role)}><{$role}><{/if}>"<{/if}>>营业中</a>
+						</li>
+						<li>
+							<a <{if isset($op)}>class="current"<{else}>href="store_management?op=stop&role=<{if isset($role)}><{$role}><{/if}>"<{/if}>>暂停中</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 操作说明 -->
+			<div class="explanation" id="explanation">
+				<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+					<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+					<span id="explanationZoom" title="收起提示"></span> </div>
+				<ul>
+					<li>店铺管理是对店铺原始数据的建立，并对店铺进行所需销售品牌进行授权</li>
+					<li>任何店铺销售都需做品牌授权，销售商品也只能是授权商品</li>
+					<li>设置项中可编辑店铺基本信息，对商品、导购进行管理，运费设置；门店专属二维码也在此下载</li>
+					<li>删除店铺提示操作失败的原因：</li>
+					<li>所选店铺中还有未离职的导购，不能删除</li>
+					<li>所选店铺中还有未完成的订单，不能删除</li>
+					<li>所选店铺中还有资金未提现/转账，不能删除</li>
+					<li>所选店铺中还有未完成的售后申请，不能删除</li>
+				</ul>
+		     </div>
+		     <div class="mt-10 mb-10">
+            <form method="post" name="formSearch" id="formSearch">
+                <div class="search mt-20 mb-10">
+                    <select name="store_id" class=" mr-5 m_w_120 pd-5 mb-10 select2">
+                        <option value="" selected>-门店名称-</option>
+                                <{if !empty($store)}>
+		                        	<{foreach from=$store item=v}>
+		                        		<option value="<{$v.store_id}>"><{$v.store_name}></option>
+		                        	<{/foreach}>
+		                        <{/if}>
+                   </select>
+                   
+                    <select name="brand_code" class="pd-5 m_w_120 mr-10 select2">
+                        <option value="" selected>-授权品牌-</option>
+                        <{if !empty($brands)}>
+                        <{foreach from=$brands item=v}>
+                        <option value="<{$v.brand_id}>"><{$v.brand_name}></option>
+                        <{/foreach}>
+                        <{/if}>
+                   </select>
+                   <!-- <select name="store_cate" class=" mr-5 m_w_120 pd-5 mb-10 select2">
+                        <option value="" selected>-门店形式-</option>
+                        <option value="1">线上</option>
+                        <option value="2">线下</option>
+                        <option value="3">线上线下店</option>
+                   </select>
+                    <select name="store_type" placeholder="请选择" class=" mr-5 m_w_120 pd-5 mb-10">
+                        <option value="" selected>-门店类型-</option>
+                        <option value="1">加盟店</option>
+                        <option value="2">旗舰店</option>
+                        <option value="3">直营店</option>
+                        <option value="4">商场超市店</option>
+                   </select>-->
+                    <select name="store_province" id="store_province"  class=" mr-5 m_w_120 pd-5 mb-10 select2">
+                        <option value="" selected>-省-</option>
+                        <{foreach from=$area[0] item=v}>
+                        <option value="<{$v[0]}>"><{$v[1]}></option>
+                        <{/foreach}>
+                   </select>
+                    <select name="store_city" id="store_city" class=" mr-5 m_w_120 pd-5 mb-10 select2">
+                        <option value="" selected>-市-</option>
+                   </select>
+                    <select name="store_area" id="store_area"  class=" mr-5 m_w_120 pd-5 mb-10 select2">
+                        <option value="" selected>-区-</option>
+                   </select>
+                   <input name="tel_num" placeholder="联系电话" type="text" class="input_text input-text m_w_120 pd-5 mb-10 " style="width:160px!important;">
+                   <input type="submit" class="btn btn-warning radius ml-5 mb-10" id="submit" name="submit" onclick="return false;" value="搜索">
+                 </div>
+             </form>
+       </div>
+            <div id="flexigrid">
+            </div>
+	</div>
+	<script>
+	areaData = <{json_encode($area)}>;
+$(function(){
+	$(".select2").select2({
+        width:'150px'
+    });
+	$('#submit').click(function(){
+		search = $("#formSearch").serialize();
+      $("#flexigrid").flexOptions({url: 'get_store_list?op=<{if isset($op)}><{$op}><{/if}>&role=<{if isset($role)}><{$role}><{/if}>&'+search, method: 'post', qtype:'', query:'',}).flexReload();
+  });
+	
+	$('#store_province').change(function(){
+		province = $(this).val();
+		area_data = areaData[province];
+		str = '<option value="" selected>-市-</option>';
+		$.each(area_data,function(k,v){
+			str+='<option value="'+v[0]+'">'+v[1]+'</option>';
+		})
+		$('#store_city').html(str);
+		$('#store_area').html('<option value="" selected>-区-</option>');
+	})
+	$('#store_city').change(function(){
+		city = $(this).val();
+		area_data = areaData[city];
+		str = '<option value="" selected>-区-</option>';
+		$.each(area_data,function(k,v){
+			str+='<option value="'+v[0]+'">'+v[1]+'</option>';
+		})
+		$('#store_area').html(str);
+	})
+	$("#flexigrid").flexigrid({
+		url: 'get_store_list?op=<{if isset($op)}><{$op}><{/if}>&role=<{if isset($role)}><{$role}><{/if}>',
+		colModel : [
+			{display: '操作', name : 'operation', width : 150, sortable : false, align: 'center', className: 'handle-s'},
+			{display: '门店logo', name : 'storelogo', width : 60, sortable : true, align: 'center'},
+			{display: '门店名称', name : 'member_name', width : 200, sortable : true, align: 'center'},
+			{display: '导购数量', name : 'member_email', width : 60, sortable : true, align: 'center'},
+			{display: '门店形式', name : 'member_email', width : 80, sortable : true, align: 'center'},
+			{display: '授权品牌', name : 'member_email', width : 200, sortable : true, align: 'center'},
+			{display: '返点比例', name : 'member_email', width : 60, sortable : true, align: 'center'},
+			{display: '扣点比例', name : 'member_email', width : 280, sortable : true, align: 'left', className: 'percentage-s'},
+			{display: '联系电话', name : 'member_mobile', width : 80, sortable : true, align: 'center'},
+			{display: '地址', name : 'member_sex', width : 200, sortable : true, align: 'center'},
+			
+		],
+		buttons : [
+			{display: '<i class="fa fa-plus"></i>新增门店', name : 'add', bclass : 'add', title : '新增数据', onpress : fg_operate },
+			{display: '<i class="fa fa-download"></i>批量下载二维码', name : 'download', bclass : 'download', title : '下载选定门店的二维码', onpress : fg_operate },
+			{display: '<i class="fa fa-file-excel-o"></i>批量<{if !isset($op)}>暂停<{else}>开启<{/if}>营业', name : 'stop', bclass : 'stop', title : '将选定行门店营业状态修改', onpress : fg_operate },
+			{display: '<i class="fa fa-trash-o"></i>批量删除', name : 'delete', bclass : 'delete', title : '将选定行门店删除', onpress : fg_operate },
+		],
+/* 		searchitems : [
+			{display: '联系电话', name : 'ous_tel'},
+			{display: '门店名称', name : 'store_name'}
+		], */
+		title: "<{if isset($role)}><{if $role eq 'w'}>实体店<{else if $role eq 'd'}>电商店<{else if $role eq 'g'}>供应店铺<{else}>店铺<{/if}><{/if}>列表"
+	});
+	function fg_operate(name, grid) {
+    if (name == 'delete') {
+        if($('.trSelected',grid).length>0){
+            var itemlist = new Array();
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+            fg_delete(itemlist);
+        }else{
+            return false;
+        }
+    }else if (name == 'add') {
+    	window.location.href="store_edit?role=<{if isset($role)}><{$role}><{/if}>";
+    }else if(name=='download'){
+    	var itemlist = new Array();
+    	if($('.trSelected',grid).length>0){
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+        }
+    	itemlist = itemlist.join(',');
+    	$.ajax({
+	        type: "post",
+	        dataType: "json",
+	        url: '<{base_url("vmall.php/receive/download_much")}>'+'?op=<{if isset($op)}><{$op}><{/if}>',
+	        data: "id=" + itemlist,
+	        beforeSend:function(){
+				layer.msg('正在下载，请稍等', {icon: 1});
+			},
+	        success: function(data){
+			if(data.state=='403'){
+				login_ajax('shopadmin');
+			}else
+	        	if(data.state){
+	        		
+	        		location.href = data.data;
+	        		layer.msg(data.msg, {icon: 1});
+	        	}else{
+	        		layer.msg(data.msg, {icon: 2});
+	        	}
+	        	
+	        }
+	    });
+    }else if(name=='stop'){
+    	var itemlist = new Array();
+    	if($('.trSelected',grid).length>0){
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+        }
+    	itemlist = itemlist.join(',');
+    	update_ad_management(itemlist);
+    }
+}
+});
+//下载二维码
+function call_code(id){
+	
+	 window.location.href='<{base_url("vmall.php/receive/create_code?id=")}>'+id;
+
+}
+//营业
+function update_ad_management(data){
+	//console.log(typeof(data));
+	var stname = '';
+	if(typeof(data)=='object'){
+		var id = data.store_id;
+		var state = data.state;
+		var stname = data.name;
+	}else{
+		id = data;
+		data = data.split(',');
+		size = data.length;
+		if(size>0&&id!=''){
+			stname = '这'+size+'个店铺';
+		}else{
+			stname = '所有店铺';
+		}
+		
+	}
+	layer.confirm('确认修改'+stname+'的营业状态吗？',
+	   {btn: ['确认','取消']}, 
+	   function(){
+		   $.ajax({
+		        type: "post",
+		        dataType: "json",
+		        url: "update_ad_management?op=<{if isset($op)}><{$op}><{/if}>&role=<{if isset($role)}><{$role}><{/if}>",
+		        data: "id="+id,
+		        success: function(data){
+				  if(data.state=='403'){
+			           login_ajax('shopadmin');
+		            }else{
+		            	layer.msg(data.msg);
+		            	$("#flexigrid").flexReload();
+		            }
+		        }
+		   })
+	   }
+	)
+}
+
+//营业
+function update_ad_managements(id,stname){
+	layer.confirm('确认修改'+stname+'的营业状态吗？',
+	   {btn: ['确认','取消']}, 
+	   function(){
+		   $.ajax({
+		        type: "post",
+		        dataType: "json",
+		        url: "update_ad_management?op=<{if isset($op)}><{$op}><{/if}>&role=<{if isset($role)}><{$role}><{/if}>",
+		        data: "id="+id,
+		        success: function(data){
+				  if(data.state=='403'){
+			           login_ajax('shopadmin');
+		            }else{
+		            	layer.msg(data.msg);
+		            	$("#flexigrid").flexReload();
+		            }
+		        }
+		   })
+	   }
+	)
+}
+//编辑
+function fg_edit(id){
+	window.location.href="store_edit?role=<{if isset($role)}><{$role}><{/if}>&op=edit&id="+id;
+}
+//删除
+function fg_delete(id,name){
+	var stname = '';
+	if(typeof(id)=='object'){
+		var size = id.length;
+		stname = '这'+size+'个店铺';
+		id = id.join(',');
+	}else{
+		stname = name;
+	}
+	layer.confirm('确认删除'+stname+'吗？',
+	   {btn: ['确认','取消']}, 
+	   function(){
+		   $.ajax({
+		        type: "post",
+		        dataType: "json",
+		        url: "store_del?role=<{if isset($role)}><{$role}><{/if}>&op=<{if isset($op)}><{$op}><{/if}>",
+		        data: "id="+id,
+		        success: function(data){
+				  if(data.state=='403'){
+			           login_ajax('shopadmin');
+		            }else{
+		            	layer.msg(data.msg);
+		            	$("#flexigrid").flexReload();
+		            }
+		        }
+		   })
+	   }
+	)
+	//console.log(typeof(id))
+}
+</script>
+			<div id="goTop">
+				<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+				<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+			</div>
+	</body>
+
+	</html>

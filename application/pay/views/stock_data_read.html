@@ -1,0 +1,79 @@
+<{include file="pageheader.html" }>
+<style type="text/css">
+	.mDiv h5{
+		display: inline !important;
+	}
+</style>
+<script type="text/javascript" src="<{TEMPLE}>js/flexigrid.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/perfect-scrollbar.min.js"></script>
+
+	<body style="background-color: #FFF; overflow: auto;">
+		<nav class="breadcrumb">
+			<i class="Hui-iconfont">&#xe67f;</i> 库存管理 <span class="c-gray en">&gt;</span>盘点管理
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+				<i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		<div id="append_parent"></div>
+		<div id="ajaxwaitid"></div>
+
+		<div class="page">
+			<div class="fixed-bar">
+			
+			</div>
+			<!-- 操作说明 -->
+			<div class="explanation" id="explanation">
+				<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+					<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+					<span id="explanationZoom" title="收起提示"></span> </div>
+				<ul>
+					<li> 若绑定云聚客后为未认证公众号，之后通过了微信认证，请重新授权补充权限。</li>
+					<li>仅微信认证后的服务号可使用完整云聚客功能，若微信公众号接口异常，根据提示处理后请点击上方重新授权。</li>
+					<li> 若公众号为订阅号，需通过微信认证才可支持微信支付；服务号均可支持。</li>
+				</ul>
+		     </div>
+            <div id="flexigrid">
+            </div>
+	</div>
+	<script>
+$(function(){
+
+	$("#flexigrid").flexigrid({
+		url: 'inventory_data_read?area_id=<{$sia_id}>',
+		colModel : [
+            {display: '货品名称', name : 'area_name', width : 250, sortable : true, align: 'center'},
+            {display: '品牌', name : 'create_time', width : 150, sortable : true, align: 'center'},
+            {display: '货号', name : 'create_time', width : 200, sortable : true, align: 'center'},
+            {display: '尺码', name : 'si_num', width : 100, sortable : true, align: 'center'},
+			{display: '条码', name : 'update_time', width : 160, sortable : true, align: 'center'},
+			{display: '吊牌价', name : 'create_time', width : 150, sortable : true, align: 'center'},
+			{display: '数量', name : 'update_time', width : 100, sortable : true, align: 'center'},
+			{display: '录入时间', name : 'operation', width : 300, sortable : false, align: 'center'},
+		],
+		title: '<{$sia_area_name}>盘点数据列表'
+	});
+	function fg_operate(name, grid) {
+    if (name == 'delete') {
+        if($('.trSelected',grid).length>0){
+            var itemlist = new Array();
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+            fg_delete(itemlist);
+        }else{
+            return false;
+        }
+    }else if (name == 'add') {
+    	   make_name();
+    }
+}
+});
+
+
+</script>
+			<div id="goTop">
+				<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+				<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+			</div>
+	</body>
+
+	</html>

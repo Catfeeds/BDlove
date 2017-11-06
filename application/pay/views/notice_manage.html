@@ -1,0 +1,67 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+    <nav class="breadcrumb">
+        <i class="Hui-iconfont">&#xe67f;</i> 账户管理<span class="c-gray en">&gt;</span>通知管理
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+            <i class="Hui-iconfont">&#xe68f;</i>
+        </a>
+    </nav>
+    <div class="page-container">
+        <div id="tab_demo" class="HuiTab">
+            <div class="tabBar clearfix">
+                <!--<{if isset($type) and ($type eq 'wx')}>-->
+                    <!--<a href="notice_manage?type=sms"><span>短信通知</span></a>-->
+                    <!--<a href="notice_manage?type=wx"><span class="current">微信通知</span></a>-->
+                <!--<{else}>-->
+                    <!--<a href="notice_manage?type=sms"><span class="current">短信通知</span></a>-->
+                    <!--<a href="notice_manage?type=wx" ><span>微信通知</span></a>-->
+                <!--<{/if}>-->
+                <!--<a href="notice_manage_state"><span>启用通知</span></a>-->
+                <a href="notice_manage?type=sms"><span class="current">通知列表</span></a>
+            </div>
+            <table class="table table-border table-bordered table-hover table-bg table-content mt-20">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="13">通知列表</th>
+                    </tr>
+                    <tr class="text-c">
+                        <!--<th>编辑</th>-->
+                        <th width="auto">通知标题</th>
+                        <th width="auto">通知内容</th>
+                        <th width="auto">是否开启</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="13"><li class="goods_list mb-20 no-data"><i class="fa fa-exclamation-circle"></i>数据加载中...</li></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+
+    $(function(){
+        var url = '<{$url}>';
+        $(".select2").select2();
+        $('#searchBtn').click(function(){
+            load_page_to(url);
+        });
+        load_page(url);
+    });
+    //开关
+    function change(code,state) {
+        $.ajax({
+            type:'get',
+            dataType:'json',
+            url:'notice_change?code='+code+'&state='+state,
+            success:function (data) {
+               layer.msg(data.msg);
+               $.get('notice_manage',function () {load_page('<{$url}>');});
+            }
+        })
+    }
+    </script>
+</body>

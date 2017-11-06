@@ -1,0 +1,717 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+<link href="<{TEMPLE}>css/imgareaselect-animated.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript"src="<{TEMPLE}>js/jquery.imgareaselect.min.js"></script>
+<script type="text/javascript"src="<{TEMPLE}>js/jquery.imgareaselect.min.js"></script>
+<script type="text/javascript"src="<{TEMPLE}>js/jquery.imgareaselect.min.js"></script>
+<style type="text/css">html, body { overflow: visible;}</style>
+<script type="text/javascript">
+var SITEURL = 'http://b2b2c.shopnctest.com/tesa/shop';
+var MEMBER_SITE_URL = 'http://b2b2c.shopnctest.com/tesa/member';
+var RESOURCE_SITE_URL = 'http://b2b2c.shopnctest.com/tesa/data/resource';
+var MICROSHOP_SITE_URL = 'http://b2b2c.shopnctest.com/tesa/microshop';
+var CIRCLE_SITE_URL = 'http://b2b2c.shopnctest.com/tesa/circle';
+var ADMIN_TEMPLATES_URL = 'http://b2b2c.shopnctest.com/tesa/shopnc/templates/default';
+var LOADING_IMAGE = "http://b2b2c.shopnctest.com/tesa/shopnc/templates/default/images/loading.gif";
+var ADMIN_RESOURCE_URL = 'http://b2b2c.shopnctest.com/tesa/shopnc/resource';
+</script>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="thematic_management" title="返回专题列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>专题管理 -  编辑专题页</h3>
+                <h5>资讯专题页面设置与模板编辑</h5>
+            </div>
+        </div>
+    </div>
+	 <form id="add_form" method="post" enctype="multipart/form-data" action="">
+	        <div class="ncap-form-default">
+	            <dl class="row">
+	                <dt class="tit">
+	                    <label for="special_title"><em>*</em>标题</label>
+	                </dt>
+	                <dd class="opt">
+	                    <input id="special_title" name="special_title" class="input-txt" type="text" value="<{$thematics.special_title}>"/>
+	                    <span class="err"></span>
+	                    <p class="notic">标题不能超过24个字</p>
+	                </dd>
+	            </dl>
+	            <dl class="row">
+	                <dt class="tit">
+	                    <label for="special_title"><em>*</em>专题类型</label>
+	                </dt>
+	                <dd class="opt">
+	                    <select name="special_type">
+	                        <option value="1" <{if $thematics.special_type=="1"}>selected="selected"<{/if}> >资讯</option>
+	                        <option value="2" <{if $thematics.special_type=="2"}>selected="selected"<{/if}> >商城</option>
+	                    </select>
+	                    <span class="err"></span>
+	                    <p class="notic">资讯类型将出现在资讯频道内，商城类型将出现在商城内</p>
+	                </dd>
+	            </dl>
+	            <dl class="row">
+	                <dt class="tit">
+	                    <label><em>*</em>专题封面图</label>
+	                </dt>
+	                <dd class="opt">
+	                    <div class="input-file-show">
+	                        <span class="show">
+	                        <a class="nyroModal" rel="gal" href="">
+	                            <i class="fa fa-picture-o"  id="" data-geo='<img src="<{if empty($thematics.special_image)}><{TEMPLE}>images/default_user_portrait.gif<{else}><{base_url()}><{$thematics.special_image}><{/if}>" width=100px height=50px>'></i>
+	                        </a>
+	                        </span>
+	                        <span class="type-file-box">
+	                            <input type="text" name="textfield1" id="textfield1" class="type-file-text" value="<{if empty($thematics.special_image)}><{TEMPLE}>images/default_user_portrait.gif<{else}><{$thematics.special_image}><{/if}>">
+	                            <input type="button" name="button1" id="button1" value="选择上传..." class="type-file-button">
+	                            <input class="type-file-file" id="import_excel1" name="special_image1" type="file" size="30" hidefocus="true" nctype="cms_image" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+	                            <input name="old_special_image" type="hidden" value="">
+	                            </span>
+	                    </div>
+	                    <span class="err"></span>
+	                    <p class="notic"><span class="vatop rowform">请上传1200像素x240像素的图片作为专题页面的封面图</span></p>
+	                </dd>
+	            </dl>
+	            <div class="title">
+	                <h3>专题页面背景设置</h3>
+	            </div>
+	            <dl class="row">
+	                <dt class="tit">背景颜色</dt>
+	                <dd class="opt">
+	                    <input class="txt" name="special_background_color" id="special_background_color" type="color" value="<{$thematics.special_background_color}>" />
+	                    <span class="err"></span>
+	                    <p class="notic">背景色即专题页面CSS属性中"body{ background-color}"值，作为专业页面整体背景色使用，设置请使用十六进制形式(#XXXXXX)，默认留空为白色背景。</p>
+	                </dd>
+	            </dl>
+	            <dl class="row">
+	                <dt class="tit">背景图选择</dt>
+	                <dd class="opt">
+	
+	                    <div class="input-file-show">
+	                        <span class="show">
+	                        <a class="nyroModal" rel="gal" href="">
+	                            <i class="fa fa-picture-o"  id="" data-geo='<img src="<{if empty($thematics.special_background)}><{TEMPLE}>images/default_user_portrait.gif<{else}><{base_url()}><{$thematics.special_background}><{/if}>" width=100px height=50px>'></i>
+	                        </a>
+	                        </span>
+	                        <span class="type-file-box">
+	                            <input type="text" name="textfield2" id="textfield2" class="type-file-text" value="<{if empty($thematics.special_background)}><{TEMPLE}>images/default_user_portrait.gif<{else}><{$thematics.special_background}><{/if}>">
+	                            <input type="button" name="button2" id="button2" value="选择上传..." class="type-file-button">
+	                            <input class="type-file-file" id="import_excel2" name="special_image2" type="file" size="30" hidefocus="true" nctype="cms_image" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+	                            <input name="old_special_background" type="hidden" value="">
+	                            </span>
+	                    </div>
+	                    <span class="err"></span>
+	                    <p class="notic"><span class="vatop rowform">背景图即专题页面CSS属性中"body{ background-image}"值，选择本地图片上传作为页面整体背景。</span></p>
+	            </dl>
+	            <dl class="row">
+	                <dt class="tit">背景图填充方式</dt>
+	                <dd class="opt" id="special_repeat">
+	                    <label class="mr10">
+	                        <input name="special_repeat" class="special_repeat" type="radio" value="no-repeat"  <{if $thematics.special_repeat=="no-repeat"}>checked="checked"<{/if}>/>
+	                        不重复</label>
+	                    <label class="mr10">
+	                        <input name="special_repeat" class="special_repeat" type="radio" value="repeat" <{if $thematics.special_repeat=="repeat"}>checked="checked"<{/if}>/>
+	                        平铺</label>
+	                    <label class="mr10">
+	                        <input name="special_repeat" class="special_repeat" type="radio" value="repeat-x" <{if $thematics.special_repeat=="repeat-x"}>checked="checked"<{/if}>/>
+	                        x轴平铺</label>
+	                    <label class="mr10">
+	                        <input name="special_repeat" class="special_repeat" type="radio" value="repeat-y" <{if $thematics.special_repeat=="repeat-y"}>checked="checked"<{/if}>/>
+	                        y轴平铺</label>
+	                    <span class="err"></span>
+	                    <p class="notic">背景图填充方式即专题页面CSS属"body{ background-repeat}"值，选择不重复(no-repeat)|平铺(repeat)|x轴平铺(repeat-x)|y轴平铺(repeat-y)为背景图的填充方式。</p>
+	                </dd>
+	            </dl>
+	            <dl class="row">
+	                <dt class="tit">内容块距顶部</dt>
+	                <dd class="opt">&nbsp;
+	                    <input class="txt" style=" width: 50px;" name="special_margin_top" id="special_margin_top" type="text" value="<{$thematics.special_margin_top}>" />
+	                    像素<span class="err"></span>
+	                    <p class="notic">内容块距顶部高度即专题主体部分距离页面顶部的边距(margin-top)值，如果您需要露出部分背景图作为页面头部，应相应调整距上边距；默认值为0。</p>
+	                </dd>
+	            </dl>
+	     </div>
+        <div class="ncap-form-all">
+            <div class="title">
+                <h3>专题正文内容</h3>
+                <ul class="tab-base nc-row">
+                    <li> <a id="btn_content_view" class="current" href="javascript:void(0);">预览</a> </li>
+                    <li> <a id="btn_content_edit" href="javascript:void(0);">编辑</a> </li>
+                </ul>
+            </div>
+            <dl class="row">
+                <dd class="opt nopd nobd nobs">
+                    <div class="tab-content" style="background-color:<{$thematics.special_background_color}>; background-image: url(<{base_url()}><{$thematics.special_background}>); background-repeat:<{$thematics.special_repeat}>; background-position: top center; width: 100%; padding: 0; margin: 0; overflow: hidden;">
+                        <div id="div_content_view" style=" background-color: transparent; background-image: none; width: 1000px; margin-top:<{$thematics.special_margin_top}>px; margin-right: auto; margin-bottom: 0; margin-left: auto; border: 0; overflow: hidden; display: block;">
+                        	<{$thematics.special_content}>
+                        </div>
+                    </div>
+                    <div id="div_content_edit" class="tab-content" style="display:none;">
+                        <textarea id="special_content" name="special_content" rows="50" cols="80"><{$thematics.special_content}></textarea>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">选择插入图片或商品</dt>
+                <dd class="opt" style="overflow: hidden">
+                    <div class="ncap-upload-btn">
+                        <input class="input-file" type="file" name="special_image_upload" id="picture_image_upload" multiple  file_id="0" size="1" hidefocus="true" />
+                        <input id="submit_button" class="input-button" type="button" value="&nbsp;" />
+                        <a href="javascript:void(0);" class="ncap-btn"><i class="fa fa-upload"></i>图片上传</a>
+                    </div>
+                    <div class="ncap-upload-btn">
+                        <input class="input-button" id="btn_show_special_insert_goods" type="button" value="" />
+                        <a href="javascript:void(0);" class="ncap-btn"><i class="fa fa-cubes"></i>添加商品</a>
+                    </div>
+                    <p class="notic">可选择本地图片上传（尺寸为1200像素宽的图片）并添加链接后插入到主体内容的编辑器。链接形式可以为单图单链接，单图多重热点链接等模式。而商品则可通过输入商品网址形式直接插入到编辑器中。</p>
+                    <div id="div_search_goods" class="div-goods-select mt10" style="max-width: 1200px;display: none">
+                        <table class="search-form">
+                            <tbody><tr>
+                                <th class="w150">
+                                    <strong>第一步：搜索店内商品</strong>
+                                </th>
+                                <td class="w160">
+                                    <input id="search_goods_name" type="text w150" class="text" name="goods_name" value="">
+                                </td>
+                                <td class="w70 tc">
+                                    <a href="javascript:void(0);" id="btn_search_goods" class="ncbtn"><i class="icon-search"></i>搜索</a></td>
+                                <td class="w10"></td>
+                                <td>
+                                    <p class="hint">不输入名称直接搜索将显示店内所有普通商品，特殊商品不能参加。</p>
+                                </td>
+                            </tr>
+                            </tbody></table>
+                        <div id="div_goods_search_result" class="search-result" style="width:739px;"></div>
+                        <a id="btn_hide_search_goods" class="close" href="javascript:void(0);">X</a>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">上传的图片</dt>
+                <dd class="opt">
+                    <div class="cms-special-uploadpic">
+                        <ul id="special_image_list" class="ncap-thumb-list">
+                           <{if !empty($thematics.special_image_all)}>
+                               <{foreach $thematics.special_image_all as $key=>$val}>
+                        			<li class="picture" id="<{$val}>">
+                        			<div class="size-64x64"><span class="thumb size-64x64"><i></i><img alt="" src="<{base_url()}>data/shop/thematic_image/<{$val}>"></span></div>
+                                    <p class="handle ">
+	                                    <a class="insert-link " image_url="<{base_url()}>data/shop/thematic_image/<{$val}>" nctype="btn_show_image_insert_link" title="以图片链接模式插入专题页"> </a>
+	                                    <a class="insert-hotpoint " image_name="<{$val}>" image_url="<{base_url()}>data/shop/thematic_image/<{$val}>"  nctype="btn_show_image_insert_hot_point" title="以热点链接模式插入专题页"> </a>
+	                                    <a class="delete " image_name="'+image_name+'" nctype="btn_drop_special_image" title="删除该图片"> </a></p>
+                                    <input value="<{$val}>" name="special_image_all[]" type="hidden">
+                                   </li>
+                        		<{/foreach}>
+                          <{/if}>
+                         <span id="special_image_list_all"></span>
+                        </ul>
+                    </div>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-blue" id="btn_draft">保存草稿</a> <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="btn_publish">发布专题</a></div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function(){
+        //上传显示
+        $("#import_excel1").change(function () {
+            $("#textfield1").val($(this).val());
+        });
+        $("#import_excel2").change(function () {
+            $("#textfield2").val($(this).val());
+        });
+        
+        //更改背景颜色
+        $("#special_background_color").change(function () {
+            $(".tab-content").css('background-color',$(this).val());
+        });
+       //更改填充方式
+        $("#special_repeat").on("click","input.special_repeat",function(){
+            $(".tab-content").css('background-repeat',$(this).val());
+        });
+       //更改mag距离
+        $("#special_margin_top").change(function () {
+            $("#div_content_view").css('margin-top',$(this).val()+'px');
+        });
+      //更改背景图片
+        $("#import_excel2").change(function () {
+        	var data = new FormData($('#add_form')[0]);
+			$.ajax({
+				data:data,
+				type:'post',
+				dataType:'json',
+				url:"thematic_backimage_add",
+				cache: false,
+             	processData: false,
+             	contentType: false,
+				success:function(res){
+					var imgs="<{base_url()}>";
+					if(res.state=="file_copy_success"){
+						var img_url=imgs+res.data;
+						$(".tab-content").css('background-image',"url("+img_url+")");
+					}
+				}
+			});
+    	
+        });
+      
+      
+        $("#picture_image_upload").change(function () {
+        	 var data = new FormData($('#add_form')[0]);
+    			$.ajax({
+    				data:data,
+    				type:'post',
+    				dataType:'json',
+    				url:"thematic_image_add",
+    				cache: false,
+                 	processData: false,
+                 	contentType: false,
+    				success:function(res){
+    					if(res.state=="success"){
+   						    var image_name=res.msg;
+   						    var image_url="<{base_url()}>data/shop/thematic_image/tmp/"+res.msg;
+   						    var img='<li class="picture" id="'+image_name+'"><div class="size-64x64"><span class="thumb size-64x64"><i></i><img alt="" src="'+image_url+'"></span></div>' +
+                                    '<p class="handle "><a class="insert-link " image_url="'+image_url+'" nctype="btn_show_image_insert_link" title="以图片链接模式插入专题页"> </a>' +
+                                    '<a class="insert-hotpoint " image_name="'+image_name+'" image_url="'+image_url+'"  nctype="btn_show_image_insert_hot_point" title="以热点链接模式插入专题页"> </a>' +
+                                    '<a class="delete " image_name="'+image_name+'" nctype="btn_drop_special_image" title="删除该图片"> </a></p>' +
+                                    '<input value="'+image_name+'" name="special_image_all[]" type="hidden"></li>';
+    			            $("#special_image_list_all").before(img);
+    					}
+    				}
+    			});
+        	
+        });
+        
+        
+        //点击insert-link   以图片链接模式插入专题页
+        $("#special_image_list ").on("click","a.insert-link",function(){
+        	var imgs=$(this).attr('image_url');
+            layer.open({
+                type: 1,
+                title:'<b>图片链接</b>',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['600px', 'auto'], //宽高
+                content: '<div id="_dialog_image_insert_link" class="pd-10">'+
+		                    '<div class="upload_adv_dialog dialog-image-insert-link">'+
+		            			'<div class="s-tips"><i class="fa fa-lightbulb-o"></i>点击确认后将以图片链接的形式插入到专题页面编辑器中，点击编辑器预览选项开查看生成后的效果</div>'+
+		            			'<div class="ncap-form-default" id="upload_adv_type">'+
+		              				'<dl class="row">'+
+			              				'<dt class="tit">插入图片预览</dt>'+
+			              				'<dd class="opt"><div class="dialog-pic-thumb"><a><img alt="" src="'+imgs+'"></a></div></dd></dl>'+
+		              			    '<dl class="row" id="upload_adv_type">'+
+						                '<dt class="tit">添加图片链接地址</dt>'+
+						                '<dd class="opt">'+
+						                  '<input nctype="_image_insert_link" type="text" class="input-txt" placeholder="http://"/>'+
+						                  '<p class="notic">添加图片链接地址，以"http://"形式输入，保存后将插入编辑器中，点击图片将以另打开形式跳转到链接地址。如不填加任何链接请保持默认。</p></dd></dl>'+
+		              		       '<div class="bot"><a nctype="btn_image_insert_link" href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" >插入编辑器</a></div>'+
+		                     '</div>'+
+		                '</div>'+
+		            '</div>'
+            });
+            
+        })
+        
+	   //插入图片链接
+	    $("[nctype='btn_image_insert_link']").live('click', function(){
+	        var html = $("#special_content").val();
+	        var item = $(this).parents("div");
+	        var link = item.find("[nctype='_image_insert_link']").val();
+	        html += "<div class='special-content-link'>";
+	        if(link != "") {
+	            html += "<a href=" + link +" target='_blank'>";
+	        }
+	        html += $("<div />").append(item.find("img").clone()).html(); 
+	        if(link != "") {
+	            html += "</a>";
+	        }
+	        html += "</div>";
+	        $("#special_content").val(html);
+	        special_view_update();
+	    });
+        
+        //点击delete  删除该图片
+        $("#special_image_list ").on("click","[nctype='btn_drop_special_image']",function(){
+        	var  name=$(this).parents(".picture").attr('id');
+           	$(this).parents(".picture").remove();
+            $.ajax({
+				data:{
+					name:name
+				},
+				type:'post',
+				dataType:'json',
+				url:"thematic_image_delete",
+				success:function(res){
+				}
+			});
+    	
+        })
+        
+        
+        //点击insert-hotpoint   以热点链接模式插入专题页
+        $("#special_image_list ").on("click","a.insert-hotpoint",function(){
+        	var imgs=$(this).attr('image_url');
+            layer.open({
+                type: 1,
+                title:'<b>图片热点</b>',
+                //btn:['插入编辑器'],
+                skin: 'layui-layer-rim', //加上边框
+                area: ['80%', '90%'], //宽高
+                content: ' <div id="_dialog_image_insert_hot_point" style="display:block;">'+
+                    		'<div class="dialog-image-insert-hot-point"  id="fwin_dialog_image_insert_hot_point">'+
+				             '   <div class="s-tips"><i class="fa fa-lightbulb-o"></i>用鼠标选择区域并输入对应的url，保存后将以热点区域的方式添加到专题页面中</div>'+
+				              '  <div class="ncap-form-default" id="upload_adv_type">'+
+				               '   <div ncytpe="div_image_insert_hot_point" class="special-hot-point"><img nctype="img_hot_point" alt="" src="'+imgs+'"> </div>'+
+				                '  <dl class="row">'+
+				                 '   <dt class="tit">添加热点链接地址</dt>'+
+				                  '  <dd class="opt">'+
+				                   '   <input nctype="x1" type="hidden" />'+
+				                    '  <input nctype="y1" type="hidden" />'+
+				                     ' <input nctype="x2" type="hidden" />'+
+				                      '<input nctype="y2" type="hidden" />'+
+				                      '<input nctype="w" type="hidden" />'+
+				                      '<input nctype="h" type="hidden" />'+
+				                      '<input nctype="url" type="text" class="input-txt" placeholder="http://" />'+
+				                      '<a class="ncap-btn" nctype="btn_hot_point_commit" href="javascript:void(0);"><i class="fa fa-plus"></i>添加热点</a>'+
+				                      '<p class="notic">添加图片链接地址，以"http://"形式输入，保存后将插入编辑器中，点击图片将以另打开形式跳转到链接地址。</p></dd></dl>'+
+				                  '<dl class="row">'+
+				                   ' <dt class="tit">已添加的热点区域</dt>'+
+				                   ' <dd class="opt"><ul nctype="list" class="hot-point-list"></ul></dd></dl>'+
+				                  '<div class="bot"><a nctype="btn_image_insert_hot_point" href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" >插入编辑器</a></div>'+
+				                '</div>'+
+				              '</div>'+
+				            '</div>'
+			                
+            });
+        })
+	//插入热点图
+    $("[nctype='btn_show_image_insert_hot_point']").live('click', function(){
+        $("#_dialog_image_insert_hot_point").find("img").attr("src", $(this).attr("image_url"));
+       
+        var count = 0;
+        
+        var dialog_object = $("#fwin_dialog_image_insert_hot_point");
+        var filename = $(this).attr("image_name").replace(".","");
+        image_object = dialog_object.find("[nctype='img_hot_point']");
+        var x1 = dialog_object.find("[nctype='x1']");
+        var y1 = dialog_object.find("[nctype='y1']");
+        var x2 = dialog_object.find("[nctype='x2']");
+        var y2 = dialog_object.find("[nctype='y2']");
+        var w = dialog_object.find("[nctype='w']");
+        var h = dialog_object.find("[nctype='h']");
+        var url = dialog_object.find("[nctype='url']");
+
+        image_object.imgAreaSelect({ 
+            handles: true,
+                fadeSpeed: 200, 
+                onSelectChange: preview 
+        });
+
+        image_object.attr("usemap","#"+filename);
+        image_object.after('<map id="'+filename+'" name="'+filename+'"></map>');
+
+        $("[nctype='delete_hot_point']").live("click",function(){
+            var key = $(this).attr("name");
+            $("#"+key).remove();
+            $("."+key).remove();
+        });
+
+        $("[nctype='select_hot_point']").live("click",function(){
+            var xy = $(this).attr("name");
+            var xyarray = xy.split(",");
+            var ias = image_object.imgAreaSelect({ instance: true });
+            ias.setSelection(xyarray[0],xyarray[1],xyarray[2],xyarray[3],true);
+            ias.setOptions({ show: true });
+            ias.update();
+        });
+
+        dialog_object.find("[nctype='btn_hot_point_commit']").click(function(){
+            count++;
+            var key = filename + count;
+            var xy = x1.val()+','+y1.val()+','+x2.val()+','+y2.val()+',';
+            image_object.parent().find("map").append('<area id='+key+' shape="rect" coords="'+xy+'" href="'+url.val()+'" target="_blank" />');
+            dialog_object.find("[nctype='list']").append('<li class="'+key+'">热点区域'+count+'<span>('+url.val()+')</span><a nctype="select_hot_point" name="'+xy+'" href="javascript:void(0);" class="ncap-btn ncap-btn-blue mr5"><i class="fa fa-location-arrow"></i>选中</a><a nctype="delete_hot_point" class="ncap-btn ncap-btn-red" name="'+key+'" href="javascript:void(0);"><i class="fa fa-trash"></i>删除</a></li>');
+            image_object.after('<div class='+key+' style="width:'+w.val()+'px;height:'+h.val()+'px;position:absolute;left:'+x1.val()+'px;top:'+y1.val()+'px;border:1px solid #cccccc;">'+count+'</div>');
+            url.val('');
+            var ias = image_object.imgAreaSelect({ instance: true });
+            ias.cancelSelection();
+        });
+
+        $(".dialog_close_button").unbind().bind("click", function() {
+            var ias = image_object.imgAreaSelect({ instance: true });
+            ias.cancelSelection();
+           
+        });
+        function preview(img, selection) {
+            if (!selection.width || !selection.height)
+                return;
+            var scaleX = 100 / selection.width;
+            var scaleY = 100 / selection.height;
+            $('#preview img').css({
+                width: Math.round(scaleX * 300),
+                height: Math.round(scaleY * 300),
+                marginLeft: -Math.round(scaleX * selection.x1),
+                marginTop: -Math.round(scaleY * selection.y1)
+            });
+            var dialog_object = $("#fwin_dialog_image_insert_hot_point");
+            dialog_object.find("[nctype='x1']").val(selection.x1);
+            dialog_object.find("[nctype='y1']").val(selection.y1);
+            dialog_object.find("[nctype='x2']").val(selection.x2);
+            dialog_object.find("[nctype='y2']").val(selection.y2);
+            dialog_object.find("[nctype='w']").val(selection.width);
+            dialog_object.find("[nctype='h']").val(selection.height);
+        }
+    
+    });
+
+    //插入图片链接
+    $("[nctype='btn_image_insert_hot_point']").live('click', function(){
+        var html = $("#special_content").val();
+        var hot_point = $(this).parents("div").find(".special-hot-point").clone(); 
+        hot_point.find("div").remove();
+        hot_point = $("<div />").append(hot_point).html(); 
+        html += hot_point;
+        $("#special_content").val(html);
+        special_view_update();
+        var ias = image_object.imgAreaSelect({ instance: true });
+        ias.cancelSelection();
+       
+    });
+        
+	
+    
+    
+    
+    
+    
+    //编辑模式
+    $("#btn_content_edit").click(function(){
+        $(this).attr("class", "current");
+        $("#btn_content_view").attr("class", "");
+        $("#div_content_edit").show();
+        $("#div_content_view").hide();
+    });
+    //预览模式
+    $("#btn_content_view").click(function(){
+        $(this).attr("class", "current");
+        $("#btn_content_edit").attr("class", "");
+        $("#div_content_edit").hide();
+        $("#div_content_view").show();
+    });
+	
+    //更新预览窗口
+    $("#special_content").change(function(){
+        	special_view_update();
+   });
+    function special_view_update() {
+        $("#div_content_view").html($("#special_content").val());
+    }
+    special_view_update();
+        
+    //添加商品
+    $(".ncap-upload-btn #btn_show_special_insert_goods").on("click",function(){
+        $('#div_search_goods').show();
+    });
+    //关闭 选择商品弹出
+    $('#btn_hide_search_goods').on('click', function() {
+        $('#div_search_goods').hide();
+        //$('#div_goods_search_result').empty();
+
+    });
+  	//选择商品  搜索
+    $("#btn_search_goods").click(function(){
+    	search_goods_name = $('#search_goods_name').val();
+    	function show_content(curr){
+      	  $.ajax({
+    			type: "post",
+    	        url: "<{base_url()}>admin.php/Thematic/thematic_goods_add?op=search_goods_name",
+    	        data: {search_goods_name:search_goods_name,page:curr},
+    	        dataType: "json",
+    	        success: function(data){
+				if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+    	        	page = parseInt(data.page);data_goods = data.data;total_page = parseInt(data.total_page);rp = parseInt(data.rp);
+    	        	if(data.state){
+    	        		str0 = '<div id="div_goods_search_result" class="search-result">';
+    	        		if(data_goods!=''){
+    	        			str ='<ul class="goods-list"> ';
+    	        			$.each(data_goods,function(k,v){
+    	        				 var goods_name=$("#goods_names_id_special_goods_list"+v.goods_id).attr("value");
+    	        				 
+    	        				 if(typeof(goods_name)=="undefined"){
+    	        					 console.log(goods_name);
+    	        					     $a_tag='<a nctype="btn_add_groupbuy_goods" href="javascript:void(0);" id="_special_goods_list'+v.goods_id+'"  class="ncbtn-mini ncbtn-mint"><i class="fa fa-check-circle-o"></i>选择该商品</a>';
+    	        			        }else{
+    	        			        	$a_tag='<a nctype="btn_add_groupbuy_goods" href="javascript:void(0);" id="_special_goods_list'+v.goods_id+'"  class="ncbtn-mini ncbtn-mint" style="background-color:gray;"><i class="fa fa-check-circle-o"></i>选择该商品</a>';
+    	        			        }
+    	        				 
+    	        				 
+    	        				str +='<li nctype="_special_goods_list'+v.goods_id+'"> <div class="goods-thumb" ><img src="<{PLUGIN}>data/shop/album_pic/'+v.thumb+'"></div> ' +
+    	        				'<input name="goods_id" type="hidden" value="'+v.goods_id+'">'+
+    	                '<dl class="goods-info"> <dt>'+v.goods_name+'</dt> <dd>销售价：¥<span>'+v.goods_price+'</span>    </dd></dl> ' +$a_tag+ '</li>';
+    	        			})
+    	        			str +='</ul>' +
+    		                '<div class="pagination"></div> ';
+    	        		}
+    	        		str1 = '</div>';
+    	        		obj = $('#div_goods_search_result')
+    	        		if(obj == 'undefined'){
+    	        			$("table.search-form").after(str0+str+str1);
+    	        		}else{
+    	        			$('#div_goods_search_result').html(str);
+    	        		}
+    	                pages = total_page
+    	                curr = page
+    	                laypage({
+    	          	      cont: $('div.pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+    	          	      pages: pages, //通过后台拿到的总页数
+    	          	      curr:  curr || 1, //当前页
+    	          	      first: '首页',
+    	          	      last: '末页',
+    	          	      groups:5,
+    	          	      jump: function(obj, first){ //触发分页后的回调
+    	          	        if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+    	          	           show_content(obj.curr);
+    	          	        }
+    	          	      }
+    	          	    });
+    	        	}else{
+    	        		str = '<div style="font-size:20px;color:red;">未找到符合条件的商品！</div>';
+    	        		obj = $('#div_goods_search_result')
+    	        		if(obj == 'undefined'){
+    	        			$("table.search-form").after(str);
+    	        		}else{
+    	        			$('#div_goods_search_result').html(str);
+    	        		}
+    	        	}
+    	        }
+           })
+         }   
+        show_content(1)
+    });
+    
+    //插入商品列表
+    $("[nctype='btn_add_groupbuy_goods']").live('click', function(){
+        var html = $("#special_content").val();
+        var div_id=$(this).attr('id');
+        var goods_name=$("#goods_names_id"+div_id).attr("value");
+        if(typeof(goods_name)=="undefined"){
+        	html += "<div class='f-l f-12 text-c' id='goods"+div_id+"'>";
+            var goods_list = $(this).parents("div").find("[nctype="+div_id+"]").clone();
+    	     goods_list.find("i").remove();
+    	     goods_list.find("[nctype='btn_add_groupbuy_goods']").remove();
+            html += goods_list.html()+'<input name="goods_name"  id="goods_names_id'+div_id+'" type="hidden" value="'+div_id+'">'; 
+            html += "</div>";
+            $("#special_content").val(html);
+            $(this).css('background-color','gray');
+        }else{
+        	$(this).css('background-color','gray');
+        	layer.alert("该商品已选择，不能重复添加");
+        }
+        special_view_update();
+    });
+     
+     
+        
+        $("#btn_draft").click(function() {
+            $("#special_state").val("draft");
+            var data = new FormData($('#add_form')[0]);
+   			$.ajax({
+   				data:data,
+   				type:'post',
+   				dataType:'json',
+   				url:"thematic_management_edit?flag=draft&special_id="+<{$special_id}>,
+   				cache: false,
+                processData: false,
+                contentType: false,
+   				success:function(res){
+   					if(res=="success"){
+   						layer.alert('专题草稿保存成功');
+   						setTimeout("window.location.href = '<{base_url()}>admin.php/Thematic/thematic_management'",3000);
+   					}else if(res.state=="article_position_false"){
+   						layer.alert(res.msg);
+   					}else if(res.state=="file_type_false"){
+   						layer.alert(res.msg);
+   					}else if(res.state=="file_copy_false"){
+   						layer.alert(res.msg);
+   					}else if(res.state=="file_copy_false_add"){
+   						layer.alert(res.msg);
+   						window.location.href="<{base_url()}>admin.php"
+   					}else if(res=="false"){
+   						layer.alert('专题草稿保存失败');
+   					}
+   				}
+   			});
+        });
+        
+        $("#btn_publish").click(function() {
+            $("#special_state").val("publish");
+            var data = new FormData($('#add_form')[0]);
+   			$.ajax({
+   				data:data,
+   				type:'post',
+   				dataType:'json',
+   				url:"thematic_management_edit?flag=publish&special_id="+<{$special_id}>,
+   				cache: false,
+                processData: false,
+                contentType: false,
+   				success:function(res){
+   					if(res=="success"){
+   						layer.alert('专题发布成功');
+   						setTimeout("window.location.href = '<{base_url()}>admin.php/Thematic/thematic_management'",3000);
+   					}else if(res.state=="article_position_false"){
+   						layer.alert(res.msg);
+   					}else if(res.state=="file_type_false"){
+   						layer.alert(res.msg);
+   					}else if(res.state=="file_copy_false"){
+   						layer.alert(res.msg);
+   					}else if(res.state=="file_copy_false_add"){
+   						layer.alert(res.msg);
+   						window.location.href="<{base_url()}>admin.php"
+   					}else if(res=="false"){
+   						layer.alert('专题发布失败');
+   					}
+   				}
+   			});
+        });
+        
+        $('#add_form').validate({
+            errorPlacement: function(error, element){
+                error.appendTo(element.parents("tr").prev().find('td:first'));
+            },
+            rules : {
+                special_image: {
+                    required : true
+                },
+                special_title: {
+                    required : true,
+                    maxlength : 24,
+                    minlength : 4
+                }
+            },
+            messages : {
+                special_image: {
+                    required : "专题封面图不能为空"
+                },
+                special_title: {
+                    required : "标题不能为空",
+                    maxlength : "标题最多{0}个字",
+                    minlength : "标题最少{0}个字"
+                }
+            }
+        })
+       
+
+      
+        
+      
+});
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

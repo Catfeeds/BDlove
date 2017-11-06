@@ -1,0 +1,185 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>资讯设置</h3>
+                <h5>资讯相关基础信息及功能设置选项</h5>
+            </div>
+        </div>
+    </div>
+    <form id="add_form" method="post" enctype="multipart/form-data" action="">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="cms_isuse">CMS开关</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                    <{if $cms_set.cms_isuse=="1"}>
+                        <label for="cms_isuse_1" class="cb-enable selected" title="开启">开启</label>
+                        <label for="cms_isuse_0" class="cb-disable " title="关闭">关闭</label>
+                    <{else}>
+                    	<label for="cms_isuse_1" class="cb-enable" title="开启">开启</label>
+                        <label for="cms_isuse_0" class="cb-disable selected" title="关闭">关闭</label>
+                    <{/if}>
+                        <input type="radio" id="cms_isuse_1" name="cms_isuse" value="1" checked="checked">
+                        <input type="radio" id="cms_isuse_0" name="cms_isuse" value="0">
+                    </div>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="class_image">资讯LOGO</label>
+                </dt>
+                <dd class="opt">
+                    <div class="input-file-show"><span class="show">
+                        <a class="nyroModal" rel="gal" href=""><i class="fa fa-picture-o"  id="" data-geo='<img src="<{if $cms_set.textfield==""}><{TEMPLE}>images/default_user_portrait.gif <{else}><{base_url()}><{$cms_set.textfield}><{/if}>" width=100px height=50px>'></i></a>
+                        </span><span class="type-file-box">
+            <input type="text" name="textfield" id="textfield1" class="type-file-text">
+            <input type="button" name="button" id="button1" value="选择上传..." class="type-file-button">
+            <input class="type-file-file" id="cms_logo" name="cms_logo" type="file" size="30" hidefocus="true" nc_type="cms_image" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+            </span></div>
+                    <p class="notic">CMSLOGO图片推荐尺寸380*60px</p>
+                </dd>
+            </dl>
+            <!-- 投稿需要审核 -->
+            <dl class="row">
+                <dt class="tit">
+                    <label for="taobao_app_key">投稿需要审核</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                    <{if $cms_set.cms_submit_verify_flag=="1"}>
+                        <label for="cms_submit_verify_flag_1" class="cb-enable selected" title="开启">开启</label>
+                        <label for="cms_submit_verify_flag_0" class="cb-disable " title="关闭">关闭</label>
+                    <{else}>
+                     	<label for="cms_submit_verify_flag_1" class="cb-enable" title="开启">开启</label>
+                        <label for="cms_submit_verify_flag_0" class="cb-disable selected" title="关闭">关闭</label>
+                    <{/if}>    
+                        <input type="radio" id="cms_submit_verify_flag_1" name="cms_submit_verify_flag" value="1" checked="checked">
+                        <input type="radio" id="cms_submit_verify_flag_0" name="cms_submit_verify_flag" value="0">
+                    </div>
+                    <p class="notic">开启后用户投稿后需要管理员审核</p>
+                </dd>
+            </dl>
+            <!-- 允许评论 -->
+            <dl class="row">
+                <dt class="tit">
+                    <label for="taobao_app_key">允许评论</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                    <{if $cms_set.cms_comment_flag=="1"}>
+                        <label for="cms_comment_flag_1" class="cb-enable selected" title="开启">开启</label>
+                        <label for="cms_comment_flag_0" class="cb-disable " title="关闭">关闭</label>
+                     <{else}>
+                    	 <label for="cms_comment_flag_1" class="cb-enable" title="开启">开启</label>
+                         <label for="cms_comment_flag_0" class="cb-disable selected" title="关闭">关闭</label>
+                     <{/if}>
+                        <input type="radio" id="cms_comment_flag_1" name="cms_comment_flag" value="1" checked="checked">
+                        <input type="radio" id="cms_comment_flag_0" name="cms_comment_flag" value="0">
+                    </div>
+                    <p class="notic">评论全局开关</p>
+                </dd>
+            </dl>
+            <!-- 允许心情 -->
+            <dl class="row">
+                <dt class="tit">
+                    <label for="taobao_app_key">允许心情</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                    <{if $cms_set.cms_attitude_flag=="1"}>
+                        <label for="cms_attitude_flag_1" class="cb-enable selected" title="开启">开启</label>
+                        <label for="cms_attitude_flag_0" class="cb-disable " title="关闭">关闭</label>
+                    <{else}>
+                    	<label for="cms_attitude_flag_1" class="cb-enable" title="开启">开启</label>
+                        <label for="cms_attitude_flag_0" class="cb-disable selected" title="关闭">关闭</label>
+                    <{/if}>
+                        <input type="radio" id="cms_attitude_flag_1" name="cms_attitude_flag" value="1" checked="checked">
+                        <input type="radio" id="cms_attitude_flag_0" name="cms_attitude_flag" value="0">
+                    </div>
+                    <p class="notic">心情全局开关</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="cms_seo_title">SEO标题</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{$cms_set.cms_seo_title}>" name="cms_seo_title" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="cms_seo_keywords">SEO关键字</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{$cms_set.cms_seo_keywords}>" name="cms_seo_keywords" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="cms_seo_description">SEO描述</label>
+                </dt>
+                <dd class="opt">
+                    <textarea name="cms_seo_description" class="tarea" rows="6"><{$cms_set.cms_seo_description}></textarea>
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <div class="bot"><a id="submit" href="javascript:void(0)" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    //上传显示
+    $("#cms_logo").change(function () {
+        $("#textfield1").val($(this).val());
+    });
+    $(function(){
+    	$("#submit").click(function(){
+    		if($("#add_form").valid()){
+    			var data = new FormData($('#add_form')[0]);
+    			$.ajax({
+    				data:data,
+    				type:'post',
+    				dataType:'json',
+    				url:"<{base_url()}>admin.php/Information/information_set",
+    				cache: false,
+                   	processData: false,
+                    contentType: false,
+    				success:function(res){
+    					if(res=="success"){
+    						layer.alert('咨询相关选项设置成功');
+    						setTimeout("window.location.href = '<{base_url()}>admin.php/Information/information_set'",3000);
+    					}else if(res=="cms_seo_title"){
+    						layer.alert('SEO标题不能为空');
+    					}else if(res=="cms_seo_keywords"){
+    						layer.alert('SEO关键字不能为空');
+    					}else if(res=="cms_seo_description"){
+    						layer.alert('SEO描述不能为空');
+    					}else{
+    						layer.alert('咨询相关选项设置失败');
+    					}
+    				}
+    			});
+    		}
+    	});
+    })
+    
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

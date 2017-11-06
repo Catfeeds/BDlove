@@ -1,0 +1,111 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>退货管理 - 查看退单“退单编号：<{$row.refund_sn}>”</h3>
+                <h5>商品订单退货申请及审核处理</h5>
+            </div>
+        </div>
+    </div>
+    <div class="ncap-form-default">
+        <div class="title">
+            <h3>买家退货退款申请</h3>
+        </div>
+        <dl class="row">
+            <dt class="tit">申请时间</dt>
+            <dd class="opt"><{date('Y-m-d H:i:s',$row.add_time)}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">商品名称</dt>
+            <dd class="opt"><{$row.goods_name}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">退款金额</dt>
+            <dd class="opt"><{$row.refund_amount}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">退货原因</dt>
+            <dd class="opt"><{$row.reason_info}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">退货数量</dt>
+            <dd class="opt"><{$row.goods_num}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">退货说明</dt>
+            <dd class="opt"><{$row.buyer_message}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">凭证上传</dt>
+            <dd class="opt">
+                <ul>
+                    <{if $row.pic_info neq ''}>
+                    <{foreach from=explode(',',$row.pic_info) item=pic}>
+                    <li>
+                        <img src="<{base_url()}>data/shop/refund_pic/<{$pic}>">
+                    </li>
+                    <{/foreach}>
+                    <{/if}>
+                </ul>
+            </dd>
+        </dl>
+        <div class="title">
+            <h3>商家退款退货处理</h3>
+        </div>
+        <dl class="row">
+            <dt class="tit">审核结果</dt>
+            <dd class="opt"><{if $row.seller_state eq 2}>同意<{elseif $row.seller_state eq 3}>不同意<{else}>待审核<{/if}>        </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">处理备注</dt>
+            <dd class="opt"><{$row.seller_message}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">处理时间</dt>
+            <dd class="opt"><{if !empty($row.seller_time)}><{date('Y-m-d H:i:s',$row.seller_time)}><{/if}> </dd>
+        </dl>
+        <div class="title">
+            <h3>平台退款审核</h3>
+        </div>
+        <dl class="row">
+            <dt class="tit">平台确认</dt>
+            <dd class="opt"><{if $row.refund_state eq 2}>已完成<{elseif $row.refund_state eq 3}>待管理员处理<{else}>处理中<{/if}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">处理备注</dt>
+            <dd class="opt"><{$row.admin_message}></dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">处理时间</dt>
+            <dd class="opt"><{if !empty($row.admin_time)}><{date('Y-m-d H:i:s',$row.admin_time)}><{/if}></dd>
+        </dl>
+        <div class="title">
+            <h3>退款详细</h3>
+        </div>
+        <dl class="row">
+            <dt class="tit">支付方式</dt>
+            <dd class="opt">微信支付[扫码]</dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">在线退款金额</dt>
+            <dd class="opt">0.01 </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">预存款金额</dt>
+            <dd class="opt">0.00 </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">充值卡金额</dt>
+            <dd class="opt">0.00 </dd>
+        </dl>
+    </div>
+</div>
+<script type="text/javascript">
+
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

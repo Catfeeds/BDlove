@@ -1,0 +1,105 @@
+<{include file="pageheader.html"}>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.config.js"></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/lang/zh-cn/zh-cn.js"></script>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回咨询类型列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>咨询管理 - 新增</h3>
+                <h5>设置店铺咨询类型及管理咨询/回复内容</h5>
+            </div>
+        </div>
+    </div>
+    <form action="" id="form_typeadd">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>类型名称</label>
+                </dt>
+                <dd class="opt">
+                    <input class="input-txt" type="text" name="ct_name" value="">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>排序</label>
+                </dt>
+                <dd class="opt">
+                    <input class="input-txt" type="text" name="ct_sort" value="255">
+                    <span class="err"></span>
+                    <p class="notic">类型按由小到大顺序排列</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>类型备注</label>
+                </dt>
+                <dd class="opt">
+                    <div class="" style="width: 70%;">
+                        <!-- 加载编辑器的容器 -->
+                        <textarea id="ct_introduce" name="ct_introduce" type="text/plain"></textarea>
+                        <!-- 实例化编辑器 -->
+                        <script type="text/javascript">
+                            var appcontent = UE.getEditor('ct_introduce');
+                        </script>
+
+                    </div>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript">
+
+    $(function(){
+        $("#submitBtn").click(function(){
+            if($("#form_typeadd").valid()){
+                $.ajax({
+                    url:'business_consultation_typeset_ae',
+                    data:$("#form_typeadd").serialize(),
+                    type:'post',
+                    dataType:'json',
+                    success:function(msg){
+                        layer.alert(msg);
+                    }
+                });
+            }
+        });
+        $("#form_typeadd").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parent('dd').children('span.err');
+                error_td.append(error);
+            },
+            rules : {
+                ct_name : {
+                    required : true,
+                    maxlength : 10
+                },
+                ct_sort : {
+                    required : true,
+                    range : [0,255]
+                }
+            },
+            messages : {
+                ct_name : {
+                    required : '<i class="fa fa-exclamation-circle"></i>请填写咨询类型名称',
+                    maxlength: '<i class="fa fa-exclamation-circle"></i>咨询类型名称长度不能超过10个字符'
+                },
+                ct_sort : {
+                    required : '<i class="fa fa-exclamation-circle"></i>请填写0~255之间的数字',
+                    range : '<i class="fa fa-exclamation-circle"></i>请填写0~255之间的数字'
+                }
+            }
+        });
+    });
+
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

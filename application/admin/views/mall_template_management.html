@@ -1,0 +1,142 @@
+<{include file="pageheader.html"}>
+<style>
+    input.button {
+        padding: 5px 15px 5px;
+        margin: 2px 2px;
+        border: none;
+        background: #24a0d6;
+        color: #FFF;
+        cursor: pointer;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>模版管理</h3>
+                <h5>供商城选择的模板</h5>
+            </div>
+        </div>
+    </div>
+    <!--操作提示-->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>点击备份模板即可下载当前模板文件</li>
+            <li>点击对应的图片即可切换到相应的模板</li>
+            
+        </ul>
+    </div>
+    <table class="table table-border  table-bordered mt-20">
+        <tr bgcolor="#FBFBFB">
+            <td colspan="5" class="text-c"><b>当前模版</b> </td>
+        </tr>
+        <tr>
+            <td width="20%" class="text-c">
+                <img src="<{TEMPLATE}><{$now_template.code}>/<{$now_template.screenshot}>" id="now_img"   width="200" height="150" alt="<{$now_template.name}>">
+            </td>
+            <td colspan="4" class="va-t">
+                <b id="now_name"><{$now_template.name}></b><br>
+                <span id="now_desc">(<{$now_template.desc}>) </span><br>
+                <span id="now_uri">官方网站:<{$now_template.uri}></span><br>
+                <input class="button"  value="备份当前模板" type="button"  id="backup">
+                <input class="button"  value="<{$now_template.code}>" type="hidden"  id="template_code">
+            </td>
+        </tr>
+        <tr bgcolor="#FBFBFB">
+            <td colspan="5" class="text-c">可用模板</td>
+        </tr>
+        <tr>
+            <td colspan="5" class="cl">
+            <{foreach from=$templates key=k item=v}>
+               <div class="f-l">
+                   <div class="pd-20">
+                       <a href="<{$v.uri}>" target="_blank" class=""><b><{$v.name}></b></a><br>
+                       <img src="<{TEMPLATE}><{$v.code}>/<{$v.screenshot}>" id="<{$v.code}>" style="cursor:pointer;" onclick="javascript:setupTemplate('<{$v.code}>','<{$v.name}>')"  class="mt-10" width="200" height="150" alt="<{$v.name}>">
+                       <div class="mt-20">
+                           <span class="now_desc">(<{$v.desc}>)</span><br>
+                           <span class="now_uri">官方网站:<{$v.uri}></span>
+                       </div>
+                   </div>
+               </div>
+               <{/foreach}>
+
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+function setupTemplate(code,name){
+	layer.confirm('确认启用模板 ' + name + ' 吗？', {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+		  layer.msg('启用中...', {icon: 1});
+		  $.ajax({
+		        type: "post",
+		        dataType: "json",
+		        url: "mall_template_change",
+		        data: "code=" + code,
+		        success: function(data){
+				if(data.state=='403'){
+				login_ajax('shopadmin');
+			}else
+		        	if(data.state){
+		        		$('#template_code').val(code);
+		        		img = $("#"+code).attr('src');
+		        		$('#now_img').attr('src',img);
+		        		$('#now_img').attr('alt',name);
+		        		$('#now_name').text(name);
+		        		desc = $("#"+code).parents('div').find('span.now_desc').html();
+		        		uri = $("#"+code).parents('div').find('span.now_uri').html();
+		        		$('#now_desc').text(desc);
+		        		$('#now_uri').text(uri);
+		        		//console.log(img)
+		        		layer.msg(data.msg, {icon: 1});
+		        	}else{
+		        		layer.msg(data.msg, {icon: 2});
+		        	}
+		        	
+		        }
+		    });
+		}, function(){
+		    return ;
+  });
+}
+$(function(){
+	$('#backup').click(function(){
+		code = $('#template_code').val();
+		$.ajax({
+	        type: "post",
+	        dataType: "json",
+	        url: "mall_template_backup",
+	        data: "code=" + code,
+	        beforeSend:function(){
+				layer.msg('正在备份，请稍等', {icon: 1});
+			},
+	        success: function(data){
+			if(data.state=='403'){
+				login_ajax('shopadmin');
+			}else
+	        	if(data.state){
+	        		
+	        		location.href = data.data;
+	        		layer.msg(data.msg, {icon: 1});
+	        	}else{
+	        		layer.msg(data.msg, {icon: 2});
+	        	}
+	        	
+	        }
+	    });
+	})
+})
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a
+        href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

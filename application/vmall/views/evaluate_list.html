@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>评价列表</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/weui.min.js"></script>
+
+
+</head>
+<style>
+	.clear{
+		clear: both;
+	}
+    .evalstar{
+		width: 190px;
+	}
+	.evalstar li{
+		float:left;
+		margin-left: 5px;
+	}
+	.evalstar img{
+		width: 15px;
+	}
+	.small{
+		color: #999;
+		font-size: 12px;
+		margin-left: 5px;
+	}
+	.small-time{
+		color: #999;
+		font-size: 12px;
+		margin-left: 5px;
+		margin-top: -5px;
+		float: right;
+	}
+	.content{
+		padding:5px
+		font-size: 16px;
+	}
+	.eval-img-group{
+		margin:10px 5px;
+		
+	}
+	.eval-img{
+		width: 100px;
+		margin-right: 10px;
+		float: left;
+	}
+	.img-r{
+		max-width: 100%;
+		height: auto;
+	}
+	.info {
+   margin: 10px;
+   position  :relative;
+   padding: 10px;
+   margin-left: 15px;
+   margin-right: 15px;
+   background :#eee;
+   border-radius :4px;
+   text-align :center;
+   font-size: 14px;
+  }
+  .nav {
+   position   :absolute;
+   top    :-8px;
+   left    :30px;
+   overflow   :hidden;
+   width    :13px;
+   height   :13px;
+   background  :#eee;
+  -webkit-transform :rotate(45deg);
+  -moz-transform :rotate(45deg);
+  -o-transform  :rotate(45deg);
+   transform   :rotate(45deg);
+  }
+  .evaltar-name{
+  	float: left;margin:3px 10px 0 5px;
+  	font-size: 15px;
+  }
+  .head-logo{
+  	width:35px;margin-right:5px;display:block;margin-top: 8px;
+  }
+  .pull-left{
+  	float: left;
+  }
+  .pull-right{
+  	float: right;
+  }
+  .eval-total{
+  	display: flex;
+  	justify-content:space-around;
+  	padding: 5px;
+  }
+  .eval-total a{
+  	color: #333;
+  }
+  .eval-total a p{
+  	text-align: center;
+  	font-size: 15px;
+  }
+  .eval-total a p:last-child{
+  	font-size: 14px;
+  }
+  .eval-total .active{
+  	color: red;
+  }
+</style>
+<body ontouchstart>
+	
+	<div class="weui-gallery" id="gallery">
+            <span class="weui-gallery__img" id="galleryImg"></span>
+            <div class="weui-gallery__opr">
+                <a href="javascript:" class="weui-gallery__del">
+                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                </a>
+            </div>
+        </div>
+
+	<div class="weui-cells" style="margin-top: 0px;">
+		
+		<ul class="eval-total">
+			<li>
+				<a href="<{base_url('vmall.php/goods/')}>evaluate_list?goods_id=<{$goods_id}>" <{if empty($op)}>class="active"<{/if}>>
+					<p>全部评价</p>
+					<p><{$level.level_all}></p>
+				</a>
+			</li>
+			<li>
+				<a href="<{base_url('vmall.php/goods/')}>evaluate_list?goods_id=<{$goods_id}>&op=1" <{if !empty($op) && $op eq 1}>class="active"<{/if}> >
+					<p>好评</p>
+					<p><{$level.level_1}></p>
+				</a>
+			</li>
+			<li>
+				<a href="<{base_url('vmall.php/goods/')}>evaluate_list?goods_id=<{$goods_id}>&op=2" <{if !empty($op) && $op eq 2}>class="active"<{/if}> >
+					<p>中评</p>
+					<p><{$level.level_2}></p>
+				</a>
+			</li>
+			<li>
+				<a href="<{base_url('vmall.php/goods/')}>evaluate_list?goods_id=<{$goods_id}>&op=3"<{if !empty($op) && $op eq 3}>class="active"<{/if}> >
+					<p>差评</p>
+					<p><{$level.level_3}></p>
+				</a>
+			</li>
+			<li>
+				<a href="<{base_url('vmall.php/goods/')}>evaluate_list?goods_id=<{$goods_id}>&op=pic" <{if !empty($op) && $op =='pic'}>class="active"<{/if}> >
+					<p>有图</p>
+					<p><{$level.level_pic}></p>
+				</a>
+			</li>
+		</ul>
+		
+	 <{foreach from=$evaluate_info item=$info}>
+		<div class="weui-cell">
+			<div class="weui-cell__hd" style="align-self:flex-start"><img src="<{$info.head_portrait}>"   alt="" class="head-logo"   onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.default_guide_logo}>';"></div>
+                <div class="weui-cell__bd">
+                    <p><p class="evaltar-name"><{if !empty($info.user_name)}><{$info.user_name}><{else}><{if !empty($info.buyer_nickname)}><{$info.buyer_nickname}><{else}>匿名用户<{/if}><{/if}></p><br>
+                    	<ul class="evalstar">
+                    	<{for $i=1 to $info.evaluation_level}>
+							<li><img src="<{TEMPLE}>images/evalstar2.png" alt="1"></li>
+						<{/for}>
+					</ul>
+                   	</p>
+                   	<p class="small-time"><{"Y.m.d"|date:$info.evaluation_time}></p>
+                   	<div class="clear"></div>
+			        <p class="content"><{if !empty($info.evaluation_content)}><{$info.evaluation_content}><{/if}></p>
+			        <div class="eval-img-group">
+			             <{if !empty($info.geval_image)}>
+			             <{foreach $info.geval_image as $key=>$val}>
+				        	<div class="eval-img">
+				        		<img src="<{TEMPLE}>images/<{$val}>" alt="" class="img-r"/>
+				        	</div>
+				         <{/foreach}>
+			        	<{/if}>
+			        		<div class="clear"></div>
+			        </div>
+			        
+			        <div>
+			           <{if !empty($info.geval_explain)}>
+						<div class="info">
+							<div class="nav"></div>
+							<p>掌柜回复：<{$info.geval_explain}></p>
+						</div>
+						<{/if}>
+						
+					</div>
+					<div class="clear"></div>
+					<{if !empty($info.add_evaluation_content)}>
+					    <br/>
+					    <p class="small" style="color:red !important;"><{$info.user_name}>的追评</p>	
+					    <p class="content"><{if !empty($info.add_evaluation_content)}><{$info.add_evaluation_content}><{/if}></p>
+				        <div class="eval-img-group">
+				             <{if !empty($info.add_geval_image)}>
+				             <{foreach $info.add_geval_image as $key=>$val}>
+					        	<div class="eval-img">
+					        		<img src="<{TEMPLE}>images/<{$val}>" alt="" style="width:80px;height: 80px;"/>
+					        	</div>
+					         <{/foreach}>
+				        	<{/if}>
+				        </div>
+				        <div style="clear: both;"></div>
+					<{/if}>
+					<p class="small pull-left"><{if !empty($info.goods_color)}><{$info.goods_color}><{/if}> ; <{if !empty($info.goods_size)}><{$info.goods_size}><{/if}></p>
+					<p class="small pull-right">购买日期：<{if $store_info.ous_type eq 1}><{"Y.m.d"|date:$info.pay_time}><{else}><{"Y.m.d"|date:$info.evaluation_time}><{/if}></p>
+               </div>
+		</div>
+        
+		
+		<{/foreach}>
+		
+	</div>
+	
+	
+</body>
+<script type="text/javascript">
+        var $gallery = $("#gallery"), $galleryImg = $("#galleryImg");
+            
+        $(".eval-img-group").on("click", ".eval-img", function(){
+            $galleryImg.css("background-image", "url("+$(this).find("img").attr("src")+")");
+            $gallery.fadeIn(100);
+        });
+        $gallery.on("click", function(){
+            $gallery.fadeOut(100);
+        });
+
+
+</script>
+</html>

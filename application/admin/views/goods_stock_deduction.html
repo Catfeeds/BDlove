@@ -1,0 +1,97 @@
+
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+    <div id="append_parent"></div>
+    <div id="ajaxwaitid"></div>
+    <div class="page">
+        <div class="fixed-bar">
+            <div class="item-title">
+                <div class="subject">
+                    <h3>库存扣减设置</h3>
+                    <h5>设置店铺的库存的扣减模式</h5>
+                </div>
+            </div>
+        </div>
+        <form method="post" id="settingForm" name="settingForm" action="goods_change_stock_deduction">
+
+            <div class="ncap-form-default">
+                <dl class="row">
+                    <dt class="tit">
+                        <label>门店库存</label>
+                    </dt>
+                    <dd class="opt">
+                        <div class="onoff">
+                            <label for="store_stock_1" class="cb-enable <{if $store_stock!==false && $store_stock==0}><{else}>selected<{/if}>" title="开启"><span>开启</span></label>
+                            <label for="store_stock_0" class="cb-disable <{if $store_stock!==false && $store_stock==0}>selected<{/if}> " title="关闭"><span>关闭</span></label>
+                            <input type="radio" id="store_stock_1" name="store_stock"  <{if $store_stock!==false && $store_stock==0}><{else}>checked<{/if}>  value="1" >
+                            <input type="radio" id="store_stock_0" name="store_stock"  <{if $store_stock!==false && $store_stock==0}>checked<{/if}> value="0" >
+                        </div>
+                        <p class="notic">若您希望精细化管理库存，可手动开启门店库存。</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>快递发货</label>
+                    </dt>
+                    <dd class="opt">
+                        <select name="express_delivery" class="valid">
+                            <option value="1"  <{if $express_delivery&&$express_delivery==2}><{else}>selected<{/if}>>扣减总库</option>
+                            <option value="2" <{if $express_delivery&&$express_delivery==2}>selected<{/if}>>扣减门店</option>
+                        </select>
+                        <span class="err"></span>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="store_arayacak">门店自提</label>
+                    </dt>
+                    <dd class="opt">
+                        <select name="store_arayacak" class="valid">
+                            <option value="1" <{if $store_arayacak&&$store_arayacak==2}><{else}>selected<{/if}>>扣减总库</option>
+                            <option value="2" <{if store_arayacak&&$store_arayacak==2}>selected<{/if}>>扣减门店</option>
+                        </select>
+                        <span class="err"></span>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>商品库存0自动下架</label>
+                    </dt>
+                    <dd class="opt">
+                        <div class="onoff">
+                            <label for="auto_unshelve_1" class="cb-enable <{if $auto_unshelve!==false&&$auto_unshelve==0}><{else}>selected<{/if}>" title="开启"><span>开启</span></label>
+                            <label for="auto_unshelve_0" class="cb-disable <{if $auto_unshelve!==false&&$auto_unshelve==0}>selected<{/if}>" title="关闭"><span>关闭</span></label>
+                            <input type="radio" id="auto_unshelve_1" name="auto_unshelve"  <{if $auto_unshelve!==false&&$auto_unshelve==0}><{else}>checked<{/if}>   value="1">
+                            <input type="radio" id="auto_unshelve_0" name="auto_unshelve"  <{if $auto_unshelve!==false&&$auto_unshelve==0}>checked<{/if}>  value="0">
+                        </div>
+                        <p class="notic">开启之后门店商品中的库存为零时，直接在商城下架产品。。</p>
+                    </dd>
+                </dl>
+
+                <div class="bot"><a href="JavaScript:;" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(function(){
+            $("#submitBtn").click(function(){
+                var data = $("#settingForm").serialize();
+                $.ajax({
+                    type:'post',
+                    dataType:'json',
+                    url:'goods_change_stock_deduction',
+                    data:data,
+                    success:function(data){
+                        if(data.sate){
+                            layer.msg(data.msg);
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+    <div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

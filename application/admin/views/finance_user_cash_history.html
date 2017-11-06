@@ -1,0 +1,63 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <a class="back" href="javascript:history.back();" title="返回列表">
+        <i class="fa fa-arrow-circle-o-left"></i>
+      </a>
+      <div class="subject">
+        <h3>会员提现历史</h3>
+        <h5>会员提现历史记录</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>可查看该会员的提现历史并设置体现历史表显示哪些内容</li>
+    </ul>
+  </div>
+  <div id="flexigrid"></div>
+</div>
+
+
+
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+</body>
+<script type="text/javascript">
+    $(function(){
+        $("#flexigrid").flexigrid({
+            url: '../get_user_cash_history?id=<{$user.user_id}>',
+            dataType: 'xml',
+            colModel : [
+                {display: '流水号', name : 'id', width : 60, sortable : false, align: 'center'},
+                {display: '账户', name : 'user_id', width : 60, sortable : false, align: 'center'},
+                {display: '交易号', name : 'pay_sn', width : 150, sortable : false, align: 'center'},
+                {display: '提现金额', name : 'money', width : 80, sortable : false, align: 'center'},
+                {display: '余额', name : 'asset', width : 80, sortable : false, align : 'center'},
+                {display: '备注', name : 'note', width : 150, sortable : false, align : 'center'},
+                {display: '提现时间', name : 'create_time', width : 125, sortable : false, align: 'center'}
+            ],
+            /*searchitems : [
+                {display: '订单号', name : 'order_sn'},
+                {display: '支付单号', name : 'pay_sn'}
+            ],*/
+            sortname: "",
+            sortorder: "",
+            rp: 40,
+            title: '<{$user.user_name}>的提现记录'
+        });
+    });
+
+</script>
+</html>

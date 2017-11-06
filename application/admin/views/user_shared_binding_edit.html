@@ -1,0 +1,77 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="user_shared_binding" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>分享绑定 - 编辑“新浪微博”</h3>
+        <h5>商城内容与站外分享接口绑定设置</h5>
+      </div>
+    </div>
+  </div>
+  <form method="post" name="settingForm">
+    <input type="hidden" name="form_submit" value="ok">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label>应用名称</label>
+        </dt>
+        <dd class="opt">新浪微博<span class="err"></span>
+          <p class="notic"> </p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>是否启用该接口</label>
+        </dt>
+        <dd class="opt">
+          <div class="onoff">
+            <label for="isuse_1" class="cb-enable selected" title="开启"><span>开启</span></label>
+            <label for="isuse_0" class="cb-disable " title="关闭"><span>关闭</span></label>
+            <input type="radio" id="isuse_1" name="isuse" value="1" checked="checked">
+            <input type="radio" id="isuse_0" name="isuse" value="0">
+          </div>
+          <p class="notic"> </p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="appcode">域名验证信息</label>
+        </dt>
+        <dd class="opt">
+          <textarea name="appcode" rows="6" class="tarea" id="appcode"></textarea>
+          <span class="err"></span>
+          <p class="notic"> </p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="appid"><em>*</em>应用标识</label>
+        </dt>
+        <dd class="opt">
+          <input id="appid" name="appid" value="2067580904" class="input-txt" type="text">
+          <span class="err"></span>
+          <p class="notic"><a href="" target="_blank" style="color:#ffffff; font-weight:bold;">立即在线申请</a> </p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="appkey"><em>*</em>应用密钥</label>
+        </dt>
+        <dd class="opt">
+          <input id="appkey" name="appkey" value="52bfccb0507176467d39882415c5dc6b" class="input-txt" type="text">
+          <span class="err"></span>
+          <p class="notic">&nbsp; </p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="document.settingForm.submit()">确认提交</a> </div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

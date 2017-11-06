@@ -1,0 +1,983 @@
+<html lang="zh-cn">
+
+<head>
+    <title>聚客会员购</title>
+    <{include file="lib/Hlink-c.html" }>
+    <link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+    .topnav{
+        background: url("<{TEMPLE}>images/topnav_bg.png") no-repeat;
+        background-size: 3.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+        font-size:.14rem;
+        padding:.1rem 0;
+    }
+    .user_name{
+        color:#ffd412;
+        width: 1.6rem;
+        margin-bottom: .02rem;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .user_img{
+        margin-left:.4rem;
+        width:.4rem;
+        height:.4rem;
+        border:1px solid #ffe800;
+        border-radius: 50%;
+    }
+    .user_img img{
+        width:100%;
+        height:100%;
+        border-radius: 50%;
+    }
+    .action_rule{
+        width:.65rem;
+    }
+    .silder{
+        height:2rem;
+        width: 100%;
+        position: relative;
+    }
+    .action_time{
+        position: absolute;
+        bottom:-.12rem;
+        left:.68rem;
+        display: block;
+        width:1.8rem;
+        border:2px solid #552000;
+        color: #552000;
+        border-radius: 6px;
+        background: #fff;
+        letter-spacing: 0.5px;
+        margin:0 auto;
+        height:0.22rem;
+        line-height: 0.23rem;
+        text-align: center;
+        font-size: .12rem;
+        z-index: 999;
+    }
+    .time{
+        color: #f44848;
+        padding:0 .02rem;
+    }
+    .goods_name{
+        color: #fff;
+        width:2.3rem;
+        display:inline-block;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        vertical-align: middle;
+        margin-left:.2rem;
+        font-size: .14rem;
+    }
+    .residus{
+        font-size: .1rem;
+        vertical-align: bottom;
+    }
+    .price{
+        margin-left: .2rem;
+        color: #ffd700;
+    }
+    .price span{
+        font-size: .2rem;
+    }
+    .reduce_price{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .action_price{
+        width:1.8rem;
+        height:.1rem;
+        border:2px solid #552000;
+        border-radius: 10px;
+    }
+    .reduce_price{
+        margin:.3rem .1rem .08rem .1rem;
+        text-align: center;
+        color: #fff;
+        position: relative;
+    }
+    .order_price span{
+        font-size: .13rem;
+        color: #f2d603;
+    }
+    .new_price span{
+        font-size: .13rem;
+        color: #f2d603;
+    }
+    .rate{
+        width:.5rem;
+        height:100%;
+        border-radius: 10px;
+        background: #a0cd3f;
+    }
+    .cut{
+        background-color: #333;
+        color: #fff;
+        font-size: .12rem;
+        text-align: center;
+        border-radius: 4px;
+        padding: .04rem .09rem;
+        position: absolute;
+        z-index: 99;
+        bottom: .38rem;
+        left: 0.7rem;
+        margin-left: -60px;
+    }
+    .cut:after{
+        content: "";
+        position: absolute;
+        top: .225rem;
+        left: .4rem;
+        margin-left: -.05rem;
+        border-width: .05rem;
+        border-style: solid;
+        border-color: #333 transparent transparent transparent;
+    }
+    .cut span{
+        color: #f2d603;
+    }
+    .cut_btn{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin:0 .37rem;
+    }
+    .cut_btn div{
+        width:1.1rem;
+    }
+    .cut_btn div img{
+        width:100%;
+        height:auto;
+    }
+    .joinpeople{
+        text-align: center;
+        font-size: .12rem;
+        margin-top:.03rem;
+        margin-bottom:.17rem;
+    }
+    .juke{
+        text-align: center;
+        font-size: .12rem;
+        margin:.15rem 0;
+    }
+    .line{
+        display: flex;
+        margin:0 .35rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .line span{
+        display: inline-block;
+        width: .02rem;
+        height:.02rem;
+        border: 1px solid #333;
+        border-radius: 50%;
+    }
+    .line p{
+        border-top:1px dashed #333;
+        height: 1px;
+        width:100%;
+    }
+    .r-1{
+        margin-right:.06rem;
+    }
+    .lol{
+        border:1px solid #552000;
+        background: #f2d603;
+        color: #333;
+        margin:.3rem;
+        padding:.1rem;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+    .lol_img{
+        width:1.4rem;
+        height: .25rem;
+        margin:-.2rem auto 0 auto;
+    }
+    .lol_img img{
+        width:100%;
+        height: 100%;
+    }
+    .friend_img{
+        width:.4rem;
+        height: .4rem;
+        border:1px solid #fff;
+        border-radius: 50%;
+    }
+    .friend_img img{
+        width:100%;
+        height:100%;
+        border-radius: 50%;
+    }
+    .lol_people li{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding:.1rem 0;
+        border-bottom: 1px solid #552000;
+    }
+    .lol_people li:last-child{
+        border-bottom: none;
+    }
+    .friend_name{
+        margin-bottom: .03rem;
+    }
+    .friend_time{
+        font-size: .1rem;
+        width:1.25rem;
+    }
+    .friend_money{
+        color:#f44848;
+        font-size: .17rem;
+    }
+    .nomore{
+        color: #fff;
+        text-align: center;
+    }
+    .nopeople{
+        color: #333;
+        text-align: center;
+    }
+    .nopeople span{
+        font-size: .15rem;
+        font-weight: 500;
+    }
+    /*轮播图样式*/
+    .swiper-slide{
+        height:2rem!important;
+     }
+    .swiper-wrapper{
+        height:2rem!important;
+    }
+    .swiper-slide img{
+        width: 100%;
+        height:2rem;
+    }
+    .pagination {
+        position: absolute;
+        left: 0;
+        text-align: center;
+        bottom:25px;
+        width: 100%;
+        z-index: 99;
+    }
+    .swiper-pagination-switch {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 10px;
+        background: #fff;
+        margin: 0 3px;
+        cursor: pointer;
+        opacity: 0.4;
+    }
+    .swiper-active-switch {
+        background: #f60;
+        opacity: 1;
+    }
+    #action_rule{
+        position: fixed;
+        top: .7rem;
+        left:.3rem;
+        width:2.6rem;
+        height: 3.7rem;
+        background: #fffadc;
+        border:2px solid #f2d603;
+        z-index: 99999;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .rule_title{
+        padding: .1rem .5rem;
+        background: #f34949;
+        border:1px solid #f2d603;
+        color: #fff;
+        font-size: .18rem;
+        border-radius: 8px;
+    }
+    #action_rule p{
+        margin:.1rem .2rem .3rem .2rem;
+        font-size: .14rem;
+        letter-spacing: .02rem;
+        font-weight: 500;
+        line-height: .24rem;
+        text-align: left;
+        overflow: auto;
+        height: 2.7rem;
+        word-break: break-all;
+    }
+    .read_img{
+        width: 1.7rem;
+        position: absolute;
+        bottom: -.25rem;
+        left:.45rem;
+    }
+    .read_img img{
+        width: 100%;
+        height:auto;
+    }
+    .mask{
+        position: fixed;
+        top:0;
+        bottom: 0;
+        left:0;
+        right:0;
+        background: #000;
+        opacity: 0.5;
+        z-index: 9999;
+    }
+    #cut_success{
+        position: fixed;
+        top: 2rem;
+        left:.3rem;
+        width:2.6rem;
+        height: .8rem;
+        padding-top:.3rem;
+        background: #fffadc;
+        border:2px solid #f2d603;
+        z-index: 99999;
+        border-radius: 8px;
+        text-align: center;
+        font-size: .16rem;
+    }
+    .nothinks_img{
+        width: 1.7rem;
+        position: absolute;
+        bottom: -.25rem;
+        left:.45rem;
+    }
+    .nothinks_img img{
+        width: 100%;
+        height:auto;
+    }
+    #cut_success span{
+        color: #f34949;
+        font-size: .16rem;
+        padding:0 .02rem;
+    }
+    .choice{
+        position: fixed;
+        width:84%;
+        left:4%;
+        bottom: .5rem;
+        border:2px solid #fed500;
+        background: #fff9d9;
+        z-index: 99999;
+        border-radius: 8px;
+        padding:4%;
+    }
+    .choice_title{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #fed500;
+        padding-bottom: .1rem;
+    }
+    .title_img{
+        width: .6rem;
+        height:.6rem;
+        margin:0 .08rem;
+    }
+    .title_img img{
+        width: 100%;
+        height:100%;
+    }
+    .choice_goods_name{
+        font-size: .13rem;
+        width:1.9rem;
+        margin-bottom: .05rem;
+    }
+    .choice_price{
+        color: #fe0000;
+        font-size: .13rem;
+    }
+    .choice_price span{
+        font-size: .20rem;
+        font-family: 楷体;
+    }
+    .choice_content{
+        height:2.1rem;
+        overflow-y: auto;
+        color: #3f0503;
+        font-size: .14rem;
+        padding:.1rem .05rem;
+    }
+    .choice_content span{
+        font-size: .13rem;
+        display: inline-block;
+        padding:.03rem .1rem;
+        margin:.07rem 0 .07rem .07rem;
+        border:1px solid #3f0503;
+        background: #fff;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+    .choice_content span.active{
+        background: #fed73a;
+    }
+    .sure{
+        width:80%;
+        position: absolute;
+        bottom: -.2rem;
+        left:10%;
+    }
+    .removechoice{
+        position: absolute;
+        right:.08rem;
+        top:-.1rem;
+        border:2px solid #fed500;
+        background: #fe0000;
+        border-radius: 50%;
+        width:.11rem;
+        height: .11rem;
+        padding:.03rem .03rem .04rem .03rem;
+    }
+    .removechoice img{
+        width:100%;
+        height:100%;
+        border-radius: 50%;
+    }
+    #qrCodeWrap{
+	position:fixed;
+    	top:0;
+    	left:0;
+    	width:100%;
+    	height:100%;
+    	z-index:999999999;
+    	
+    }
+    .weui-mask{
+		position:fixed;
+    	top:0;
+    	left:0;
+    	width:100%;
+    	height:100%;
+    	background:#000;
+    	opacity:0.8;
+    	z-index:999
+    }
+    .weui-dialog__bd{
+	background:#fff;
+    	width:80%;
+    	padding-bottom:.2rem;
+    	margin-left: auto;
+    	margin-right: auto;
+    	border-radius:5px
+    }
+    .ous_ewm_span{
+        border:.02rem solid #fff;
+        border-radius:50%;
+        position: absolute;
+        top: 75%;
+        width:.2rem;
+        padding:.1rem;
+        left:1.4rem;
+    }
+    
+    
+    
+    
+    .topnav{
+        display: flex;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+    }
+    .topnav a{
+        width:54%;
+        height:.35rem;
+        line-height:.35rem;
+        text-align: center;
+        color: #999;
+    }
+    .topnav a.active{
+        border-bottom: 2px solid #f60;
+        color: #f60;
+     }
+    .cut_list li{
+        margin:.1rem;
+        border:1px solid #efefef;
+        background: #fff;
+    }
+    .goods_img{
+        position: relative;
+    }
+    .goods_img img{
+        width:100%;
+        height:1.2rem; 
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    .reduce_time{
+        position: absolute;
+        bottom:.05rem;
+        left:.05rem;
+        display: block;
+        width:1.7rem;
+        border:1px solid #552000;
+        color: #552000;
+        border-radius: 6px;
+        background: #fff;
+        letter-spacing: 0.5px;
+        margin:0 auto;
+        height:0.2rem;
+        line-height: 0.21rem;
+        text-align: center;
+        font-size: .12rem;
+        z-index: 999;
+    }
+    .time{
+        color: #f44848;
+        padding:0 .02rem;
+    }
+    .goods_info{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding:.08rem .08rem 0 .08rem;
+    }
+    .join_people{
+        font-size: .1rem;
+        color: #999;
+    }
+    .goods_price{
+        color: #f44848;
+        font-size: .13rem;
+    }
+    .price_new{
+        font-size: .18rem;
+        font-family: 楷体;
+    }
+    .price_order{
+        font-family: 楷体;
+        color: #999;
+        text-decoration: line-through;
+        margin-left:.1rem;
+    }
+    .btn_now{
+        display: block;
+        border:1px solid #552000;
+        background: #fdd63a;
+        color: #552000;
+        border-radius:5px;
+        width:.65rem;
+        height:.2rem;
+        text-align: center;
+        line-height: .2rem;
+        margin-bottom: .05rem;
+    }
+    .btn_wantbuy{
+        display: block;
+        border:1px solid #552000;
+        background: #fff;
+        color: #552000!important;
+        border-radius:5px;
+        width:.65rem;
+        height:.2rem;
+        text-align: center;
+        line-height: .21rem;
+    }
+    .btn_wantbuy.active{
+        background: #fdd63a;
+    }
+    .btn_wantbuy.active span{
+        color: red;
+    }
+    .btn_cut{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .store_name{
+        font-size: .13rem;
+        width:1.8rem;
+        display:block;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .want{
+        color: #ddd;
+        font-size: .16rem;
+        vertical-align: middle;
+    }
+    #history .goods_img img{
+        opacity: 0.5;
+    }
+    #history .goods_info .goods_info_text{
+        opacity: 0.5;
+    }
+    .noaction{
+        text-align: center;
+        font-size: .14rem;
+        background: #f4f4f4!important;
+        padding-top:1rem;
+        border:none!important;
+    }
+    .noaction p{
+        margin-bottom: .3rem;
+    }
+    .noaction img{
+        width: 1rem;
+    }
+    .start_num{
+        font-size: .10rem;
+        color: #999;
+        width:90%;
+    	margin-left:.08rem;;
+    }
+    .join_num{
+        margin-top:.05rem;
+        opacity: 0.5;
+    }
+    
+    .weui-mask{
+		position:fixed;
+    	top:0;
+    	left:0;
+    	width:100%;
+    	height:100%;
+    	background:#000;
+    	opacity:0.8;
+    	z-index:999
+    }
+    .weui-dialog__bd{
+	background:#fff;
+    	width:80%;
+    	padding-bottom:.2rem;
+    	margin-left: auto;
+    	margin-right: auto;
+    	border-radius:5px
+    }
+    .ous_ewm_span{
+        border:.02rem solid #fff;
+        border-radius:50%;
+        position: absolute;
+        top: 75%;
+        width:.2rem;
+        padding:.1rem;
+        left:1.4rem;
+    }
+</style>
+<body>
+<div class="topnav">
+    <a class="active" data-id="new">最新活动</a>
+    <a data-id="history">历史活动</a>
+</div>
+<div class="content">
+    <div id="new">
+        <ul class="cut_list">
+            <{if empty($new_store)}>
+           <!--无活动的时候显示的样式-->
+            <li class="noaction">
+                <p><img src="<{TEMPLE}>images/noaction.png" alt=""></p>
+                <p>暂无活动，去其他地方逛逛吧~</p>
+            </li>
+            <{else}>
+            <{foreach $new_store as $key=>$value}>
+                <li>
+                <a  href="javascript:;" class="btns_nows"  act_id="<{$value.shop_id}>" store_id="<{$value.store_id}>" >
+                    <div class="goods_img">
+                        <img src="<{if !empty($value.ous_shop_signs)}><{base_url()}>data/shop/album_pic/<{$value.ous_shop_signs}><{/if}>" onerror="javascript:this.src='<{DEFAULTIMAGE}>/<{$config_images.store_logo}>'"  alt="">
+                        <span class="reduce_time">仅剩<span class="iconfont time">&#xe657;</span><span class="overtimes" overtime="<{$value.end_time}>">5天19小时49分21秒</span></span>
+                    </div>
+                    <div class="goods_info">
+                        <div>
+                            <div class="store_name"><{$value.store_name}></div>
+                            <div class="goods_price"><{$value.shop_title}></div>
+                        </div>
+                        <div class="btn_cut"><a  href="javascript:;" class="btn_now btns_nows"  act_id="<{$value.shop_id}>"  store_id="<{$value.store_id}>">立即参加</a><div class="join_people">已有<{$value.shop_num}>人参与</div></div>
+                    </div>
+                    </a>
+                </li>
+            <{/foreach}>
+            <{/if}>
+        </ul>
+     
+    </div>
+    <div id="history" style="display: none">
+        <{if empty($history_store)}>
+        <!--无活动的时候显示的样式-->
+        <li class="noaction">
+            <p><img src="<{TEMPLE}>images/noaction.png" alt=""></p>
+            <p>暂无活动，去其他地方逛逛吧~</p>
+        </li>
+        <{else}>
+        <ul class="cut_list">
+            <{foreach $history_store as $key=>$value}>
+            <li>
+                <div class="goods_img">
+                    <img src="<{if !empty($value.ous_shop_signs)}><{base_url()}>data/shop/album_pic/<{$value.ous_shop_signs}><{/if}>" onerror="javascript:this.src='<{DEFAULTIMAGE}>/<{$config_images.store_logo}>'"  alt="">
+                </div>
+                <div class="goods_info">
+                    <div class="goods_info_text"><p class="store_name"><{$value.store_name}></p><span class="price_new"><{$value.shop_title}></span></div>
+                    <div class="join_people">
+                        <a href="javascript:;" class="btn_wantbuy " user_id="" bargain_id="" ><span class="iconfont want" >&#xe607;</span>我想参与</a>
+                        
+                        <p class="join_num">已有<{$value.shop_num}>人参与</p>
+                    </div>
+                </div>
+            </li>
+            <{/foreach}>
+            
+        </ul>
+        <{/if}>
+    </div>
+</div>
+
+	<!-- B 二维码 -->
+<div class="weui-mask" style="display:none"></div>
+<div class="js_dialog" id="qrCodeWrap" style="display:none">
+	
+	<div class="weui-dialog" style="z-index:9999999999999">
+		<div class="weui-dialog__bd">
+			<div style="width: 85%;margin: 25% auto .1rem auto;padding-top:.1rem"><img id="qrCodeWrap_img" src="" alt="wei-log" style="max-width: 100%;height: auto"></div>
+			<p style="color: #99999c;text-align:center;font-size:.14rem">长按二维码关注后即可参加活动</p>
+			<p class="ous_ewm_span" style="color: #99999c;text-align:center;font-size:.14rem"><img src="<{TEMPLE}>images/X.png" alt=""></p>
+		</div>
+	</div>
+</div>
+
+
+
+</body>
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/framework7.picker.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+$('body').on('touchstart','.ous_ewm_span',function(){
+	$('#qrCodeWrap').css("display",'none');
+	$('.weui-mask').css("display",'none');
+})
+$('body').on('touchstart','.btns_nows',function() {
+	var is_follow = "<{$user_info.is_follow}>";
+	var act_id = $(this).attr("act_id");
+	var store_id = $(this).attr("store_id");
+	if(is_follow==1 || is_follow=='1'){
+		window.location.href = "<{base_url()}>vmall.php/goods/index?source=memberbuy&act_id="+act_id;
+	}else{
+        $.ajax({
+            url : '<{base_url()}>vmall.php/MemberBuy/getStoreOusEwm?act_id='+act_id+"&store_id="+store_id,
+            type : 'get',
+            data : '',
+            dataType : 'json',
+            success : function(msg){
+                if(msg.state == true){
+                	$("#qrCodeWrap_img").attr("src","<{PLUGIN}>"+msg.data);
+                	$('#qrCodeWrap').css("display",'block');
+            		$('.weui-mask').css("display",'block');
+                }else{
+                	mobileAlert(msg.msg,2000,"");
+            	    return false;
+                }
+            }
+        });
+		
+		
+		
+	}
+});
+    $(function(){
+        var flag="<{if !empty($new_store)}>1<{else}>2<{/if}>";
+        if(flag==1){
+            MicroTimeOver();
+            setInterval("MicroTimeOver()","1000");
+        }
+    })
+
+
+    //活动结束倒计时
+    function MicroTimeOver(){
+        $(".content .cut_list li").each(function(index){
+            var OverTimes = $(this).find(".overtimes").attr("overtime");
+            var OverTime = Number(OverTimes);
+            var timestamp = (Date.parse(new Date()))/1000;
+            //console.log("timestamp:"+timestamp+"//type:"+typeof(timestamp));
+            //console.log("OverTime:"+OverTime+"//type:"+typeof(OverTime));
+            var leftTime = (OverTime - Number(timestamp))*1000;
+            var days = parseInt(leftTime / 1000 / 60 / 60 / 24 , 10); //计算剩余的天数
+            var hours = parseInt(leftTime / 1000 / 60 / 60 % 24 , 10); //计算剩余的小时
+            var minutes = parseInt(leftTime / 1000 / 60 % 60, 10);//计算剩余的分钟
+            var seconds = parseInt(leftTime / 1000 % 60, 10);//计算剩余的秒数
+            hours = checkTime(hours);
+            minutes = checkTime(minutes);
+            seconds = checkTime(seconds);
+            var overs =  days+"天" + hours+"小时" + minutes+"分"+seconds+"秒";
+            $(this).find(".overtimes").html("");
+            $(this).find(".overtimes").html(overs);
+        })
+    }
+
+    function checkTime(i){ //将0-9的数字前面加上0，例1变为01 
+        if(i<10){
+            i = "0" + i;
+        }
+        return i;
+    } 
+
+
+    $('.topnav a').click(function () {
+        $('.topnav a').removeClass('active');
+        $(this).addClass('active');
+        $('.content>div').hide();
+        $("#"+$(this).attr('data-id')).show();
+    })
+   
+    function wantBuy(obj){
+        var user_id = $(obj).attr("user_id");
+        var bargain_id = $(obj).attr("bargain_id");
+        var state = $(obj).attr("state");
+        //console.log(state);return;
+        if(state == 1){
+            mobileAlert("您已经在本次活动中",2000,"");
+    	    return false;
+        }
+        $.ajax({
+            url : 'bargain_restart',
+            type : 'post',
+            data : {user_id:user_id,bargain_id:bargain_id},
+            dataType : 'json',
+            success : function(msg){
+                if(msg.state == true){
+                	$(obj).parent().find(".join_num").html("");
+                	$(obj).parent().find(".join_num").html("已有"+msg.num+"人参与");
+                    $(obj).addClass("active");
+                }else{
+                	mobileAlert(msg.msg,2000,"");
+            	    return false;
+                }
+            }
+        });
+        
+    }
+    
+    
+    
+    
+    
+  //微信分享
+    $(function(){
+    	MicroTimeOver();
+    	setInterval("MicroTimeOver()","1000");
+    	share_wheels();
+    })
+    function share_wheels(){
+        	 /*   微信分享 */
+            
+        // "1" 朋友圈  "2"朋友
+        var getVideoId = 21; //var getVideoId = item.videoId;
+        // 当前页面url
+        var curUrls = location.href.split('#')[0];
+        // 分享模式
+        var getRecommendMode = "1";
+        
+        var shareData = {
+            'videoId':getVideoId,
+            'url':curUrls,
+            'recommendMode':getRecommendMode
+        };
+        
+      /*   var getVideoName = item.videoName;
+        var getCoverUrl = item.coverUrl;
+        var getForwardUrl = item.forwardUrl; */
+        var getVideoName = '<{$MicroShare.membShop_share_title}>'||'聚客砍价';
+        var getCoverUrl = '<{base_url()}>data/shop/album_pic/<{$MicroShare.membShop_share_url}>';
+        var getDesc = '<{$MicroShare.membShop_share_content}>';
+        var getForwardUrl = curUrls;
+        console.log("getVideoName:"+getVideoName);
+        console.log("getCoverUrl:"+getCoverUrl);
+        console.log("getDesc:"+getDesc);
+        console.log("getForwardUrl:"+getForwardUrl);
+        data = shareData; //data = JSON.stringify(shareData);
+        $.ajax({
+            type:"post",
+            url:'<{base_url()}>vmall.php/MemberBuy/getWechatJsApiTicket',
+            data:data,
+            dataType:'json',
+            //contentType: 'application/json; charset=utf-8',
+            success: function(res) {
+                if(res.status!==0){
+                	return mobileAlert(res.errmsg || "系统繁忙，请稍后再试");
+                }
+                data = res.result;
+                var getAppId = data.appid;
+                var getTimestamp = data.timestamp;
+                var getNonceStr = data.nonceStr;
+                var getSignature = data.signature;
+
+                
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: getAppId, // 必填，公众号的唯一标识
+                    timestamp: getTimestamp, // 必填，生成签名的时间戳
+                    nonceStr: getNonceStr, // 必填，生成签名的随机串
+                    signature: getSignature,// 必填，签名，见附录1
+                    jsApiList: [  // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage'
+                    ] 
+                });
+              
+                wx.ready(function(){
+                    //分享到朋友圈
+                    wx.onMenuShareTimeline({
+                        title: getVideoName, // 分享标题
+                        link: getForwardUrl, // 分享链接
+                        imgUrl: getCoverUrl, // 分享图标
+                        success: function () { 
+                            // 用户确认分享后执行的回调函数
+                            //alert('分享成功')
+                        },
+                        cancel: function () { 
+                            // 用户取消分享后执行的回调函数
+                            //alert('取消')
+                        }
+                    });
+                    //分享到朋友
+                    wx.onMenuShareAppMessage({
+                        title: getVideoName, // 分享标题
+                        desc: getDesc, // 分享描述
+                        link: getForwardUrl, // 分享链接
+                        imgUrl: getCoverUrl, // 分享图标
+                        type: '', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () { 
+                            // 用户确认分享后执行的回调函数
+                            //alert('分享成功')
+                        },
+                        cancel: function () { 
+                            // 用户取消分享后执行的回调函数
+                            //alert('取消')
+                        }
+                    });
+                    //检查微信接口是否调用成功
+                    wx.checkJsApi({
+                       jsApiList: ['onMenuShareTimeline'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                       success: function(res) {
+                    	   //alert(res)
+                           // 以键值对的形式返回，可用的api值true，不可用为false
+                           // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                       }
+                    });
+                });
+            },
+            error: function(data) {
+                //alert(data)
+            }
+        });
+    }   
+</script>
+</html>

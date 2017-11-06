@@ -1,0 +1,207 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>规格管理 - <{if isset($spec_info)}>编辑<{else}>新增<{/if}></h3>
+        <h5>商品规格的管理可用于商品类型设置</h5>
+      </div>
+    </div>
+  </div>
+  <form id="spec_form" method="post" enctype="multipart/form-data">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label for="s_name"><em>*</em>规格</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="input-txt" name="param[sp_name]" id="sp_name" value="<{if isset($spec_info)}><{$spec_info.sp_name}><{/if}>">
+          <span class="err"></span>
+          <p class="notic">请填写常用的商品规格的名称；例如：颜色；尺寸等。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label class="" for="s_sort">快捷定位</label>
+        </dt>
+        <dd class="opt">
+          <div class="old_gcategory">
+             <{if isset($spec_info)}>
+             <span><{if empty($spec_info.class_name)}>--<{else}><{$spec_info.class_name}><{/if}></span>
+             <input type="button" class="ml-10" id="edit_class" value="编辑">
+             <{/if}>
+         </div>
+         <div id="gcategory" <{if isset($spec_info)}> class="hide" <{/if}>>
+             <input type="hidden" value="" name="param[class_id]" class="mls_id">
+             <input type="hidden" value="" name="param[class_name]" class="mls_name">
+             <select class="class-select mr-5" onchange="get_next_classes(this)">
+                 <option value="0" selected>-请选择-</option>
+                 <{foreach from=$first_classes item=first_class}>
+                 <option value="<{$first_class.gc_id}>"><{$first_class.gc_name}></option>
+                 <{/foreach}>
+             </select>
+         </div>
+         <span class="err"></span>
+         <p class="notic <{if isset($spec_info)}>hide<{/if}>">选择分类，可关联到任意级分类。（只在后台快捷定位中起作用）</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="s_sort"><em>*</em>排序</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="input-txt" name="param[sp_sort]" id="param[sp_sort]" value="<{if isset($spec_info)}><{$spec_info.sp_sort}><{else}>255<{/if}>">
+          <span class="err"></span>
+          <p class="notic">请填写自然数。规格列表将会根据排序进行由小到大排列显示。</p>
+        </dd>
+      </dl>
+       <input type="hidden" name="sp_id" value="<{if isset($spec_info)}><{$spec_info.sp_id}><{/if}>">
+      <div class="bot"><a id="submitBtn" class="ncap-btn-big ncap-btn-green" href="JavaScript:void(0);">确认提交</a></div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+
+  $(function(){
+    //表单验证
+    $('#spec_form').validate({
+      errorPlacement: function(error, element){
+        var error_td = element.parents('dd').children('span.err');
+        error_td.append(error);
+      },
+
+      rules : {
+        s_name: {
+          required : true,
+          maxlength: 10,
+          minlength: 1
+        },
+        s_sort: {
+          required : true,
+          digits	 : true
+        }
+      },
+      messages : {
+        s_name : {
+          required : '<i class="fa fa-exclamation-circle"></i>请填写规格名称',
+          maxlength: '<i class="fa fa-exclamation-circle"></i>规格名称长度应在1-10个字符之间',
+          minlength: '<i class="fa fa-exclamation-circle"></i>规格名称长度应在1-10个字符之间'
+        },
+        s_sort: {
+          required : '<i class="fa fa-exclamation-circle"></i>请填写规格排序',
+          digits   : '<i class="fa fa-exclamation-circle"></i>请填写整数'
+        }
+      }
+    });
+
+    //按钮先执行验证再提交表单
+    $("#submitBtn").click(function(){
+      if($("#spec_form").valid()){
+    	  var url = "goods_specifications_add?op=add";
+			if($("input[name='sp_id']").val() && $("input[name='sp_id']").val()!=null){
+				var sp_id = $("input[name='sp_id']").val();
+				url = "goods_specifications_edit?op=edit&sp_id="+sp_id;
+			}
+			 var data=$("#spec_form").serialize(); 
+            $.ajax({
+    	        type: "post",
+    	        dataType: "json",
+    	        url:url,
+    	        data: data,
+    	        success: function(data){
+    	        	layer.msg(data.msg);
+					if(data.state=='403'){
+				login_ajax('shopadmin');
+			}else
+    	            if(data.state==true){
+    	            //询问框
+        	            if(data.data){
+        	            	layer.confirm('继续编辑？', {
+        	            		time: 5000, //5秒后自动关闭
+                                end: function(){ 
+                            	  	window.location.href="goods_specifications";
+                            	  },
+          	            	  btn: ['确定','去规格列表'] //按钮
+          	            	}, function(){
+          	            		window.location.href="goods_specifications_edit?sp_id="+data.data;
+          	            	}, function(){
+          	            		window.location.href="goods_specifications";
+          	            	});
+        	            }else{
+        	            	layer.confirm('继续添加？', {
+        	            		time: 5000, //5秒后自动关闭
+                                end: function(){ 
+                            	  	window.location.href="goods_specifications";
+                            	  },
+        	            	  btn: ['确定','去规格列表'] //按钮
+        	            	}, function(){
+        	            		window.location.href="goods_specifications_add";
+        	            	}, function(){
+        	            		window.location.href="goods_specifications";
+        	            	});
+        	            }
+    	        	}
+    	        }
+    	    });
+      }
+    });
+    $("#edit_class").click(function(){
+    	$(".old_gcategory").addClass("hide");
+    	$("#gcategory").removeClass("hide");
+    })
+  });
+  //获取指定渠道下相应的品牌列表
+  function get_next_classes(obj){
+  	var gc_parent_id = $(obj).val();
+  	console.log(gc_parent_id);
+  	if(gc_parent_id==0){
+  		if($(obj).next('select')){
+  			$(obj).nextAll('select').remove();
+  		}
+  		if($(obj).prev('select')){
+  			var class_id = $(obj).prev('select').val();
+  			var brand_class = $(obj).prev('select').find("option:selected").text();
+  		}else{
+  			var class_id = '';
+  			var brand_class = '';
+  		}
+  		$("input[name='param[class_id]']").val(class_id);
+  		$("input[name='param[class_name]']").val(brand_class);
+  		return false;
+  	}
+  	var gc_parent_name = $(obj).find("option:selected").text();
+  	
+  	$("input[name='param[class_id]']").val(gc_parent_id);
+  	$("input[name='param[class_name]']").val(gc_parent_name);
+  	var html = ' <select class="class-select mr-5" onchange="get_next_classes(this)">';
+  	html += '<option value="0" selected>-请选择-</objion>';
+  	$.ajax({
+  		type: "get",
+          url: "get_next_classes?gc_parent_id="+gc_parent_id,
+          data: '',
+          dataType: "json",
+          success: function(data){
+          	console.log(data);
+          	if(data!=false && data!=null){
+          		$.each(data,function(k,v){
+          			html +='<option value="'+v.gc_id+'">'+v.gc_name+'</option>';
+          		})
+          		html +='</select>';
+              	if($(obj).next('select')){
+              		$(obj).nextAll('select').remove();
+              		$(obj).after(html);
+              	}else{
+              		$(obj).after(html);
+              	}
+          	}
+          }
+  	})
+  }
+
+
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

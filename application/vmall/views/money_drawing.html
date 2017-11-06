@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>余额提现</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+</head>
+<{include file="lib/Hlink.html" }>
+<style>
+	.cashcontent{
+		width: 80%;
+		margin: 20px auto;
+		background: #fff;
+		padding:16px 20px;
+		border-radius: 5px;
+	}
+	.cashcontent p{
+		float: left;
+	}
+	.cashtitle{
+		margin-left: 30px;
+		color: #3d5485;
+	}
+	.cashtitle span{
+		color: #999;
+	}
+	.clear{
+		clear: both;
+	}
+	.cashnum{
+		margin: 24px 0 50px 0;
+	}
+	input{
+		border: none;
+		outline: none;
+		width:70%;height: 70px;font-size: 100%;
+	}
+	.doblance{
+		color: #999;
+		font-size: 14px;
+		margin-top: 5px;
+	}
+	.doblance a{
+		color: #3d5485;
+	}
+	.btn-cash{
+		display: block;
+		background: #faa19b;
+		width: 100%;
+		height: 40px;
+		border-radius: 5px;
+		color: #fff;
+		line-height: 40px;
+		text-align: center;
+		font-size: 18px;
+	}
+	.text-center{
+		margin-top: 10px;
+		width: 100%;
+		text-align: center;
+	}
+	.yellowmoney{
+		width: 80px;
+	}
+	.yellowmoney img{
+		max-width: 100%;
+		height: auto;
+	}
+</style>
+<body ontouchstart>
+	<div class="cashcontent">
+		<p>到账账户</p>
+		<p class="cashtitle yellowmoney">微信余额</p>
+		<div class="clear"></div>
+		<div class="cashnum">
+			<p>提现金额</p><br>
+			<div style="font-size: 40px;border-bottom: 1px solid #eee;">￥<input id="d" type="text" onkeyup="clearNoNum(this)"/></div>
+			<p class="doblance">零钱余额￥<{if !empty($userinfo.balance)}><{$userinfo.balance}><{else}>0.00<{/if}>，<a href="javascript:;"class="postAll" num="<{if !empty($userinfo.balance)}><{$userinfo.balance}><{else}>0.00<{/if}>">全部提现</a></p>
+		</div>
+		<a class="btn-cash">提现</a>
+		<p class="doblance text-center">2小时内到账</p>
+		<div class="clear"></div>
+	</div>
+</body>
+        <script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+        <script src="<{TEMPLE}>js/base.js"></script>
+<script>
+window.onload = function(){
+	$("#d").focus()
+	}
+function clearNoNum(obj){  
+    //修复第一个字符是小数点 的情况.  
+    if(obj.value !=''&& obj.value.substr(0,1) == '.'){  
+        obj.value="0.";  
+    }  
+      
+    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的       
+    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");      
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数       
+    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额  
+        if(obj.value.substr(0,1) == '0' && obj.value.length == 2){  
+            obj.value= obj.value.substr(1,obj.value.length);      
+        }  
+    }      
+}    
+$('.cashcontent').on('click','.postAll',function(){
+	var number = $(this).attr("num");
+	$("#d").val(number);
+});
+$('.cashcontent').on('click','.btn-cash',function(){
+	var Totall = $(".postAll").attr("num");
+	var Totalls = Number(Totall);
+	var date = Number($("#d").val());
+	if(date<1){
+		mobileAlert("提现金额必须大于1元！",2000,"");
+		return false;
+	}
+	if(date>Totalls){
+		mobileAlert("提现金额不能超过账户余额！",2000,"");
+		return false;
+	}
+	
+	var applyinfo = "<{if !empty($applyinfo)}><{$applyinfo}><{/if}>";
+	if(applyinfo=="true"){
+		mobileAlert("您还有未处理的提现申请，不能再次提现！",2000,"");
+		setTimeout('self.location=document.referrer;',2000)
+	}
+
+	$.ajax({
+		type: "post",
+        url: "post_drawing",
+        data: {
+        	amount:date
+        },
+        dataType: "json",
+        success: function(data){
+        	if(data.state){
+        		mobileAlert(data.msg,2000,"");
+        		setTimeout('self.location=document.referrer;',2000)
+        	}else{
+        		mobileAlert(data.msg,2000,"");
+        	}
+        }
+	});
+});
+	
+	$('body').bind('input propertychange', function() {
+    if($("input").val()!==""){
+    	$(".btn-cash").css("background","#f44236");
+    }else{
+    	$(".btn-cash").css("background","#faa19b");
+    }
+	});
+</script>
+</html>

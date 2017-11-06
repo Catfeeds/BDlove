@@ -1,0 +1,72 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+    <nav class="breadcrumb">
+        <i class="Hui-iconfont">&#xe67f;</i> 账户管理<span class="c-gray en">&gt;</span>通知管理
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+            <i class="Hui-iconfont">&#xe68f;</i>
+        </a>
+    </nav>
+    <div class="page-container">
+        <div id="tab_demo" class="HuiTab">
+            <div class="tabBar clearfix">
+                <!--<{if isset($type) and ($type eq 'wx')}>-->
+                    <!--<a href="notice_manage?type=sms"><span>短信通知</span></a>-->
+                    <!--<a href="notice_manage?type=wx"><span class="current">微信通知</span></a>-->
+                <!--<{else}>-->
+                    <!--<a href="notice_manage?type=sms"><span class="current">短信通知</span></a>-->
+                    <!--<a href="notice_manage?type=wx" ><span>微信通知</span></a>-->
+                <!--<{/if}>-->
+                <a href="notice_manage_state"><span class="current">启用通知</span></a>
+                <a href="notice_manage?type=sms"><span >通知列表</span></a>
+            </div>
+            <table class="table mt-20">
+                <tbody>
+                <tr>
+                    <{foreach from=$rows item=v name=f}>
+                    <td><input type="checkbox" name="sms_template" value="<{$v.template_code}>"
+                        <{foreach from=$check item=c}><{if $v.template_code eq $c.template_code}>checked<{/if}> <{/foreach}> >
+                        <{$v.template_subject}>
+                    </td>
+                    <{if $smarty.foreach.f.iteration is div by 4}></tr><{/if}>
+                <{/foreach}>
+                </tr>
+                </tbody>
+            </table>
+            <div style="width: 100%;" class="center pt50 ">
+                <button class="btn btn-success size-L radius"  onclick="save()">保存</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function save()
+        {
+            var arr = new Array();
+            $('input[type=checkbox]:checked').each(function () {
+                arr.push($(this).val());
+            })
+            if (arr.length>0) {
+                var id = arr.toString();
+                layer.confirm('确定要启用选中的通知？',{
+                    title: '<b>提示信息</b>',
+                    btn: ['确定','取消'],
+                },function () {
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url: "notice_manage_submit?id=" + id,
+                        beforeSend: function () {
+                            layer.msg('数据提交中...', {icon: 1});
+                            var index = layer.load(1, {shade: false});
+                        },
+                        success: function (data) {
+                            layer.closeAll();
+                            layer.msg(data.msg);
+                        }
+                    })
+                })
+            }
+        }
+    </script>
+</body>

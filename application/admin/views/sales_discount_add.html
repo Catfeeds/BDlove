@@ -1,0 +1,184 @@
+<{include file="pageheader.html"}>
+<link type="text/css" href="http://code.jquery.com/ui/1.9.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<!-- <link href="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.js" ></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-zh-CN.js"></script> -->
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+	<a class="back" href="sales_discount" title="返回限时折扣列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>限时折扣——新增活动</h3>
+        <h5>商品限时折扣促销活动设置及管理</h5>
+      </div>
+    </div>
+  </div>
+  <form id="add_form" method="post" enctype="multipart/form-data" action="sales_discount_add?op=submit">
+    <input type="hidden" id="submit_type" value="<{if isset($data.xianshi_id)}><{$data.xianshi_id}><{/if}>" name="submit_type">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>活动名称：</label>
+        </dt>
+        <dd class="opt">
+          <input id="xianshi_name" name="xianshi_name" type="text" maxlength="25" class="text w400"
+           value="<{if isset($data.xianshi_name)}><{$data.xianshi_name}><{/if}>">
+          <span class="err"></span>
+          <p class="notic">活动名称将显示在限时折扣活动列表中，方便商家管理使用，最多可输入25个字符。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          活动标题：
+        </dt>
+        <dd class="opt">
+          <input id="xianshi_title" name="xianshi_title" type="text" maxlength="10" 
+          class="text w200" value="<{if isset($data.xianshi_title)}><{$data.xianshi_title}><{/if}>">
+          <span class="err"></span>
+          <p class="notic">活动标题是商家对限时折扣活动的别名操作，请使用例如“新品打折”、“月末折扣”类短语表现，最多可输入10个字符；<br>非必填选项。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          活动描述：
+        </dt>
+        <dd class="opt">
+          <input id="xianshi_explain" name="xianshi_explain" type="text" maxlength="30"
+           class="text w400" value="<{if isset($data.xianshi_explain)}><{$data.xianshi_explain}><{/if}>">
+          <span class="err"></span>
+          <p class="notic">活动描述是商家对限时折扣活动的补充说明文字，在商品详情页-优惠信息位置显示；<br>非必填选项，最多可输入30个字符。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>开始时间：</label>
+        </dt>
+        <dd class="opt">
+          <input id="start_time" name="start_time" type="text" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="<{if isset($data.stime)}><{$data.stime}><{/if}>" class="text w130 " >
+          <em class="add-on"><i class="icon-calendar"></i></em>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>结束时间：</label>
+        </dt>
+        <dd class="opt">
+          <input id="end_time" name="end_time" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="<{if isset($data.etime)}><{$data.etime}><{/if}>" type="text" class="text w130 ">
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>购买下限：</label>
+        </dt>
+        <dd class="opt">
+          <input id="lower_limit" name="lower_limit" type="text" class="text w130" value="<{if isset($data.lower_limit)}><{$data.lower_limit}><{else}>1<{/if}>">
+          <em class="add-on"><i class="icon-calendar"></i></em>
+          <span class="err"></span>
+          <p class="notic">参加活动的最低购买数量，默认为1</p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+    </div>
+  </form>
+
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+
+
+    $(".bot a").click(function(){
+      if($("#add_form").valid()){
+    	  
+        $("#add_form").submit();
+      }
+    })
+    //页面输入内容验证
+    
+    jQuery.validator.methods.greaterThanDate = function(value, element, param) {
+        var date1 = new Date(Date.parse(param.replace(/-/g, "/")));
+        var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+        return date1 < date2;
+    };
+    jQuery.validator.methods.lessThanDate = function(value, element, param) {
+        var date1 = new Date(Date.parse(param.replace(/-/g, "/")));
+        var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+        return date1 > date2;
+    };
+    jQuery.validator.methods.greaterThanStartDate = function(value, element) {
+        var start_date = $("#start_time").val();
+        var date1 = new Date(Date.parse(start_date.replace(/-/g, "/")));
+        var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+        return date1 < date2;
+    };
+
+    $("#add_form").validate({
+      errorPlacement: function(error, element){
+        var error_td = element.parent('dd').children('span');
+        error_td.append(error);
+      },
+      rules : {
+        xianshi_name : {
+          required : true,
+          remote	: {
+              url :'sales_discount_add?op=check_name',
+              type:'get',
+              cache:false,
+              async:false,
+              data:{
+            	  xianshi_name : function(){
+                      return $('#xianshi_name').val();
+                  },
+            	  xianshi_id : function(){
+                      return $('#submit_type').val();
+                  }
+              }
+          }
+        },
+        start_time : {
+          required : true,
+          greaterThanDate : '1970-01-01 08:00'
+        },
+        end_time : {
+          required : true,
+          greaterThanStartDate : true
+        },
+        lower_limit: {
+          required: true,
+          digits: true,
+          min: 1
+        }
+      },
+      messages : {
+        xianshi_name : {
+          required : '<i class="fa fa-exclamation-circle"></i>活动名称不能为空',
+          remote   : '<i class="fa fa-exclamation-circle"></i>该活动名称已存在'
+        },
+        start_time : {
+          required : '<i class="fa fa-exclamation-circle"></i>开始时间不能为空',
+          greaterThanDate : '<i class="fa fa-exclamation-circle"></i>开始时间不能为空'
+        },
+        end_time : {
+          required : '<i class="fa fa-exclamation-circle"></i>结束时间不能为空',
+          greaterThanStartDate : '<i class="fa fa-exclamation-circle"></i>结束时间必须大于开始时间'
+        },
+        lower_limit: {
+          required : '<i class="fa fa-exclamation-circle"></i>购买下限不能为空',
+          digits: '<i class="fa fa-exclamation-circle"></i>购买下限必须为整数',
+          min: '<i class="fa fa-exclamation-circle"></i>购买下限不能小于1'
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 227px; top: 352px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+        <a class="back" href="javascript:history.back();" title="返回列表">
+            <i class="fa fa-arrow-circle-o-left"></i>
+        </a>
+        <div class="subject">
+            <h3>APP反馈 - 查看</h3>
+            <h5>APP反馈查看与管理</h5>
+        </div>
+    </div>
+  </div>
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span>
+        </div>
+        <ul>
+            <li>显示位置如果选择APP端，则显示在APP端。如果选择PC端就显示在PC端。</li>
+        </ul>
+    </div>
+
+        <{if isset($row)}>
+        <input type="hidden" name="id" value="<{$row.id}>">
+        <{/if}>
+    <div class="ncap-form-default">
+
+        <dl class="row">
+            <dt class="tit">
+                <label for="ac_sort">手机类型</label>
+            </dt>
+            <dd class="opt">
+                <input type="text" value="<{if isset($row)}><{$row.client_type}><{/if}>" name="version_mini" class="input-txt" disabled>
+                <span class="err"></span>
+                <p class="notic"></p>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">
+                <label for="ac_sort">版本号</label>
+            </dt>
+            <dd class="opt">
+                <input type="text" value="<{if isset($row)}><{$row.app_version_id}><{/if}>" name="version_code" class="input-txt" disabled>
+                <span class="err"></span>
+                <p class="notic"></p>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">
+                <label for="ac_sort">创建时间</label>
+            </dt>
+            <dd class="opt">
+                <input type="text" value="<{if isset($row)}><{date('Y-m-d H:i:s',$row.create_time)}><{/if}>" name="apk_url" class="input-txt" disabled>
+                <span class="err"></span>
+                <p class="notic"></p>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">
+                <label for="ac_sort">反馈内容</label>
+            </dt>
+            <dd class="opt">
+                <textarea name="upgrade_point" class="tarea" rows="6" disabled><{if isset($row)}><{$row.error_log}><{/if}></textarea>
+                <span class="err"></span>
+                <p class="notic"></p>
+            </dd>
+        </dl>
+
+
+    </div>
+
+</div>
+
+<div id="goTop" style="bottom: 30px;">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+
+<div role="log" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible">
+    <div>返回列表</div>
+</div>
+</body>
+</html>

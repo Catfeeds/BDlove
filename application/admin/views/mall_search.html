@@ -1,0 +1,65 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>搜索设置</h3>
+                <h5>热搜词与默认词设置</h5>
+            </div>
+    </div>
+        <form id="form" method="post" name="settingForm">
+            <input type="hidden" name="form_submit" value="ok">
+            <div class="ncap-form-default">
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="hot_search">搜索默认词</label>
+                    </dt>
+                    <dd class="opt">
+                        <input id="hot_search" name="hot_search" value="<{$default_hot_search}>" class="input-txt" type="text">
+                        <span class="err"></span>
+                        <p class="notic">搜索默认词设置后，将显示在前台搜索框下面，前台点击时直接作为关键词进行搜索，多个关键词间请用半角逗号 "," 隔开</p>
+                    </dd></dl>
+                <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+            </div>
+        </form>
+</div>
+<script>
+$("#submitBtn").click(function(){
+	if($("#form").valid()){
+		form_data = $("#form").serialize();
+		//console.log(form_data)
+		$.ajax({
+			type: "post",
+	        url: "mall_search?op=edit",
+	        data: form_data,
+	        dataType: "json",
+	        success: function(data){
+	        		layer.msg(data.msg);
+	        }
+		})
+		
+	}
+});
+$('#form').validate({
+	errorPlacement: function(error, element){
+		var error_td = element.parent('dd').children('span.err');
+		error_td.append(error);
+	},
+	rules : {
+		hot_search: {required : true,}
+	},
+	messages : {
+		hot_search : {required: '<i class="fa fa-exclamation-circle"></i>请先输入关键字，多个关键词间请用半角逗号 "," 隔开'}
+
+	}
+});
+
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a
+        href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

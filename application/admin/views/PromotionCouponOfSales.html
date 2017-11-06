@@ -1,0 +1,94 @@
+<{include file="pageheader.html" }>
+
+	<body style="background-color: #FFF; overflow: auto;">
+		<div id="append_parent"></div>
+		<div id="ajaxwaitid"></div>
+		<div class="page">
+			<div class="fixed-bar">
+				<div class="item-title">
+		          
+							<div class="subject">
+								<h3>发券给导购</h3>
+								<h5>平台中的所有新闻的管理</h5>
+							</div>
+		                <ul class="tab-base nc-row">
+						       
+						        <li><a href="JavaScript:void(0);" class="current">进行中</a></li>
+						        <li><a href="JavaScript:void(0);">未开始</a></li>
+						        <li><a href="JavaScript:void(0);">已结束</a></li>
+						      
+					      </ul>
+		            </div>
+			</div>
+			<!-- 操作说明 -->
+			<div class="explanation" id="explanation">
+				<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+					<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+					<span id="explanationZoom" title="收起提示"></span> </div>
+				<ul>
+					<li> 若绑定聚客后为未认证公众号，之后通过了微信认证，请重新授权补充权限。</li>
+					<li>仅微信认证后的服务号可使用完整洽客功能，若微信公众号接口异常，根据提示处理后请点击上方重新授权。</li>
+					<li> 若公众号为订阅号，需通过微信认证才可支持微信支付；服务号均可支持。</li>
+				</ul>
+		     </div>
+		    
+            <div id="flexigrid">
+            </div>
+	</div>
+	<script>
+$(function(){
+
+	$("#flexigrid").flexigrid({
+		url: 'get_store_list?op=<{if isset($op)}><{$op}><{/if}>',
+		colModel : [
+			{display: '操作', name : 'operation', width : 150, sortable : false, align: 'center', className: 'handle-s'},
+			{display: '发放时间', name : 'storelogo', width : 150, sortable : true, align: 'center'},
+			{display: '优惠券类型', name : 'member_name', width : 150, sortable : true, align: 'left'},
+			{display: '发放门店/导购数量', name : 'member_email', width : 150, sortable : true, align: 'left'},
+			{display: '每人发放数量', name : 'member_email', width : 150, sortable : true, align: 'left'},
+			{display: '发放总数', name : 'member_email', width : 150, sortable : true, align: 'left'},
+			{display: '备注', name : 'member_email', width : 150, sortable : true, align: 'left'},
+		],
+		buttons : [
+			{display: '<i class="fa fa-plus"></i>批量发券给导购', name : 'add', bclass : 'add', title : '创建新会员送券', onpress : fg_operate },
+			{display: '<i class="fa fa-file-excel-o"></i>结束活动', name : 'stop', bclass : 'stop', title : '结束活动', onpress : fg_operate },
+		],
+		searchitems : [
+			{display: '优惠券类型', name : 'ous_tel'},
+		],
+		title: '发券给导购活动列表'
+	});
+	function fg_operate(name, grid) {
+    if (name == 'delete') {
+        if($('.trSelected',grid).length>0){
+            var itemlist = new Array();
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+            fg_delete(itemlist);
+        }else{
+            return false;
+        }
+    }else if (name == 'add') {
+    	window.location.href="CouponOfSalesEdit";
+    }else if(name=='stop'){
+    	var itemlist = new Array();
+    	if($('.trSelected',grid).length>0){
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+        }
+    	itemlist = itemlist.join(',');
+    	update_ad_management(itemlist);
+    }
+}
+});
+
+</script>
+			<div id="goTop">
+				<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+				<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+			</div>
+	</body>
+
+	</html>

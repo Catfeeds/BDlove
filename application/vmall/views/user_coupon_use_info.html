@@ -1,0 +1,187 @@
+<html lang="zh-cn" class="hairlines" style="opacity: 1; font-size: 100px;">
+	<head>
+         <{include file="lib/Hlink.html" }>
+		<title>优惠券详情</title>
+		<style>
+			footer {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 43px;
+			}
+			
+			.c-8 {
+				color: #888;
+			}
+			
+			.ui-table {
+				width: 100%;
+				max-width: 100%;
+				background: #fff;
+			}
+			
+			.ui-table th {
+				background: #F0F0F0
+			}
+			
+			.ui-table th,
+			.ui-table td {
+				padding: 5px 8px;
+			}
+			
+			.ui-table.tbl-bdr th,
+			.ui-table.tbl-bdr td {
+				border: 1px solid #ddd;
+				overflow: ellipsis;
+			}
+			
+			.ui-table.tbl-bdr.tbl-rdu {
+				border-radius: 4px;
+			}
+			
+			#barCodeBox {
+				display: inline-block;
+				width: 80%;
+			}
+			
+			#barCodeBoxTxt {
+				font-family: 'arial';
+				letter-spacing: 2px;
+				font-size: 18px;
+			}
+			/*.couponInfo .top {text-align: left;}*/
+			
+			.coupon-used {
+				position: absolute;
+				top: -0.2rem;
+				right: 10px;
+			}
+			
+			.coupon-used img {
+				width: 0.8rem;
+			}
+			
+			.with-go-right:after {
+				border-color: #f44336;
+				right: 25px;
+			}
+			
+			a.limitStore {
+				padding: 15px 20px;
+				background: #fff;
+				display: block;
+				color: #f44336;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="" id="couponWrap" avalonctrl="couponInfoCtr">
+			<div class="couponInfo">
+				<div class="top" style="background-color: rgb(244, 67, 54);">
+					<!--ms-if-->
+					<div class="couponName ell">关注有礼20元</div>
+					<div class="type">20元代金券，订单满20.1元可用</div>
+					<!-- <div class="wave"></div> -->
+					<div class="pt20"></div>
+					<!--ms-if-->
+					<!--ms-if-->
+					<div>2017-03-04 00:00:00 - 2017-05-31 23:59:59</div>
+				</div>
+
+				<div class="bg-wt tc pt20 pb20 ovh">
+					<p class="c-8 lh24 pb5" id="showToSalse">使用时请出示给服务顾问</p>
+					<div id="barCodeBox" style="margin-left: -10px; padding: 0px; overflow: auto; width: 264px;">
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 20px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 4px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 6px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 4px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 4px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 8px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 6px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 6px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 8px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 6px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 6px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 4px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 4px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 8px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 6px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 4px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 4px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 8px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 4px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 6px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 6px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 2px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 2px"></div>
+						<div style="float: left; font-size: 0px; width:0; border-left: 4px solid #000000; height: 80px;"></div>
+						<div style="float: left; font-size: 0px; background-color: #FFFFFF; height: 80px; width: 20px"></div>
+					</div>
+					<p id="barCodeBoxTxt">7153 9038 0090 24</p>
+				</div>
+
+				<!--ms-if-->
+
+				<!--ms-if-->
+
+				<!--ms-if-->
+
+				<!--ms-if-->
+
+				<div class="bg-wt p20 lh20">
+					<p class="fw-bold">使用说明：</p>
+					<div class="cont">1. 必须在订单金额满足时才能使用；<br>2. 一张店铺优惠券仅限于单笔订单消费抵用；<br>3. 优惠券过期则作废;<br>4. 活动商品，如闪购秒杀不可使用优惠券<br>5. 优惠券不可抵扣运费</div>
+				</div>
+
+				<div class="mb20 p20"></div>
+			</div>
+			<footer id="couponInfoFT" class="wbox">
+				<!--ms-if-->
+				<!--ms-if-->
+				<a href="javascript:history.go(-1)" class="btn btn-red full no-rdu" style="background-color: rgb(244, 67, 54);">返回</a>
+			</footer>
+		</div>
+	
+	</body>
+
+</html>

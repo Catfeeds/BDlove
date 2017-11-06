@@ -1,0 +1,401 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>码段管理</h3>
+        <h5>对商品的码段进行管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+   <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span>
+    </div>
+    <ul>
+      <li>全站所有涉及的商品分类均来源于此处，强烈建议对此处谨慎操作</li>
+      <li>码段新增：方法一，单条数据的添加：步骤1，点击页面上【增加码段】，弹出录入分类信息对话框；步骤2，录入码段信息之后点击确认提交数据实现新增；方法二，excel导入实现批量新增，
+           这里请选择严格按照｛码段名称、是否启用、排序｝顺序录入，否则导入不成功，<a target="_blank" href="<{PLUGIN}>data/excel_tp/images/code_excel_tp.png">在线查看导入模版</a>或<a href="javascript:window.location.href = 'code_excel_tp'">下载格式文件。</a></li>
+    
+    </ul>
+  </div>
+  <div id="flexigrid"></div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $("#flexigrid").flexigrid({
+        url: 'get_code_list',
+        colModel : [
+            {display: '操作', name : 'operation', width : 150, sortable : false, align: 'center',className: 'handle'},
+            {display: '序号', name : 'code_id', width : 150, sortable : false, align: 'left'},
+            {display: '名称', name : 'code_name', width : 150, sortable : false, align : 'left'}, 
+            {display: '关联分类', name : 'class', width : 150, sortable : false, align : 'left'}, 
+//            {display: '是否启用', name : 'status', width : 120, sortable : false, align : 'left'},
+//            {display: '排序', name : 'sort', width : 120, sortable : false, align : 'center'},
+            ],
+        buttons : [
+           /* {display: '添加商家', name : 'add', bclass : 'add', title : '添加商家', onpress : fg_operate },*/
+            {display: '<i class="fa fa-plus"></i>添加码段', name : 'add', bclass : 'add', title : '添加码段' },
+            {display: '<i class="fa fa-trash"></i>批量删除', name : 'del', bclass : 'del', title : '批量删除', onpress : fg_operate },
+//            {display: '<i class="fa fa-ban"></i>批量禁用', name : 'disabled', bclass : 'disabled', title : '批量禁用', onpress : fg_operate },
+            {display: '<i class="fa fa-cloud-download"></i>批量导入', name : 'import', bclass : 'import ', title : '批量导入' },
+            {display: '<i class="fa fa-file-excel-o"></i>导出数据', name : 'csv', bclass : 'export', title : '将选定行数据导出excel文件,如果不选中行，将导出列表所有数据', onpress : fg_operate }
+        ],
+        searchitems : [
+                       {display: '码段名称', name : 'cs_name', isdefault: true},
+                       ],
+
+        //sortname: "",
+        //sortorder: "",
+        title: '码段列表'
+    });
+    /*添加码段*/
+    $(".fbutton>.add").on("click",function(){
+        $.ajax({
+                type:'get',
+                dataType:'json',
+                url:'ajax_get_cate_option',
+                success:function(data){
+                    if(data.state){
+                        layer.open({
+                            type: 1,
+                            btn: ['确认', '取消'],
+                            title: '<b>添加码段</b>',
+                            skin: 'layui-layer-rim', //加上边框
+                            area: ['420px', 'auto'], //宽高
+                            content: '<div class="pt-10 pb-10 pl-30 pr-30 "><form action="" id="form1">' +
+                            '<table class="table">' +
+                            '<tr> ' +
+                            '<td class="text-l f-14" style="width: 80px;">名称：</td>' +
+                            '<td class="text-l f-14"><input type="text" class="input-text " name="cs_name" style="width: 120px;height: 24px;"><span class="err"></span></td> ' +
+                            '</tr>' +
+                            '<tr> ' +
+                            '<td class="text-l f-14" style="width: 80px;">关联分类：</td>' +
+                            '<td class="text-l f-14"><select name="gc_id" class="select2"><option value="">请选择</option>'+data.info+'</select></td> ' +
+                            '</tr>' +
+                            '</table>'+
+                            '</form></div>',
+                            success:function(){
+                                 $(".select2").select2({
+                                    width:'200px'
+                                });
+                            },
+                            yes: function(index){
+                                /*添加代理商表单验证*/
+                                $('#form1').validate({
+                                    errorPlacement: function(error, element){
+                                        var error_td = element.nextAll('span.err');
+                                        error_td.append(error);
+                                    },
+                                    rules : {
+                                        cs_name : {
+                                            required : true
+                                        },
+                                        gc_id : {
+                                            required : true
+                                        },
+                                    },
+                                    messages : {
+                                        cs_name : {
+                                            required : '<i class="fa fa-exclamation-circle"></i>请输入码段名称'
+                                        },
+                                        gc_id : {
+                                            required : '<i class="fa fa-exclamation-circle"></i> 请选择分类'
+                                        }
+                                    }
+                                });
+                                if($("#form1").valid()){
+                                    var data = $("#form1").serialize();
+                                    $.ajax({
+                                        type:'post',
+                                        data:data,
+                                        url:'add_code',
+                                        error:function(){
+                                            layer.alert('添加失败',{
+                                                icon: 2,
+                                                skin: 'layer-ext-moon'
+                                            })
+                                        },
+                                        success:function(data){
+                                            if(data.state=='403'){
+                                                login_ajax('admin',data);
+                                            }
+                                            layer.close(index);
+                                            layer.msg(data.msg);
+                                            if(data.state){
+                                                $("#flexigrid").flexReload();
+                                            }
+                                },
+                                dataType:'json'
+                                });
+                                }
+                            }, no: function(){
+                            }
+                        })
+                    } 
+                }
+            })
+    });
+    $(".fbutton>.import").on("click",function(){
+        layer.open({
+            type: 1,
+            btn: ['确认', '取消'],
+            title: '<b>批量导入</b>',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['520px', 'auto'], //宽高
+            content: '<div class="pt-10 pb-10 pl-30 pr-30 "><form action="code_up_excel" id="form3" method="POST" enctype=multipart/form-data>' +
+            '<table class="table">' +
+            '<tr> ' +
+            '<td class="text-l f-14"  style="width: 80px;">选择文件：</td>' +
+            '<td class="text-l pos-r"><div class="input-file-show"> <span class="show"> <a class="nyroModal" rel="gal" href=""> <i class="fa fa-file-excel-o"></i> </a> </span> <span class="type-file-box"> <input type="text" name="" id="textfield2" class="type-file-text"> <input type="button" name="" id="button2" value="选择导入..." class="type-file-button"> <input class="type-file-file valid" id="import_excel" name="file_" type="file" hidefocus="true" nc_type="cms_image"></span></div><div class="err pos-a" style="bottom: -10px;"></div></td> ' +
+            '</tr>' +
+
+            '</table>'+
+            '</form></div>',
+            yes: function(index){
+                /*添加代理商表单验证*/
+                $('#form3').validate({
+                    errorPlacement: function(error, element){
+                        var error_td = element.parents('.input-file-show').next('div.err');
+                        error_td.append(error);
+                    },
+                    rules : {
+                        file_ : {
+                            required : true
+                        }
+                    },
+                    messages : {
+                        file_ : {
+                            required : '<i class="fa fa-exclamation-circle"></i>请选择文件'
+                        }
+                    }
+                });
+                if($("#form3").valid()){
+                	var data = new FormData($('#form3')[0]);
+                	layer.close(index);
+                	$.ajax({
+                		data:data,
+                    	type:'post',
+                    	url:'../write_import/excel_upload',
+                    	dataType:'json',
+                    	cache: false,
+                    	processData: false,
+                        contentType: false,
+                    	success:function(data){
+						if(data.state=='403'){
+							    login_ajax('admin',data);
+							}
+                    		if(data['state'] == false){
+                    			layer.alert(data['msg']);
+                    		}else{
+                    			//iframe层
+                    			layer.open({
+                       			  type: 2,
+                       			  title: '导入明细',
+            						scrollbar:false,
+            						shade: 0.8,
+                       			  area: ['900px', '60%'],
+                       			  content: 'code_up_excel?name='+data['name']
+                    			}); 
+                    		}
+                    	}
+                	});
+                }
+            }, no: function(){
+            }
+        })
+    })
+});
+function fg_operate(name, grid) {
+	
+    if (name == 'csv') {
+    	var itemlist = new Array();
+        if($('.trSelected',grid).length>0){
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+        }
+        fg_csv(itemlist);
+    }else if (name == 'del') {
+    	if($('.trSelected',grid).length>0){
+            var itemlist = new Array();
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+            fg_delete(itemlist);
+        }else{
+            return false;
+        }
+    }else if (name == 'disabled') {
+    	var itemlist = new Array();
+        if($('.trSelected',grid).length>0){
+            $('.trSelected',grid).each(function(){
+            	itemlist.push($(this).attr('data-id'));
+            });
+        }
+        fg_disable(itemlist);
+    }
+}
+function fg_csv(ids) {
+    id = ids.join(',');
+    window.location.href = 'code_excel?id='+id;
+}
+function fg_delete(id, name) {
+	if (typeof id == 'number') {
+    	var id = new Array(id.toString()); 
+	};
+	if(typeof name == 'undefined'){
+		var str = '删除后将不能恢复，确认删除 这' + id.length + ' 项吗？';
+	}else{
+		var str = '删除后将不能恢复，确认删除 ' + name + ' 吗？';
+	}
+	layer.confirm(str, {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+		  layer.msg('删除中', {icon: 1});
+		  $.ajax({
+		        type: "post",
+		        dataType: "json",
+		        url: "del_code",
+		        data: "id="+id,
+		        success: function(data){
+					if(data.state=='403'){
+					    login_ajax('admin',data);
+					}
+		        	layer.msg(data.msg);
+                                if(data.state){
+                                    $("#flexigrid").flexReload();
+                                }
+		        }
+		    });
+		}, function(){
+		    return ;
+    });
+}
+function fg_disable(id, name,status) {
+        if(typeof(status) == 'undefined'){
+            status = '1';
+        }
+	var status_str = status=='1' ? '禁用' : '启用';
+	if (typeof id == 'number') {
+    	var id = new Array(id.toString());
+	};
+	if(typeof name == 'undefined'){
+		var str = '确认'+status_str+'这 ' + id.length + ' 项吗？';
+	}else{
+		var str = '确认'+ status_str+' ' + name + ' 吗？';
+	}
+	layer.confirm(str, {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+		  layer.msg(status_str+'中...', {icon: 1});
+		  $.ajax({
+		        type: "post",
+		        dataType: "json",
+		        url: "disable_code",
+		        data: {'id':id,'status':status},
+		        success: function(data){
+					if(data.state=='403'){
+					    login_ajax('admin',data);
+					}
+		        	layer.msg(data.msg);
+                                if(data.state){
+                                    $("#flexigrid").flexReload();
+                                }
+		        }
+		    });
+		}, function(){
+		    return ;
+    });
+}
+function edit(arr){
+    $.ajax({
+        type:'get',
+        dataType:'json',
+        url:'ajax_get_cate_option?class_id='+arr['gc_id'],
+        success:function(data){
+            if(data.state){
+                layer.open({
+                    type: 1,
+                    btn: ['确认', '取消'],
+                    title: '<b>编辑码段</b>',
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', 'auto'], //宽高
+                    content: '<div class="pt-10 pb-10 pl-30 pr-30 "><form action="" id="form1">' +
+                    '<table class="table">' +
+                    '<tr> ' +
+                    '<td class="text-l f-14" style="width: 80px;">名称：</td>' +
+                    '<td class="text-l f-14"><input type="text" class="input-text " name="cs_name" value="'+arr['cs_name']+'" style="width: 120px;height: 24px;"><span class="err"></span></td> ' +
+                    '</tr>' +
+                    '<tr> ' +
+                    '<td class="text-l f-14" >关联分类：</td>' +
+                    '<td class="text-l f-14"><select name="gc_id" class="select2">'+data.info+'</select><span class="err"></span></td> ' +
+                    '</tr>' +
+                    '</table>'+
+                    '</form></div>',
+                    yes: function(index){
+                        /*添加代理商表单验证*/
+                        $('#form1').validate({
+                            errorPlacement: function(error, element){
+                                var error_td = element.nextAll('span.err');
+                                error_td.append(error);
+                            },
+                            rules : {
+                                    cs_name : {
+                                    required : true
+                                },
+                                gc_id : {
+                                    required : true
+                                }
+                            },
+                            messages : {
+                                    cs_name : {
+                                    required : '<i class="fa fa-exclamation-circle"></i>请输入码段名称'
+                                },
+                                gc_id : {
+                                    required : '<i class="fa fa-exclamation-circle"></i> 请选择分类'
+                                }
+                            }
+                        });
+                        if($("#form1").valid()){
+                            var data = $("#form1").serialize();
+                            $.ajax({
+                                type:'post',
+                                data:data,
+                                url:'edit_code/'+arr['cs_id'],
+                                error:function(){
+                                layer.alert('修改失败',{
+                                        icon: 2,
+                                        skin: 'layer-ext-moon'
+                                })
+                                },
+                                success:function(data){
+                                    if(data.state=='403'){
+                                        login_ajax('admin',data);
+                                    }
+                                    layer.close(index);
+                                    layer.msg(data.msg);
+                                    if(data.state){
+                                        $("#flexigrid").flexReload();
+                                    }
+                                },
+                                dataType:'json'
+                                });
+                        }
+                    }, no: function(){
+                    }
+                })
+            }
+        }
+    });
+}
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

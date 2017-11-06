@@ -1,0 +1,96 @@
+<{include file="pageheader.html"}>
+<style>
+span.red{color:red;}
+span.green{color:#00BB9C;}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>微信公众号授权</h3>
+        <h5>对接微商城所关联的微信公众号</h5>
+      </div>
+      </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+<li> 若绑定洽客后为未认证公众号，之后通过了微信认证，请重新授权补充权限。</li>
+<li>仅微信认证后的服务号可使用完整洽客功能，若微信公众号接口异常，根据提示处理后请点击上方重新授权。</li>
+<li> 若公众号为订阅号，需通过微信认证才可支持微信支付；服务号均可支持。</li>
+    </ul>
+  </div>
+  <form method="post" id="form_email" action="setting" name="settingForm">
+    <input type="hidden" name="form_submit" value="ok" />
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">公众微信号：</dt>
+        <dd class="opt">
+           <{if isset($weixin_auther_info.alias)}><{$weixin_auther_info.alias}><{else}>--<{/if}>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">公众号昵称：</dt>
+        <dd class="opt">
+          <{if isset($weixin_auther_info.nick_name)}><{$weixin_auther_info.nick_name}><{else}>--<{/if}>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">公众号类型：</dt>
+        <dd class="opt">
+          <{if !isset($weixin_auther_info.verify_type_info)}>-<{/if}><{if !isset($weixin_auther_info.service_type_info)}>-<{/if}>
+          <{if isset($verify_type[$weixin_auther_info.verify_type_info.id])}><{$verify_type[$weixin_auther_info.verify_type_info.id]}><{/if}><{if isset($service_type[$weixin_auther_info.service_type_info.id])}><{$service_type[$weixin_auther_info.service_type_info.id]}><{/if}>
+          <p class="notic">账号升级后，请重新授权微信公众号</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">微信接口状态：</dt>
+        <dd class="opt">
+           <table class="table table-border table-bordered table-bg">
+  <thead class="text-c">
+    <tr>
+       <th>消息及自定义菜单管理</th>
+      <th>用户管理</th>
+      <th>二维码获取</tthd>
+      <th>网页授权</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr  class="text-c">
+      <td><{if !in_array(15,$weixin_auth_info.func_info)&&in_array(1,$weixin_auth_info.func_info)}><span class="red">设置公众号微信菜单。</span><{else}>设置公众号微信菜单。<{/if}><{if !in_array(1,$weixin_auth_info.func_info)&&in_array(15,$weixin_auth_info.func_info)}><span class="red">微信粉丝关注及相关消息处理，如首访语</span><{else}>微信粉丝关注及相关消息处理，如首访语<{/if}></td>
+      <td>获取用户基本信息接口，如微信昵称、性别、头像等。需"网页授权"权限才可使用</td>
+      <td>用于生成导购专属公众号二维码。</td>
+      <td>用于微信用户直接登陆洽客商城页面。</td>
+    </tr>
+    <tr class="text-c">
+      <td><{if in_array(1,$weixin_auth_info.func_info)||in_array(15,$weixin_auth_info.func_info)}><span class="green"><i class="fa fa-check-circle"></i>已获得</span><{else}><span class="red"><i class="fa fa-times-circle"></i>未获得</span><{/if}></td>
+      <td><{if in_array(2,$weixin_auth_info.func_info)}><span class="green"><i class="fa fa-check-circle"></i>已获得</span><{else}><span class="red"><i class="fa fa-times-circle"></i>未获得</span><{/if}></td>
+      <td><{if in_array(3,$weixin_auth_info.func_info)}><span class="green"><i class="fa fa-check-circle"></i>已获得</span><{else}><span class="red"><i class="fa fa-times-circle"></i>未获得</span><{/if}></td>
+      <td><{if in_array(4,$weixin_auth_info.func_info)}><span class="green"><i class="fa fa-check-circle"></i>已获得</span><{else}><span class="red"><i class="fa fa-times-circle"></i>未获得</span><{/if}></td>
+    </tr>
+   
+  </tbody>
+</table>
+        </dd>
+      </dl>
+      <div class="bot">
+     <{if empty($weixin_auther_info)}>
+         <a href="<{$url}>" target="_blank" class="btn btn-danger radius" id="getup">公众号授权</a>
+     <{else}>
+	     <a href="<{$url}>" target="_blank" class="btn btn-warning radius" id="getup">重新授权</a>
+	     <a href="<{$url}>" target="_blank" class="btn btn-danger radius ml-20" id="getup">更换公众号</a>
+     <{/if}>
+      </div>
+    </div>
+  </form>
+</div>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>订单支付成功</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+</head>
+<style>
+	body{
+		background: #efefef;
+	}
+	.text-center{
+		color: #999;
+		text-align: center;
+	}
+	.successcontent{
+		width: 90%;
+		margin: 10px auto;
+		background: #fff;
+		padding: 20px 10px;
+		border-radius: 5px;
+	}
+	.successcontent h3{
+		margin-left: 10px;
+	}
+	.content-title{
+		margin-top: 10px;
+		padding: 10px;
+	}
+</style>
+<body ontouchstart>
+	<div class="successcontent">
+		<h3>订单支付成功</h3>
+		<div class="content-title">
+			<p class="text-center">支付金额</p>
+			<h1 style="text-align: center;">￥<{$info.pay_money}></h1>
+		</div>
+		<div class="weui-cells">
+			<div class="weui-cell">
+				<div class="weui-cell__bd">
+					<p>物流方式：</p>
+				</div>
+				<div class="weui-cell__ft"><{$info.shipping_type}></div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__bd">
+					<p>支付时间：</p>
+				</div>
+				<div class="weui-cell__ft"><{$info.order_time}></div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__bd">
+					<p>支付方式：</p>
+				</div>
+				<div class="weui-cell__ft"><{$info.pay_type}></div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__bd">
+					<p>订单号：</p>
+				</div>
+				<div class="weui-cell__ft"><{$info.order_sn}></div>
+			</div>
+		</div>
+	</div>
+	<div class="page__bd page__bd_spacing" style="margin-top: 30px;">
+		<a href="javascript:;" class="weui-btn weui-btn_primary" id="conform">确定</a>
+	</div>
+		
+
+</body>
+<script>
+$("#conform").click(function(){
+ 	window.location.href='<{base_url("vmall.php/order/order_detail?order_sn=")}><{$info.order_sn}>';
+ })
+</script>
+</html>

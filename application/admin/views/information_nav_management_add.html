@@ -1,0 +1,135 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="<{base_url()}>admin.php/Information/information_nav_management" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>导航管理 - 新增</h3>
+                <h5>咨讯页面导航相关菜单链接设置</h5>
+            </div>
+        </div>
+    </div>
+    <form id="add_form" method="post" action="index.php?act=cms_navigation&amp;op=cms_navigation_save">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="navigation_title"><em>*</em>导航名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="" name="navigation_title" id="navigation_title" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">导航名称不能为空，最多20个字符</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="navigation_link"><em>*</em>导航链接</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="" name="navigation_link" id="navigation_link" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">导航链接不能为空，必需为完整URL格式，最多255个字符</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="navigation_sort"><em>*</em>排序</label>
+                </dt>
+                <dd class="opt">
+                    <input id="navigation_sort" name="navigation_sort" type="text" class="input-txt" value="255">
+                    <span class="err"></span>
+                    <p class="notic">数字范围为0~255，数字越小越靠前</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="navigation_open_type"><em>*</em>新窗口打开</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <label for="isuse_1" class="cb-enable selected" title="是">是</label>
+                        <label for="isuse_0" class="cb-disable" title="否">否</label>
+                        <input type="radio" id="isuse_1" name="navigation_open_type" value="1">
+                        <input type="radio" id="isuse_0" name="navigation_open_type" value="0">
+                    </div>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <div class="bot"><a id="submit" href="javascript:void(0)" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $("#submit").click(function(){
+		if($("#add_form").valid()){
+			var data = new FormData($('#add_form')[0]);
+			$.ajax({
+				data:data,
+				type:'post',
+				dataType:'json',
+				url:"<{base_url()}>admin.php/Information/information_nav_management_add",
+				cache: false,
+               	processData: false,
+                contentType: false,
+				success:function(res){
+					if(res=="success"){
+						layer.alert('导航添加成功');
+					}else{
+						layer.alert('导航添加失败');
+					}
+					
+				}
+			});
+		}
+    });
+
+        $('#add_form').validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parent('dd').children('span.err');
+                error_td.append(error);
+            },
+            rules : {
+                navigation_title: {
+                    required : true,
+                    maxlength : 20
+                },
+                navigation_link: {
+                    required : true,
+                    url : true,
+                    maxlength : 255
+                },
+                navigation_sort: {
+                    required : true,
+                    digits: true,
+                    max: 255,
+                    min: 0
+                }
+            },
+            messages : {
+                navigation_title: {
+                    required : "<i class='fa fa-exclamation-circle'></i>导航名称不能为空，最多20个字符" ,
+                    maxlength : "<i class='fa fa-exclamation-circle'></i>导航名称不能为空，最多20个字符"
+                },
+                navigation_link: {
+                    required : "<i class='fa fa-exclamation-circle'></i>导航链接不能为空，必需为完整URL格式，最多255个字符",
+                    url : "<i class='fa fa-exclamation-circle'></i>导航链接不能为空，必需为完整URL格式，最多255个字符",
+                    maxlength : "<i class='fa fa-exclamation-circle'></i>导航链接不能为空，必需为完整URL格式，最多255个字符"
+                },
+                navigation_sort: {
+                    required : "<i class='fa fa-exclamation-circle'></i>排序必须为0~255之间的数字",
+                    digits: "<i class='fa fa-exclamation-circle'></i>排序必须为0~255之间的数字",
+                    max : "<i class='fa fa-exclamation-circle'></i>排序必须为0~255之间的数字",
+                    min : "<i class='fa fa-exclamation-circle'></i>排序必须为0~255之间的数字"
+                }
+            }
+        });
+    });
+
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

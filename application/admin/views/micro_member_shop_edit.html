@@ -1,0 +1,666 @@
+<{include file="pageheader.html" }>
+<style>
+	.mb-special-layout{background-color: #fff;}
+	.mb-special-layout div{float: left;}
+	.mb-special-layout .ncap-form-default{width: 72.5%;}
+	.select2{margin-bottom:0;}
+	.limit_container{
+		width:500px;
+		height:100px;
+		border:1px solid #efefef;
+		margin-top:10px;
+		background: #f5f5f5;
+	}
+	.selected-group-goods{
+		width:180px;
+		border:1px solid #eee;
+		text-align: center;
+		padding:5px;
+		margin:2px;
+	}
+	.selected-group-goods div{
+		width:100%;
+		margin:0 auto;
+		display:block;
+		white-space:nowrap;
+		overflow:hidden;
+		text-overflow:ellipsis;
+	}
+	.selected-group-goods img{
+		width:180px;
+		height:180px;
+	}
+	.search_goods{
+		border:1px solid #eee;
+		padding: 10px;
+		width:100%;
+	}
+	.col-xs-3{
+		width:22%!important;
+	}
+	.choice_title{
+		border-bottom: 1px solid #eee;
+		padding-bottom: 10px;
+		margin-bottom:10px;
+		width:100%;
+	}
+	p{
+		margin-bottom:0 ;
+	}
+	.preview_img{
+		width:90px;
+		height: 90px;
+		vertical-align: top;
+		margin-right: 7px;
+		margin-bottom: 5px;
+	}
+	.uploadimg{
+		position: relative;
+		float: left;
+	}
+	.fa-close:before, .fa-times:before {
+		position: absolute;
+		top: -7px;
+		left: 88px;
+	}
+	.ncap-form-default{display:none;}
+	.active{display:block;}
+	.el-form-item__content div{
+		float: none;
+	}
+	.w_80{
+		width:80px;
+		margin:5px 10px;
+	}
+	.panel-header{
+		padding:4px 15px;
+	}
+	.panel{
+		margin-top:10px;
+		border-radius: 2px;
+	}
+	.myself{
+		float: none!important;
+		background: #f7f7f7;
+		padding: 5px;
+		display: none;
+	}
+	.tarea{
+		width: 350px;
+		height:70px;
+	}
+	.clear{
+		clear: both;
+	}
+	.myself_title{
+		margin:5px 10px;
+	}
+	.btn{
+		margin-right: 10px;
+	}
+	.w_50{
+		width:50px;
+	}
+    .w_75{
+		   width:75px;
+		}
+	.w_100{
+			width:100px;
+		}
+	.w_150{
+			width:150px;
+		}
+    .w_220{
+			width:220px;
+		}
+	.remove_s{
+		margin-right:5px;
+	}
+	.add_num a{
+		text-decoration: underline;
+	}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+	<div class="fixed-bar">
+		<div class="item-title">
+			<a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+			<div class="subject">
+				<h3>会员购-添加活动</h3>
+				<h5>添加会员购活动</h5>
+			</div>
+		</div>
+
+	</div>
+	<!-- 操作说明 -->
+	<div class="explanation" id="explanation">
+		<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+			<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+			<span id="explanationZoom" title="收起提示"></span> </div>
+		<ul>
+			<li> 注意：会员购活动创建好后就不可以修改，请确认后再创建</li>
+		</ul>
+	</div>
+
+	<div class="mb-special-layout">
+		<div class="ncap-form-default active" id="add_form_op">
+			  <form id="add_form" method="post" name="add_form" enctype="multipart/form-data"  >
+				<dl class="row">
+					<dt class="tit">
+						<label for="shop_title"><em>*</em>活动标题：</label>
+					</dt>
+					<dd class="opt">
+					    <input id="shop_title" name="shop_title" type="text" class="input-txt" value="<{if isset($shop_Info.shop_title)}><{$shop_Info.shop_title}><{/if}>">
+						<span class="err"></span>
+					</dd>
+				</dl>
+			   	<dl class="row">
+					<dt class="tit"><label for="start_end_time"><em>*</em>活动时间：</label></dt>
+					<dd class="opt">
+						<input type="text" id="start_time" onclick="laydate()" value="<{if isset($shop_Info.start_time)}><{date('Y-m-d',$shop_Info.start_time)}><{/if}>" name="start_time" style="background-color: #fff" class="data-start">
+						至&nbsp;<input type="text" id="end_time" onclick="laydate()" value="<{if isset($shop_Info.end_time)}><{date('Y-m-d',$shop_Info.end_time)}><{/if}>" name="end_time" style="background-color: #fff" class="data-end">
+						<span class="err"></span>
+
+					</dd>
+			   	</dl>
+	
+				
+				<dl class="row">
+					<dt class="tit">
+						<label for="shop_image_wx"><em>*</em>推文图片：</label>
+					</dt>
+					<dd class="opt">
+						<div class="formControls">
+							<div id="preview1" goods_src="<{if isset($shop_Info.shop_image_wx) && !empty($shop_Info.shop_image_wx)}><{base_url()}>data/shop/album_pic/<{$shop_Info.shop_image_wx}><{/if}>"></div>
+							<div style="clear:both"></div>
+							<input type="file" id="shop_image_wx" name ="shop_image_wx" onchange="preview1(this)" style="opacity:0" />
+							<input type="hidden" id="shop_image_wx_h" name ="shop_image_wx_h" value="<{if isset($shop_Info.shop_image_wx)}><{$shop_Info.shop_image_wx}><{/if}>"/>
+							<span class="btn btn-secondary radius size-S mb-10" style="margin-left:-243px"><i class="fa fa-cloud-download"></i>上传图片</span>
+						</div>
+						<input type="hidden" id="shop_image_wxs" name ="shop_image_wxs" value="<{if isset($shop_Info.shop_image_wx)}><{$shop_Info.shop_image_wx}><{/if}>"/><span class="err"></span>
+						<p class="notic">图片建议尺寸：900*500 ,图片支持格式：jpg、jpeg、png</p>
+					</dd>
+				</dl>
+				
+				
+				
+				<dl class="row">
+					<dt class="tit">
+						<label for="shop_note">推文介绍：</label>
+					</dt>
+					<dd class="opt">
+						<textarea name="shop_note" rows="6" class="tarea" id="shop_note"><{if isset($shop_Info.shop_note)}><{$shop_Info.shop_note}><{/if}></textarea>
+						<span class="err"></span>
+					</dd>
+				</dl>
+				
+				
+				<{if empty($shop_id)}>
+				<dl class="row">
+					<dt class="tit"><label for="store_type">门店类型：</label></dt>
+					<dd class="opt" style="width: 13%;">
+						<input type="radio" id="store_type_1" name="store_type" value="1" checked ><label for="store_type_1">实体店</label>
+						<input type="radio" id="store_type_2" name="store_type" value="2" ><label for="store_type_2">电商店</label>
+					</dd>
+			   <{/if}>		
+					<dt class="tit"><label for="goods_pos">商品类型：</label></dt>
+					<dd class="opt" style="width: 13%;">
+						<input type="radio" id="goods_pos_1" name="goods_pos" value="0" checked ><label for="goods_pos_1">总库</label>
+						<input type="radio" id="goods_pos_2" name="goods_pos" value="1" ><label for="goods_pos_2">自建</label>
+					</dd>
+				</dl>
+               
+				
+			    <dl class="row" >
+					<dt class="tit"><label for="store_id"><em>*</em>活动门店:</label></dt>
+					<dd class="opt">
+					    <{if !empty($shop_Info)}>
+					       <input type="text" id="stores_ids" name="stores_ids"  value="<{$shop_Info.store_name}>" disabled>
+					       <input type="hidden" id="store_id" name="store_id"  value="<{$shop_Info.store_id}>" >
+					    <{else}>
+						    <select class="valid select2" id="store_id" name="store_id"  >
+			                    
+							</select>
+					    <{/if}>
+					   
+						
+						<span class="err"></span>
+					</dd>
+			    </dl>
+			    
+			    
+			    <dl class="row">
+					<dt class="tit"><label for="member_shop_info"><em>*</em>活动设置：</label></dt>
+					<dd class="opt">
+						<div class="el-form-item__content">
+							<table class="table table-border table-bg table-bordered">
+							  	<thead>
+									<tr class="text-c">
+										<th>序号</th>
+										<th>商品名</th>
+										<th>商品原价</th>
+										<th>商品售价</th>
+										<th>活动折扣</th>
+										<th>商品数目</th>
+										<th>折后价格</th>
+										<th>操作</th>
+									</tr>
+							  	</thead>
+							  	<tbody class="add_stage">
+							  	    <{if isset($shop_Info.goods_info) && !empty($shop_Info.goods_info)}>
+							  	       <{foreach $shop_Info.goods_info as $ks=>$vl}>
+							  	           <tr class="text-c">
+							  	               <input type="hidden" name ="shop_goods_id[]" value="<{$vl.goods_id}>">
+										        <td class="stage" goods_id="<{$vl.goods_id}>"><{$ks+1}></td>
+										        <td><input type="hidden" name ="shop_goods_name[]" value="<{$vl.goods_name}>"><input type="text" class="shop_goods_name w_220" disabled value="<{$vl.goods_name}>"></td>
+												<td><input type="hidden" name ="shop_marketprice[]" value="<{$vl.goods_marketprice}>"><input type="text"  class="shop_marketprice w_75" disabled value="<{$vl.goods_marketprice}>"></td>
+												<td><input type="hidden" name ="shop_stocks_price[]" value="<{$vl.goods_price}>"><input type="text"  class="shop_stocks_price w_75" disabled value="<{$vl.goods_price}>"></td>
+												<td><input type="Number" name ="shop_goods_discount[]" class="shop_goods_discount w_50" value="<{$vl.goods_discount}>"></td>
+												<td><input type="text" name ="shop_goods_nums[]" class="shop_goods_nums w_50" value="<{$vl.goods_num}>"></td>
+												<td><input type="hidden" name ="shop_goods_price[]" value="<{$vl.goods_marketprice*$vl.goods_discount}>" class="shop_goods_prices"><input type="text"  class="shop_goods_price w_75" disabled value="<{$vl.goods_marketprice*$vl.goods_discount}>"></td>
+												<td class="add_num"><a href="javascript:;" class="remove_s">删除</a></td>
+										   </tr>
+							  	       <{/foreach}>
+							  	    <{else}>
+										<tr class="text-c">
+											<td class="stage">1</td>
+											<td><input type="text" name ="shop_goods_name[]" class="shop_goods_name w_220" disabled></td>
+											<td><input type="text" name ="shop_marketprice[]" class="shop_marketprice w_75" disabled></td>
+											<td><input type="text" name ="shop_stocks_price[]"  class="shop_stocks_price w_75" disabled></td>
+											<td><input type="Number" name ="shop_goods_discount[]" class="shop_goods_discount w_50"></td>
+											<td><input type="text" name ="shop_goods_nums[]" class="shop_goods_nums w_50"></td>
+											<td><input type="text" name ="shop_goods_price[]" class="shop_goods_price w_75"  disabled></td>
+											<td class="add_num"><a href="javascript:;" class="remove_s">删除</a></td>
+										</tr>
+									<{/if}>
+							  	</tbody>
+							</table>
+				         </div>
+				         <input type="hidden" id="member_shop_info" name="member_shop_info" value="<{if isset($shop_Info.goods_info) && !empty($shop_Info.goods_info)}>1<{/if}> ">
+				         <span class="err"  id="member_shop_infos"></span>
+					</dd>
+				</dl>
+				<dl class="row" >
+					<dt class="tit">
+						<label for="goods_id">选择商品:</label>
+					</dt>
+					<dd class="opt">
+						<div class="row search_goods">
+							<div class="choice_title">
+								搜索店内商品 <input type="text" name="search_goods_name" id="search_goods_name" placeholder="商品名">
+								 <input type="text" name="change_goods_spu" id="change_goods_spu" placeholder="款号">
+								  <input type="text" name="change_stocks_sn" id="change_stocks_sn" placeholder="货号">
+								<a href="javascript:;" id="btn_search_goods" class="btn btn-primary radius size-S">搜索</a>
+								<a  href="javascript:void(0)" class="btn btn-success radius " id="submitnext" style="    margin-left: 24%;">确认<{if !empty($shop_Info)}>编辑<{else}>创建<{/if}>活动</a><br>
+								<span style="margin-left: 7%;">备注：不输入名称直接搜索将显示店内所有普通商品，特殊商品不能参加</span>
+							</div>
+							<div style="clear: both;"></div>
+							<div class="div_goods_search_result" style="display:none;">
+							</div>
+						</div>
+					</dd>
+				</dl>
+				<div class="bot">
+				</div>
+				</form>
+		</div>
+	</div>
+</div>
+
+<div id="goTop">
+	<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+	<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+</body>
+<script type="text/javascript">
+
+//活动图片
+var bargain_url_wx = $("#preview1").attr('goods_src');
+var prevDiv = document.getElementById('preview1');
+if(bargain_url_wx){
+	prevDiv.innerHTML = '<div><img src="' + bargain_url_wx + '" class="preview_img"/></div>';
+}
+
+
+
+
+function preview1(file){
+    var prevDiv = document.getElementById('preview1');
+    if(file.files && file.files[0]){
+        var reader = new FileReader();
+        reader.onload = function(evt){
+            prevDiv.innerHTML = '<div><img src="' + evt.target.result + '" class="preview_img"/></div>';
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+    $("#shop_image_wxs").val("1");
+}
+
+
+
+
+$("table").on("blur",".shop_goods_discount",function () {
+	var stocks_price_lod = $(this).parents('.text-c').find('.shop_marketprice').val();
+	var goods_discount_lod = $(this).val();
+	var goods_discount_price = returnFloat((Number(stocks_price_lod)*(Number(goods_discount_lod)*100))/100);
+	$(this).parents('.text-c').find('.shop_goods_price').val(goods_discount_price);
+	$(this).parents('.text-c').find(".shop_goods_prices").val(goods_discount_price);
+})
+
+
+
+$("table").on('click','.remove_s',function () {
+	var lengss = $(".add_stage tr").length;
+	if(lengss==1 || lengss=='1'){
+		$(".add_stage tr td").each(function(index){
+	    	$(this).find("input").val('');
+	    })
+	    $("#member_shop_info").val('');
+	    return false;
+	}
+    $(this).parents('tr').remove();
+    $(".add_stage tr").each(function(index){
+    	$(this).find(".stage").html(index+1);
+    })
+})
+
+
+function returnFloat(value){
+	 var value=Math.round(parseFloat(value)*100)/100;
+	 var xsd=value.toString().split(".");
+	 if(xsd.length==1){
+	 value=value.toString()+".00";
+	 return value;
+	 }
+	 if(xsd.length>1){
+	 if(xsd[1].length<2){
+	  value=value.toString()+"0";
+	 }
+	 return value;
+	 }
+	}
+
+
+function toDecimal2(x) { 
+    var f = parseFloat(x); 
+    if (isNaN(f)) { 
+      return false; 
+    } 
+    var f = Math.round(x*100)/100; 
+    var s = f.toString(); 
+    var rs = s.indexOf('.'); 
+    if (rs < 0) { 
+      rs = s.length; 
+      s += '.'; 
+    } 
+    while (s.length <= rs + 2) { 
+      s += '0'; 
+    } 
+    return s; 
+  } 
+  
+  
+ 
+//结束时间不能大于开始时间且不能小于现在
+jQuery.validator.methods.greaterThanStartDate = function(value, element) {
+	var start_date = $("#start_time").val();
+	var date1 = new Date(Date.parse(start_date.replace(/-/g, "/")));
+	var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+	return date1 < date2;
+};
+jQuery.validator.methods.greaterThanNowDate = function(value, element) {
+	var date1 = new Date();
+	var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+	return date1 < date2;
+};
+
+
+
+
+$("#submitnext").click(function(){
+	$("#add_form").validate({
+		errorPlacement: function(error, element){
+			var error_td = element.parent('dd').children('span.err');
+			error_td.append(error);
+		},
+		rules : {
+			shop_title : {
+				required : true
+			},
+			start_time : {
+				required : true
+			},
+
+			end_time : {
+				required : true,
+				greaterThanStartDate : true,
+				greaterThanNowDate : true,
+			},
+			store_id : {
+				required : true
+			},
+			member_shop_info : {
+				required : true
+			}
+	
+		
+		},
+		messages : {
+			shop_title : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入活动标题'
+			},
+			start_time : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入活动开始时间'
+			},
+			end_time : {
+				required : '<i class="fa fa-exclamation-circle"></i>请输入活动结束时间',
+				greaterThanStartDate : '<i class="icon-exclamation-sign">结束时间不能小于开始时间</i>',
+				greaterThanNowDate : '<i class="icon-exclamation-sign">结束时间不能小于当前时间</i>',
+			},
+			store_id : {
+				required : '<i class="fa fa-exclamation-circle"></i>请限制参加活动的门店'
+			},
+			member_shop_info : {
+				required : '<i class="fa fa-exclamation-circle"></i>请选择参加活动的商品'
+			}
+		
+		}
+	});
+	
+	if($('#add_form').valid()){
+			var data = new FormData($("form")[0]);
+      	    $.ajax({
+   				type: "POST",
+   		        url: "member_shop_save?shop_id=<{if !empty($shop_id)}><{$shop_id}><{/if}>",
+   		        data: data,
+   		        dataType: "json",
+   		        processData: false,
+   	            contentType: false,
+   		        success: function(data){
+   		        	if(data.state){
+   		        		layer.msg(data.msg);
+   		        		setTimeout(" window.location.href='<{base_url()}>admin.php/MicroBargain/member_shop';",2000)
+   		        	}else{
+   		        		layer.msg(data.msg);
+   		        	    return false;
+   		        	}
+   		        }
+   			});
+	}else{
+		 return false;
+	}
+});
+
+
+
+$(document).ready(function () {
+  var store_type = $("input[name='store_type']").val();
+  ajax_get_store_list(store_type );
+});
+
+$("input[name='store_type']").change(function() {
+	ajax_get_store_list($("input[name='store_type']:checked").val());
+});
+function ajax_get_store_list(type){
+	$.ajax({
+		type:'get',
+		data:'type='+type,
+		url:'ajax_get_store_list',
+		success:function(data){
+			console.log(data)
+			var sttr = "<option value=''>请选择</option>";
+			if(data.state){
+				$.each(data.data,function(k,v){
+					sttr+='<option value="'+v.store_id+'">'+v.store_name+'</option>';
+				}) 
+			}else{
+				sttr +="<option value=''>店铺为空</option>";
+			}
+			$("#store_id").html("");
+			$("#store_id").append(sttr);
+		},
+		dataType:'json'
+	});
+}
+
+
+//选择商品
+$('#btn_show_search_goods').on('click', function() {
+	$('#div_search_goods').show();
+});
+//关闭 选择商品弹出
+$('#btn_hide_search_goods').on('click', function() {
+	$('#div_search_goods').hide();
+});
+//选择商品  搜索
+$("#btn_search_goods").click(function(){
+	search_goods_name = $('#search_goods_name').val();
+	change_goods_spu = $('#change_goods_spu').val();
+	change_stocks_sn = $('#change_stocks_sn').val();
+	group_id = $('#now_groupbuy_id').val();
+	store_id = $('#store_id').val();
+	goods_pos = $("input[name='goods_pos']:checked").val();
+	if(!store_id){
+		layer.msg('请先选择活动门店!');return false;
+	}
+	function show_content(curr,group_id){
+		$.ajax({
+			type: "post",
+			url: "goods_search",
+			data: {search_goods_name:search_goods_name,page:curr,group_id:group_id,store:store_id,goods_pos:goods_pos,change_goods_spu:change_goods_spu,change_stocks_sn:change_stocks_sn},
+			dataType: "json",
+			success: function(data){
+				if(data.state=='403'){
+					login_ajax('shopadmin');return false;
+				}
+				page = parseInt(data.page);data_goods = data.data;total_page = parseInt(data.total_page);rp = parseInt(data.rp);
+				if(data.state){
+
+					if(data_goods!=''){
+						str ='';
+						$.each(data_goods,function(k,v){
+
+							fg_v = JSON.stringify(v).replace(/ /g,"！");
+						   //onerror="javascript:this.src='images/logoError.png';"
+							str +='<div class="selected-group-goods col-xs-3">'+
+									'<div class="goods-thumb"><img id="groupbuy_goods_image" src="'+v.goods_image+'"></div>'+
+									'<input name="search_goods_id" class="search_goods_id" type="hidden" value="'+v.goods_id+'">'+
+									'<div class="goods-name">'+v.goods_name+'</div>'+
+									'<div class="goods-price">吊牌价：￥<span nctype="groupbuy_goods_price">'+v.goods_marketprice+'</span></div>'+
+									'<a href="javascript:;" class="btn btn-primary" onclick=select_goods('+fg_v+')><i class="fa fa-check-circle-o"></i>选择该商品</a>'+
+									'</div>';
+
+						})
+						str +='<div class="pagination"></div> ';
+					}
+					$('.div_goods_search_result').show();
+					$('.div_goods_search_result').html(str);
+					pages = total_page
+					curr = page
+					laypage({
+						cont: $('div.pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+						pages: pages, //通过后台拿到的总页数
+						curr:  curr || 1, //当前页
+						first: '首页',
+						last: '末页',
+						groups:5,
+						jump: function(obj, first){ //触发分页后的回调
+							if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+								show_content(obj.curr,group_id);
+							}
+						}
+					});
+				}else{
+					str = '<div style="font-size:20px;color:red;">未找到符合条件的商品！</div>';
+					$('.div_goods_search_result').show();
+					$('.div_goods_search_result').html(str);
+
+				}
+			}
+		})
+	}
+	show_content(1,group_id)
+	
+});
+
+
+function select_goods(goods){
+	//console.log(goods)
+	re = new RegExp("！","g");
+	groupbuy_goods_name = data_null(goods.goods_name).replace(re," ");
+	  var shop_goods_id = $(".add_stage").find("tr:first").find("td:first").attr("goods_id");
+	   if(shop_goods_id==undefined || shop_goods_id==''){
+		   $(".add_stage").html('');
+	   }
+var flags = false;
+		$(".add_stage tr .stage").each(function(index){
+	    	var shop_goods_ids = $(this).attr("goods_id");
+	    	   if(Number(shop_goods_ids) == Number(goods.goods_id)){
+	    		   alert("您已添加过该商品，不能重复添加！");
+	    		   flags = true;
+	    		   return false;
+	    	   }
+	    	
+	    })
+	   if(flags){
+		   return false;
+	   }
+	var lengs = $(".add_stage tr").length +1;
+	var html = '<tr class="text-c"><input type="hidden" name ="shop_goods_id[]" value="'+goods.goods_id+'">'+
+			        '<td class="stage" goods_id="'+goods.goods_id+'">'+lengs+'</td>'+
+			        '<td><input type="hidden" name ="shop_goods_name[]" value="'+groupbuy_goods_name+'"><input type="text" class="shop_goods_name w_220" disabled value="'+groupbuy_goods_name+'"></td>'+
+					'<td><input type="hidden" name ="shop_marketprice[]" value="'+data_null(goods.goods_marketprice)+'"><input type="text"  class="shop_marketprice w_75" disabled value="'+data_null(goods.goods_marketprice)+'"></td>'+
+					'<td><input type="hidden" name ="shop_stocks_price[]" value="'+data_null(goods.stocks_price)+'"><input type="text"  class="shop_stocks_price w_75" disabled value="'+data_null(goods.stocks_price)+'"></td>'+
+					'<td><input type="Number" name ="shop_goods_discount[]" class="shop_goods_discount w_50"></td>'+
+					'<td><input type="text" name ="shop_goods_nums[]" class="shop_goods_nums w_50"></td>'+
+					'<td><input type="hidden" name ="shop_goods_price[]" class="shop_goods_prices" ><input type="text"  class="shop_goods_price w_75" disabled></td>'+
+					'<td class="add_num"><a href="javascript:;" class="remove_s">删除</a></td>'
+			   '</tr>';
+   $(".add_stage").append(html);
+   $("#member_shop_info").val('1');
+   $("#member_shop_infos").html('');
+   
+
+/* 	
+	$('#goods_id').val(goods.goods_id);
+	$('#groupbuy_goods_image').attr('src',data_null(goods.goods_image));
+	$('#groupbuy_goods_price').text(data_null(goods.goods_marketprice));
+	$('#groupbuy_goods_name').text(groupbuy_goods_name);
+	$('.div_goods_search_result').hide();
+	$('#goods_price').val(data_null(goods.goods_price));
+	$('#goodss_price').val(data_null(goods.goods_price)); */
+	
+}
+$("input[name='ous_tag']").change(function() {
+    console.log($(this).val())
+    if($(this).val()==1) {
+        $(".myself").hide();
+    } else {
+        $(".myself").fadeIn();
+    }
+});
+</script>
+
+</html>

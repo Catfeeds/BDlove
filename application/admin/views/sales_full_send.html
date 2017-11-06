@@ -1,0 +1,170 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>满即送</h3>
+        <h5>满即送活动相关设定及管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>商家发布的满即送活动列表</li>
+      <li>取消操作不可恢复，请慎重操作</li>
+      <li>点击详细链接查看活动详细信息</li>
+    </ul>
+  </div>
+  <div id="flexigrid"></div>
+  <div class="ncap-search-ban-s" id="searchBarOpen"><i class="fa fa-search-plus"></i>高级搜索</div>
+  <div class="ncap-search-bar">
+    <div class="handle-btn" id="searchBarClose"><i class="fa fa-search-minus"></i>收起边栏</div>
+    <div class="title">
+      <h3>高级搜索</h3>
+    </div>
+    <form method="get" name="formSearch" id="formSearch">
+      <input type="hidden" name="advanced" value="1">
+      <div id="searchCon" class="content ps-container ps-active-x" style="height: 520px;">
+        <div class="layout-box">
+          <dl>
+            <dt>活动名称</dt>
+            <dd>
+              <input type="text" name="mansong_name" class="s-input-txt" placeholder="请输入活动名称关键字">
+            </dd>
+          </dl>
+          <dl>
+            <dt>店铺名称</dt>
+            <dd>
+              <input type="text" name="store_name" class="s-input-txt" placeholder="请输入店铺名称关键字">
+            </dd>
+          </dl>
+          <dl>
+            <dt>状态</dt>
+            <dd>
+              <select name="state" class="s-select">
+                <option value="0">全部</option>
+                <option value="1">正常</option>
+                <option value="2">已结束</option>
+                <option value="3">管理员关闭</option>
+              </select>
+            </dd>
+          </dl>
+          <dl>
+            <dt>活动时期筛选</dt>
+            <dd>
+              <label>
+                <input type="text" name="pdate1" data-dp="1" onclick="laydate()" class="s-input-txt hasDatepicker" placeholder="结束时间不晚于" id="dp1477984503379" readonly="readonly">
+              </label>
+              <label>
+                <input type="text" name="pdate2" data-dp="1" onclick="laydate()" class="s-input-txt hasDatepicker" placeholder="开始时间不早于" id="dp1477984503380" readonly="readonly">
+              </label>
+            </dd>
+          </dl>
+        </div>
+        </div>
+      <div class="bottom">
+        <a href="javascript:void(0);" id="ncsubmit" class="ncap-btn ncap-btn-green">提交查询</a>
+        <a href="javascript:void(0);" id="ncreset" class="ncap-btn ncap-btn-orange" title="撤销查询结果，还原列表项所有内容"><i class="fa fa-retweet"></i>撤销</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+
+  $(function(){
+    $("#flexigrid").flexigrid({
+      url: 'sales_full_send?op=table',
+      colModel: [
+        {display: '操作', name: 'operation', width: 150, sortable: false, align: 'center', className: 'handle'},
+        {display: '活动名称', name: 'mansong_name', width: 200, sortable: false, align: 'left'},
+        {display: '开始时间', name: 'start_time_text', width: 150, sortable: false, align: 'center'},
+        {display: '结束时间', name: 'end_time_text', width: 150, sortable: false, align: 'center'},
+        {display: '状态', name: 'mansong_state_text', width: 80, sortable: false, align: 'center'}
+      ],
+      buttons : [
+        {display: '<i class="fa fa-plus"></i>新增活动', name : 'add', bclass : 'add', title : '新增团购', onpress :  fg_add},
+        {display: '<i class="fa fa-trash"></i>批量删除', name : 'delete', bclass : 'del', title : '将选定行数据批量删除' },
+        {display: '<i class="fa fa-trash"></i>批量停止', name : 'delete', bclass : 'del', title : '将选定行数据批量停止' },
+      ],
+      searchitems: [
+        {display: '活动名称', name: 'mansong_name', isdefault: true},
+      ],
+      sortname: "mansong_id",
+      sortorder: "desc",
+      title: '满即送活动列表'
+    });
+    //新增活动
+    function fg_add(){
+      window.location='sales_full_send_add';
+    }
+
+    // 高级搜索重置
+    $('#ncreset').click(function(){
+      //$("#flexigrid").flexOptions({url: flexUrl}).flexReload();
+      $("#formSearch")[0].reset();
+    });
+
+  });
+  function fg_see(id){
+     //console.log(id)
+	 rule = '';
+	 $.each(id.rule_data,function(k,v){
+		 rule +='<li> <span> 单笔订单满 <strong>'+v.price+'</strong> 元 </span> ';
+		 if(v.discount>0){
+			 rule +='<span> 立减现金 <strong>'+v.discount+'</strong> 元 </span> ';
+		 }
+		 if(v.goods_id>0){
+			 rule +='<span>送礼品 <a href="" title="" class="goods-thumb" target="_blank"><img src="<{PLUGIN}>data/shop/album_pic/'+v.thumb+
+			 '"> </a></span>'; 
+		 }
+		 rule +='</li>';
+	 })
+	  layer.open({
+	        type: 1,
+	        title:"<b>满即送活动详情</b>",
+	        skin: 'layui-layer-rim', //加上边框
+	        area: ['50%', 'auto'], //宽高
+	        content: '<div class="ncap-form-default"> <dl class="row">' +
+	        '<dt class="tit">活动名称</dt> <dd class="opt">'+id.mansong_name+'</dd> </dl> ' +
+	        '<dl class="row"> <dt class="tit">活动时间段</dt> <dd class="opt"> '+id.stime+'~'+id.stime+' </dd> </dl> ' +
+	        '<dl class="row"> <dt class="tit"> 活动规则 </dt> <dd class="opt"> <ul class="promotion-ms">' +rule+
+	        '</ul> </dd> </dl> </div>'
+	      });
+    }
+  function fg_delete(id,name){
+  	layer.confirm('确认删除活动“'+name+'”吗？', {
+  		  btn: ['确认','取消'] //按钮
+  		}, function(){
+  			$.ajax({
+  		        type: "post",
+  		        dataType: "json",
+  		        url: "sales_full_send?op=del",
+  		        data: {id:id,name:name},
+  		        success: function(data){
+  		            //alert(123);
+					if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+  		            if (data.state){
+  		            	layer.msg(data.msg,{icon:1});
+  		                $("#flexigrid").flexReload();
+  		            } else {
+  		            	layer.msg(data.msg,{icon:2});
+  		            }
+  		        }
+  		    });
+  		});
+  }
+
+</script>
+</body>
+</html>

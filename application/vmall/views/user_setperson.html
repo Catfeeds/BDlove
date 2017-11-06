@@ -1,0 +1,135 @@
+<!doctype>
+<html>
+<head>
+<meta charset="utf-8">
+<title>个人信息</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="css/weui1.css">
+<link rel="stylesheet" href="css/example.css">
+<script src="js/zepto.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript" src="js/example.js"></script>
+
+</head>
+<style>
+	.mt-0{
+		margin-top: 0;
+	}
+	.headimg{
+		width: 60px;
+		height: 60px;
+		margin: 20px auto 15px auto;
+	}
+	.username{
+		text-align: center;
+		font-size: 18px;
+		color: #000;
+		margin-bottom: 5px;
+	}
+	.img-responsive{
+		width: 100%;
+		height: auto;
+		border-radius: 50%;
+	}
+	.level{
+		text-align: center;
+		font-size: 15px;
+		margin-left:15px;
+		margin-bottom: 15px;
+	}
+	.level span{
+		color: #ff9c00;
+		padding-right: 15px;
+	}
+	.weui-cell__ft{
+		color: #F44336;
+	}
+</style>
+<body ontouchstart>
+	<div class="weui-cells mt-0">
+		<div class="headimg"><img src="images/alipay.png" alt="" class="img-responsive"/></div>
+		<p class="username">蓝胖子没有小指头</p>
+		<p class="level">等级：<span style="font-style: italic;">V0</span>积分：<span>0</span></p>
+    </div>
+	<div class="weui-cells">
+            <a class="weui-cell weui-cell_access" href="javascript:;" id="showPicker">
+                <div class="weui-cell__bd">
+                    <p>性别</p>
+                </div>
+                <div class="weui-cell__ft">请选择</div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;" id="showDatePicker">
+                <div class="weui-cell__bd">
+                    <p>生日</p>
+                </div>
+                <div class="weui-cell__ft">请选择</div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p>所在地</p>
+                </div>
+                <div class="weui-cell__ft">请选择</div>
+            </a>
+  	</div>
+    <div class="weui-cells">
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p>邮箱</p>
+                </div>
+                <div class="weui-cell__ft">未填写</div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p>手机</p>
+                </div>
+                <div class="weui-cell__ft">未填写</div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p>QQ</p>
+                </div>
+                <div class="weui-cell__ft">未填写</div>
+            </a>
+   	</div>
+
+
+
+
+        <!--<a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker">日期选择器</a>-->
+
+	
+</body>
+<script type="text/javascript">
+	$('#showDatePicker').on('click', function () {
+        weui.datePicker({
+            start: 1990,
+            end: new Date().getFullYear(),
+            onChange: function (result) {
+            	$("#showDatePicker .weui-cell__ft").text(result[0]+'-'+result[1]+'-'+result[2]);
+            },
+            onConfirm: function (result) {
+            	$("#showDatePicker .weui-cell__ft").text(result[0]+'-'+result[1]+'-'+result[2]);
+            }
+        });
+    });
+
+	$('#showPicker').on('click', function () {
+        weui.picker([{
+            label: '男',
+            value: '男'
+        }, {
+            label: '女',
+            value: '女'
+        }],{
+            onChange: function (result) {
+            	$("#showPicker .weui-cell__ft").text(result);
+            },
+            onConfirm: function (result) {
+            	$("#showPicker .weui-cell__ft").text(result);
+            }
+        });
+    });
+
+</script>
+</html>

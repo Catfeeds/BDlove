@@ -1,0 +1,328 @@
+<!doctype html>
+<html>
+<head>
+<!-- <{include file="lib/WeiXin.html"}> -->
+<meta charset="utf-8">
+<title>商品评价</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+<link href="<{TEMPLE}>css/mobileslider.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+
+
+<script type="text/javascript" src="<{TEMPLE}>js/weui.min.js"></script>
+
+
+
+
+</head>
+<style>
+    p{ 
+		font-size: 17px;
+	}
+	.small{
+		font-size: 13px!important;
+		color: #999;
+	}
+	.small1{
+		font-size: 13px;
+	}
+	.btn-apply{
+		padding:6px 20px;
+		margin-right: 10px;
+		border: 1px solid #ddd;
+		font-size: 14px;
+	}
+.btn-applysubmit{
+	display: block;
+	width: 180px;
+	height: 30px;
+	border-radius: 4px;
+	background: red;
+	color: #fff;
+	line-height: 30px;
+	text-align: center;
+	margin:15px auto;
+}
+.display{
+	background: #f8f8f8;
+	color: #ccc;
+}
+.display:visited,
+.display:active{
+	background: #f8f8f8;
+	color: #ccc;
+}
+.weui-btn:after {
+	border: none;
+}
+	.evalstar{
+		width: 170px;
+	}
+	.evalstar li{
+		float:left;
+		margin-left: 5px;
+	}
+	.evalstar img{
+		width: 28px;
+	}
+	.illustrate{
+	margin-top: -5px;font-size: 12px;color: #999;
+	width: 80%;
+}
+.weui-uploader__input-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 3px;
+}
+.weui-uploader__file {
+    width: 50px;
+    height: 50px;
+}
+.weui-uploader__input-box:before {
+    width: 39.5px;
+    height: 39.5px;
+    background: url(<{TEMPLE}>images/addprice.png) no-repeat center;
+    background-size:80% 70%;  
+}
+.weui-uploader__input-box:after {
+    width: 0px;
+    height:0px; 
+}
+.weui-btn.display{
+	color:#333!important;
+}
+.store-tag{
+	padding: 5px 15px;
+	border-radius: 20px;
+	background: #f5f5f5;
+	margin: 5px;
+	float: left;
+	font-size: 14px;
+}
+.store-tag.active{
+	background: #ffecea;
+}
+</style>
+<body ontouchstart>
+<form  method="post" enctype="multipart/form-data" id="form_email_guide"  name="settingForm">
+   <input type="hidden" id="order_sn" name="order_sn" value="<{$reciveInfo.order_sn}>"/>
+   <input type="hidden" id="goods_id" name="goods_id" value="<{$orderInfo.0.goods_id}>"/>
+   <input type="hidden" id="evaluation_level" name="evaluation_level" value=""/>
+	<div class="weui-cells" style="margin-top: 0px;">
+		<div class="weui-cell">
+			<div class="weui-cell__hd">
+				<img src="<{if !empty($orderInfo.0.goods_image)}><{$orderInfo.0.goods_image}><{/if}>"  onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>'" alt="" style="width: 75px;display: block;margin: 10px 0;"/>
+			</div>
+			<div class="weui-cell__bd" style="margin:7px 0 0 15px;">
+				<p style="margin-left: 5px;color: #555;">商品评价</p>
+				<div style="margin-top: 20px;">
+					<ul class="evalstar">
+						<li><img src="<{TEMPLE}>images/evalstar.png" alt="1"></li>
+						<li><img src="<{TEMPLE}>images/evalstar.png" alt=""></li>
+						<li><img src="<{TEMPLE}>images/evalstar.png" alt=""></li>
+						<li><img src="<{TEMPLE}>images/evalstar.png" alt=""></li>
+						<li><img src="<{TEMPLE}>images/evalstar.png" alt=""></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="weui-cell">
+			<div class="weui-cell__bd">
+				<textarea name="evaluation_content" rows="5" placeholder="写下购买体会和使用感受来帮助其他小伙伴~" style="font-size: 80%;" class="weui-textarea"></textarea>
+			</div>
+		</div>
+		<!--点击图片放大并有删除按钮-->
+		<div class="weui-gallery" id="gallery">
+            <span class="weui-gallery__img" id="galleryImg"></span>
+            <div class="weui-gallery__opr">
+                <a href="javascript:" class="weui-gallery__del">
+                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                </a>
+            </div>
+        </div>
+		<div class="weui-cell">
+			<ul class="weui-uploader__files" id="uploaderFiles" style="max-width: 80%"></ul>
+		<div class="weui-uploader__input-box" style="width: 50px;">
+            <input id="uploaderInput"  class="weui-uploader__input" type="file" accept="<{TEMPLE}>images/addprice.png" multiple/>
+        </div>
+        <p class="illustrate">为了帮助我们更好的解决问题，请上传图片。最多5张，每张不超过3M，支持JPG，BMP，PNG</p>
+		</div>
+		
+<!-- 		<div class="weui-cell">
+			<h3 style="width: 100%;">店铺评价</h3>
+			<div>
+				<p class="store-tag active">服务态度好(<span>12</span>)</p>
+				<p class="store-tag">热情(<span>0</span>)</p>
+				<p class="store-tag">商品齐全(<span>0</span>)</p>
+				<p class="store-tag">服务周到(<span>12</span>)</p>
+				<p class="store-tag">质量好(<span>32</span>)</p>
+				<p class="store-tag">装修漂亮(<span>1</span>)</p>
+			</div>
+		</div> -->
+		
+		<div style="width: 90%;margin: 0 auto;"><a href="javascript:;" class="weui-btn weui-btn_warn display" style="color: #fff;">提交</a></div>
+	</div>
+ </form>
+	
+</body>
+<script type="text/javascript">
+//	设置整个屏幕为白色
+	var scrheight = document.body.clientHeight;
+	var idds = "";
+	$(".weui-cells").css("min-height",scrheight)
+	var sumsum = 0;
+//	点击评价几星
+	$(".evalstar li").click(function(){
+		$(".evalstar li").find("img").attr("src","<{TEMPLE}>images/evalstar.png");
+		var sum = $(this).index();
+		var sumss = parseInt(sum)+1;
+		    sumsum = sumss;
+		$("#evaluation_level").val(sumss);
+		for(var i=0;i<=sum;i++){
+			$(".evalstar li:eq("+i+")").find("img").attr("src","<{TEMPLE}>images/evalstar2.png");
+		}
+		$(".weui-btn").removeClass("display")
+	})
+	
+	//		上传图片方法
+        var tmpl = '<li class="weui-uploader__file"  id="#id#" style="background-image:url(#url#)"></li>',
+            $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+            $uploaderInput = $("#uploaderInput"),
+            $uploaderFiles = $("#uploaderFiles")
+            ;
+
+     $uploaderInput.on("change", function(e){
+      	  var lengs = $('#uploaderFiles').children('li').length;
+      	  if(lengs>4){
+      		   mobileAlert("亲，最多只能上传5张图片哦！",2000,"");
+      		  return false;
+      	  }
+      	  
+      	  var ids = "weui-uploader__file"+lengs;
+          var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
+          
+			if(files.length +lengs >5){
+				 mobileAlert("亲，最多只能上传5张图片哦！",2000,"");
+					  return false;
+			}
+          
+			 
+		  var forms = document.getElementById("form_email_guide");
+   	      var form_datas =new FormData(forms);
+          for (var i = 0, len = files.length; i < len; ++i) {
+              var file = files[i];
+              var idsids = ids+'_'+i;
+      	      tmpl = '<li class="weui-uploader__file"  id="'+idsids+'" style="background-image:url(#url#)"></li>';
+              if (url) {
+                  src = url.createObjectURL(file);
+              } else {
+                  src = e.target.result;
+              }
+           
+              $uploaderFiles.append($(tmpl.replace('#url#', src)));
+              
+              
+             
+              form_datas.append("file["+i+"]", file);
+              form_datas.append("idsids", idsids);
+        	  $.ajax({
+     				type: "POST",
+     		        url: "apply_set_onload",
+     		        data: form_datas,
+     		        dataType: "json",
+     		        processData: false,
+     	            contentType: false,
+     		        success: function(data){
+     		        	console.log(data)
+     		        	if(data.state){
+     		        		$("#"+data.idsids).attr("urls",data.msg);
+     		        	}else{
+     		        		mobileAlert(data.msg,2000,"");
+     		        		$("#"+data.idsids).remove();
+     		        	}
+     		        }
+     			});
+            
+          }
+          $(".illustrate").hide();
+           
+
+         
+      }); 
+        
+        $uploaderFiles.on("click", "li", function(){
+        	idds = $(this).attr("id");
+            $galleryImg.attr("style", this.getAttribute("style"));
+            $gallery.fadeIn(100);
+            
+        });
+        $gallery.on("click", function(){
+            $gallery.fadeOut(100);
+        });
+        
+        $("body").on("touchstart",".weui-gallery__opr",function(){
+        	//var urls = $("#galleryImg").css("background-image");
+        	var urls = $("#"+idds).attr("urls");
+        	$("#"+idds).remove();
+        	if(urls){
+        		$.ajax({
+       				type: "POST",
+       		        url: "del_set_onload?url="+urls,
+       		        data: 123,
+       		        dataType: "json",
+       		        success: function(data){
+       		        }
+       			});
+       	    }
+        });
+        
+        
+        
+        
+        
+        
+        $("body").on("touchstart",".weui-btn_warn",function(){
+        	if(sumsum<1){
+        		mobileAlert("亲，您还没有评价星级！",2000,"");
+        		return false;
+        	}
+        	if($(".weui-textarea").val().length<1){
+        		mobileAlert("亲，您还没有填写评价内容！",2000,"");
+        		return false;
+        	}
+   		 var form = document.getElementById("form_email_guide");
+   	     var form_data =new FormData(form);
+   		 $.ajax({
+   				type: "POST",
+   		        url: "post_rating_sheet",
+   		        data: form_data,
+   		        dataType: "json",
+   		        processData: false,
+   	            contentType: false,
+   		        success: function(data){
+   		        	if(data.state){
+   		        		mobileAlert(data.msg,2000,"");
+   		        		setTimeout("window.location.href='../order/index'",1000);
+   	        	    }else{
+   	        	    	mobileAlert(data.msg,2000,"");
+   	        	    }
+   		        }
+   			});
+   			
+   		
+   	})
+        
+        $('.eval-tag').click(function(){
+        	if($(this).hasClass("active")){
+        		$(this).removeClass("active");
+        	}else{
+        		$(this).addClass("active");
+        	}
+        })
+</script>
+</html>

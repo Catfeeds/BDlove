@@ -1,0 +1,102 @@
+<div class="ncap-search-ban-s" id="searchBarOpen" ><i class="fa fa-search-plus"></i>高级搜索</div>
+<div class="ncap-search-bar">
+  <div class="handle-btn" id="searchBarClose"><i class="fa fa-search-minus"></i>收起边栏</div>
+  <div class="title">
+    <h3>高级搜索</h3>
+  </div>
+  <form method="get" name="formSearch" id="formSearch">
+    <div id="searchCon" class="content ps-container ps-active-x" >
+      <div class="layout-box">
+        <dl>
+          <dt>商品名称</dt>
+          <dd>
+            <label>
+              <input type="text" value="" name="goods_name" id="goods_name" class="s-input-txt" placeholder="输入商品全称或关键字">
+            </label>
+          </dd>
+        </dl>
+        <dl>
+          <dt>SPU</dt>
+          <dd>
+            <label>
+              <input type="text" value="" name="goods_commonid" id="goods_commonid" class="s-input-txt" placeholder="输入商品平台货号">
+            </label>
+          </dd>
+        </dl>
+        <dl>
+          <dt>所属店铺</dt>
+          <dd>
+            <label>
+              <input type="text" value="" name="store_name" id="store_name" class="s-input-txt" placeholder="输入商品所属店铺名称">
+            </label>
+          </dd>
+        </dl>
+        <dl>
+          <dt>所属品牌</dt>
+          <dd>
+            <label>
+              <input type="text" value="" name="brand_name" id="brand_name" class="s-input-txt" placeholder="输入商品关联品牌关键字">
+            </label>
+          </dd>
+        </dl>
+        <dl>
+          <dt>商品分类</dt>
+          <dd id="gcategory">
+            <input type="hidden" id="cate_id" name="cate_id" value="" class="mls_id">
+            <select class="class-select">
+              <option value="0">-请选择-</option>
+              <option value="256">数码办公</option>
+              <option value="2">礼品箱包</option>
+              <option value="3">家居家装</option>
+              <option value="1">服饰鞋帽</option>
+              <option value="308">家用电器</option>
+              <option value="470">个护化妆</option>
+              <option value="593">食品饮料</option>
+              <option value="888">厨房餐饮</option>
+              <option value="530">珠宝手表</option>
+              <option value="662">运动健康</option>
+              <option value="730">汽车用品</option>
+              <option value="825">玩具乐器</option>
+              <option value="959">母婴用品</option>
+              <option value="1037">生活服务</option>
+            </select>
+          </dd>
+        </dl>
+        <dl>
+          <dt>商品状态</dt>
+          <dd>
+            <label>
+              <select name="goods_state" class="s-select">
+                <option value="">-请选择-</option>
+                <option value="1">出售中</option>
+                <option value="0">仓库中</option>
+                <option value="10">违规下架</option>
+              </select>
+            </label>
+          </dd>
+        </dl>
+        <dl>
+          <dt>审核状态</dt>
+          <dd>
+            <label>
+              <select name="goods_verify" class="s-select">
+                <option value="">-请选择-</option>
+                <option value="1">通过</option>
+                <option value="0">未通过</option>
+                <option value="10">审核中</option>
+              </select>
+            </label>
+          </dd>
+        </dl>
+      </div>
+      <div class="ps-scrollbar-x-rail">
+        <div class="ps-scrollbar-x"></div>
+      </div>
+      <div class="ps-scrollbar-y-rail">
+        <div class="ps-scrollbar-y" ></div>
+      </div>
+    </div>
+    <div class="bottom"><a href="javascript:void(0);" id="ncsubmit" class="ncap-btn ncap-btn-green mr5">提交查询</a>
+      <a href="javascript:void(0);" id="ncreset" class="ncap-btn ncap-btn-orange" title="撤销查询结果，还原列表项所有内容"><i class="fa fa-retweet"></i>撤销</a></div>
+  </form>
+</div>

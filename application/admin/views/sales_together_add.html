@@ -1,0 +1,270 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+<link type="text/css" href="http://code.jquery.com/ui/1.9.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<!-- <link href="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.js" ></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/jQuery-Timepicker-Addon/jquery-ui-timepicker-zh-CN.js"></script> -->
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+	<a class="back" href="sales_together" title="返回拼团列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>拼团管理——新增活动</h3>
+        <h5>商品拼团促销活动设置及管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>取消操作不可恢复，请慎重操作</li>
+      <li>点击详细链接查看活动详细信息</li>
+    </ul>
+  </div>
+  <div class="ncsc-form-default">
+    <form id="add_form" action="sales_together_add?op=submit" method="post">
+    <input id="pintuan_id" name="pintuan_id" type="hidden"  value="<{if isset($data.fightgroup_id)}><{$data.fightgroup_id}><{/if}>">
+      <dl>
+        <dt><i class="required">*</i>活动名称：</dt>
+        <dd>
+          <input id="pintuan_name" name="pintuan_name" type="text" maxlength="25" class="text w400" value="<{if isset($data.fightgroup_name)}><{$data.fightgroup_name}><{/if}>">
+          <span></span>
+          <p class="hint"></p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>开始时间：</dt>
+        <dd>
+          <input id="start_time" name="start_time" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" type="text" value="<{if isset($data.stime)}><{$data.stime}><{/if}>" class="text w130 "><em class="add-on"><i class="icon-calendar"></i></em><span></span>
+          <p class="hint">
+          </p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>结束时间：</dt>
+        <dd>
+          <input id="end_time" name="end_time" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" type="text" value="<{if isset($data.etime)}><{$data.etime}><{/if}>" class="text w130"><em class="add-on"><i class="icon-calendar"></i></em><span></span>
+          <p class="hint">
+          </p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>参团人数：</dt>
+        <dd>
+          <input id="min_num" name="min_num" type="text" class="text w130" value="<{if isset($data.fight_limit)}><{$data.fight_limit}><{else}>3<{/if}>"><span></span>
+          <p class="hint">建议设置3到5人，因人数越多成团机率越小</p>
+        </dd>
+      </dl>
+     <!--  <dl>
+        <dt>添加商品：</dt>
+        <dd>
+          <a id="btn_show_goods_select" class="ncbtn ncbtn-mint" href="javascript:;"><i></i>添加商品</a>
+          <span></span>
+          <p class="hint"></p>
+          <div id="div_goods_select" class="div-goods-select" style="display: none">
+            <table class="search-form">
+              <tbody><tr><th class="w150"><strong>第一步：搜索店内商品</strong></th><td class="w160"><input id="search_goods_name" type="text w150" class="text" name="goods_name" value=""></td>
+                <td class="w70 tc"><a href="javascript:void(0);" id="btn_search_goods" class="ncbtn"><i class="icon-search"></i>搜索</a></td><td class="w10"></td><td><p class="hint">不输入名称直接搜索将显示店内所有普通商品，特殊商品不能参加。</p></td>
+              </tr>
+              </tbody>
+            </table>
+            <div id="div_goods_search_result" class="search-result"></div>
+            <a id="btn_hide_goods_select" class="close" href="javascript:void(0);">X</a> </div>
+        </dd>
+      </dl> -->
+      <div class="bottom">
+        <label class="submit-border"><input id="submit_button" type="submit" class="submit" value="提交"></label>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+	
+    //页面输入内容验证
+    jQuery.validator.methods.greaterThanDate = function(value, element, param) {
+        var date1 = new Date(Date.parse(param.replace(/-/g, "/")));
+        var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+        return date1 < date2;
+    };
+    jQuery.validator.methods.greaterThanStartDate = function(value, element) {
+        var start_date = $("#start_time").val();
+        var date1 = new Date(Date.parse(start_date.replace(/-/g, "/")));
+        var date2 = new Date(Date.parse(value.replace(/-/g, "/")));
+        return date1 < date2;
+    };
+    $("#add_form").validate({
+      errorPlacement: function(error, element){
+        var error_td = element.parent('dd').children('span');
+        error_td.append(error);
+      },
+      rules : {
+        pintuan_name : {
+          required : true,
+          remote	: {
+              url :'sales_together_add?op=check_name',
+              type:'get',
+              cache:false,
+              async:false,
+              data:{
+            	  pintuan_name : function(){
+                      return $('#pintuan_name').val();
+                  },
+                  pintuan_id : function(){
+                      return $('#pintuan_id').val();
+                  }
+              }
+          }
+        },
+        start_time : {
+          required : true,
+          greaterThanDate : '2016-11-01 17:00'
+        },
+        end_time : {
+          required : true,
+          greaterThanStartDate : true
+        },
+        min_num: {
+          required: true,
+          digits: true,
+          min: 2
+        }
+      },
+      messages : {
+        pintuan_name : {
+          required : '<i class="icon-exclamation-sign"></i>活动名称不能为空',
+          remote   : '<i class="fa fa-exclamation-circle"></i>该活动名称已存在'
+        },
+        start_time : {
+          required : '<i class="icon-exclamation-sign"></i>开始时间不能为空',
+          greaterThanDate : '<i class="icon-exclamation-sign"></i>开始时间不能为空且不能早于2016-11-01 17:00'
+        },
+        end_time : {
+          required : '<i class="icon-exclamation-sign"></i>结束时间不能为空',
+          greaterThanStartDate : '<i class="icon-exclamation-sign"></i>结束时间必须大于开始时间'
+        },
+        min_num: {
+          required : '<i class="icon-exclamation-sign"></i>参团人数不能为空',
+          digits: '<i class="icon-exclamation-sign"></i>参团人数必须为数字',
+          min: '<i class="icon-exclamation-sign"></i>参团人数不能小于2'
+        }
+      }
+    });
+    //添加商品
+    $("a#btn_show_goods_select").click(function(){
+      $("#div_goods_select").show();
+    })
+    //搜索
+    $(".search-form").on("click","#btn_search_goods",function(){
+    	search_goods_name = $('#search_goods_name').val();
+    	function show_content(curr){
+      	  $.ajax({
+    			type: "post",
+    	        url: "sales_together_goods?op=search_goods_name",
+    	        data: {search_goods_name:search_goods_name,page:curr},
+    	        dataType: "json",
+    	        success: function(data){
+				if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+    	        	page = parseInt(data.page);data_goods = data.data;total_page = parseInt(data.total_page);rp = parseInt(data.rp);
+    	        	if(data.state){
+    	        		str0 = '<div id="div_goods_search_result" class="search-result"> ' ;
+    	        		if(data_goods!=''){
+    	        			str ='<ul class="goods-list"> ';
+    	        			$.each(data_goods,function(k,v){
+    	        				str +='<li> <div class="goods-thumb"><img src="<{PLUGIN}>data/shop/album_pic/'+v.thumb+'"></div> ' +
+    	        				'<input name="a_choose_goods_id" type="hidden" value="'+v.goods_id+'"><input name="goods_src" type="hidden" value="'+v.thumb+'">'+
+    	                '<dl class="goods-info"> <dt><span class="goods_name">'+v.goods_name+'</span></dt> <dd>销售价：¥<span class="goods_price">'+v.goods_price+'</span>    </dd></dl> ' +
+    	                '<a nctype="btn_add_pintuan_goods" data-storage="100000" data-goods-id="100734" data-goods-name="户外登山鞋" data-goods-img="<{TEMPLE}>img/goods_pic.jpg" data-goods-price="200.00" href="javascript:void(0);" class="ncbtn-mini">选择商品/修改拼团价</a></li>';
+    	        			})
+    	        			str +='</ul>' +
+    		                '<div class="pagination"></div> ';
+    	        		}
+    	        		str1 = '</div>';
+    	        		obj = $('#div_goods_search_result')
+    	        		if(obj == 'undefined'){
+    	        			$("table.search-form").after(str0+str+str1);
+    	        		}else{
+    	        			$('#div_goods_search_result').html(str);
+    	        		}
+    	                pages = total_page
+    	                curr = page
+    	                laypage({
+    	          	      cont: $('div.pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+    	          	      pages: pages, //通过后台拿到的总页数
+    	          	      curr:  curr || 1, //当前页
+    	          	      first: '首页',
+    	          	      last: '末页',
+    	          	      groups:5,
+    	          	      jump: function(obj, first){ //触发分页后的回调
+    	          	        if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+    	          	           show_content(obj.curr);
+    	          	        }
+    	          	      }
+    	          	    });
+    	        	}else{
+    	        		str = '<div style="font-size:20px;color:red;">未找到符合条件的商品！</div>';
+    	        		obj = $('#div_goods_search_result')
+    	        		if(obj == 'undefined'){
+    	        			$("table.search-form").after(str);
+    	        		}else{
+    	        			$('#div_goods_search_result').html(str);
+    	        		}
+    	        	}
+    	        }
+           })
+         }   
+        show_content()
+      
+      /*goods.img=$('a[nctype="btn_add_pintuan_goods"]').attr("data-goods-img");
+      goods.storage=$('a[nctype="btn_add_pintuan_goods"]').attr("data-storage");
+      goods.name=$('a[nctype="btn_add_pintuan_goods"]').attr("data-goods-name");*/
+    })
+    var goods={};
+
+    //选择商品/修改拼团价
+     $("#div_goods_select").on("click",'a[nctype="btn_add_pintuan_goods"]',function(){
+       //console.log(goods)
+       src = $(this).parents('li').find('input[name=goods_src]').val();
+      //amount = $(this).parents('li').find('input[name=stock_amount]').val();
+      price = $(this).parents('li').find('span.goods_price').text();
+      name = $(this).parents('li').find('span.goods_name').text();
+      goods_id = $(this).parents('li').find('input[name=a_choose_goods_id]').val();
+       layer.open({
+         type: 1,
+         title:'<b>商品规则设定</b>',
+         btn:['提交'],
+         skin: 'layui-layer-rim', //加上边框
+         area: ['650px', 'auto'], //宽高
+         content: '<div class="dialog_content"><div class="eject_con">' +
+         '<div class="selected-goods-info"> ' +
+         '<div class="goods-thumb">' +
+         '<img id="dialog_goods_img" src="<{PLUGIN}>data/shop/album_pic/'+src+'" alt=""></div> ' +
+         '<dl class="goods-info"> <dt id="dialog_goods_name">'+name+'</dt> ' +
+         '<dd>销售价格：<strong class="red">¥<font id="dialog_goods_price">'+price+'</font></strong></dd> ' +
+         '</dl> </div><dl> <dt>拼团价格：</dt>' +
+         ' <dd> <input id="dialog_pintuan_price" name="dialog_pintuan_price" type="text" class="text w70"> <em class="add-on"><i class="fa fa-rmb"></i></em> <p class="hint">拼团价应低于正常商品售价。</p> </dd> </dl></div></div>',
+         yes:function(){
+           layer.closeAll()
+         },
+       });
+     })
+    //
+    $("#div_goods_select").on("click","a#btn_hide_goods_select",function(){
+      $("#div_goods_select").hide();
+
+    })
+  });
+</script>
+</body>
+</html>

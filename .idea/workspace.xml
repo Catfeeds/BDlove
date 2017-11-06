@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/application/vmall/views/user_coupon.html" line="113" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" readonly="true" id="335bad81-9f62-4f34-853e-e7f1de7a3bd8" name="默认的" comment="" />
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="order_confirm.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/vmall/views/order_confirm.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="104">
+              <caret line="682" column="0" lean-forward="false" selection-start-line="682" selection-start-column="0" selection-end-line="682" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#div#2;n#label#0;n#div#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1509934504260" expanded="true" signature="30421:30453" ph="..." />
+                <marker date="1509934504260" expanded="true" signature="32801:32826" ph="..." />
+                <marker date="1509934504260" expanded="true" signature="35382:35396" ph="..." />
+                <marker date="1509934504260" expanded="true" signature="35461:35475" ph="..." />
+                <marker date="1509934504260" expanded="true" signature="38432:38472" ph="..." />
+                <marker date="1509934504260" expanded="true" signature="38649:38660" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sign_new.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/vmall/views/sign_new.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="518">
+              <caret line="476" column="5" lean-forward="true" selection-start-line="476" selection-start-column="5" selection-end-line="476" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://E:/gitskill/gitskills/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>weui-animate-fade-in</find>
+      <find>#choice</find>
+      <find>choice-cancel</find>
+      <find>$(&quot;.mask&quot;)</find>
+      <find>$(&quot;#choice</find>
+      <find>$(&quot;#choice&quot;)</find>
+      <find>$(&quot;#choice&quot;).hide();</find>
+      <find>#edit-cancel</find>
+      <find>取消</find>
+      <find>showTooltips</find>
+      <find>保存</find>
+      <find>weui-picker_son</find>
+      <find>.mask</find>
+      <find>新增地址</find>
+      <find>weui-cell__ft</find>
+      <find>选择收货人</find>
+      <find>choicepeople</find>
+      <find>choice</find>
+      <find>编辑收货人</find>
+      <find>edit</find>
+      <find>mask</find>
+      <find>rule_mask</find>
+      <find>action_img</find>
+      <find>date-day</find>
+      <find>active_b</find>
+      <find>obj</find>
+      <find>padleft0</find>
+      <find>css</find>
+      <find>me</find>
+      <find>show-edit</find>
+    </findStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/application/vmall/views/css/userc.css" />
+        <option value="$PROJECT_DIR$/application/vmall/views/user_center.html" />
+        <option value="$PROJECT_DIR$/application/vmall/controllers/Store.php" />
+        <option value="$PROJECT_DIR$/application/vmall/views/rongcloude/customerLotteryWheel_prizes.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/customerLotteryWheel_integration.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/customerLotteryWheel_prize.html" />
+        <option value="$PROJECT_DIR$/application/pay/views/login.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/user_coupon1.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/user_coupon3.html" />
+        <option value="$PROJECT_DIR$/application/admin/views/promotion_wheel_edit2.html" />
+        <option value="$PROJECT_DIR$/application/admin/views/micro_add.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/customerLotteryWheel.htm" />
+        <option value="$PROJECT_DIR$/application/vmall/views/sign.html" />
+        <option value="$PROJECT_DIR$/application/vmall/controllers/Promotion.php" />
+        <option value="$PROJECT_DIR$/application/vmall/controllers/Micro.php" />
+        <option value="$PROJECT_DIR$/config/database.php" />
+        <option value="$PROJECT_DIR$/application/vmall/views/cut_pricelist.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/js/customerLotteryWheel.js" />
+        <option value="$PROJECT_DIR$/application/vmall/views/css/customerLotteryWheel.css" />
+        <option value="$PROJECT_DIR$/application/admin/views/promotion_coupon_edit.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/index.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/goods_list.html" />
+        <option value="$PROJECT_DIR$/application/vmall/controllers/Index.php" />
+        <option value="$PROJECT_DIR$/application/vmall/controllers/Order.php" />
+        <option value="$PROJECT_DIR$/application/vmall/models/Weixin_model.php" />
+        <option value="$PROJECT_DIR$/application/vmall/controllers/User.php" />
+        <option value="$PROJECT_DIR$/application/vmall/views/order_confirm_since.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/cut_help.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/order_list.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/lottery_wheel_dai.htm" />
+        <option value="$PROJECT_DIR$/application/vmall/views/lottery_wheel.htm" />
+        <option value="$PROJECT_DIR$/vueDemo.html" />
+        <option value="$PROJECT_DIR$/vueDemo2.html" />
+        <option value="E:/vue-devtools-master/shells/chrome/manifest.json" />
+        <option value="$PROJECT_DIR$/application/vmall/views/customerLotteryWheel_list.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/cut_indexs.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/cut_price.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/user_coupon.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/user_setperson.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/css/style.css" />
+        <option value="$PROJECT_DIR$/application/vmall/views/user_updateperson.html" />
+        <option value="$PROJECT_DIR$/application/admin/views/promotion_sign.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/user_valtephone.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/goods_info.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/money_balance.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/money_recharge_pay.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/order_confirm.html" />
+        <option value="E:/gitdemo/link.html" />
+        <option value="E:/gitskill/gitskills/index.html" />
+        <option value="E:/gitdemo/index.html" />
+        <option value="$PROJECT_DIR$/application/vmall/views/sign_new.html" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/nodedemo/sliderDemo/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="313" />
+    <option name="width" value="1500" />
+    <option name="height" value="944" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="yunjuke" type="cbb8eebc:String" user="yunjuke" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="yunjuke" type="cbb8eebc:String" user="yunjuke" />
+              <item name="application" type="cbb8eebc:String" user="application" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="yunjuke" type="cbb8eebc:String" user="yunjuke" />
+              <item name="application" type="cbb8eebc:String" user="application" />
+              <item name="vmall" type="cbb8eebc:String" user="vmall" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="yunjuke" type="cbb8eebc:String" user="yunjuke" />
+              <item name="application" type="cbb8eebc:String" user="application" />
+              <item name="vmall" type="cbb8eebc:String" user="vmall" />
+              <item name="views" type="cbb8eebc:String" user="views" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="yunjuke" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yunjuke" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yunjuke" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yunjuke" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yunjuke" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yunjuke" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="vmall" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yunjuke" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yunjuke" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="vmall" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yunjuke" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yunjuke" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="vmall" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="settings.editor.selected.configurable" value="vcs.Subversion.SSH" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\www\yunjuke\application\vmall\views" />
+      <recent name="D:\www\yunjuke\application\vmall\views\images" />
+      <recent name="D:\www\yunjuke\application\admin\views" />
+      <recent name="D:\www\yunjuke\plugins\layer" />
+      <recent name="D:\www\yunjuke\application\vmall\views\js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\www\yunjuke\application\vmall\views\images" />
+      <recent name="D:\www\yunjuke\application\admin\views\images" />
+      <recent name="D:\www\yunjuke\application\pay\views\images" />
+      <recent name="D:\www\yunjuke\application\vmall\views\js" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="JavaScript Debug.user_shopping_cart.html">
+    <configuration name="user_shopping_cart.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/yunjuke/application/vmall/views/user_shopping_cart.html" />
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.user_shopping_cart.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\Pondering2\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="335bad81-9f62-4f34-853e-e7f1de7a3bd8" name="默认的" comment="" />
+      <created>1503972981152</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1503972981152</updated>
+      <workItem from="1503972983339" duration="4000" />
+      <workItem from="1503973024886" duration="2192000" />
+      <workItem from="1503975271448" duration="5207000" />
+      <workItem from="1503982900200" duration="6551000" />
+      <workItem from="1503994874658" duration="3899000" />
+      <workItem from="1504055667565" duration="23615000" />
+      <workItem from="1504142377458" duration="17215000" />
+      <workItem from="1504228936074" duration="17351000" />
+      <workItem from="1504255037601" duration="41000" />
+      <workItem from="1504487782825" duration="20881000" />
+      <workItem from="1504573804741" duration="25663000" />
+      <workItem from="1504660692919" duration="24922000" />
+      <workItem from="1504751969327" duration="22266000" />
+      <workItem from="1504833616874" duration="13240000" />
+      <workItem from="1504920669891" duration="19100000" />
+      <workItem from="1505092707325" duration="13667000" />
+      <workItem from="1505179112488" duration="24251000" />
+      <workItem from="1505265131529" duration="12660000" />
+      <workItem from="1505351531428" duration="27889000" />
+      <workItem from="1505438409756" duration="18700000" />
+      <workItem from="1505696612746" duration="25063000" />
+      <workItem from="1505782868671" duration="10818000" />
+      <workItem from="1505868927988" duration="18558000" />
+      <workItem from="1505956776924" duration="21663000" />
+      <workItem from="1506043002804" duration="16840000" />
+      <workItem from="1506129025108" duration="24611000" />
+      <workItem from="1506305193992" duration="17302000" />
+      <workItem from="1506388869052" duration="23414000" />
+      <workItem from="1506474208141" duration="22715000" />
+      <workItem from="1506561856127" duration="24801000" />
+      <workItem from="1506648294448" duration="18641000" />
+      <workItem from="1506734276676" duration="23953000" />
+      <workItem from="1507339519681" duration="15536000" />
+      <workItem from="1507424886668" duration="6466000" />
+      <workItem from="1507447035552" duration="3236000" />
+      <workItem from="1507517977983" duration="15663000" />
+      <workItem from="1507599520428" duration="20150000" />
+      <workItem from="1507688343369" duration="13243000" />
+      <workItem from="1507858662597" duration="17860000" />
+      <workItem from="1507944136034" duration="28141000" />
+      <workItem from="1508204777986" duration="25756000" />
+      <workItem from="1508288389434" duration="20944000" />
+      <workItem from="1508374784235" duration="1147000" />
+      <workItem from="1508377950902" duration="1190000" />
+      <workItem from="1508393141066" duration="603000" />
+      <workItem from="1508396706533" duration="448000" />
+      <workItem from="1508488946888" duration="1183000" />
+      <workItem from="1508721238481" duration="483000" />
+      <workItem from="1508722357937" duration="3909000" />
+      <workItem from="1508752253484" duration="1074000" />
+      <workItem from="1508808781638" duration="408000" />
+      <workItem from="1508813145528" duration="26000" />
+      <workItem from="1508828007889" duration="11718000" />
+      <workItem from="1508893585321" duration="18608000" />
+      <workItem from="1509354458388" duration="3378000" />
+      <workItem from="1509412590065" duration="1167000" />
+      <workItem from="1509440411149" duration="4317000" />
+      <workItem from="1509497786464" duration="11414000" />
+      <workItem from="1509518241633" duration="19000" />
+      <workItem from="1509689252956" duration="7388000" />
+      <workItem from="1509930191631" duration="15611000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="798779000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="313" y="0" width="1500" height="944" extended-state="1" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2134063" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32816228" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24897401" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="运行" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="找到" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32670808" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/application/vmall/controllers/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-184">
+          <caret line="504" column="7" lean-forward="false" selection-start-line="504" selection-start-column="7" selection-end-line="504" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/noaction.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/user_order.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/user_center.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/order_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="137" column="0" lean-forward="true" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/lottery_wheel.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6601">
+          <caret line="287" column="10" lean-forward="false" selection-start-line="287" selection-start-column="10" selection-end-line="287" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vueDemo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/vue-devtools-master/shells/chrome/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="28" column="4" lean-forward="true" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/vueDemo/node_modules/_vue-template-compiler@2.5.2@vue-template-compiler/index.js" />
+    <entry file="file://E:/vueDemo/node_modules/vue-template-compiler/index.js" />
+    <entry file="file://$PROJECT_DIR$/vueDemo2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="19" column="8" lean-forward="false" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/css/customerLotteryWheel.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="43" lean-forward="false" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/lottery_wheel_dai.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7268">
+          <caret line="316" column="42" lean-forward="false" selection-start-line="316" selection-start-column="42" selection-end-line="316" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/customerLotteryWheel_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="24" column="17" lean-forward="false" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/cut_indexs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11454">
+          <caret line="498" column="6" lean-forward="false" selection-start-line="498" selection-start-column="6" selection-end-line="498" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/cut_help.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2668">
+          <caret line="116" column="24" lean-forward="false" selection-start-line="116" selection-start-column="24" selection-end-line="116" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/cut_price.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="494" column="25" lean-forward="false" selection-start-line="494" selection-start-column="25" selection-end-line="494" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/user_coupon.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="14" lean-forward="true" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/user_setperson.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/user_updateperson.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/sign_bg.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/sign_btn.png" />
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="202" column="12" lean-forward="true" selection-start-line="202" selection-start-column="12" selection-end-line="202" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/prize_title.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/prize_money.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/prize_interation.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/prize_cou.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/pjStarNone.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/coupon_sale.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Highcharts-6.0.1/index.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-759">
+          <caret line="6" column="10" lean-forward="true" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/lib/Hlink-c.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/views/images/coupon_money.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/views/images/coupon_sale.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/views/images/coupon_reduce.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/views/promotion_sign.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="439" column="16" lean-forward="false" selection-start-line="439" selection-start-column="16" selection-end-line="439" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/views/images/combine_img.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/money_balance.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="50" column="52" lean-forward="true" selection-start-line="50" selection-start-column="52" selection-end-line="50" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/goods_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="35" lean-forward="false" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+          <folding>
+            <element signature="n#style#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <marker date="1509690402676" expanded="true" signature="33493:33501" ph="..." />
+            <marker date="1509690402676" expanded="true" signature="33598:33606" ph="..." />
+            <marker date="1509690402676" expanded="true" signature="34024:34032" ph="..." />
+            <marker date="1509690402676" expanded="true" signature="34145:34153" ph="..." />
+            <marker date="1509690402676" expanded="true" signature="41654:41673" ph="..." />
+            <marker date="1509690402676" expanded="true" signature="41715:41729" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.ssh/id_rsa.pub">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/gitskill/gitskills/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/gitdemo/link.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="11" column="7" lean-forward="false" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/gitdemo/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="7" lean-forward="false" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/user_valtephone.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="159" column="47" lean-forward="false" selection-start-line="159" selection-start-column="47" selection-end-line="159" selection-end-column="47" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/money_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="48" column="39" lean-forward="false" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
+          <folding>
+            <element signature="n#style#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/money_drawing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="119" column="8" lean-forward="false" selection-start-line="119" selection-start-column="8" selection-end-line="119" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/money_recharge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="6" column="27" lean-forward="false" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/money_recharge_pay.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="96" column="36" lean-forward="false" selection-start-line="96" selection-start-column="36" selection-end-line="96" selection-end-column="36" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/order_confirm.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="682" column="0" lean-forward="false" selection-start-line="682" selection-start-column="0" selection-end-line="682" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#div#2;n#label#0;n#div#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1509934504260" expanded="true" signature="30421:30453" ph="..." />
+            <marker date="1509934504260" expanded="true" signature="32801:32826" ph="..." />
+            <marker date="1509934504260" expanded="true" signature="35382:35396" ph="..." />
+            <marker date="1509934504260" expanded="true" signature="35461:35475" ph="..." />
+            <marker date="1509934504260" expanded="true" signature="38432:38472" ph="..." />
+            <marker date="1509934504260" expanded="true" signature="38649:38660" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/buqian.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/images/disactive.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/vmall/views/sign_new.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="518">
+          <caret line="476" column="5" lean-forward="true" selection-start-line="476" selection-start-column="5" selection-end-line="476" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

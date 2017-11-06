@@ -1,0 +1,306 @@
+<{include file="pageheader.html"}>
+<style>
+    .waybill_item{
+        background-color: #FEF5E6;
+        width: 90px;
+        height: 20px;
+        padding: 1px 5px 4px 5px !important;
+        border-color: #FFBEBC;
+        border-style: solid;
+        border-width: 1px 1px 1px 1px;
+        cursor: move;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    .waybill_item:hover{
+        padding: 1px 5px 1px 5px !important;
+        border-color: #FF7A73 !important;
+        border-width: 1px 1px 4px 1px !important;
+    }
+    .waybill_back { position: relative; width: 870px; height:490px; }
+    .waybill_back img { width: 100%; height: 100%; }
+    .waybill_area {
+        position: relative;
+        width: 870.2px;
+        height: 478.8px;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <!--<div class="item-title"><a class="back" href="index.php?act=waybill&amp;op=waybill_list" title="返回运单模板列表"><i class="fa fa-arrow-circle-o-left"></i></a>-->
+        <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>运单模板 - 设计“<{$waybill_express_name}>”运单模板</h3>
+                <h5>预设供商家选择的运单快递模板</h5>
+            </div>
+
+        </div>
+    </div>
+    <!--操作提示-->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>勾选需要打印的项目，勾选后可以用鼠标拖动确定项目的位置、宽度和高度，也可以点击项目后边的微调按钮手工录入</li>
+            <li>设置完成后点击提交按钮完成设计</li>
+        </ul>
+    </div>
+    <div class="ncap-form-default">
+        <dl class="row">
+            <dt class="tit">选择打印项</dt>
+            <dd class="opt">
+                <form id="design_form" action="design_template_submit" method="post">
+                    <input type="hidden" name="waybill_id" value="<{$id}>">
+                    <ul id="waybill_item_list" class="nc-row ncap-waybill-list">
+                        <li>
+                            <input id="check_buyer_name" class="mr-5" type="checkbox" name="waybill_data[buyer_name][check]" data-waybill-name="buyer_name" data-waybill-text="收货人" checked="">
+                            <label for="check_buyer_name" class="cur_p">收货人</label><i nctype="btn_item_edit" data-item-name="buyer_name" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_buyer_name" type="hidden" name="waybill_data[buyer_name][left]" value="<{$buyer_name.left}>">
+                            <input id="top_buyer_name" type="hidden" name="waybill_data[buyer_name][top]" value="<{$buyer_name.top}>">
+                            <input id="width_buyer_name" type="hidden" name="waybill_data[buyer_name][width]" value="<{$buyer_name.width}>">
+                            <input id="height_buyer_name" type="hidden" name="waybill_data[buyer_name][height]" value="<{$buyer_name.height}>">
+                        </li>
+                        <li>
+                             <input id="check_buyer_area" class=" mr-5" type="checkbox" name="waybill_data[buyer_area][check]" data-waybill-name="buyer_area" data-waybill-text="收货人地区" checked="">
+                            <label for="check_buyer_area" class="cur_p">收货人地区</label><i nctype="btn_item_edit" data-item-name="buyer_area" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_buyer_area" type="hidden" name="waybill_data[buyer_area][left]" value="<{$buyer_area.left}>">
+                            <input id="top_buyer_area" type="hidden" name="waybill_data[buyer_area][top]" value="<{$buyer_area.top}>">
+                            <input id="width_buyer_area" type="hidden" name="waybill_data[buyer_area][width]" value="<{$buyer_area.width}>">
+                            <input id="height_buyer_area" type="hidden" name="waybill_data[buyer_area][height]" value="<{$buyer_area.height}>">
+                         </li>
+                        <li>
+                             <input id="check_buyer_address" class="mr-5" type="checkbox" name="waybill_data[buyer_address][check]" data-waybill-name="buyer_address" data-waybill-text="收货人地址" checked="">
+                            <label for="check_buyer_address" class="cur_p">收货人地址</label><i nctype="btn_item_edit" data-item-name="buyer_address" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_buyer_address" type="hidden" name="waybill_data[buyer_address][left]" value="<{$buyer_address.left}>">
+                            <input id="top_buyer_address" type="hidden" name="waybill_data[buyer_address][top]" value="<{$buyer_address.top}>">
+                            <input id="width_buyer_address" type="hidden" name="waybill_data[buyer_address][width]" value="<{$buyer_address.width}>">
+                            <input id="height_buyer_address" type="hidden" name="waybill_data[buyer_address][height]" value="<{$buyer_address.height}>">
+                       </li>
+                        <li>
+                           <input id="check_buyer_mobile" class="mr-5" type="checkbox" name="waybill_data[buyer_mobile][check]" data-waybill-name="buyer_mobile" data-waybill-text="收货人手机" checked="">
+                            <label for="check_buyer_mobile" class="cur_p">收货人手机</label><i nctype="btn_item_edit" data-item-name="buyer_mobile" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_buyer_mobile" type="hidden" name="waybill_data[buyer_mobile][left]" value="<{$buyer_mobile.left}>">
+                            <input id="top_buyer_mobile" type="hidden" name="waybill_data[buyer_mobile][top]" value="<{$buyer_mobile.top}>">
+                            <input id="width_buyer_mobile" type="hidden" name="waybill_data[buyer_mobile][width]" value="<{$buyer_mobile.width}>">
+                            <input id="height_buyer_mobile" type="hidden" name="waybill_data[buyer_mobile][height]" value="<{$buyer_mobile.height}>">
+                        </li>
+                        <li>
+                           <input id="check_buyer_phone" class="mr-5" type="checkbox" name="waybill_data[buyer_phone][check]" data-waybill-name="buyer_phone" data-waybill-text="收货人电话" checked="">
+                            <label for="check_buyer_phone" class="cur_p">收货人电话</label><i nctype="btn_item_edit" data-item-name="buyer_phone" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_buyer_phone" type="hidden" name="waybill_data[buyer_phone][left]" value="<{$buyer_phone.left}>">
+                            <input id="top_buyer_phone" type="hidden" name="waybill_data[buyer_phone][top]" value="<{$buyer_phone.top}>">
+                            <input id="width_buyer_phone" type="hidden" name="waybill_data[buyer_phone][width]" value="<{$buyer_phone.width}>">
+                            <input id="height_buyer_phone" type="hidden" name="waybill_data[buyer_phone][height]" value="<{$buyer_phone.height}>">
+                        </li>
+                        <li>
+                            <input id="check_seller_name" class="mr-5" type="checkbox" name="waybill_data[seller_name][check]" data-waybill-name="seller_name" data-waybill-text="发货人" checked="">
+                            <label for="check_seller_name" class="cur_p">发货人</label><i nctype="btn_item_edit" data-item-name="seller_name" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_seller_name" type="hidden" name="waybill_data[seller_name][left]" value="<{$seller_name.left}>">
+                            <input id="top_seller_name" type="hidden" name="waybill_data[seller_name][top]" value="<{$seller_name.top}>">
+                            <input id="width_seller_name" type="hidden" name="waybill_data[seller_name][width]" value="<{$seller_name.width}>">
+                            <input id="height_seller_name" type="hidden" name="waybill_data[seller_name][height]" value="<{$seller_name.height}>">
+                        </li>
+                        <li>
+                            <input id="check_seller_area" class="mr-5" type="checkbox" name="waybill_data[seller_area][check]" data-waybill-name="seller_area" data-waybill-text="发货人地区" checked="">
+                            <label for="check_seller_area" class="cur_p">发货人地区</label><i nctype="btn_item_edit" data-item-name="seller_area" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_seller_area" type="hidden" name="waybill_data[seller_area][left]" value="<{$seller_area.left}>">
+                            <input id="top_seller_area" type="hidden" name="waybill_data[seller_area][top]" value="<{$seller_area.top}>">
+                            <input id="width_seller_area" type="hidden" name="waybill_data[seller_area][width]" value="<{$seller_area.width}>">
+                            <input id="height_seller_area" type="hidden" name="waybill_data[seller_area][height]" value="<{$seller_area.height}>">
+                        </li>
+                        <li>
+                            <input id="check_seller_address" class="mr-5" type="checkbox" name="waybill_data[seller_address][check]" data-waybill-name="seller_address" data-waybill-text="发货人地址" checked="">
+                            <label for="check_seller_address" class="cur_p">发货人地址</label><i nctype="btn_item_edit" data-item-name="seller_address" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_seller_address" type="hidden" name="waybill_data[seller_address][left]" value="<{$seller_address.left}>">
+                            <input id="top_seller_address" type="hidden" name="waybill_data[seller_address][top]" value="<{$seller_address.top}>">
+                            <input id="width_seller_address" type="hidden" name="waybill_data[seller_address][width]" value="<{$seller_address.width}>">
+                            <input id="height_seller_address" type="hidden" name="waybill_data[seller_address][height]" value="<{$seller_address.height}>">
+                        </li>
+                        <li>
+                             <input id="check_seller_phone" class="mr-5" type="checkbox" name="waybill_data[seller_phone][check]" data-waybill-name="seller_phone" data-waybill-text="发货人电话" checked="">
+                            <label for="check_seller_phone" class="cur_p">发货人电话</label><i nctype="btn_item_edit" data-item-name="seller_phone" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_seller_phone" type="hidden" name="waybill_data[seller_phone][left]" value="<{$seller_phone.left}>">
+                            <input id="top_seller_phone" type="hidden" name="waybill_data[seller_phone][top]" value="<{$seller_phone.top}>">
+                            <input id="width_seller_phone" type="hidden" name="waybill_data[seller_phone][width]" value="<{$seller_phone.width}>">
+                            <input id="height_seller_phone" type="hidden" name="waybill_data[seller_phone][height]" value="<{$seller_phone.height}>">
+                        </li>
+                        <li>
+                            <input id="check_seller_company" class="mr-5" type="checkbox" name="waybill_data[seller_company][check]" data-waybill-name="seller_company" data-waybill-text="发货人公司" checked="">
+                            <label for="check_seller_company" class="cur_p">发货人公司</label><i nctype="btn_item_edit" data-item-name="seller_company" title="微调" class="fa ml-5 fa-pencil-square-o"></i></a>
+                            <input id="left_seller_company" type="hidden" name="waybill_data[seller_company][left]" value="<{$seller_company.left}>">
+                            <input id="top_seller_company" type="hidden" name="waybill_data[seller_company][top]" value="<{$seller_company.top}>">
+                            <input id="width_seller_company" type="hidden" name="waybill_data[seller_company][width]" value="<{$seller_company.width}>">
+                            <input id="height_seller_company" type="hidden" name="waybill_data[seller_company][height]" value="<{$seller_company.height}>">
+                        </li>
+                    </ul>
+                </form>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">打印项偏移校正</dt>
+            <dd class="opt">
+                <div class="waybill_area">
+                    <div class="waybill_back"> <img src="<{$img}>" alt=""> </div>
+                    <div class="waybill_design">
+                        <div id="div_buyer_name" data-item-name="buyer_name" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$buyer_name.width}>px;height:<{$buyer_name.height}>px;left:<{$buyer_name.left}>px;top:<{$buyer_name.top}>px;">收货人<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_buyer_area" data-item-name="buyer_area" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$buyer_area.width}>px;height:<{$buyer_area.height}>px;left:<{$buyer_area.left}>px;top:<{$buyer_area.top}>px;">收货人地区<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_buyer_address" data-item-name="buyer_address" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$buyer_address.width}>px;height:<{$buyer_address.height}>px;left:<{$buyer_address.left}>px;top:<{$buyer_address.top}>px;">收货人地址<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_buyer_mobile" data-item-name="buyer_mobile" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$buyer_mobile.width}>px;height:<{$buyer_mobile.height}>px;left:<{$buyer_mobile.left}>px;top:<{$buyer_mobile.top}>px;">收货人手机<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_buyer_phone" data-item-name="buyer_phone" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$buyer_phone.width}>px;height:<{$buyer_phone.height}>px;left:<{$buyer_phone.left}>px;top:<{$buyer_phone.top}>px;">收货人电话<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_seller_name" data-item-name="seller_name" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$seller_name.width}>px;height:<{$seller_name.height}>px;left:<{$seller_name.left}>px;top:<{$seller_name.top}>px;">发货人<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_seller_area" data-item-name="seller_area" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$seller_area.width}>px;height:<{$seller_area.height}>px;left:<{$seller_area.left}>px;top:<{$seller_area.top}>px;">发货人地区<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_seller_address" data-item-name="seller_address" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$seller_address.width}>px;height:<{$seller_address.height}>px;left:<{$seller_address.left}>px;top:<{$seller_address.top}>px;">发货人地址<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_seller_phone" data-item-name="seller_phone" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$seller_phone.width}>px;height:<{$seller_phone.height}>px;left:<{$seller_phone.left}>px;top:<{$seller_phone.top}>px;">发货人电话<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                            <div id="div_seller_company" data-item-name="seller_company" class="waybill_item ui-draggable ui-resizable" style="position: absolute;width:<{$seller_company.width}>px;height:<{$seller_company.height}>px;left:<{$seller_company.left}>px;top:<{$seller_company.top}>px;">发货人公司<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div></div>
+                        
+                    </div>
+                </div>
+            </dd>
+        </dl>
+        <div class="bot"><a id="submit" href="javascript:;" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var draggable_event = {
+            stop: function(event, ui) {
+                var item_name = ui.helper.attr('data-item-name');
+                var position = ui.helper.position();
+                $('#left_' + item_name).val(position.left);
+                $('#top_' + item_name).val(position.top);
+            }
+        };
+
+        var resizeable_event = {
+            stop: function(event, ui) {
+                var item_name = ui.helper.attr('data-item-name');
+                $('#width_' + item_name).val(ui.size.width);
+                $('#height_' + item_name).val(ui.size.height);
+            }
+        };
+
+        $('.waybill_item').draggable(draggable_event);
+        $('.waybill_item').resizable(resizeable_event);
+
+        $('#waybill_item_list input:checkbox').on('click', function() {
+            var item_name = $(this).attr('data-waybill-name');
+            var div_name = 'div_' + item_name;
+            if($(this).prop('checked')) {
+                var item_text = $(this).attr('data-waybill-text');
+                var waybill_item = '<div id="' + div_name + '" data-item-name="' + item_name + '" class="waybill_item">' + item_text + '</div>';
+                $('.waybill_design').append(waybill_item);
+                $('#' + div_name).draggable(draggable_event);
+                $('#' + div_name).resizable(resizeable_event);
+                $('#left_' + item_name).val('0');
+                $('#top_' + item_name).val('0');
+                $('#width_' + item_name).val('100');
+                $('#height_' + item_name).val('20');
+            } else {
+                $('#' + div_name).remove();
+            }
+        });
+
+        $('.waybill_design').on('click', '.waybill_item', function() {
+            console.log($(this).position());
+        });
+
+        //微调弹出窗口
+        $('[nctype="btn_item_edit"]').on('click', function() {
+            var item_name = $(this).attr('data-item-name');
+            $('#dialog_item_name').val(item_name);
+            $('#dialog_left').val($('#left_' + item_name).val());
+            $('#dialog_top').val($('#top_' + item_name).val());
+            $('#dialog_width').val($('#width_' + item_name).val());
+            $('#dialog_height').val($('#height_' + item_name).val());
+            $('#dialog_item_edit').nc_show_dialog({title:'微调'});
+        });
+
+        //微调保存
+        $('#btn_dialog_submit').on('click', function() {
+            var item_name = $('#dialog_item_name').val();
+            $('#div_' + item_name).css('left', $('#dialog_left').val() + 'px');
+            $('#div_' + item_name).css('top', $('#dialog_top').val() + 'px');
+            $('#div_' + item_name).css('width', $('#dialog_width').val() + 'px');
+            $('#div_' + item_name).css('height', $('#dialog_height').val() + 'px');
+            $('#left_' + item_name).val($('#dialog_left').val());
+            $('#top_' + item_name).val($('#dialog_top').val());
+            $('#width_' + item_name).val($('#dialog_width').val());
+            $('#height_' + item_name).val($('#dialog_height').val());
+            $('#dialog_item_edit').hide();
+        });
+
+        //微调取消
+        $('#btn_dialog_cancel').on('click', function() {
+            $('#dialog_item_edit').hide();
+        });
+
+        $('#submit').on('click', function() {
+            $('#design_form').submit();
+        });
+
+
+        //layer弹出框
+        $(".opt i.fa").click(function(){
+            var left = $(this).prev("lable")
+            layer.open({
+                type: 1,
+                btn: ['确认', '取消'],
+                title: '<b>微调</b>',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['300px', 'auto'], //宽高
+                content: '<div class="pt-10 pb-10 pl-30 pr-30 "><form action="" id="form1"><input id="dialog_item_name" type="hidden" value="">' +
+                '<table class="table">' +
+                '<tr> ' +
+                '<td class="text-r f-14" style="width: 80px;">左偏移量：</td>' +
+                '<td class="text-l f-12"><input type="number" class="input-text " id="dialog_left" name="tem_name" id="wl_num" style="width: 100px;height: 24px;"><span class="err"></span></td> ' +
+                '</tr>' +
+                '<tr> ' +
+                '<td class="text-r f-14" style="width: 80px;">上偏移量：</td>' +
+                '<td class="text-l f-12"><input type="number" class="input-text " id="dialog_top" name="tem_name" id="wl_num" style="width: 100px;height: 24px;"><span class="err"></span></td> ' +
+                '</tr>' +
+                '<tr> ' +
+                '<td class="text-r f-14" style="width: 80px;">高：</td>' +
+                '<td class="text-l f-12"><input type="number" class="input-text " id="dialog_height" name="tem_name" id="wl_num" style="width: 100px;height: 24px;"><span class="err"></span></td> ' +
+                '</tr>' +
+                '<tr> ' +
+                '<td class="text-r f-14" style="width: 80px;">宽：</td>' +
+                '<td class="text-l f-12"><input type="number" class="input-text " id="dialog_width" name="tem_name" id="wl_num" style="width: 100px;height: 24px;"><span class="err"></span></td> ' +
+                '</tr>' +
+                '</table>'+
+                '</form></div>',
+                yes: function(){
+                    var item_name = $('#dialog_item_name').val();
+                    $('#div_' + item_name).css('left', $('#dialog_left').val() + 'px');
+                    $('#div_' + item_name).css('top', $('#dialog_top').val() + 'px');
+                    $('#div_' + item_name).css('width', $('#dialog_width').val() + 'px');
+                    $('#div_' + item_name).css('height', $('#dialog_height').val() + 'px');
+                    $('#left_' + item_name).val($('#dialog_left').val());
+                    $('#top_' + item_name).val($('#dialog_top').val());
+                    $('#width_' + item_name).val($('#dialog_width').val());
+                    $('#height_' + item_name).val($('#dialog_height').val());
+                    layer.closeAll();
+                }, no: function(){}
+            })
+        })
+        //微调弹出窗口
+        $('[nctype="btn_item_edit"]').on('click', function() {
+            var item_name = $(this).attr('data-item-name');
+            $('#dialog_item_name').val(item_name);
+            $('#dialog_left').val($('#left_' + item_name).val());
+            $('#dialog_top').val($('#top_' + item_name).val());
+            $('#dialog_width').val($('#width_' + item_name).val());
+            $('#dialog_height').val($('#height_' + item_name).val());
+
+        });
+    });
+
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

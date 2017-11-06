@@ -1,0 +1,231 @@
+<{include file="pageheader.html"}>
+	<style type="text/css">
+		a:hover{
+			color: #333;
+		}
+	</style>
+<body style="background-color: #FFF; overflow: auto;">
+    <nav class="breadcrumb">
+	    <i class="Hui-iconfont">&#xe67f;</i> 店铺管理 <span class="c-gray en p-lr">&gt;</span><a href="mall_express_tools">运费管理</a><span class="c-gray en p-lr">&gt;</span>运费修改
+	    &nbsp;<a href="javascript:;" id="goback"><i class="iconfont" style="font-size: 13px;">&#xe670;</i>返回</a>
+	    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+	        <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+
+<div class="page-container">
+    <form id="add_form" method="post" action="mall_waybill_submit" enctype="multipart/form-data">
+        <input type="hidden" name="waybill_id" value="<{if isset($data)}><{$data.waybill_id}><{/if}>">
+        <input type="hidden" name="old_waybill_image" value="">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="waybill_name"><em>*</em>模板名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{if isset($data)}><{$data.waybill_name}><{/if}>" name="waybill_name" id="waybill_name" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">运单模板名称，最多10个字</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="waybill_name"><em>*</em>物流公司</label>
+                </dt>
+                <dd class="opt">
+
+                    <input type="hidden" name="waybill_express"  value="<{if isset($data)}><{$data.express_id}><{/if}>">
+                    <span><{if isset($data)}><{$data.express_name}><{/if}></span>
+
+                    <!--<{if isset($express)}>-->
+                        <!--<select name="waybill_express" id="waybill_express">-->
+                            <!--<option value="">-请选择-</option>-->
+                            <!--<{foreach from=$express item=v}>-->
+                               <!--<option value="<{if isset($v.id)}><{$v.id}><{/if}>"><{if isset($v.e_name)}><{$v.e_name}><{/if}></option>-->
+                            <!--<{/foreach}>-->
+                        <!--</select>-->
+                    <!--<{else}>-->
+                        <!--<input type="hidden" name="waybill_express" value="<{$data.express_name}>">-->
+                        <!--<span><{if isset($data)}><{$data.express_name}><{/if}></span>-->
+                    <!--<{/if}>-->
+                    <span class="err"></span>
+                    <p class="notic">模板对应的物流公司</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="waybill_width"><em>*</em>宽度</label>
+                </dt>
+                <dd class="opt">
+                    <input type="number" value="<{if isset($data)}><{$data.waybill_width}><{else}>229<{/if}>" name="waybill_width" id="waybill_width" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">运单宽度，单位为毫米(mm)</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="waybill_height"><em>*</em>高度</label>
+                </dt>
+                <dd class="opt">
+                    <input type="number" value="<{if isset($data)}><{$data.waybill_height}><{else}>127<{/if}>" name="waybill_height" id="waybill_height" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">运单高度，单位为毫米(mm)</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="waybill_top"><em>*</em>上偏移量</label>
+                </dt>
+                <dd class="opt">
+                    <input type="number" value="<{if isset($data)}><{$data.waybill_top}><{else}>-3<{/if}>" name="waybill_top" id="waybill_top" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">运单模板上偏移量，单位为毫米(mm)</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="waybill_left"><em>*</em>左偏移量</label>
+                </dt>
+                <dd class="opt">
+                    <input type="number" value="<{if isset($data)}><{$data.waybill_left}><{else}>-5<{/if}>" name="waybill_left" id="waybill_left" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">运单模板左偏移量，单位为毫米(mm)</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="waybill_image">模板图片</label>
+                </dt>
+                <dd class="opt">
+                    <div class="input-file-show">
+                        <span class="show"><a class="nyroModal" rel="gal">
+                            <i class="fa fa-picture-o"  id="" data-geo='<img src="<{if isset($data)}><{base_url ("data/images/")}><{$data.waybill_image}><{/if}>" height=200px>'></i>
+                        </a></span>
+                        <span class="type-file-box">
+                            <input type="text" name="textfield" value="<{if isset($data)}><{$data.waybill_image}><{/if}>" id="textfield" class="type-file-text">
+                            <input type="button" name="button" id="button" value="选择上传..." class="type-file-button">
+                            <input name="waybill_image" value="<{if isset($data)}><{base_url ('data/images/')}><{$data.waybill_image}><{/if}>" type="file" class="type-file-file" id="waybill_image" size="30" hidefocus="true" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+                        </span>
+                    </div>
+                    <span class="err"></span>
+                    <p class="notic">请上传扫描好的运单图片，图片尺寸必须与快递单实际尺寸相符</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="waybill_image"><em>*</em>启用</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <input id="status_1" type="radio" name="status" value="1" <{if isset($data) and $data.status eq 1}> checked <{/if}> >
+                        <label for="status_1" id="check_yes" class="cb-enable <{if isset($data) and $data.status eq 1}>selected<{/if}>">是</label>
+                        <input id="status_0" type="radio" name="status" value="0" <{if isset($data) and $data.status neq 1}> checked <{/if}> >
+                        <label for="status_0" id="check_no" class="cb-disable <{if isset($data) and $data.status eq 0}>selected<{/if}>">否</label>
+                    </div>
+                    <p class="notic">请首先设计并测试模板然后再启用，启用后商家可以使用 </p>
+                </dd>
+            </dl>
+            <div class="bot"><a id="submit" href="javascript:void(0)" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script>
+	$("#goback").click(function(){
+		window.history.back();
+	})
+	
+    $("input[type=radio]").click(function () {
+        if($(this))
+        $(this).next().addClass('selected');
+
+    })
+    $('#status_1').click(function () {
+        $('#status_1').attr("checked","checked");
+        $('#status_0').removeAttr("checked");
+        $("#check_yes").addClass('selected');
+        $("#check_no").removeClass('selected');
+    });
+    $('#status_0').click(function () {
+        $('#status_0').attr("checked","checked");
+        $('#status_1').removeAttr("checked");
+        $("#check_yes").removeClass('selected');
+        $("#check_no").addClass('selected');
+    });
+
+    $(document).ready(function(){
+        //上传显示
+        $("#waybill_image").change(function () {
+            $("#textfield").val($(this).val());
+        });
+        $("#submit").click(function(){
+            if($("#add_form").valid()){
+                $("#add_form").submit();
+            }
+        });
+        $('#add_form').validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parents('dd').children('span.err');
+                error_td.append(error);
+            },
+            rules : {
+                waybill_name: {
+                    required : true,
+                    maxlength : 10
+                },
+                waybill_express: {
+                    required : true
+                },
+                waybill_width: {
+                    required : true,
+                    digits: true
+                },
+                waybill_height: {
+                    required : true,
+                    digits: true
+                },
+                waybill_top: {
+                    required : true,
+                    number: true
+                },
+                waybill_left: {
+                    required : true,
+                    number: true
+                },
+                waybill_image: {
+                    accept: "jpg|jpeg|png|gif"
+                }
+            },
+            messages : {
+                waybill_name: {
+                    required : "<i class='fa fa-exclamation-circle'></i>模板名称不能为空",
+                    maxlength : "<i class='fa fa-exclamation-circle'></i>模板名称最多10个字"
+                },
+                waybill_express: {
+                    required : "<i class='fa fa-exclamation-circle'></i>请选择物流公司",
+                },
+                waybill_width: {
+                    required : "<i class='fa fa-exclamation-circle'></i>宽度不能为空",
+                    digits: "<i class='fa fa-exclamation-circle'></i>宽度必须为数字"
+                },
+                waybill_height: {
+                    required : "<i class='fa fa-exclamation-circle'></i>高度不能为空",
+                    digits: "<i class='fa fa-exclamation-circle'></i>高度必须为数字"
+                },
+                waybill_top: {
+                    required : "<i class='fa fa-exclamation-circle'></i>上偏移量不能为空",
+                    number: "<i class='fa fa-exclamation-circle'></i>上偏移量必须为数字"
+                },
+                waybill_left: {
+                    required : "<i class='fa fa-exclamation-circle'></i>左偏移量不能为空",
+                    number: "<i class='fa fa-exclamation-circle'></i>左偏移量必须为数字"
+                },
+                waybill_image: {
+                    accept: '<i class="fa fa-exclamation-circle"></i>图片类型不正确'
+                }
+            }
+        });
+    });
+
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

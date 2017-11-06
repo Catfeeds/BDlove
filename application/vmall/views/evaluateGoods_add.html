@@ -1,0 +1,395 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>评价列表</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+<link href="<{TEMPLE}>css/mobileslider.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+<script src="<{TEMPLE}>js/base.js"></script>
+
+</head>
+<style>
+    .evalstar{
+		width: 190px;
+	}
+	.evalstar li{
+		float:left;
+		margin-left: 5px;
+	}
+	.evalstar img{
+		width: 15px;
+	}
+	.small{
+		color: #999;
+		font-size: 12px;
+		margin-left: 15px;
+	}
+	.content{
+		padding: 10px 15px;
+		font-size: 16px;
+	}
+	.eval-img-group{
+		margin-left: 5px;
+	}
+	.eval-img{
+		width: 100px;
+		margin-left: 10px;
+		float: left;
+	}
+	.img-r{
+		max-width: 100%;
+		height: auto;
+	}
+	.info {
+   margin: 10px;
+   position  :relative;
+   padding: 10px;
+   margin-left: 15px;
+   margin-right: 15px;
+   background :#eee;
+   border-radius :4px;
+   text-align :center;
+   font-size: 14px;
+  }
+  .nav {
+   position   :absolute;
+   top    :-8px;
+   left    :30px;
+   overflow   :hidden;
+   width    :13px;
+   height   :13px;
+   background  :#eee;
+  -webkit-transform :rotate(45deg);
+  -moz-transform :rotate(45deg);
+  -o-transform  :rotate(45deg);
+   transform   :rotate(45deg);
+  }
+  
+    p{ 
+		font-size: 17px;
+	}
+	.small{
+		font-size: 13px!important;
+		color: #999;
+	}
+	.small1{
+		font-size: 13px;
+	}
+	.btn-apply{
+		padding:6px 20px;
+		margin-right: 10px;
+		border: 1px solid #ddd;
+		font-size: 14px;
+	}
+.btn-applysubmit{
+	display: block;
+	width: 180px;
+	height: 30px;
+	border-radius: 4px;
+	background: red;
+	color: #fff;
+	line-height: 30px;
+	text-align: center;
+	margin:15px auto;
+}
+.display{
+	background: #f8f8f8;
+	color: #ccc;
+}
+.display:visited,
+.display:active{
+	background: #f8f8f8;
+	color: #ccc;
+}
+.weui-btn:after {
+	border: none;
+}
+	.evalstar{
+		width: 170px;
+	}
+	.evalstar li{
+		float:left;
+		margin-left: 5px;
+	}
+	.evalstar img{
+		width: 28px;
+	}
+	.illustrate{
+	margin-top: -5px;font-size: 12px;color: #999;
+	width: 80%;
+}
+.weui-uploader__input-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 3px;
+}
+.weui-uploader__file {
+    width: 50px;
+    height: 50px;
+}
+.weui-uploader__input-box:before {
+    width: 39.5px;
+    height: 39.5px;
+    background: url(<{TEMPLE}>images/addprice.png) no-repeat center;
+    background-size:80% 70%;  
+}
+.weui-uploader__input-box:after {
+    width: 0px;
+    height:0px; 
+}
+</style>
+<body ontouchstart>
+	
+	<div class="weui-gallery" id="gallery">
+            <span class="weui-gallery__img" id="galleryImg"></span>
+            <div class="weui-gallery__opr">
+                <a href="javascript:" class="weui-gallery__del">
+                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                </a>
+            </div>
+        </div>
+
+	<div class="weui-cellss" style="margin-top: 0px;max-height:200px !important;">
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><{if !empty($evaluate_info.head_portrait)}><img src="<{$evaluate_info.head_portrait}>"  alt="" style="width:20px;margin-right:5px;display:block"><{/if}></div>
+                <div class="weui-cell__bd">
+                    <p><p style="float: left;margin-right: 10px;"><{$evaluate_info.user_name}></p>
+                    	<ul class="evalstar">
+                    	<{for $i=1 to $evaluate_info.evaluation_level}>
+							<li><img src="<{TEMPLE}>images/evalstar2.png" alt="1"></li>
+						<{/for}>
+					</ul>
+                   </p>  
+               </div>
+		</div>
+        <p class="small"><{"Y.m.d"|date:$evaluate_info.evaluation_time}> 尺码：<{if !empty($evaluate_info.goods_size)}><{$evaluate_info.goods_size}><{/if}> 颜色分类：<{if !empty($evaluate_info.goods_color)}><{$evaluate_info.goods_color}><{/if}></p>
+        <p class="content"><{if !empty($evaluate_info.evaluation_content)}><{$evaluate_info.evaluation_content}><{/if}></p>
+        <div class="eval-img-group">
+             <{if !empty($evaluate_info.geval_image)}>
+             <{foreach $evaluate_info.geval_image as $key=>$val}>
+	        	<div class="eval-img">
+	        		<img src="<{TEMPLE}>images/<{$val}>"  alt="" class="img-r"/>
+	        	</div>
+	         <{/foreach}>
+        	<{/if}>
+        </div>
+        <div style="clear: both;"></div>
+        <div>
+           <{if !empty($evaluate_info.geval_explain)}>
+			<div class="info">
+				<div class="nav"></div>
+				<p>掌柜回复：<{$evaluate_info.geval_explain}></p>
+			</div>
+			<{/if}>
+		</div>
+		
+	<{if $evaluate_info.evaluation_state eq 3}>
+	    <br/>
+	    <p class="small" style="color:red !important;">您的追评</p>	
+	    <p class="content"><{if !empty($evaluate_info.add_evaluation_content)}><{$evaluate_info.add_evaluation_content}><{/if}></p>
+        <div class="eval-img-group">
+             <{if !empty($evaluate_info.add_geval_image)}>
+             <{foreach $evaluate_info.add_geval_image as $key=>$val}>
+	        	<div class="eval-img">
+	        		<img src="<{TEMPLE}>images/<{$val}>" alt="" class="img-r"/>
+	        	</div>
+	         <{/foreach}>
+        	<{/if}>
+        </div>
+	<{else}>
+		<br/><br/><br/>
+		<p class="small" style="color:red !important;">追加评价</p>	
+		<form  method="post" enctype="multipart/form-data" id="form_email_guide"  name="settingForm">
+		   <input type="hidden" id="order_sn" name="order_sn" value="<{$reciveInfo.order_sn}>"/>
+		   <input type="hidden" id="goods_id" name="goods_id" value="<{$orderInfo.0.goods_id}>"/>
+		   <input type="hidden" id="evaluation_level" name="evaluation_level" value=""/>
+			<div class="weui-cells" style="margin-top: 0px;">
+				<div class="weui-cell">
+					<div class="weui-cell__bd">
+						<textarea name="evaluation_content"  id="evaluation_content" rows="5" placeholder="写下购买体会和使用感受来帮助其他小伙伴~" style="font-size: 80%;" class="weui-textarea"></textarea>
+					</div>
+				</div>
+				<!--点击图片放大并有删除按钮-->
+				<div class="weui-gallery" id="gallery">
+		            <span class="weui-gallery__img" id="galleryImg"></span>
+		            <div class="weui-gallery__opr">
+		                <a href="javascript:" class="weui-gallery__del">
+		                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+		                </a>
+		            </div>
+		        </div>
+		        
+				<div class="weui-cell">
+					<ul class="weui-uploader__files" id="uploaderFiles" style="max-width: 80%"></ul>
+				<div class="weui-uploader__input-box" style="width: 50px;">
+		            <input id="uploaderInput" name="uploaderInput" class="weui-uploader__input" type="file" accept="<{TEMPLE}>images/addprice.png" multiple/>
+		        </div>
+		        <p class="illustrate">为了帮助我们更好的解决问题，请上传图片。最多5张，每张不超过3M，支持JPG，BMP，PNG(每次点击时只能选择1张图片哦，亲！)</p>
+				</div>
+				<div style="width: 90%;margin: 0 auto;"><a href="javascript:;" class="weui-btn weui-btn_warn" style="color: #fff;">提交</a></div>
+			</div>
+		 </form>
+	 <{/if}>
+	</div>
+	
+	
+	
+
+	
+</body>
+<script type="text/javascript">
+//    	设置整个屏幕为白色
+    	var scrheight = document.body.clientHeight;
+    	var idds = "";
+    	$(".weui-cells").css("min-height",scrheight)
+
+    	
+    	//		上传图片方法
+            var tmpl = '<li class="weui-uploader__file"  id="#id#" style="background-image:url(#url#)"></li>',
+                $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+                $uploaderInput = $("#uploaderInput"),
+                $uploaderFiles = $("#uploaderFiles")
+                ;
+
+  $uploaderInput.on("change", function(e){
+	  var lengs = $('#uploaderFiles').children('li').length;
+	  if(lengs>4){
+		   mobileAlert("亲，最多只能上传5张图片哦！",2000,"");
+		  return false;
+	  }
+	  var ids = "weui-uploader__file"+lengs;
+	      tmpl = '<li class="weui-uploader__file"  id="'+ids+'" style="background-image:url(#url#)"></li>';
+    var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
+	if(files.length +lengs >5){
+		 mobileAlert("亲，最多只能上传5张图片哦！",2000,"");
+			  return false;
+	}
+    var forms = document.getElementById("form_email_guide");
+    var form_datas =new FormData(forms);
+    for (var i = 0, len = files.length; i < len; ++i) {
+        var file = files[i];
+        var idsids = ids+'_'+i;
+	      tmpl = '<li class="weui-uploader__file"  id="'+idsids+'" style="background-image:url(#url#)"></li>';
+        if (url) {
+            src = url.createObjectURL(file);
+        } else {
+            src = e.target.result;
+        }
+
+        $uploaderFiles.append($(tmpl.replace('#url#', src)));
+        form_datas.append("file["+i+"]", file);
+        form_datas.append("idsids", idsids);
+  	  $.ajax({
+				type: "POST",
+		        url: "apply_set_onload",
+		        data: form_datas,
+		        dataType: "json",
+		        processData: false,
+	            contentType: false,
+		        success: function(data){
+		        	console.log(data)
+		        	if(data.state){
+		        		$("#"+data.idsids).attr("urls",data.msg);
+		        	}else{
+		        		mobileAlert(data.msg,2000,"");
+		        		$("#"+data.idsids).remove();
+		        	}
+		        }
+			});
+    }
+    
+    $(".illustrate").hide();
+
+   
+}); 
+            
+ $uploaderFiles.on("click", "li", function(){
+ 	idds = $(this).attr("id");
+     $galleryImg.attr("style", this.getAttribute("style"));
+     $gallery.fadeIn(100);
+     
+ });
+ 
+ $('.eval-img-group').on("click", ".eval-img", function(){
+ 	var sty = "background-image:url(" + $(this).find("img").attr("src") + ")";
+     $galleryImg.attr("style", sty);
+     $gallery.fadeIn(100);
+     
+ });
+ 
+ 
+ $gallery.on("click", function(){
+     $gallery.fadeOut(100);
+ });
+ 
+ 
+ $("body").on("touchstart",".weui-gallery__opr",function(){
+ 	//var urls = $("#galleryImg").css("background-image");
+ 	var urls = $("#"+idds).attr("urls");
+ 	$("#"+idds).remove();
+ 	if(urls){
+ 		$.ajax({
+				type: "POST",
+		        url: "del_set_onload?url="+urls,
+		        data: 123,
+		        dataType: "json",
+		        success: function(data){
+		        }
+			});
+	    }
+ });
+ 
+ 
+ $("body").on("touchstart",".weui-gallery__opr",function(){
+	 	//var urls = $("#galleryImg").css("background-image");
+	 	var urls = $("#"+idds).attr("urls");
+	 	$("#"+idds).remove();
+	 	if(urls){
+	 		$.ajax({
+					type: "POST",
+			        url: "del_set_onload?url="+urls,
+			        data: 123,
+			        dataType: "json",
+			        success: function(data){
+			        }
+				});
+		    }
+	 });
+
+            
+            
+            
+$("body").on("touchstart",".weui-btn_warn",function(){
+    	if($(".weui-textarea").val().length<1){
+    		mobileAlert("亲，您还没有填写评价内容！",2000,"");
+    		return false;
+    	}
+	 var form = document.getElementById("form_email_guide");
+     var form_data =new FormData(form);
+	 $.ajax({
+			type: "POST",
+	        url: "post_rating_sheet",
+	        data: form_data,
+	        dataType: "json",
+	        processData: false,
+            contentType: false,
+	        success: function(data){
+	        	if(data.state){
+	        		mobileAlert(data.msg,2000,"");
+	        		setTimeout("window.location.href='../order/index'",1000);
+        	    }else{
+        	    	mobileAlert(data.msg,2000,"");
+        	    }
+	        }
+		});
+		
+	
+})
+</script>
+</html>

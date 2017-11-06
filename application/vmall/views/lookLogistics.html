@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>查看物流</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+</head>
+<style>
+	.weui-cell__bd p{
+		font-size: 15px;
+	}
+	.small{
+		font-size: 13px!important;
+		color: #999;
+	}
+	.color-red{
+		color: red;
+	}
+	.color-blue{
+		color: #0066CC;
+	}
+	.logistics-content li{
+		padding: 0 7%;
+		width: 100%;
+	}
+	.logistics-content li p{
+		padding: 20px 0;
+		border-top:1px solid #ddd;
+		color: #aaa;
+		font-size: 13px;
+		width: 76%;
+		float: left;
+	}
+	.logistics-content li p span{
+		display: block;
+		margin-top: 5px;
+	}
+	.center{
+		display: block;
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background: #ccc;
+	}
+	.center2{
+		display: block;
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+		background:url(images/center-red.png);
+		background-size:100% 100%;
+		margin: 0 0 -3px -2px;
+	}
+	.logistics-left{
+		width: 10%;
+		float: left;
+		padding: 23px 0 0 10px;
+	}
+	.center-top{
+		display: block;
+		height: 25px;
+		width: 1px;
+		background:  #ccc;
+		margin: -25px 0 0 5px;
+	}
+	.center-bottom{
+		display: block;
+		height: 50px;
+		width: 1px;
+		background:  #ccc;
+		margin-left: 5px;
+	}
+
+</style>
+<body ontouchstart>
+	<{if $logistics.res=="yes"}>
+	<div class="weui-cells" style="margin-top: 0px;">
+		<div class="weui-cell">
+			<div class="weui-cell__hd">
+				<img src="images/goods.png" alt="" style="width: 80px;display: block;margin: 10px 0;"/>
+			</div>
+			<div class="weui-cell__bd" style="margin: 0 0 0 10px;">
+				<p>物流状态　<span class="color-red"><{if !empty($logistics.data.State)}><{$logistics.data.State}><{/if}></span></p>
+				<p class="small">承运来源：<{if !empty($logistics.data.ShipperName)}><{$logistics.data.ShipperName}><{/if}></p>
+				<p class="small">运单编号：　<{if !empty($logistics.data.OrderCode)}><{$logistics.data.OrderCode}><{/if}></p>
+				<p class="small">官方电话：　<span class="color-blue"></span></p>
+			</div>
+		</div>
+	</div>
+	<div class="weui-cells" id="logistics-main">
+		<ul class="logistics-content">
+		   <{if !empty($logistics.data.Traces)}>
+			   <{foreach  $logistics.data.Traces  as $key=>$val}>
+				<li>
+					<div class="logistics-left">
+						<span class="center-top"></span>
+						<span class="center"></span>
+						<span class="center-bottom"></span>
+					</div>
+					<p>
+						<{$val.AcceptStation}><br>
+						<span>&nbsp;<{$val.AcceptTime}></span>
+					</p>
+				</li>
+				<{/foreach}>
+			<{/if}>
+		</ul>
+	</div>
+	<{else}>
+		<div class="weui-cells" style="margin-top: 0px;">
+		<div class="weui-cell">
+			<div class="weui-cell__hd">
+				<img src="<{$logistics.goods_iamge}>" alt="" style="width: 80px;display: block;margin: 10px 0;"/>
+			</div>
+			<div class="weui-cell__bd" style="margin: 0 0 0 10px;">
+				<p>物流状态　<span class="color-red">暂无信息</span></p>
+				<p class="small">承运来源：暂无信息</p>
+				<p class="small">运单编号：　暂无信息</p>
+				<p class="small">官方电话：　<span class="color-blue">暂无信息</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="weui-cells" id="logistics-main">
+		<ul class="logistics-content">
+			<li>
+				<div class="logistics-left">
+					<span class="center-top"></span>
+					<span class="center"></span>
+					<span class="center-bottom"></span>
+				</div>
+				<p>
+					<{$logistics.msg}>
+				</p>
+			</li>
+		</ul>
+	</div>
+	
+	
+	<{/if}>
+</body>
+<script type="text/javascript">
+	//	设置物流内容整个屏幕都是白色
+	var pelheight = document.body.clientHeight;
+	$("#logistics-main").css("min-height",pelheight-140);
+
+	$(".logistics-content li p:first").css({"border-top":"none","color":"red"})
+	$(".logistics-content .center-top:first").hide();
+	$(".logistics-content .center-bottom:last").hide();
+	$(".logistics-content .center:first").prop("class","center2")
+//	设置前面点的下条
+	$(".center-bottom").each(function(){
+		var height = $(this).parent().next().height()+5;
+		$(this).css("height",height)
+	})
+</script>
+</html>

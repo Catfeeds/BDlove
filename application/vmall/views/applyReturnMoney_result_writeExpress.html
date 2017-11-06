@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>申请退款结果</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/weui.min.js"></script>
+
+
+</head>
+<style>
+	.clear{
+		clear: both;
+	}
+.btn-return{
+	width:100%;
+	position: fixed;
+	height: 50px;
+	bottom: 0px;
+	line-height: 50px;
+	text-align: center;
+	background: #fff;
+	color: #333;
+	z-index:999;
+	font-size: 17px;
+	border-top: 1px solid #E6E9EE;
+	border-bottom: 1px solid #E6E9EE;
+}
+
+/*new*/
+.good_property{
+	color: #999;
+	margin-right: 20px;
+}
+.weui-cells {
+    font-size: 15px;
+    margin-top: 10px;
+}
+.good_property_content{
+	width: 70%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.good_property_content a{
+	color: #DD2727;
+	margin-left: 10px;
+}
+.good_info{
+	margin: 15px;
+}
+.good_info p{
+	float: left;
+}
+
+/*new*2*/
+.weui-icon-info-circle {
+    font-size: 20px;
+    color: #dd2727;
+}
+.result_title{
+	font-size: 16px;
+	text-align: center;
+	margin: 23px 0;
+	color: #dd2727;
+}
+.surplus_time{
+	color: #dd2727;
+	margin: 0 5px;
+}
+.return_order{
+	margin-top: 10px;
+	background: #fff;
+}
+
+.btn-write{
+	display: block;
+	padding: 7px;
+	width: 85%;
+	text-align: center;
+	color: #fff!important;
+	background: #dd2727;
+	margin: 15px auto;
+	font-size: 16px;
+	letter-spacing: 1px;
+	border-radius: 3px;
+}
+
+</style>
+<body ontouchstart>
+   		<p class="result_title"><i class="weui-icon-info-circle"></i>商家已同意退款，请退货给商家</p>
+   		<div class="weui-cells">
+<!--             <div class="weui-cell">
+            	<div class="weui-cell__hd" style="align-self: flex-start;">
+            		<p class="good_property">退款时间</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <p>请在<span class="surplus_time">9天23小时59分46秒</span>内退货给商家，否则退款本次申请将关闭，您无法再次发起。</p>
+                </div>
+            </div> -->
+            <div class="weui-cell">
+            	<div class="weui-cell__hd" style="align-self: flex-start;">
+            		<p class="good_property">退货地址</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <p><{$refundinfo.refund_address}></p>
+                </div>
+            </div>
+            <div class="writeExpressAddress">
+            	<a href="<{base_url()}>vmall.php/order/write_ExpressInfo?refund_id=<{$refundinfo.refund_id}>" class="btn-write">填写退货快递信息</a>
+            </div>
+        </div>
+   		
+        <div class="weui-cells" style="margin-top: 10px;">
+            <div class="good_info">
+            		<p class="good_property">订单编号</p>
+                    <p class="good_property_content"><{$refundinfo.order_sn}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">申请时间</p>
+                    <p class="good_property_content"><{date("Y-m-d H:i:s",$refundinfo.add_time)}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">申请原因</p>
+                    <p class="good_property_content"><{$refundinfo.reason_info}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">退款方式</p>
+                    <p class="good_property_content"><{$refundinfo.refundtype}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">退款金额</p>
+                    <p class="good_property_content" style="color: #dd2727;">￥<{$refundinfo.refund_amount_apply}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">服务顾问</p>
+                      <{if !empty($guide_info) and isset($guide_info.spg_id)}>
+                    	<p class="good_property_content"><{$guide_info.spg_name}><a href="<{base_url()}>vmall.php/Store/shopping_guide_chat?spg_id=<{$guide_info.spg_id}>">联系TA</a></p>
+                    	<{else}>
+                    	<p class="good_property_content">暂无<a href="<{base_url()}>vmall.php/store/Stores">联系其他店铺导购</a></p>
+                    	<{/if}>
+                    <div class="clear"></div>
+            </div>
+        </div>
+
+
+		<div style="height: 80px;"></div>
+	<div class="btn-return">返回订单详情</div>
+</body>
+<script type="text/javascript">
+$("body").on("touchstart",".btn-return",function(){
+	window.location.href="../order/order_detail?order_sn=<{$refundinfo.order_sn}>";
+})
+
+</script>
+</html>

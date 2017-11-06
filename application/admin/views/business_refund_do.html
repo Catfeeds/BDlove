@@ -1,0 +1,136 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>退款管理 - 处理退款“退单编号：<{$data.refund_sn}>”</h3>
+                <h5>商品订单退款申请及审核处理</h5>
+            </div>
+        </div>
+    </div>
+    <form id="post_form" method="post" action="">
+        <input type="hidden" name="refund_id" value="<{$data.refund_id}>">
+        <input type="hidden" name="order_sn" value="<{$data.order_sn}>">
+        <input type="hidden" name="goods_id" value="<{$data.goods_id}>">
+        <div class="ncap-form-default">
+            <div class="title">
+                <h3>买家退款申请</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">申请时间</dt>
+                <dd class="opt"><{$data.add_time}> </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">商品名称</dt>
+                <dd class="opt">
+                    <{$data.goods_name}></dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">退款金额</dt>
+                <dd class="opt"><{$data.refund_amount}>
+            <span id="pay_amount">
+                        </span>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">退款原因</dt>
+                <dd class="opt"><{$data.reason_info}></dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">退款说明</dt>
+                <dd class="opt"><{$data.buyer_message}> </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">凭证上传</dt>
+                <dd class="opt">
+                </dd>
+            </dl>
+            <div class="title">
+                <h3>商家退款处理</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">审核结果</dt>
+                <dd class="opt"><{$data.seller_state}></dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">处理备注</dt>
+                <dd class="opt"><{$data.seller_message}></dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">处理时间</dt>
+                <dd class="opt"><{$data.seller_time}></dd>
+            </dl>
+            <div class="title">
+                <h3>订单支付信息</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">支付方式</dt>
+                <dd class="opt"><{$data.order_info.payment_code}></dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">订单总额</dt>
+                <dd class="opt"><{$data.order_info.order_amount}></dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">在线支付金额</dt>
+                <dd class="opt"><{$data.order_info.order_amount}></dd>
+            </dl>
+            <div class="title">
+                <h3>平台退款审核</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>备注信息</label>
+                </dt>
+                <dd class="opt">
+                    <textarea id="admin_message" name="admin_message" class="tarea"><{$data.admin_message}></textarea>
+                    <span class="err"></span>
+                    <p class="notic">系统默认退款到“站内余额”，如果“在线退款”到原支付账号，建议在备注里说明，方便核对。</p>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+    $(function(){
+        $("#submitBtn").click(function(){
+            if($("#post_form").valid()){
+                layer.confirm('提交后将不能恢复，确认吗？',function(){
+                    $.post('../refund_deel',$("#post_form").serialize(),function(res){
+                        if(res.state){
+                            layer.closeAll();
+                            layer.msg(res.msg);
+                            window.location.href = '../business_refund_pending';
+                        }else{
+                            layer.closeAll();
+                            layer.msg(res.msg);
+                        }
+                    },'json');
+                });
+            }
+        });
+        $('#post_form').validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parent('dd').children('span.err');
+                error_td.append(error);
+            },
+            rules : {
+                admin_message : {
+                    required   : true
+                }
+            },
+            messages : {
+                admin_message  : {
+                    required : '<i class="fa fa-exclamation-circle"></i>备注信息不能为空'
+                }
+            }
+        });
+    });
+
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<?php
+/* Smarty version 3.1.29, created on 2017-07-13 09:20:34
+  from "D:\www\yunjuke\application\pay\views\freight_logistics.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_5966cae2c163e6_28173095',
+  'file_dependency' => 
+  array (
+    'e523d19e23ae1d7ee18709b2be20ce3d79081fc6' => 
+    array (
+      0 => 'D:\\www\\yunjuke\\application\\pay\\views\\freight_logistics.html',
+      1 => 1499766930,
+      2 => 'file',
+    ),
+    '940fa3e7a5fc658c974a607afc3fab9d110f7f64' => 
+    array (
+      0 => 'D:\\www\\yunjuke\\application\\pay\\views\\lib\\footer.html',
+      1 => 1499676757,
+      2 => 'file',
+    ),
+  ),
+  'cache_lifetime' => 120,
+),true)) {
+function content_5966cae2c163e6_28173095 ($_smarty_tpl) {
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="http://[::1]/yunjuke/plugins/H-ui/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="http://[::1]/yunjuke/plugins/H-ui/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="http://[::1]/yunjuke/plugins/H-ui/lib/Hui-iconfont/1.0.7/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="http://[::1]/yunjuke/plugins/H-ui/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="http://[::1]/yunjuke/plugins/H-ui/static/h-ui.admin/css/style.css" />
+<title>账户提现</title>
+<style type="text/css">
+	
+	.cl-b{
+		color: #009dd9;
+	}
+	.cl-g{
+		color:#44b549
+	}
+	.cl-o{
+		color: #f90;
+	}
+	.clear{
+		clear: both
+	}
+	table td{
+		font-size: 15px;
+		color: #888;
+		height: 30px;
+		padding-left: 10px;
+	}
+	table td input{
+		margin-right: 5px;
+	}
+</style>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 店铺管理 <span class="c-gray en">&gt;</span> 运费管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div id="tab_demo" class="HuiTab">
+	  <div class="tabBar clearfix"><span>运费管理</span><span>物流公司</span><span>运单模板</span></div>
+	  <div class="tabCon">内容一</div>
+	  <div class="tabCon">
+	  	<table class="table table-border mt-20">
+			<tbody>
+				<tr>
+					<td><input type="checkbox" name="" value="">顺丰快递</td>
+					<td><input type="checkbox" name="" value="">圆通快递</td>
+					<td><input type="checkbox" name="" value="">韵达快递</td>
+					<td><input type="checkbox" name="" value="">中通快递</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">包裹平邮</td>
+					<td><input type="checkbox" name="" value="">传喜物流</td>
+					<td><input type="checkbox" name="" value="">CCES</td>
+					<td><input type="checkbox" name="" value="">德邦物流</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">DHL快递</td>
+					<td><input type="checkbox" name="" value="">大田物流</td>
+					<td><input type="checkbox" name="" value="">EMS</td>
+					<td><input type="checkbox" name="" value="">EMS国际</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">凡客如风达</td>
+					<td><input type="checkbox" name="" value="">FedEx(国际)</td>
+					<td><input type="checkbox" name="" value="">飞康达</td>
+					<td><input type="checkbox" name="" value="">共速达</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">港中能达</td>
+					<td><input type="checkbox" name="" value="">挂号信</td>
+					<td><input type="checkbox" name="" value="">华宇物流</td>
+					<td><input type="checkbox" name="" value="">汇通快递</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">佳吉快运</td>
+					<td><input type="checkbox" name="" value="">急先达</td>
+					<td><input type="checkbox" name="" value="">佳怡物流</td>
+					<td><input type="checkbox" name="" value="">快捷速递</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">龙邦快递</td>
+					<td><input type="checkbox" name="" value="">联昊通</td>
+					<td><input type="checkbox" name="" value="">联邦快递</td>
+					<td><input type="checkbox" name="" value="">全日通</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">全峰快递</td>
+					<td><input type="checkbox" name="" value="">全一快递</td>
+					<td><input type="checkbox" name="" value="">申通快递</td>
+					<td><input type="checkbox" name="" value="">速尔快递</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">天地华宇</td>
+					<td><input type="checkbox" name="" value="">天天快递</td>
+					<td><input type="checkbox" name="" value="">TNT快递</td>
+					<td><input type="checkbox" name="" value="">USPS</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">UPS快递</td>
+					<td><input type="checkbox" name="" value="">新蛋物流</td>
+					<td><input type="checkbox" name="" value="">希伊艾斯</td>
+					<td><input type="checkbox" name="" value="">信丰物流</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">新邦物流</td>
+					<td><input type="checkbox" name="" value="">邮政包裹</td>
+					<td><input type="checkbox" name="" value="">优速快递</td>
+					<td><input type="checkbox" name="" value="">中铁快运</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" value="">宅急送</td>
+					<td><input type="checkbox" name="" value="">中邮物流</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		<div style="width: 100%;">
+			<button class="btn btn-success size-L" style="width: 75px;margin: 20px auto;display: block;">保存</button>
+		</div>
+	  </div>
+	  <div class="tabCon">内容三</div>
+	</div>
+	
+	
+</div>
+<script type="text/javascript" src="http://[::1]/yunjuke/plugins/H-ui/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="http://[::1]/yunjuke/plugins/H-ui/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="http://[::1]/yunjuke/plugins/H-ui/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="http://[::1]/yunjuke/plugins/H-ui/static/h-ui.admin/js/H-ui.admin.js"></script>
+
+
+<script type="text/javascript">
+//	实现tab切换的源码
+jQuery.Huitab =function(tabBar,tabCon,class_name,tabEvent,i){
+var $tab_menu=$(tabBar);
+  // 初始化操作
+  $tab_menu.removeClass(class_name);
+  $(tabBar).eq(i).addClass(class_name);
+  $(tabCon).hide();
+  $(tabCon).eq(i).show();
+  
+  $tab_menu.bind(tabEvent,function(){
+  	$tab_menu.removeClass(class_name);
+      $(this).addClass(class_name);
+      var index=$tab_menu.index(this);
+      $(tabCon).hide();
+      $(tabCon).eq(index).show()})}
+
+
+	
+		$.Huitab("#tab_demo .tabBar span","#tab_demo .tabCon","current","click","1");
+	
+		
+	
+</script>
+</body>
+</html><?php }
+}

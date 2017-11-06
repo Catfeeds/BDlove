@@ -1,0 +1,46 @@
+<footer class="store_footer_new bde4-b foot_new_cart">
+  <div class="ub ub-ac">
+    <a id="home" <{if !empty($colorflag) and $colorflag=="index"}>style="color: #ff4436 !important;"<{/if}> class="ub-f1 ub ub-ver foot_new_sin home"href="<{base_url()}>vmall.php/index/index">
+      <i class="iconfont" style="font-size: 21px;">&#xe601;</i>
+      <div class=""  >首页</div>
+    </a>
+    <a id="stock" <{if !empty($colorflag) and $colorflag=="goods"}>style="color: #ff4436 !important;"<{/if}> class="ub-f1 ub ub-ver foot_new_sin stock" href="<{base_url()}>vmall.php/goods/index">
+      <i class="iconfont" style="font-size: 21px;">&#xe67b;</i>
+      <div class=""  >商品</div>
+    </a>
+    <a id="cart" class="ub-f1 ub ub-ver foot_new_sin cart" <{if !empty($colorflag) and $colorflag=="carts"}>style="color: #ff4436 !important;position:relative;"<{/if}> href="<{base_url()}>vmall.php/user/user_shopping_cart">
+      <i class="iconfont" style="font-size: 21px;">&#xe635; <{if !empty($userCartTotal) and  $userCartTotal gt 0}><span class="weui-badge" id="userCartTotal"style="position: absolute;top: -.4em;"><{$userCartTotal}></span><{/if}>
+</i>
+      <div class="">购物车</div>
+    </a>
+    <a id="customer" class="ub-f1 ub ub-ver foot_new_sin cus" data-suid="" href="<{base_url()}>vmall.php/user/">
+      <i class="iconfont" style="font-size: 21px;">&#xe653;</i>
+      <div class="">个人中心</div>
+    </a>
+  </div>
+</footer>
+    
+
+<!--
+判断底部菜单栏
+<script>
+	var ulr = location.href;
+	var t1 = ulr.split("?")[1];
+	var t2 = t1.split("=")[1];
+	
+	switch(t2)
+	{
+		case 1:
+			$("#home").css("color","red !important");
+			break;
+		case 2:
+			$("#stock").css("color","red !important");
+			break;
+		case 3:
+			$("#cart").css("color","red !important");
+			break;
+		case 4:
+			$("#custorm").css("color","red !important");
+			break;
+	}
+</script>-->

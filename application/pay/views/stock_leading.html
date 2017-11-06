@@ -1,0 +1,349 @@
+<{include file="pageheader.html"}>
+<style>
+.newtit{
+	text-align: left !important;width: 100% !important;margin-left: 1% !important;
+}
+.newselect{
+	width: 120px;
+    margin: 0px 10px;
+	margin-right: 20px !important;
+	a:hover{
+		color: #333;
+	}
+}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 库存管理 <span class="c-gray en">&gt;</span>导入库存<span class="c-gray en">&gt;</span>批量导入
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+			<i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page pt-20">
+	<div id="tab_demo" class="HuiTab">
+		<div class="tabBar clearfix">
+			<a href="javascript:;"><span>批量导入</span></a>
+			<a href="stock_leading_less"><span>少量导入</span></a>
+		</div>
+	</div>
+	<div class="fixed-bar">
+
+	</div>
+	  <!-- 操作说明 -->
+  <div class="explanation mt-20" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    	<ul>
+					<li>支持Excel数据文件格式：csv。</li>
+					<li>1：按货号导入 <a target="_blank" href="<{base_url()}>/data/excel_tp/images/storeGoods.png">查看导入格式示例</a>或<a href="<{base_url('admin.php')}>/stores/storeGoods_tp">下载格式文件</a>。
+					<li>2：按款号导入 <a target="_blank" href="<{base_url()}>/data/excel_tp/images/storeGoodsSku.png">查看导入格式示例</a>或<a href="<{base_url('admin.php')}>/stores/storeGoodsSku_tp">下载格式文件</a>。
+					<li>3：按条形码导入 <a target="_blank" href="<{base_url()}>/data/excel_tp/images/storeGoodsBarcode.png">查看导入格式示例</a>或<a href="<{base_url('admin.php')}>/stores/storeGoodsBarcode_tp">下载格式文件</a>。
+					</li>
+				</ul>
+  </div>
+		
+		<div class="ncap-form-default">
+		    <dl class="row">
+				<dt class="tit newtit" >
+				<label>格式:</label> 
+				<select class="newselect" id="waynewselect" onchange="select_change()">
+	                <option value="0" selected="">请选择</option>
+                    <option value="1">简单模式</option>
+<!--                <option value="2">标准模式</option>
+                    <option value="3">二维模式</option>
+                    <option value="4">三维模式</option> -->
+                    
+				</select>
+					
+	             <label>模式:</label>
+	             <select class="newselect" id="typenewselect">
+ 	                   <option value="9" selected="">请选择</option>
+                       <option value="1">全盘</option>
+                       <option value="0">局部</option>
+                 </select>                                   
+				</dt>
+	
+			</dl>
+			<dl class="row" id="radiotype"style='display:none'>
+				<dd class="opt" style="margin-left: 1% !important;" >
+					导入方式: &nbsp;
+					<input type="radio" id="qq_isuse_1" name="type" value="1" style="margin-left:10px;" checked="" >按货号导入商品库存
+					<input type="radio" id="qq_isuse_0" name="type" value="2" style="margin-left:20px;">按款号导入商品库存
+					<input type="radio" id="qq_isuse_0" name="type" value="3" style="margin-left:20px;">按条形码导入商品库存
+				</dd>
+			</dl>
+			<dl class="row">
+				<dd class="opt" style="margin-left: 1% !important">
+					选择文件: &nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="input-file-show"> 
+						<span class="show"> 
+							<a class="nyroModal" rel="gal" href=""> <i class="fa fa-file-excel-o"></i> </a> 
+						</span> 
+						<span class="type-file-box">
+						<form id="formType"  enctype="multipart/form-data"> 
+							<input type="text" name="" id="textfield2" class="type-file-text"> 
+							<input type="button" name="" id="button2" value="选择导入..." class="type-file-button"> 
+							<input class="type-file-file valid" id="import_excel" onchange="import_change()" name="file_" type="file" hidefocus="true">
+						</form>
+						</span>
+					</div>
+				</dd>
+			</dl>
+			
+			<div class="bot" style="padding: 12px 0 10px 1.5%"><a href="JavaScript:;" <{if isset($is_delete) && $is_delete eq 1}>style=" background-color: #E6E6E6 !important;border-color: #E6E6E6 !important;" disabled<{/if}> class="btn btn-success radius" id="submitBtn" >确认导入</a></div>
+		</div>
+
+
+</div>
+<script>
+	
+	//	实现tab切换的源码
+	jQuery.Huitab =function(tabBar,tabCon,class_name,tabEvent,i){
+	var $tab_menu=$(tabBar);
+	  // 初始化操作
+	  $tab_menu.removeClass(class_name);
+	  $(tabBar).eq(i).addClass(class_name);
+	  $(tabCon).hide();
+	  $(tabCon).eq(i).show();
+  
+  	$tab_menu.bind(tabEvent,function(){
+  	  $tab_menu.removeClass(class_name);
+      $(this).addClass(class_name);
+      var index=$tab_menu.index(this);
+      $(tabCon).hide();
+      $(tabCon).eq(index).show()})}
+    $.Huitab("#tab_demo .tabBar span","#tab_demo .tabCon","current","click","0");
+	
+var names = '';
+function select_change(){
+	if($("#waynewselect").val()==1){
+        $("#radiotype").css("display","block");		
+	}else{
+		if( $("#radiotype").css("display")=="block"){
+			$("#radiotype").css("display","none");	
+		}
+	}
+}
+
+function import_change(){
+	  var form_data = new FormData($('#formType')[0]);
+ 		 $.ajax({
+				type: "post",
+		        url: "<{base_url('admin.php')}>/write_import/excel_upload",
+		        data: form_data,
+		        dataType: "json",
+		        cache: false,
+		        processData: false,
+	            contentType: false,
+		        success: function(data){
+                    if(data.state == '403'){
+                        layer.msg(data.msg);
+                        window.top.location.href = "<{base_url('pay.php/Index/')}>login_out";
+                    }else if(data.state == '401'){
+                        layer.msg(data.msg);
+                        return false;
+                    }else if(data['state'] == false){
+						layer.alert(data['msg']);
+					}else{
+						names = data.name;
+						$("#textfield2").val(data.name);
+						layer.closeAll();
+					}
+		        }
+			})
+}
+
+    //排队
+    var int ='';
+    //成功进入操作队列
+    function queue_action(id,url,type,names)
+    {
+        int = clearInterval(int);
+        var i = 10;
+        layer.confirm('是否开始操作？取消倒计时:<span id="time">10</span>', {
+            title:'请确认：',
+            btn: ['开始执行'], //按钮
+            cancel: function(index){      //关闭询问框
+                quite_queue(id);
+                layer.msg('取消操作');
+                return false;
+            }
+        },function(){       //确定操作
+            int = clearInterval(int);   //结束轮询
+            layer.closeAll();
+            //把排队状态设为工作中
+            $.ajax({
+                type:'get',
+                dataType:'json',
+                url:'<{base_url("pay.php/store/")}>set_queue_state?task_id='+id,
+                success:function(data){
+                    if(!data.state){
+                        layer.msg(data.msg);
+                        return false;
+                    }
+                }
+            })
+            form_submit(url,type,names,id);    //执行操作
+			return false;
+        });
+        int = setInterval(function (){    //轮询，倒计时
+            i--;
+            if(i==0){
+                quite_queue(id);
+                layer.msg('取消操作');
+                return false;
+            }
+            $('#time').html(i);
+        },1000);
+    }
+    //得到位置
+    function get_queue_place(id)
+    {
+        var place = 1;
+        $.ajax({
+            async: false,
+            type:'get',
+            dataType:'json',
+            url: '<{base_url("pay.php/store/")}>get_queue_place?task_id='+id,
+            success:function(data) {      //得到队列中的排队人数place
+                if(data.state == '403'){
+                    layer.msg(data.msg);
+                    window.top.location.href = "<{base_url('pay.php/Index/')}>login_out";
+                }else if(data.state == '401'){
+                    layer.msg(data.msg);
+                }else if(data.state){
+                    place = data.place;
+                }
+            }
+        })
+        return place;
+    }
+    //当用户退出排队队列或者关闭浏览器时的操作
+    function quite_queue(id)
+    {
+        $.ajax({
+            async: false,
+            type:'get',
+            dataType:'json',
+            url: '<{base_url("pay.php/store/")}>quit_queue?task_id='+id,
+            success:function(data){
+                int = clearInterval(int);   //结束轮询
+                if(data.state == '403'){
+                    layer.msg(data.msg);
+                    window.top.location.href = "<{base_url('pay.php/Index/')}>login_out";
+                }else if(data.state == '401'){
+                    layer.msg(data.msg);
+                }
+                return false;
+            }
+        })
+    }
+
+
+$("#submitBtn").on("click",function(){
+	var flags = "<{if isset($is_delete)}><{$is_delete}><{else}>0<{/if}>";
+	if(flags ==1){
+		return false;
+	}
+	
+	 if($("#waynewselect").val()==0){
+		 layer.alert("请选择导入格式");
+		 return false;
+	 }
+	 if($("#typenewselect").val()==9){
+		 layer.alert("请选择导入模式");
+		 return false;
+	 }
+	 if($("#textfield2").val()==''){
+		 layer.alert("请上传导入文件");
+		 return false;
+	 }
+
+
+
+	 var type = $("#typenewselect").val();
+	 var url='';
+	 if($("input[name='type']:checked").val()==1){
+		 url = 'storeGoods_import';
+	 }else if($("input[name='type']:checked").val()==2){
+		 url ='storeGoodsSku_import';
+	 }else{
+		 url = 'storeGoodsBarcode_import';
+	 }
+
+    $.ajax({
+        type:'get',
+        dataType:'json',
+        url: '<{base_url("pay.php/store/")}>queue?task_type=6',
+        success:function(data){     //成功进入排队队列
+            if(data.state == '403'){
+                layer.msg(data.msg);
+                window.top.location.href = "<{base_url('pay.php/Index/')}>login_out";
+            }else if(data.state == '401'){
+                layer.msg(data.msg);
+            }else if(data.state) {
+                if(data.queue){     //操作队列有空闲，直接执行任务
+                    form_submit(url,type,names,false);    //执行操作
+                    return false;
+                }
+                var place = get_queue_place(data.task);
+                if (place>0){
+                    layer.confirm('当前正在排队人数：<span id="place">'+place+'</span>', {
+                        title:'当前操作人数较多，需要排队：',
+                        btn: ['取消排队'], //按钮
+                        cancel: function(index){      //关闭询问框
+                            quite_queue(data.task);
+                            layer.closeAll();
+                            layer.msg('取消排队');
+                        }
+                    }, function(){      //取消排队
+                        quite_queue(data.task);
+                        layer.closeAll();
+                        layer.msg('取消排队');
+                    });
+                    int = setInterval(function () {    //轮询
+                        place = get_queue_place(data.task);
+                        if(place==0){
+                            queue_action(data.task,url,type,names);         //执行操作
+							return false;
+                        }
+                        $('#place').html(place);
+                    },1000);
+                } else {
+                    queue_action(data.task);
+                }
+                window.onbeforeunload=function() {  //关闭，刷新浏览器事件，删除排队
+                    layer.closeAll();
+					quite_queue(data.task);
+                };
+            } else {
+                layer.msg(data.msg);
+            }
+        }
+    });
+
+
+})
+
+	function form_submit(url,type,names,id)
+	{
+        //上传
+        layer.open({
+            type: 2,
+            title: '导入明细',
+            scrollbar:false,
+            shade: 0.8,
+            area: ['60%', '520px'],
+            content: url+'?type='+type+'&name='+names+'&id='+id
+        });
+        //if(id)quite_queue(id);
+	}
+
+
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<{include file="pageheader.html"}>
+<style>
+    .btn{border:none}
+    .flexigrid .hDiv th div, .flexigrid .bDiv td div, .colCopy div {
+        height: auto;
+    }
+    .flexigrid .hDiv th, .flexigrid .bDiv td{
+        vertical-align: middle!important;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>运单模板</h3>
+                <h5>提供给商家可选择的快递运单模板</h5>
+            </div>
+        </div>
+    </div>
+    <!--操作提示-->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>系统内置的快递运单模板不可删除，不可编辑。</li>
+        </ul>
+    </div>
+    <div id="flexigrid"></div>
+</div>
+<script>
+    $(function(){
+        $("#flexigrid").flexigrid({
+
+            url: 'mall_waybill_list',
+            colModel : [
+                {display: '操作', name : 'operation', width : 200, sortable : false, align: 'center', className: 'handle'},
+                {display: '运单名称', name : 'w_name', width : 120, sortable : true,},
+                {display: '模板类型', name : 'w_type', width : 120, sortable : true,},
+                {display: '物流公司', name : 'e_name', width : 120, sortable : true, },
+                {display: '运单图例', name : 'w_image', width : 200, sortable : true, },
+                {display: '宽高', name : 'w_hw', width : 100, sortable : true, },
+                {display: '上偏移量', name : 'w_top', width : 60, sortable : true, align: 'left'},
+                {display: '下偏移量', name : 'w_left', width : 60, sortable : true, align: 'center'},
+                {display: '是否启用', name : 'w_state', width : 100, sortable : true, align: 'center'},
+            ],
+            buttons : [
+                {display: '添加运单模版', name : '', bclass : 'add', title : '新增数据', onpress :mall_waybill_edit  },
+                {display: '添加热敏模版', name : '', bclass : 'adds', title : '新增数据', onpress :mall_waybill_edits  }
+            ],
+            searchitems : [
+                {display: '运单名称', name : 'w_name'},
+                {display: '物流公司', name : 'e_name'},
+            ],
+            sortname: "id",
+            sortorder: "asc",
+            title: '运单模板列表'
+        });
+        function mall_waybill_edit(){
+        	window.location="mall_waybill_design?type=1";
+        }
+        function mall_waybill_edits(){
+        	window.location="mall_waybill_design?type=2";
+        }
+    });
+    function mall_waybill_design(id,type){
+        window.location="mall_waybill_design?data="+id+"&type="+type
+
+    }
+    function mall_waybill_test(id,type){
+        window.location="mall_waybill_test?data="+id+"&type="+type
+    }
+    function mall_waybill_edit(id){
+        window.location="mall_waybill_edit?data="+id
+    }
+    function mall_waybill_del(id){
+        layer.confirm('确认删除模板吗？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "mall_waybill_del",
+                data: {waybill_id:id},
+                success: function(data){
+                    //alert(123);
+                    if(data.state=='403'){
+                        layer.msg(data.msg);
+                    }else if (data.state){
+                        layer.msg(data.msg);
+                        $("#flexigrid").flexReload();
+                    } else {
+                        layer.msg(data.msg);
+                    }
+
+                }
+            });
+        });
+    }
+
+    function stop_waybill(id,state,name){
+
+        if(state==1){
+            str = '禁用"'+name+'"';
+        }else{
+            str = '启用"'+name+'"';
+        }
+        layer.confirm('确认'+str+'吗？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "mall_waybill?op=stop",
+                data: {id:id,state:state},
+                success: function(data){
+                    //alert(123);
+                    if(data.state=='403'){
+                        login_ajax('shopadmin');
+                    }else
+                    if (data.state){
+                        layer.msg(data.msg);
+                        $("#flexigrid").flexReload();
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        });
+
+    }
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a
+        href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

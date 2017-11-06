@@ -1,0 +1,230 @@
+<?php
+/* Smarty version 3.1.29, created on 2017-07-28 14:07:37
+  from "D:\www\yunjuke\application\admin\views\user_management_add.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_597ad4a91d7e06_03256616',
+  'file_dependency' => 
+  array (
+    '0079efe04abd3c9fa056fce68c45f0042fee003d' => 
+    array (
+      0 => 'D:\\www\\yunjuke\\application\\admin\\views\\user_management_add.html',
+      1 => 1492225943,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:pageheader.html' => 1,
+  ),
+),false)) {
+function content_597ad4a91d7e06_03256616 ($_smarty_tpl) {
+$_smarty_tpl->compiled->nocache_hash = '31790597ad4a90d9f44_58141654';
+$_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:pageheader.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="index.php?act=member&amp;op=member" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>会员管理 - 新增会员</h3>
+        <h5>商城注册会员账户信息设置管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>可从管理平台手动添加一名新会员，并填写相关信息。</li>
+      <li>标识“*”的选项为必填项，其余为选填项。</li>
+      <li>新增会员后可从会员列表中找到该条数据，并再次进行编辑操作，但该会员名称不可变。</li>
+    </ul>
+  </div>
+  <form id="user_form" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="form_submit" value="ok">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label for="member_name"><em>*</em>会员</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" value="" name="member_name" id="member_name" class="input-txt">
+          <span class="err"></span>
+          <p class="notic">3-15位字符，可由中文、英文、数字及“_”、“-”组成。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="member_passwd"><em>*</em>密码</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" id="member_passwd" name="member_passwd" class="input-txt">
+          <span class="err"></span>
+          <p class="notic">6-20位字符，可由英文、数字及标点符号组成。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="member_email"><em>*</em>电子邮箱</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" value="" id="member_email" name="member_email" class="input-txt">
+          <span class="err"></span>
+          <p class="notic">请输入常用的邮箱，将用来找回密码、接受订单通知等。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="member_truename">真实姓名</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" value="" id="member_truename" name="member_truename" class="input-txt">
+          <span class="err"></span> </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label> 性别</label>
+        </dt>
+        <dd class="opt">
+          <label>
+            <input type="radio" checked="checked" value="0" name="member_sex">
+            保密</label>
+          <label>
+            <input type="radio" value="1" name="member_sex">
+            男</label>
+          <label>
+            <input type="radio" value="2" name="member_sex">
+            女 </label>
+          <span class="err"></span></dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="member_qq">QQ</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" value="" id="member_qq" name="member_qq" class="input-txt">
+          <span class="err"></span></dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="member_ww">阿里旺旺</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" value="" id="member_ww" name="member_ww" class="input-txt">
+          <span class="err"></span></dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>头像</label>
+        </dt>
+        <dd class="opt">
+          <div class="input-file-show">
+	           <span class="type-file-box">
+		            <input class="type-file-file" id="_pic" name="_pic" type="file" size="30" hidefocus="true" title="点击按钮选择文件并提交表单后上传生效">
+		            <input type="text" name="member_avatar" id="member_avatar" class="type-file-text">
+		            <input type="button" name="button" id="button" value="选择上传..." class="type-file-button">
+	            </span>
+           </div>
+          <p class="notic">默认会员头像图片请使用100*100像素jpg/gif/png格式的图片。</p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+    </div>
+  </form>
+</div>
+<?php echo '<script'; ?>
+ type="text/javascript">
+  //上传显示
+  $("#_pic").change(function () {
+    $(".type-file-text").val($(this).val());
+  });
+  //按钮先执行验证再提交表单
+  $("#submitBtn").click(function(){
+    if($("#user_form").valid()){
+      $("#user_form").submit();
+    }
+  });
+  $('#user_form').validate({
+    errorPlacement: function(error, element){
+      var error_td = element.parent('dd').children('span.err');
+      error_td.append(error);
+    },
+    rules : {
+      member_name: {
+        required : true,
+        minlength: 3,
+        maxlength: 20,
+        remote   : {
+          url :'check_user_name',
+          type:'get',
+          data:{
+            user_name : function(){
+              return $('#member_name').val();
+            },
+            member_id : ''
+          }
+        }
+      },
+      member_passwd: {
+        required : true,
+        maxlength: 20,
+        minlength: 6
+      },
+      member_email   : {
+        required : true,
+        email : true,
+        remote   : {
+          url :'index.php?act=member&op=ajax&branch=check_email',
+          type:'get',
+          data:{
+            user_name : function(){
+              return $('#member_email').val();
+            },
+            member_id : ''
+          }
+        }
+      },
+      member_qq : {
+        digits: true,
+        minlength: 5,
+        maxlength: 11
+      }
+    },
+    messages : {
+      member_name: {
+        required : '<i class="fa fa-exclamation-circle"></i>会员名不能为空',
+        maxlength: '<i class="fa fa-exclamation-circle"></i>用户名必须在3-20字符之间',
+        minlength: '<i class="fa fa-exclamation-circle"></i>用户名必须在3-20字符之间',
+        remote   : '<i class="fa fa-exclamation-circle"></i>会员名有重复，请您换一个'
+      },
+      member_passwd : {
+        required : '<i class="fa fa-exclamation-circle"></i>密码不能为空',
+        maxlength: '<i class="fa fa-exclamation-circle"></i>密码长度应在6-20个字符之间',
+        minlength: '<i class="fa fa-exclamation-circle"></i>密码长度应在6-20个字符之间'
+      },
+      member_email  : {
+        required : '<i class="fa fa-exclamation-circle"></i>电子邮箱不能为空',
+        email   : '<i class="fa fa-exclamation-circle"></i>请您填写有效的电子邮箱',
+        remote : '<i class="fa fa-exclamation-circle"></i>邮件地址有重复，请您换一个'
+      },
+      member_qq : {
+        digits: '<i class="fa fa-exclamation-circle"></i>请输入正确的QQ号码',
+        minlength: '<i class="fa fa-exclamation-circle"></i>请输入正确的QQ号码',
+        maxlength: '<i class="fa fa-exclamation-circle"></i>请输入正确的QQ号码'
+      }
+    }
+  });
+
+<?php echo '</script'; ?>
+>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html><?php }
+}

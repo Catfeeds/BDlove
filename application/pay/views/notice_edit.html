@@ -1,0 +1,87 @@
+<{include file="pageheader.html"}>
+<!-- 配置文件 -->
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="<{PLUGIN}>plugins/UEditor/lang/zh-cn/zh-cn.js"></script>
+<body style="background-color: #FFF; overflow: auto;">
+<nav class="breadcrumb">
+    <i class="Hui-iconfont">&#xe67f;</i> 账户管理<span class="c-gray en">&gt;</span>通知管理<span class="c-gray en">&gt;</span>编辑模板
+    <a href="mall_express_tools" id="goback"><i class="iconfont" style="font-size: 13px;">&#xe670;</i>返回</a>
+    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+        <i class="Hui-iconfont">&#xe68f;</i>
+    </a>
+</nav>
+
+<div class="page-container">
+    <form id="form_templates" method="post" action="" name="form1">
+        <input type="hidden" name="form_submit" value="ok" />
+        <input type="hidden" name="code" value="<{$row.template_code}>" />
+        <div class="ncap-form-default">
+            <div class="title">
+                <h3><strong>[修改]</strong><{$row.template_code}></h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>标题</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{$row.template_subject}>" name="title" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>短信平台模板ID</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{$row.template_sms_id}>" name="template_sms_id" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>正文</label>
+                </dt>
+                <dd class="opt">
+                    <div class="" style="width: 70%;">
+                        <!-- 加载编辑器的容器 -->
+                        <script id="content" name="content" type="text/plain"><{$row.template_content}></script>
+                        <!-- 实例化编辑器 -->
+                        <script type="text/javascript">
+                            var ue = UE.getEditor('content');
+                        </script>
+
+                    </div>
+
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="put_it">确认提交</a></div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    $(document).ready(function(){
+        $("#put_it").click(function(){
+            var data = $("form").serialize();
+            $.ajax({
+                type:'POST',
+                data:data,
+                url:'notice_edit?id=<{$row.template_id}>',
+                errer:function(){
+                    layer.alert('修改失败');
+                },
+                success:function(data){
+                    if(data.state=='403'){
+                        login_ajax('shopadmin',data);
+                    }
+                    layer.msg(data.msg);
+                },
+                dataType:'json'
+            });
+        });
+    });
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

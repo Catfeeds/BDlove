@@ -1,0 +1,95 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>规格管理</h3>
+        <h5>商品规格的管理可用于商品类型设置</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span>
+    </div>
+    <ul>
+      <li>规格将会对应到商品发布的规格，规格值由店铺自己添加。</li>
+      <li>默认安装中会添加一个默认颜色规格，请不要删除，只有这个颜色规格才能在商品详细页显示为图片。</li>
+    </ul>
+  </div>
+  <div id="flexigrid"></div>
+</div>
+<script type="text/javascript">
+
+  $(function(){
+    $("#flexigrid").flexigrid({
+      url: 'goods_specifications?op=getList',
+      colModel : [
+        {display: '操作', name : 'operation', width : 150, sortable : false, align: 'center', className: 'handle'},
+        {display: '规格ID', name : 'sp_id', width : 40, sortable : true, align: 'left'},
+        {display: '规格名称', name : 'sp_name', width : 120, sortable : true, align: 'left'},
+        {display: '规格排序', name : 'sp_sort', width : 120, sortable : true, align: 'center'},
+        {display: '快捷定位ID', name : 'class_id', width : 150, sortable : true, align: 'center'},
+        {display: '快捷定位名称', name : 'class_name', width : 120, sortable : true, align: 'left'}
+      ],
+      buttons : [
+        {display: '<i class="fa fa-plus"></i>新增数据', name : 'add', bclass : 'add', title : '新增数据', onpress : fg_operation }
+      ],
+      searchitems : [
+        {display: '规格ID', name : 'sp_id'},
+        {display: '规格名称', name : 'sp_name'},
+        {display: '快捷定位ID', name : 'class_id'},
+        {display: '快捷定位名称', name : 'class_name'}
+      ],
+      sortname: "sp_id",
+      sortorder: "asc",
+      title: '规格列表'
+    });
+  });
+
+  function fg_operation() {
+    window.location.href = 'goods_specifications_add';
+  }
+  function fg_edit(sp_id) {
+      window.location.href = 'goods_specifications_edit?sp_id='+sp_id;
+  }
+  
+  function fg_delete(id) {
+  	if (typeof id == 'number') {
+      	var id = new Array(id.toString());
+  	};
+  	layer.confirm('确认要删除这 ' + id.length + ' 项吗？', {
+			  btn: ['确认','取消'] //按钮
+			}, function(){
+		    ids = id.join(',');
+		    $.ajax({
+	            type: "GET",
+	            dataType: "json",
+	            url: "goods_specifications_edit?op=delete&sp_id="+ids,
+	            data: '',
+	            success: function(data){
+				if(data.state=='403'){
+				login_ajax('shopadmin');
+			}else
+		        	if(data.state==false){
+		        		layer.msg(data.msg);
+		        	}else if(data.state==true){
+			        	layer.msg(data.msg);
+		        	}
+		        	window.location.href="goods_specifications";
+		        }
+	        });
+		});	    
+  }
+
+
+
+
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+    <div class="appfooter ">
+        <ul class="clearfix ">
+            <li>
+                <a href="?m=User&c=index&a=index "><i class="fa fa-home "></i>首页</a>
+            </li>
+            <li>
+                <a href="?m=User&c=cashier&a=payment&type=1 " id="shou-kuan "><i class="fa fa-inbox "></i>收款</a>
+            </li>
+            <li>
+                <a href="?m=User&c=cashier&a=payment&type=2 " id="tui-kuan "><i class="fa fa-undo "></i>退款</a>
+            </li>
+            <li>
+                <a href="?m=User&c=wxCoupon&a=consumeCard "><i class="fa fa-file-text-o "></i>设置</a>
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript ">
+if(mobilecheck()){
+$("#side-menu li ").click(function () {
+   $("#side-menu li ").find('.nav-second-level').css('display','none');
+   $(this).find('.nav-second-level').css('display','block').css('min-width','140px');
+ });
+}
+	var user_Agent = navigator.userAgent.toLowerCase();
+	if(user_Agent.indexOf("alipayclient ")!=-1 || user_Agent.indexOf("AlipayClient ")!=-1){
+	    $('#shou-kuan').attr('href','?m=User&c=alicashier&a=alipayment&type=1');
+		$('#tui-kuan').attr('href','?m=User&c=alicashier&a=alipayment&type=2');
+		$('#wxpayment1').hide();
+		$('#wxpayment2').hide();
+	}
+
+	if(user_Agent.indexOf("micromessenger ")!=-1 || user_Agent.indexOf("MicroMessenger ")!=-1){
+	   	$('#alipayment1').hide();
+		$('#alipayment2').hide();
+	}
+</script>

@@ -1,0 +1,527 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>订单详情</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-1.9.1.min.js"></script>
+<!-- <script type="text/javascript" src="<{TEMPLE}>js/example.js"></script> -->
+<script type="text/javascript" src="<{TEMPLE}>js/jquery-barcode-1.3.3.js"></script>
+<script type="text/javascript">
+	//调用微信JS api 支付
+	function jsApiCall()
+	{
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			{
+				"appId":"<{if isset($jsApiParameters.appId)}><{$jsApiParameters.appId}><{else}>''<{/if}>",
+				"nonceStr":"<{if isset($jsApiParameters.nonceStr)}><{$jsApiParameters.nonceStr}><{else}>''<{/if}>",
+				"package":"<{if isset($jsApiParameters.package)}><{$jsApiParameters.package}><{else}>''<{/if}>",
+				"signType":"<{if isset($jsApiParameters.signType)}><{$jsApiParameters.signType}><{else}>''<{/if}>",
+				"timeStamp":"<{if isset($jsApiParameters.timeStamp)}><{$jsApiParameters.timeStamp}><{else}>''<{/if}>",
+				"paySign":"<{if isset($jsApiParameters.paySign)}><{$jsApiParameters.paySign}><{else}>''<{/if}>"
+				},
+			function(res){
+				WeixinJSBridge.log(res.err_msg);//alert(res);
+				if(res.err_msg == "get_brand_wcpay_request:ok") {   
+					//alert('支付成功');
+                    window.location.href = '<{if isset($orderSuccess)}><{$orderSuccess}><{else}>''<{/if}>';
+                    //location.href="/default.aspx?n=payment&action=succeed";
+                }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                	alert('支付取消');
+                }else{
+                	alert('支付失败');
+                }  
+			}
+		);
+	}
+
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}
+	</script>
+<style>
+	#follow{
+		color: red;
+	}	
+	#follows{
+		color: red;
+	}	
+	.div-content{
+		background: #fff;
+		margin: 10px 0;
+		padding: 10px;
+		border-bottom: 0.5px solid #e5e5e5;
+		border-top: 0.5px solid #e5e5e5;
+	}
+	.content-left{
+		color: #99999c;
+		width: 25%;
+		padding: 5px;
+		float: left;
+	}
+	.content-right{
+		width: 65%;
+		float: left;
+		padding: 5px;
+	}
+	.close-order{
+		padding-left: 15px;
+	}
+	.clear{
+		clear:both
+	}
+	.gods-price{
+		float: right;
+	}
+	.nowpay{
+		width: 100%;
+		height: 55px;
+		background: #fff;
+	}
+	.apply{
+		color: red;font-size: 16px;text-align: right;right: 20px;
+	}
+	.grade{
+		font-size: 15px;
+		color: #999;
+	}
+	.btn-order{
+		padding: 5px 10px;
+		border: 1px solid #aaa;
+		border-radius: 5px;
+		float: right;
+		margin-top: 10px;
+		margin-right: 10px;
+		color: #666;
+	}
+	@media only screen and (max-width: 360px) {
+	.btn-order{
+		padding: 4px 8px;
+		font-size: 14px;
+	}
+	}
+	.color-red{
+		color: red;
+		border-color: red;
+	}
+	.imgpic{
+		width: 55%;	
+	}
+	.img-inrops{
+		width: 55%;	
+		max-width: 100%;
+		height: auto;
+	}
+	.barcode{
+		display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+	}
+	.bar-num{
+		letter-spacing: 2px;
+		color: #dd2727;
+		font-size: 25px;
+	}
+	.weui-tabbar {
+    position: fixed;
+    z-index: 500;
+    bottom: 0;
+}
+</style>
+</head>
+
+<body ontouchstart>
+
+<div class="weui-tab">
+	<div class="weui-tab__panel">
+
+		<{if $guide_arr.result =="false"}>
+ <!--<div class="weui-cells" style="margin-top: 0">-->
+	<!--<div class="weui-cell">-->
+
+		 <!--&lt;!&ndash; <div class="weui-cell__hd">-->
+			<!--<img src="<{TEMPLE}>images/loimg1.jpg" alt="头像" style="width: 40px;border-radius: 50%;margin-right: 10px; display: block">-->
+		<!--</div>-->
+		 <!--<div class="weui-cell__bd">-->
+			<!--<p>暂无专属导购：</p>-->
+			<!--<p></p>-->
+		<!--</div>-->
+		<!--<div class="weui-cell__ft">-->
+			<!--<p id="follows" class="guide_info">+联系导购</p>-->
+		<!--</div> &ndash;&gt;-->
+	<!--</div>-->
+ <!--</div>-->
+	<{else}>
+		<div class="weui-cells" style="margin-top: 0">
+			<div class="weui-cell">
+		<div class="weui-cell__hd">
+			<img src="<{if !empty($guide_arr.guide_info.head_portrait)}><{base_url()}><{$guide_arr.guide_info.head_portrait}><{else}><{TEMPLE}>images/loimg1.jpg<{/if}>" alt="头像" style="width: 40px;border-radius: 50%;margin-right: 10px; display: block">
+		</div>
+		 <div class="weui-cell__bd">
+			<p>专属导购：<{if !empty($guide_arr.guide_info.spg_nike_name)}><{$guide_arr.guide_info.spg_nike_name}><{/if}></p>
+			<p><{if !empty($guide_arr.guide_info.spg_tel)}><{$guide_arr.guide_info.spg_tel}><{/if}></p>
+		</div>
+		<div class="weui-cell__ft">
+			<p id="follow">+ 关注</p>
+		</div>
+			</div>
+		</div>
+	<{/if}>
+
+
+<{if $orderInfo[0].shipping_type eq 2 and $orderInfo[0].order_status > 10 and $reciveInfo.ordertype < 4 }>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p style="color: #999;">提货码</p>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd barcode">
+                         <p>请向店员提供此条码进行提货</p>
+                         <div class="img-inrops" id="imgpic"></div>
+                         <p class="bar-num"><{if !empty($orderInfo[0].pickup_code)}><{$orderInfo[0].pickup_code}><{/if}></p>
+                          <p>提货条码</p>
+                </div>
+            </div>
+        </div>
+<script>
+$(function(){
+	var pickup_code = "<{if !empty($orderInfo[0].pickup_code)}><{$orderInfo[0].pickup_code}><{else}>''<{/if}>";
+	if(pickup_code.length>4){
+		$("#imgpic").barcode(pickup_code, "code39",{barWidth:2, barHeight:30,showHRI:false});
+	}
+});
+
+
+
+</script>      
+        
+<{/if}>
+
+<div class="div-content">
+<div class="content-line">
+	<div class="content-left">订单类型</div>
+	<div class="content-right"><{$reciveInfo.order_type}></div>
+</div>
+<{if $reciveInfo.ordertype==3}>
+<div class="content-line">
+	<div class="content-left">订单状态</div>
+	<div class="content-right" style="color: red"><{$reciveInfo.order_status}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">订单编号</div>
+	<div class="content-right"><{$reciveInfo.out_order_sn}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">下单时间</div>
+	<div class="content-right"><{$reciveInfo.uec_order_time}></div>
+</div>
+<{else}>
+<div class="content-line">
+	<div class="content-left">订单状态</div>
+	<div class="content-right" style="color: red"><{if $reciveInfo.seller_refund_state > 1}><{if $reciveInfo.seller_refund_state eq 2}>整单退<{else}>部分退<{/if}><{else}><{$reciveInfo.order_status}><{/if}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">订单编号</div>
+	<div class="content-right"><{$reciveInfo.order_sn}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">下单时间</div>
+	<div class="content-right"><{$reciveInfo.order_time}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">支付方式</div>
+	<div class="content-right"><{$reciveInfo.pay_type}></div>
+</div>
+<{/if}>
+<div class="clear"></div>
+</div>
+
+<div class="div-content">
+<div class="content-line">
+	<div class="content-left">配送方式</div>
+	<{if $reciveInfo.ordertype==3}>
+	<div class="content-right">&nbsp;<{$reciveInfo.shipping_type}></div>
+	<{else}>
+	<div class="content-right">&nbsp;<{$reciveInfo.shipping_type}></div>
+	<{/if}>
+</div>
+<div class="content-line">
+	<div class="content-left">收货人</div>
+	<div class="content-right">&nbsp;<{$reciveInfo.receive_name}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">联系电话</div>
+	<div class="content-right">&nbsp;<{$reciveInfo.receive_mobile}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">收货地址</div>
+	<div class="content-right">&nbsp;<{$reciveInfo.receive_addr}></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="weui-cells" style="margin-top: 10px;">
+<div class="weui-cells__title">商品信息</div>
+<{if $reciveInfo.ordertype==3}>
+	<{foreach from=$orderInfo item=good}>
+<div class="weui-cell">
+	<div class="weui-cell__hd">
+		<img src="<{$good.uec_goods_image}>"  onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>'" alt="" style="width: 40px;margin-right: 10px;">
+	</div>
+	<div class="weui-cell__bd">
+		<p><{$good.uec_goods_name}></p>
+		<p style="color: #99999c"><{$good.uec_goods_size}>/<{$good.uec_goods_color}></p>
+	</div>
+	<div class="weui-cell__ft">
+		<p>￥<{$good.uec_stock_price}>元</p>
+		<p>x<{$good.goods_num}></p>
+	</div>
+</div>
+<{/foreach}>
+<{else}>
+	<{foreach from=$orderInfo item=good}>
+<div class="weui-cell">
+	<div class="weui-cell__hd">
+		<img src="<{$good.goods_image}>"  onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>'" alt="" style="width: 40px;margin-right: 10px;">
+	</div>
+	<div class="weui-cell__bd">
+		<p><{$good.goods_name}></p>
+		<p style="color: #99999c"><{if !empty($good.goods_size_remark)}><{$good.goods_size_remark}><{else}><{$good.goods_size}><{/if}>/<{if !empty($good.goods_color_remark)}><{$good.goods_color_remark}><{else}><{$good.goods_color}><{/if}></p>
+	</div>
+	<div class="weui-cell__ft">
+		<p>￥<{$good.goods_pay_price}>元</p>
+		<p>x<{$good.goods_num}></p>
+	</div>
+</div>
+<{/foreach}>
+<{/if}>
+
+<!-- <div class="weui-cell">
+	<div class="weui-cell__bd apply">
+
+	</div>
+</div> -->
+<{if $reciveInfo.ordertype==3}>
+<div class="div-content" style="margin-bottom: 20px;">
+	<div class="gods-price">商品原价：￥<{$reciveInfo.uec_goods_price}>元</div>
+	<div class="clear"></div>
+	
+	<!-- <div class="gods-price">折扣：-￥<{$reciveInfo.order_discount}>元</div>
+	<div class="clear"></div>
+	
+	<{if $reciveInfo.pay_counpon >0 }>
+	<div class="gods-price">优惠卷：-￥<{$reciveInfo.pay_counpon}>元</div>
+	<div class="clear"></div>
+	<{/if}>
+	
+	<{if $reciveInfo.pay_integral >0 }>
+	<div class="gods-price">积分抵扣：-￥<{$reciveInfo.pay_integral}>元</div> 
+	<div class="clear"></div>
+	<{/if}>-->
+
+	
+	<div class="gods-price">运费：￥<{$reciveInfo.uec_carriage_price}>元</div>
+	<div class="clear"></div>
+	<div class="gods-price grade">会员等级：<{$userinfo.mld_name}></div>
+	<div class="clear"></div>
+	<!-- <div class="gods-price" style="color: red">实付总额：￥<{$reciveInfo.pay_money}>元</div> -->
+	<div class="clear"></div>
+</div>
+<{else}>
+<div class="div-content" style="margin-bottom: 20px;">
+	<div class="gods-price">商品原价：￥<{$reciveInfo.order_price + $reciveInfo.order_discount}>元</div>
+	<div class="clear"></div>
+	
+	<!-- <div class="gods-price">折扣：-￥<{$reciveInfo.order_discount}>元</div>
+	<div class="clear"></div> -->
+	
+	<{if $reciveInfo.pay_counpon >0 }>
+	<div class="gods-price">优惠：-￥<{$reciveInfo.pay_counpon}>元</div>
+	<div class="clear"></div>
+	<{/if}>
+	
+	<{if $reciveInfo.pay_integral >0 }>
+	<div class="gods-price">积分抵扣：-￥<{$reciveInfo.pay_integral}>元</div>
+	<div class="clear"></div>
+	<{/if}>
+
+	
+	<div class="gods-price">运费：￥<{$reciveInfo.order_carriage}>元</div>
+	<div class="clear"></div>
+	<div class="gods-price grade">会员等级：<{$userinfo.mld_name}></div>
+	<div class="clear"></div>
+	<div class="gods-price" style="color: red">实付总额：￥<{$reciveInfo.pay_money}>元</div>
+	<div class="clear"></div>
+</div>
+<{/if}>
+</div>
+
+<div class="weui-tabbar">
+	<div class="nowpay">
+	<{if $reciveInfo.ordertype==3}>
+		<a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$orderInfo[0].order_sn}>&store_id=<{$orderInfo[0].store_id}>&goods_id=<{$orderInfo[0].goods_id}>&goods_ea_id=<{$orderInfo[0].goods_ea_id}>" class="btn-order	color-red">再次购买</a>
+	<{else}>
+	<{if $orderInfo[0].shipping_type eq 1}>
+		<!--'订单状态：0(已取消)10(默认):未付款;20:已付款;30:已发货;40:已收货;' -->
+	   <{if $orderInfo[0].order_status eq 10}>
+			<a href="<{base_url('vmall.php/order/cancel_order?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order">取消订单</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<{if !empty($reciveInfo.paytype) and $reciveInfo.paytype eq 3}>
+			<a href="<{base_url('vmall.php/order/post_order?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order color-red">立即支付</a>
+			<{else}>
+			<a class="btn-order color-red" onclick="callpay()">立即支付</a>
+			<{/if}>
+	   <{elseif $orderInfo[0].order_status eq 20 or $orderInfo[0].order_status eq 30}>
+	        <{if $reciveInfo.seller_refund_state eq 1 }>
+	    	<a href="<{base_url('vmall.php/order/apply_service?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order">申请售后</a>
+	    	&nbsp;&nbsp;&nbsp;&nbsp;
+	    	<{/if}>
+	    	<a href="again_bay?order_sn=<{$orderInfo[0].order_sn}>&store_id=<{$orderInfo[0].store_id}>&goods_id=<{$orderInfo[0].goods_id}>&goods_ea_id=<{$orderInfo[0].goods_ea_id}>" class="btn-order">再次购买</a>
+	    	&nbsp;&nbsp;&nbsp;&nbsp;
+	    	<a href="<{base_url('vmall.php/order/confirm_goods?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order color-red">确认收货</a>
+	   
+	   <{elseif $orderInfo[0].order_status eq 40 or $orderInfo[0].order_status eq 50}>
+	   	    <{if $orderInfo[0].evaluation_state eq 1}>
+		    <a href="<{base_url('vmall.php/order/evaluateGoods_add?order_sn=')}><{$orderInfo[0].order_sn}>&goods_id=<{$good.goods_id}>"  class="btn-order">查看评价</a>
+	        &nbsp;&nbsp;&nbsp;&nbsp;
+	        <{else}>
+	        <{if $reciveInfo.seller_refund_state eq 1 }>
+	        <a href="<{base_url('vmall.php/order/rating_sheet?order_sn=')}><{$orderInfo[0].order_sn}>"  class="btn-order">评价晒单</a>
+	        &nbsp;&nbsp;&nbsp;&nbsp;
+	        <{/if}>
+	        <{/if}>
+	    	<{if $reciveInfo.seller_refund_state eq 1 }>
+	    	<a href="<{base_url('vmall.php/order/apply_service?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order">申请售后</a>
+	    	&nbsp;&nbsp;&nbsp;&nbsp;
+	    	 <{/if}>
+	        <{if $guide_arr.result =="true"}>
+	           <a href="<{base_url('vmall.php/order/evaluate_guide?order_sn=')}><{$orderInfo[0].order_sn}>"  class="btn-order  color-red">评价导购</a>
+	        <{else}>
+	        	<a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$orderInfo[0].order_sn}>&store_id=<{$orderInfo[0].store_id}>&goods_id=<{$orderInfo[0].goods_id}>&goods_ea_id=<{$orderInfo[0].goods_ea_id}>" class="btn-order color-red">再次购买</a>
+	        <{/if}>
+	   <{elseif $orderInfo[0].order_status eq 0}>
+	   		<a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$orderInfo[0].order_sn}>&store_id=<{$orderInfo[0].store_id}>&goods_id=<{$orderInfo[0].goods_id}>&goods_ea_id=<{$orderInfo[0].goods_ea_id}>" class="btn-order	color-red">再次购买</a>
+
+	   <{/if}>
+	   
+	<{else}>
+	
+	    <{if $orderInfo[0].order_status eq 10}>
+			<a href="<{base_url('vmall.php/order/cancel_order?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order">取消订单</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<{if !empty($reciveInfo.paytype) and $reciveInfo.paytype eq 3}>
+			<a href="<{base_url('vmall.php/order/post_order?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order color-red">立即支付</a>
+			<{else}>
+			<a class="btn-order color-red" onclick="callpay()">立即支付</a>
+			<{/if}>
+	    
+	    <{elseif $orderInfo[0].order_status eq 20 or $orderInfo[0].order_status eq 30}>
+	     	<{if $reciveInfo.seller_refund_state eq 1 }>
+		    <a href="<{base_url('vmall.php/order/apply_service?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order">申请售后</a>
+		    &nbsp;&nbsp;&nbsp;&nbsp;
+		     <{/if}>
+		    <a href="<{base_url('vmall.php/order/confirm_goods?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order color-red">确认收货</a>
+	   
+	    <{elseif $orderInfo[0].order_status eq 40 or $orderInfo[0].order_status eq 50}>
+		     <{if $orderInfo[0].evaluation_state eq 1}>
+		    <a href="<{base_url('vmall.php/order/evaluateGoods_add?order_sn=')}><{$orderInfo[0].order_sn}>"  class="btn-order">查看评价</a>
+	        <{else}>
+	        <{if $reciveInfo.seller_refund_state eq 1 }>
+	        <a href="<{base_url('vmall.php/order/rating_sheet?order_sn=')}><{$orderInfo[0].order_sn}>"  class="btn-order">评价晒单</a>
+	        &nbsp;&nbsp;&nbsp;&nbsp;
+	        <{/if}>
+	        <{/if}>
+	        <{if $reciveInfo.seller_refund_state eq 1 }>
+	        <a href="<{base_url('vmall.php/order/apply_service?order_sn=')}><{$orderInfo[0].order_sn}>" class="btn-order">申请售后</a>
+	        &nbsp;&nbsp;&nbsp;&nbsp;
+	        <{/if}>
+	        <{if $guide_arr.result =="true"}>
+	           <a href="<{base_url('vmall.php/order/evaluate_guide?order_sn=')}><{$orderInfo[0].order_sn}>"  class="btn-order  color-red">评价导购</a>
+	        <{else}>
+	        	<a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$orderInfo[0].order_sn}>&store_id=<{$orderInfo[0].store_id}>&goods_id=<{$orderInfo[0].goods_id}>&goods_ea_id=<{$orderInfo[0].goods_ea_id}>" class="btn-order color-red">再次购买</a>
+	        <{/if}>
+	   	
+	   	<{elseif $orderInfo[0].order_status eq 0}>
+	   		<a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$orderInfo[0].order_sn}>&store_id=<{$orderInfo[0].store_id}>&goods_id=<{$orderInfo[0].goods_id}>&goods_ea_id=<{$orderInfo[0].goods_ea_id}>" class="btn-order	color-red">再次购买</a>
+	   <{/if}>
+	
+	<{/if}>   
+	<{/if}>
+	</div>
+	
+</div>
+
+</div>
+
+<div class="js_dialog" id="iosDialog1" style="display: none;">
+	<div class="weui-mask cancel1"></div>
+	<div class="weui-dialog">
+		<div class="weui-dialog__hd">
+			<strong class="weui-dialog__title">请输入关闭理由</strong>
+		</div>
+		<div class="weui-dialog__bd">
+			<textarea name="reason" rows="3" class="weui-textarea" placeholder="请输入"></textarea>
+		</div>
+		<div class="weui-dialog__ft">
+			<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default cancel1">取消</a>
+			<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="submit">确定</a>
+		</div>
+	</div>
+</div>
+
+<div class="js_dialog" id="iosDialog2" style="display: none;">
+	<div class="weui-mask cancel2"></div>
+	<div class="weui-dialog">
+		
+		<div class="weui-dialog__bd">
+		  <{if empty($guide_arr.guide_info.spg_ewm)}>
+		            对不起，该导购或已离职！
+		  <{else}>
+			<div style="width: 80%;margin: 0 auto"><img src="<{$guide_arr.guide_info.spg_ewm}>" alt="wei-log" style="max-width: 100%;height: auto"></div>
+			<p style="color: #99999c">长按二维码关注</p>
+			<{/if}>
+		</div>
+	</div>
+</div>
+
+
+</body>
+<script>
+	$(".cancel1").click(function(){
+		$("#iosDialog1").css("display","none");
+	})
+	$(".close-order").click(function(){
+		$("#iosDialog1").css("display","block");
+	})
+	
+	$("#follow").click(function(){
+		$("#iosDialog2").css("display","block");
+	})
+	$(".cancel2").click(function(){
+		$("#iosDialog2").css("display","none");
+	})
+	$(".guide_info").click(function(){
+		var  ids="<{if !empty($guide_arr.guides_infos.spg_id)}><{$guide_arr.guides_infos.spg_id}><{else}>''<{/if}>"
+		window.location.href="<{base_url()}>vmall.php/Store/shopping_guide_chat?spg_id="+ids; 
+	})
+	
+	
+</script>
+</html>

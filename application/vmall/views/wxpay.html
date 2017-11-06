@@ -1,0 +1,279 @@
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/> 
+    <title>微信支付</title>
+    <link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+	<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+	<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+    <script type="text/javascript">
+	//调用微信JS api 支付
+	function jsApiCall()
+	{
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			{
+				"appId":"<{$jsApiParameters.appId}>",
+				"nonceStr":"<{$jsApiParameters.nonceStr}>",
+				"package":"<{$jsApiParameters.package}>",
+				"signType":"<{$jsApiParameters.signType}>",
+				"timeStamp":"<{$jsApiParameters.timeStamp}>",
+				"paySign":"<{$jsApiParameters.paySign}>"
+				},
+			function(res){
+				WeixinJSBridge.log(res.err_msg);
+				if(res.err_msg == "get_brand_wcpay_request:ok") {   
+					//alert('支付成功');
+                    window.location.href = '<{$orderSuccess}>';
+                    //location.href="/default.aspx?n=payment&action=succeed";
+                }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                	alert('支付取消');
+                }else{
+                	alert('支付失败');
+                }  
+			}
+		);
+	}
+
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}
+	</script>
+	<script type="text/javascript">
+	//获取共享地址
+	function editAddress()
+	{
+		WeixinJSBridge.invoke(
+			'editAddress',
+			{
+				"addrSign":"<{$editAddress.addrSign}>",
+				"signType":"<{$editAddress.signType}>",
+				"scope":"<{$editAddress.scope}>",
+				"appId":"<{$editAddress.appId}>",
+				"timeStamp":"<{$editAddress.timeStamp}>",
+				"nonceStr":"<{$editAddress.nonceStr}>"
+				},
+			function(res){
+				var value1 = res.proviceFirstStageName;
+				var value2 = res.addressCitySecondStageName;
+				var value3 = res.addressCountiesThirdStageName;
+				var value4 = res.addressDetailInfo;
+				var tel = res.telNumber;
+				
+				//alert(value1 + value2 + value3 + value4 + ":" + tel);
+			}
+		);
+	}
+	window.onload = function(){
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', editAddress, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', editAddress); 
+		        document.attachEvent('onWeixinJSBridgeReady', editAddress);
+		    }
+		}else{
+			editAddress();
+		}
+		callpay();
+	};
+	
+	</script>
+
+
+
+<style>
+	#follow{
+		color: red;
+	}	
+	.div-content{
+		background: #fff;
+		margin: 10px 0;
+		padding: 10px;
+		border-bottom: 0.5px solid #e5e5e5;
+		border-top: 0.5px solid #e5e5e5;
+	}
+	.content-left{
+		color: #99999c;
+		width: 25%;
+		padding: 5px;
+		float: left;
+	}
+	.content-right{
+		width: 65%;
+		float: left;
+		padding: 5px;
+	}
+	.close-order{
+		padding-left: 15px;
+	}
+	.clear{
+		clear:both
+	}
+	.gods-price{
+		float: right;
+	}
+	.nowpay{
+		width: 100%;
+		height: 45px;
+		text-align: center;
+		color: red;
+		line-height: 45px;
+		background: #fff;
+	}
+</style>
+</head>
+
+<body ontouchstart>
+
+<div class="weui-tab">
+	<div class="weui-tab__panel">
+		
+
+<!-- <div class="weui-cells" style="margin-top: 0">
+	<div class="weui-cell">
+	<div class="weui-cell__hd">
+		<img src="<{TEMPLE}>images/loimg1.jpg" alt="头像" style="width: 40px;border-radius: 50%;margin-right: 10px; display: block">
+	</div>
+	<div class="weui-cell__bd">
+		<p>服务顾问：leeyound-测试</p>
+		<p>18108129768</p>
+	</div>
+	<div class="weui-cell__ft">
+		<p id="follow">+ 关注</p>
+	</div>
+	</div>
+</div> -->
+
+<div class="div-content">
+<div class="content-line">
+	<div class="content-left">订单类型</div>
+	<div class="content-right"><{$reciveInfo.order_type}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">订单状态</div>
+	<div class="content-right" style="color: red"><{$reciveInfo.order_status}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">订单编号</div>
+	<div class="content-right"><{$reciveInfo.order_sn}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">下单时间</div>
+	<div class="content-right"><{$reciveInfo.order_time}></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="div-content">
+<div class="content-line">
+	<div class="content-left">配送方式</div>
+	<div class="content-right"><{$reciveInfo.shipping_type}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">收货人</div>
+	<div class="content-right"> <{$reciveInfo.receive_name}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">联系电话</div>
+	<div class="content-right"> <{$reciveInfo.receive_mobile}></div>
+</div>
+<div class="content-line">
+	<div class="content-left">收货地址</div>
+	<div class="content-right"> <{$reciveInfo.receive_addr}></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="weui-cells" style="margin-top: 10px;">
+<div class="weui-cells__title">商品信息</div>
+<{foreach from=$orderInfo item=good}>
+<div class="weui-cell">
+	<div class="weui-cell__hd">
+		<img src="<{$good.goods_image}>" alt="" style="width: 40px;margin-right: 10px;">
+	</div>
+	<div class="weui-cell__bd">
+		<p><{$good.goods_name}></p>
+		<p style="color: #99999c"><{if !empty($good.goods_size_remark)}><{$good.goods_size_remark}><{else}><{$good.goods_size}><{/if}>/<{if !empty($good.goods_color_remark)}><{$good.goods_color_remark}><{else}><{$good.goods_color}><{/if}></p>
+	</div>
+	<div class="weui-cell__ft">
+		<p>￥<{$good.goods_price}>元</p>
+		<p>x<{$good.goods_num}></p>
+	</div>
+</div>
+<{/foreach}>
+</div>
+
+<div class="div-content" style="margin-bottom: 20px;">
+	<div class="gods-price">商品总价：￥<{$reciveInfo.goods_money}>元</div>
+	<div class="clear"></div>
+	<div class="gods-price" style="color: red">实付总额：￥<{$reciveInfo.pay_money}>元</div>
+	<div class="clear"></div>
+</div>
+</div>
+
+<div class="weui-tabbar">
+	<p class="nowpay" onclick="callpay()">立即支付</p>
+</div>
+</div>	
+
+<div class="js_dialog" id="iosDialog1" style="display: none;">
+	<div class="weui-mask cancel1"></div>
+	<div class="weui-dialog">
+		<div class="weui-dialog__hd">
+			<strong class="weui-dialog__title">请输入关闭理由</strong>
+		</div>
+		<div class="weui-dialog__bd">
+			<textarea name="reason" rows="3" class="weui-textarea" placeholder="请输入"></textarea>
+		</div>
+		<div class="weui-dialog__ft">
+			<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default cancel1">取消</a>
+			<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="submit">确定</a>
+		</div>
+	</div>
+</div>
+
+<div class="js_dialog" id="iosDialog2" style="display: none;">
+	<div class="weui-mask cancel2"></div>
+	<div class="weui-dialog">
+		
+		<div class="weui-dialog__bd">
+			<div style="width: 80%;margin: 0 auto"><img src="images/2.jpg" alt="wei-log" style="max-width: 100%;height: auto"></div>
+			<p style="color: #99999c">长按二维码关注</p>
+		</div>
+	</div>
+</div>
+
+
+</body>
+<script>
+	$(".cancel1").click(function(){
+		$("#iosDialog1").css("display","none");
+	})
+	$(".close-order").click(function(){
+		$("#iosDialog1").css("display","block");
+	})
+	
+	$("#follow").click(function(){
+		$("#iosDialog2").css("display","block");
+	})
+	$(".cancel2").click(function(){
+		$("#iosDialog2").css("display","none");
+	})
+	 $(document).ready(function(){
+		 //callpay();
+	 })
+</script>
+</html>

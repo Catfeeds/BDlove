@@ -1,0 +1,241 @@
+<html lang="zh-cn" style="opacity: 1; font-size: 200px;" class="view6s">
+
+	<head>
+		<{include file="lib/Hlink.html" }>
+			<title>我的订单</title>
+			<style>
+				.orderList {
+					border: none;
+					-webkit-box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.3);
+					box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.3);
+					padding-left: 0;
+				}
+				
+				.s-options .s-items li {
+					min-width: 52px;
+				}
+				
+				.orderList .tit {
+					line-height: 36px;
+					padding: 5px 0 5px 10px;
+					height: 36px;
+					color: #333!important;
+				}
+				.orderList .action {
+					padding: 5px 15px 8px 10px;
+				}
+				.orderform{
+					color: #999;
+					margin-left: 10px;
+				}
+				@media screen and (max-width: 350px) {
+					.orderList .tit {
+						font-size: 13px;
+				}
+				}
+				.btn {
+				    padding: 3px 10px!important;
+				    margin-left: 5px;
+				    border: 1px solid #999;
+				}
+				.btn-color{
+					border: 1px solid red;
+					color: red!important;
+				}
+			</style>
+
+	</head>
+
+	<body>
+		<section class="s-options mb10">
+			<ul class="s-items">
+				<li>
+					<a data-type="" href="<{base_url('vmall.php/order/')}>index" class="<{if empty($type)}>curr<{/if}>"><span>全部</span></a>
+				</li>
+				<li>
+					<a data-type="" href="<{base_url('vmall.php/order/')}>index/1" class="<{if $type==1}>curr<{/if}>"><span>待付款</span></a>
+				</li>
+				<li>
+					<a data-type="" href="<{base_url('vmall.php/order/')}>index/2" class="<{if $type==2}>curr<{/if}>"><span>待收货</span></a>
+				</li>
+				<li>
+					<a data-type="" href="<{base_url('vmall.php/order/')}>index/3" class="<{if $type==3}>curr<{/if}>"><span>待提货</span></a>
+				</li>
+				<li>
+					<a data-type="" href="<{base_url('vmall.php/order/')}>index/4" class="<{if $type==4}>curr<{/if}>"><span>待评价</span></a>
+				</li>
+				<li>
+					<a data-type="" href="<{base_url('vmall.php/order/')}>index/5" class="<{if $type==5}>curr<{/if}>"><span>已关闭</span></a>
+				</li>
+			</ul>
+		</section>
+
+		<section id="tempContent">
+		    <{if empty($rows)}>
+		    <section class="noResult"><span class="order">没有订单记录</span></section>
+		    <{else}>
+            <{foreach from=$rows item=order}>
+			<section class="orderList" onclick="gotoDetail(this)" data-id="<{$order.order_sn}>">
+				<div class="tit">
+					
+					<{if $order.order_type==3}>
+					<p>订单编号：<{$order.out_order_sn}>
+						<span class="orderform"><{$order.bind_ecstore_name}><span>
+						<span class="status">
+ 						<{if $order.order_type==3}>
+						<{if $order.shipping_type==1}><{$order_status1[$order.uec_order_status]}><{else}><{$order_status2[$order.uec_order_status]}><{/if}>
+						<{else}>
+						<{if $order.shipping_type==1}><{$order_status1[$order.order_status]}><{else}><{$order_status2[$order.order_status]}><{/if}>
+						<{/if}>
+						</span>
+					</p>
+					<{else}>
+					<p>订单编号：<{$order.order_sn}>
+						<span class="orderform"><{$order.order_from}><span>
+						<span class="status" data-type="<{if !empty($order.evaluation_id)}><{$order.evaluation_id}><{/if}>">
+						<{if $order.order_type==3}>
+						<{if $order.shipping_type==1}><{$order_status1[$order.uec_order_status]}><{else}><{$order_status2[$order.uec_order_status]}><{/if}>
+						<{else}>
+						<{if $order.shipping_type==1}><{$order_status1[$order.order_status]}><{else}><{$order_status2[$order.order_status]}><{/if}>
+						<{/if}>
+						</span>
+					</p>
+					<{/if}>
+				</div>
+               <{foreach from=$order.goods item=goods}>
+               <{if $order.order_type==3}>
+               <div class="orderItem wbox">
+					<img src="<{$goods.uec_goods_image}>" onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>'" class="size40">
+					<div class="msg wbox-1">
+						<div class="name"><{$goods.uec_goods_name}></div>
+						<div class="sku fc-grey"><{$goods.uec_goods_size}>/<{$goods.uec_goods_color}></div>
+					</div>
+					<div class="count tx-r">
+						<p>￥<{$goods.uec_stock_price}></p>
+						<p>x <{$goods.goods_num}></p>
+					</div>
+				</div>
+               <{else}>
+				<div class="orderItem wbox">
+					<img src="<{$goods.goods_image}>" onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>'" class="size40">
+					<div class="msg wbox-1">
+						<div class="name"><{$goods.goods_name}></div>
+						<div class="sku fc-grey"><{if !empty($goods.goods_size_remark)}><{$goods.goods_size_remark}><{else}><{$goods.goods_size}><{/if}>/<{if !empty($goods.goods_color_remark)}><{$goods.goods_color_remark}><{else}><{$goods.goods_color}><{/if}></div>
+					</div>
+					<div class="count tx-r">
+						<p>￥<{$goods.goods_pay_price}></p>
+						<p>x <{$goods.goods_num}></p>
+					</div>
+				</div>
+				<{/if}>
+				<{/foreach}>
+				<div class="action">
+				     <{if $order.order_type==3}>
+				     <span class="fl" style="width: 100%;">共<span class="goods_num number"><{$order.goods_num}></span>件商品       合计：<span class="fc-red number">￥<{sprintf('%0.2f',$order.uec_goods_price+$order.uec_carriage_price)}></span><{if $order.uec_carriage_price>0}>含运费<span class="order_ship number">￥<{$order.uec_carriage_price}></span><{/if}></span>
+				     <{else}>
+					<span class="fl" style="width: 100%;">共<span class="goods_num number"><{$order.goods_num}></span>件商品       合计：<span class="fc-red number">￥<{$order.order_price}></span><{if $order.create_carriage>0}>含运费<span class="order_ship number">￥<{$order.create_carriage}></span><{/if}></span>
+                    <{/if}>
+
+                   <{if $order.shipping_type==1&&$order.order_type!=3}>
+                      <{if $order.order_status eq 10}>
+							<a href="<{base_url('vmall.php/order/post_order?order_sn=')}><{$order.order_sn}>" class="appraise fr btn btn-color">
+								立即支付
+							</a>
+                      <{elseif $order.order_status>=20&&$order.order_status<30}>
+                      		 <a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$order.order_sn}>&store_id=<{$order.goods.0.storeid}>&goods_id=<{$order.goods.0.goods_id}>&goods_ea_id=<{$order.goods.0.goods_ea_id}>" class="appraise fr btn">
+								再次购买
+							</a>
+                            <a href="<{base_url('vmall.php/order/look_logistics?order_sn=')}><{$order.order_sn}>" class="appraise fr btn btn-color">
+								查看物流
+							</a>
+                      <{elseif $order.order_status>=30&&$order.order_status<40}>
+                            <a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$order.order_sn}>&store_id=<{$order.goods.0.storeid}>&goods_id=<{$order.goods.0.goods_id}>&goods_ea_id=<{$order.goods.0.goods_ea_id}>" class="appraise fr btn">
+								再次购买
+							</a>
+                            <a href="<{base_url('vmall.php/order/look_logistics?order_sn=')}><{$order.order_sn}>" class="appraise fr btn btn-color">
+								查看物流
+							</a>
+                      		
+                      <{elseif $order.order_status>=40&&$order.order_status<=50}>
+                            <{if $order.evaluation_state eq 1}>
+							 	<a href="<{base_url('vmall.php/order/evaluateGoods_add?order_sn=')}><{$order.order_sn}>" class="appraise fr btn">查看评价</a>
+							<{else}>
+								<a href="<{base_url('vmall.php/order/rating_sheet?order_sn=')}><{$order.order_sn}>" class="appraise fr btn">评价晒单</a>
+							<{/if}>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$order.order_sn}>&store_id=<{$order.goods.0.storeid}>&goods_id=<{$order.goods.0.goods_id}>&goods_ea_id=<{$order.goods.0.goods_ea_id}>" class="appraise fr btn  btn-color">
+								再次购买
+							</a>          
+					 <{elseif $order.order_status eq 0}>
+					        <a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$order.order_sn}>&store_id=<{$order.goods.0.storeid}>&goods_id=<{$order.goods.0.goods_id}>&goods_ea_id=<{$order.goods.0.goods_ea_id}>" class="appraise fr btn  btn-color">
+								再次购买
+							</a>  		
+                      <{/if}>
+                   <{elseif $order.shipping_type==2&&$order.order_type!=3}>
+                          <{if $order.order_status eq 10}>
+								<a href="<{base_url('vmall.php/order/post_order?order_sn=')}><{$order.order_sn}>" class="appraise fr btn btn-color">
+								立即支付
+							   </a>
+						 <{elseif $order.order_status>=20&&$order.order_status<=30}>
+		                     <a href="<{base_url('vmall.php/order/confirm_goods?order_sn=')}><{$order.order_sn}>" class="appraise fr btn btn-color">确认收货</a>
+                         <{elseif $order.order_status>=40&&$order.order_status<=50}>
+						        <{if $order.evaluation_state eq 1}>
+								 	<a href="<{base_url('vmall.php/order/evaluateGoods_add?order_sn=')}><{$order.order_sn}>" class="appraise fr btn">查看评价</a>
+								<{else}>
+									<a href="<{base_url('vmall.php/order/rating_sheet?order_sn=')}><{$order.order_sn}>" class="appraise fr btn">评价晒单</a>
+								<{/if}>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+	                            <a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$order.order_sn}>&store_id=<{$order.goods.0.storeid}>&goods_id=<{$order.goods.0.goods_id}>&goods_ea_id=<{$order.goods.0.goods_ea_id}>" class="appraise fr btn  btn-color">
+									再次购买
+								</a>  
+                         <{elseif $order.order_status eq 0}>
+					        <a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$order.order_sn}>&store_id=<{$order.goods.0.storeid}>&goods_id=<{$order.goods.0.goods_id}>&goods_ea_id=<{$order.goods.0.goods_ea_id}>" class="appraise fr btn  btn-color">
+								再次购买
+							</a>  		
+	                      <{/if}>
+	               <{elseif $order.order_type==3}>
+	                     <a href="<{base_url('vmall.php/order/again_bay?order_sn=')}><{$order.order_sn}>&store_id=<{$order.goods.0.storeid}>&goods_id=<{$order.goods.0.goods_id}>&goods_ea_id=<{$order.goods.0.goods_ea_id}>" class="appraise fr btn  btn-color">
+								再次购买
+							</a>  
+								<!-- <a href="<{base_url('vmall.php/order/post_order?order_sn=')}><{$order.order_sn}>" class="appraise fr btn btn-color">
+								立即支付
+							   </a> -->
+						 <{if $order.uec_order_status>=20&&$order.uec_order_status<=50}>
+						  <a href="<{base_url('vmall.php/order/look_logistics?order_sn=')}><{$order.order_sn}>" class="appraise fr btn btn-color">
+								查看物流
+							</a>
+		                     <!-- <a href="<{base_url('vmall.php/order/confirm_goods?order_sn=')}><{$order.order_sn}>" class="appraise fr btn btn-color">确认收货</a> -->
+                         <{elseif $order.uec_order_status eq 40 or $order.uec_order_status eq 50}>
+						        <{if $order.evaluation_state eq 1}>
+								 	<a href="<{base_url('vmall.php/order/evaluateGoods_add?order_sn=')}><{$order.order_sn}>" class="appraise fr btn">查看评价</a>
+								<!-- <{else}> -->
+								<!-- 	<a href="<{base_url('vmall.php/order/rating_sheet?order_sn=')}><{$order.order_sn}>" class="appraise fr btn">评价晒单</a> -->
+								<{/if}>
+								
+                         <{/if}>
+					        		
+	                      
+                   <{/if}>
+					
+						
+                
+				</div>
+                
+
+			</section>
+            <{/foreach}>
+            <{/if}>
+		</section>
+		<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+        <script type="text/javascript" src="<{TEMPLE}>js/framework7.picker.min.js"></script>
+		<script src="<{TEMPLE}>js/base.js"></script>
+		<script src="<{TEMPLE}>js/LArea.js"></script>
+		<script>
+		function gotoDetail(obj){
+			var orderSn = $(obj).attr('data-id');
+			window.location.href="<{base_url('vmall.php/order/order_detail?order_sn=')}>"+orderSn; 
+		}
+		</script>
+		
+	</body>
+</html>

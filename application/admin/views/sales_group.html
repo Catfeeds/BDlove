@@ -1,0 +1,184 @@
+<{include file="pageheader.html"}>
+<style>
+	.flexigrid .bDiv td div{min-height:22px;height:auto;}
+	.flexigrid .bDiv td div.goods-thumb{padding:0;width:auto;height:auto;}
+	.flexigrid .bDiv td div.goods-thumb	img{width:100%;height:100%;}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>团购管理</h3>
+        <h5>实物商品团购促销活动相关设定及管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>点击新增团购按钮可以添加团购活动</li>
+      <li>管理员可以审核新的团购活动申请、取消进行中的团购活动或者删除团购活动。</li>
+    </ul>
+  </div>
+  <div id="flexigrid"></div>
+  <div class="ncap-search-ban-s" id="searchBarOpen"><i class="fa fa-search-plus"></i>高级搜索</div>
+  <div class="ncap-search-bar">
+    <div class="handle-btn" id="searchBarClose"><i class="fa fa-search-minus"></i>收起边栏</div>
+    <div class="title">
+      <h3>高级搜索</h3>
+    </div>
+    <form method="get" name="formSearch" id="formSearch">
+      <input type="hidden" name="advanced" value="1">
+      <div id="searchCon" class="content ps-container ps-active-x" style="height: 806px;">
+        <div class="layout-box">
+          <dl>
+            <dt>团购名称</dt>
+            <dd>
+              <input type="text" name="groupbuy_name" class="s-input-txt" placeholder="请输入团购名称关键字">
+            </dd>
+          </dl>
+          <dl>
+            <dt>商品名称</dt>
+            <dd>
+              <input type="text" name="goods_name" class="s-input-txt" placeholder="请输入商品名称关键字">
+            </dd>
+          </dl>
+          <dl>
+            <dt>店铺名称</dt>
+            <dd>
+              <input type="text" name="store_name" class="s-input-txt" placeholder="请输入店铺名称关键字">
+            </dd>
+          </dl>
+          <dl>
+            <dt>团购类型</dt>
+            <dd>
+              <select name="is_vr" class="s-select">
+                <option value="">全部</option>
+                <option value="1">虚拟</option>
+                <option value="0">实物</option>
+              </select>
+            </dd>
+          </dl>
+          <dl>
+            <dt>状态</dt>
+            <dd>
+              <select name="state" class="s-select">
+                <option value="0">全部</option>
+                <option value="10">审核中</option>
+                <option value="20">正常</option>
+                <option value="32">已结束</option>
+                <option value="30">审核失败</option>
+                <option value="31">管理员关闭</option>
+              </select>
+            </dd>
+          </dl>
+          <dl>
+            <dt>活动时期筛选</dt>
+            <dd>
+              <label>
+                <input type="text" name="pdate1" data-dp="1" onclick="laydate()" class="s-input-txt hasDatepicker" placeholder="结束时间不晚于" id="dp1477964309682" readonly="readonly">
+              </label>
+              <label>
+                <input type="text" name="pdate2" data-dp="1" onclick="laydate()" class="s-input-txt hasDatepicker" placeholder="开始时间不早于" id="dp1477964309683" readonly="readonly">
+              </label>
+            </dd>
+          </dl>
+        </div>
+        </div>
+      <div class="bottom">
+        <a href="javascript:void(0);" id="ncsubmit" class="ncap-btn ncap-btn-green">提交查询</a>
+        <a href="javascript:void(0);" id="ncreset" class="ncap-btn ncap-btn-orange" title="撤销查询结果，还原列表项所有内容"><i class="fa fa-retweet"></i>撤销</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+
+  $(function(){
+
+    $("#flexigrid").flexigrid({
+      url: 'sales_group?op=table',
+      colModel: [
+        {display: '操作', name: 'operation', width: 150, sortable: false, align: 'center', className: 'handle'},
+        //{display: '团购类型', name: 'is_vr', width: 60, sortable: false, align: 'left'},
+        {display: '团购名称', name: 'groupbuy_name', width: 120, sortable: false, align: 'left'},
+        {display: '商品名称', name: 'goods_name', width: 400, sortable: false, align: 'left'},
+        {display: '团购图片', name: 'groupbuy_image', width: 60, sortable: false, align: 'center'},
+        {display: '商品原价', name: 'goods_price', width: 60, sortable: false, align: 'center'},
+        {display: '团购价格', name: 'group_price', width: 60, sortable: false, align: 'center'},
+        {display: '开始时间', name: 'start_time_text', width: 120, sortable: true, align: 'center'},
+        {display: '结束时间', name: 'end_time_text', width: 120, sortable: true, align: 'center'},
+        //{display: '浏览数', name: 'views', width: 60, sortable: true, align: 'center'},
+        {display: '已购买人数', name: 'buyer_count', width: 60, sortable: true, align: 'center'},
+        {display: '已购买数量', name: 'buy_quantity', width: 60, sortable: true, align: 'center'},
+        //{display: '推荐', name: 'recommended', width: 60, sortable: false, align: 'center'},
+        //{display: '团购状态', name: 'groupbuy_state_text', width: 80, sortable: false, align: 'center'}
+      ],
+      buttons : [
+        {display: '<i class="fa fa-plus"></i>新增团购', name : 'add', bclass : 'add', title : '新增团购', onpress :  fg_add},
+        {display: '<i class="fa fa-trash"></i>批量删除', name : 'delete', bclass : 'del', title : '将选定行数据批量删除' },
+        {display: '<i class="fa fa-trash"></i>批量停止', name : 'delete', bclass : 'del', title : '将选定行数据批量停止' },
+        {display: 'banner图', name : 'delete', bclass : 'del', title : 'banner图',onpress :  fg_banner },
+      ],
+      searchitems: [
+        {display: '团购名称', name: 'groupbuy_name', isdefault: true},
+        {display: '商品名称', name: 'goods_name'},
+      ],
+      sortname: "groupbuy_id",
+      sortorder: "desc",
+      title: '团购活动列表'
+    });
+    // 高级搜索重置
+    $('#ncreset').click(function(){
+     // $("#flexigrid").flexOptions({url: flexUrl}).flexReload();
+      $("#formSearch")[0].reset();
+    });
+
+    function fg_add(){
+      window.location='sales_group_add';
+    }
+    function fg_banner(){
+      window.location='sales_group_banner';
+    }
+  });
+  //删除
+  function fg_delete(id,goods_id,name){
+  	  layer.confirm('<div class="pd-5 text-c"><i class="fa fa-warning c-orange" style="margin-right: 10px;font-size: 30px"></i>确认删除活动‘'+name+'’吗?</div>', {
+  	        title:'<b>提示信息</b>',btn: ['确定','取消'],}, //按钮
+  	        function(){
+  	        	$.ajax({
+  	  		        type: "post",
+  	  		        dataType: "json",
+  	  		        url: "sales_group?op=del",
+  	  		        data: {id:id,name:name,goods_id:goods_id},
+  	  		        success: function(data){
+  	  		            //alert(123);
+						if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+  	  		            if (data.state){
+  	  		            	layer.msg(data.msg,{icon:1});
+  	  		                $("#flexigrid").flexReload();
+  	  		            } else {
+  	  		            	layer.msg(data.msg,{icon:2});
+  	  		            }
+  	  		        }
+  	  		    });
+  	        }
+  	      );
+    }
+  function fg_edit(id){
+	  id = JSON.stringify(id);
+      window.location='sales_group_add?id='+id;
+  }
+</script>
+</body>
+</html>

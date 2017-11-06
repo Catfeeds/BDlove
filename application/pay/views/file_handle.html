@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link href="<?php echo TEMPLE; ?>css/index.css" rel="stylesheet" type="text/css">
+<link href="<?php echo TEMPLE; ?>css/index_2.css" rel="stylesheet" type="text/css">
+
+<link href="<?php echo TEMPLE; ?>css/font-awesome.min.css" rel="stylesheet" />
+<link href="<?php echo TEMPLE; ?>css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo TEMPLE; ?>css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo TEMPLE; ?>css/H-ui.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo base_url(); ?>plugins/layer/skin/layer.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">
+    html, body { overflow: visible;}
+</style>
+
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/common.js"></script>
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/zh-CN.js"></script>
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/admin.js"></script>
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/flexigrid.js"></script>
+<script type="text/javascript" src="<?php echo TEMPLE; ?>js/jquery.validation.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>plugins/layer/layer.js"></script>
+
+</head>
+<style>
+	.bc_fff{background-color: #fff;}
+	.box{height: 300px;overflow: auto;}
+	.showTime{background-color: #F8F8F8 !important;border:0 !important;width: 60px !important;}
+	#box p.pos-r{border-bottom: 1px dashed #ddd;margin:0;padding: 10px 50px 10px 0;height: 20px;line-height: 20px; text-overflow}
+	.t-10{top:10px}
+</style>
+<link rel="stylesheet" type="text/css" href="<?php echo TEMPLE; ?>css/number-pb.css">
+<script src="<?php echo TEMPLE; ?>js/number-pb.js"></script>
+<script src="<?php echo TEMPLE; ?>js/jquery.velocity.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body style="background-color: #F8F8F8; overflow: auto;min-width:auto;">
+<div class="pt-10 pb-10 pl-20 bc_fff"><b>正在处理你导入的数据，请稍等......</b></div>
+<!--进度条-->
+<div class="progress_bar pl-20 pr-20">
+	<div class="pos-r lh-30"><b>数据处理进度</b><div class="pos-a right bottom">耗时：<input disabled='disabled' type="text" class="showTime" ></div></div>
+	<div class="number-pb">
+		<div class="number-pb-shown sun" ></div>
+		<div class="number-pb-num" ></div>
+	</div>
+</div>
+<div class="box bc_fff pd-10">
+	<div id="box"></div>
+	<a name="anchor"></a>
+</div>
+<div class="lh-30 pl-20 pr-20" id="game_over"></div>
+
+
+
+<button class="btnl hide">开始</button>
+<button class="btnr hide">结束</button>
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+	//计时器
+	var timeIndex = 0;
+	$(".btnl").click(function(){    //点击btnl触发setTime()函数
+		setTime();
+		times = setInterval(setTime, 1000);    //每隔1秒执行函数
+	});
+	$(".btnr").click(function(){
+		clearInterval(times);    //清除对函数的调用
+	});
+	$(".btnl").click();//开始计时器
+	function setTime(){
+		var hour = parseInt(timeIndex / 3600);    // 计算时
+		var minutes = parseInt((timeIndex % 3600) / 60);    // 计算分
+		var seconds = parseInt(timeIndex % 60);    // 计算秒
+		hour = hour < 10 ? "0" + hour : hour;
+		minutes = minutes < 10 ? "0" + minutes : minutes;
+		seconds = seconds < 10 ? "0" + seconds : seconds;
+		$(".showTime").val(hour + ":" + minutes + ":" + seconds);
+		timeIndex++;
+	}
+	var percent = 0;
+	$('.progress_bar .number-pb').NumberProgressBar().reach(percent);
+	//获取数据添加到div
+
+</script>
+</body>
+</html>

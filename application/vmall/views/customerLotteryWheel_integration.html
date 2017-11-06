@@ -1,0 +1,55 @@
+<html lang="zh-cn">
+
+<head>
+    <title>个人中心</title>
+    <{include file="lib/Hlink-c.html" }>
+    <link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+    .prize_list li{
+        padding:.15rem;
+        border-bottom:1px solid #e7e7e7;
+    }
+    .prize_list li a{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .prize_name{
+        color: #333;
+        font-size: .15rem;
+    }
+    .prize_name span{
+        color: #999;
+        font-size: .14rem;
+    }
+    .integration_reduce{
+        color: limegreen;
+        font-size:.17rem;
+    }.integration_add{
+         color:orangered;
+         font-size:.17rem;
+     }
+</style>
+<body>
+<ul class="prize_list">
+    <li>
+        <a href="javascript:;">
+            <div class="prize_name">抽奖<br><span>2017.09.25 · 抽奖增减积分</span></div>
+            <div class="integration_reduce">-100</div>
+        </a>
+    </li>
+    <li>
+        <a href="javascript:;">
+            <div class="prize_name">抽奖<br><span>2017.09.25 · 抽奖增减积分</span></div>
+            <div class="integration_add">+100</div>
+        </a>
+    </li>
+</ul>
+
+</body>
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script>
+
+</script>
+</html>

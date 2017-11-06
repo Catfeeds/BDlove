@@ -1,0 +1,465 @@
+<!doctype>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的店铺收藏</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/zepto.min.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+
+</head>
+<style>
+    .weui-cells{
+        font-size:14px;
+    }
+    .goods_title{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:1;
+        font-size:14px;
+    }
+    .store_title{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:1;
+        font-size:14px;
+    }
+    .do{
+        float: right;
+        line-height:5px;
+        margin-top:-10px;
+        font-size:20px;
+        color: #ccc;
+    }
+    @font-face {
+        font-family: 'iconfont';  /* project id 272444 */
+        src: url('//at.alicdn.com/t/font_272444_ksyxr74e0dd9529.eot');
+        src: url('//at.alicdn.com/t/font_272444_ksyxr74e0dd9529.eot?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_272444_ksyxr74e0dd9529.woff') format('woff'),
+        url('//at.alicdn.com/t/font_272444_ksyxr74e0dd9529.ttf') format('truetype'),
+        url('//at.alicdn.com/t/font_272444_ksyxr74e0dd9529.svg#iconfont') format('svg');
+    }
+    .collect-icon{
+        font-family:iconfont;
+        font-size:25px;
+    }
+    .all-icon{
+        font-family:iconfont;
+        font-size: 18px;
+        position: absolute;
+        right:-20px;
+        top:-2px;
+    }
+    .icon{
+        margin:0 auto;
+        width:40px;
+        height:40px;
+        line-height:40px;
+        text-align: center;
+        background: #fff;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+    .more{
+        display: flex;
+        justify-content: space-around;
+        background: #eee;
+        padding-top:10px;
+        padding-bottom:5px;
+    }
+    .more p{
+        font-size: 12px;
+        text-align: center;
+        margin-top:5px;
+    }
+    .star{
+        color: #ee5c00;
+    }
+    .goodsclass{
+        position: relative;
+        color: #ff6600;
+    }
+    .class-content{
+        position: fixed;
+        top: 84px;
+        z-index: 9999;
+        width:100%;
+        height:0;
+        background: #fff;
+        overflow: auto;
+    }
+    .class-bottom{
+        background: #000;
+        opacity:0;
+        position: fixed;
+        width:100%;
+        height:80%;
+        bottom:0;
+        z-index: 8888;
+        display: none;
+    }
+    .class-content p{
+        width:35%;
+        display: inline-block;
+        padding:3% 4%;
+    }
+    .class-content p span.active{
+        padding:4px 10px;
+        border:1px solid #ff6600;
+        color: #ff6600;
+        background: #fff6f5;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+    .tite{
+        width: 90% !important;
+        font-size:12px;
+        color: #999;
+    }
+    .weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
+        content: '\EA06';
+        color: #ff5001;
+    }
+    .check{
+        display: none;
+    }
+    .delate{
+        height:40px;
+        width:100%;
+        background: #fe5700;
+        color: #fff;
+        line-height:40px;
+        text-align: center;
+        position: fixed;
+        bottom:0;
+        display: none;
+    }
+    .qk-pro-list{
+        margin-top:50%;
+    }
+    .qk-pro-list p{
+        text-align: center;
+    }
+    .btn-red{
+        display: block;
+        width:100px;
+        height:30px;
+        line-height:30px;
+        text-align: center;
+        color: #fff;
+        background: #e04241;
+        margin:10px auto;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+    a{
+        color: #333;
+    }
+    .tips {
+        display:none;
+    }
+    .store_id{
+        display:none;
+    }
+</style>
+<body ontouchstart>
+
+
+                    <!--<div class="weui-cells">-->
+                        <!--<div class="weui-cell weui-cell_select">-->
+                            <!--<div class="weui-cell__bd">-->
+                                <!--<select class="weui-select" name="select1">-->
+                                    <!--<option selected="" value="1">全部分类</option>-->
+                                    <!--<option value="2">线上店铺</option>-->
+                                    <!--<option value="3">线下店铺</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="weui-cell">-->
+                            <!--<div class="weui-cell__hd" style="position: relative;margin-right: 10px;">-->
+                                <!--<img src="images/pic_160.png" style="width: 40px;display: block"/>-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__bd">-->
+                                <!--<p class="store_title">港味潮人馆</p>-->
+                                <!--<p style="font-size: 13px;color:#ff6600;margin-top: 5px;">￥：91.00</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="weui-cell">-->
+                            <!--<div class="weui-cell__hd" style="position: relative;margin-right: 10px;">-->
+                                <!--<img src="images/pic_160.png" style="width: 40px;display: block" />-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__bd">-->
+                                <!--<p class="store_title">金刚狼运动馆</p>-->
+                                <!--<p style="font-size: 13px;color:#ff6600;margin-top: 5px;">￥：91.00</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                    <div class="weui-search-bar searchBar" style="height: 44px;">
+                        <!--<div class="weui-search-bar" id="searchBar" style="height: 44px;">-->
+                        <form class="weui-search-bar__form">
+                            <div class="weui-search-bar__box">
+                                <i class="weui-icon-search"></i>
+                                <!--<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>-->
+                                <input type="search" class="weui-search-bar__input searchInput" placeholder="搜索" required/>
+                                <!--<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>-->
+                                <a href="javascript:" class="weui-icon-clear searchClear"></a>
+                            </div>
+                            <!--<label class="weui-search-bar__label" id="searchText">-->
+                            <label class="weui-search-bar__label searchText">
+                                <i class="weui-icon-search"></i>
+                                <span>搜索</span>
+                            </label>
+                        </form>
+                        <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>-->
+                        <a href="javascript:" class="weui-search-bar__cancel-btn searchCancel" >取消</a>
+                    </div>
+
+                    <{if count($data)==0}>
+                    <div class="qk-pro-list">
+                        <!--<ul class="small-block-grid-2" id="favListItem"><section class="noResult tc"><p><{if ($is_store==1)}>未搜索到相关收藏的店铺<{else}>您收藏的商品暂时为空哦<{/if}></p><div><a href="<{base_url('vmall.php/goods/index')}>" class="btn btn-red">立即去添加</a></div></section></ul>-->
+                        <ul class="small-block-grid-2 favListItem" ><section class="noResult tc"><p><{if ($is_store==1)}>未搜索到相关收藏的店铺<{else}>您收藏的店铺暂时为空哦<{/if}></p><div><a href="<{base_url('vmall.php/goods/index')}>" class="btn btn-red">立即去添加</a></div></section></ul>
+                    </div>
+                    <{else}>
+                    <div class="qk-pro-list tips">
+                        <ul class="small-block-grid-2 favListItem" ><section class="noResult tc"><p>店铺已清空</p><div><a href="<{base_url('vmall.php/goods/index')}>" class="btn btn-red">立即去添加</a></div></section></ul>
+                    </div>
+                    <div class="weui-cells" style="margin-top: 0;">
+                        <div class="weui-cell" style="justify-content: space-between;">
+                            <!--<p id="goodsclass">&lt;!&ndash;全部分类(<span class="goodsnum"><{count($data)}></span>)<span class="all-icon">&#xe77a;</span> &ndash;&gt;</p>-->
+                            <p class="goodsclass">店铺数量(<span class="goodsnum"><{count($data)}></span>)<!--<span class="all-icon">&#xe77a;</span>--></p>
+                            <!--<p id="edit">编辑</p>-->
+                            <p class="edit">编辑</p>
+                        </div>
+                        <div class="class-content">
+                            <p class="tite">店铺类目</p>
+                            <p><span class="active">女装</span></p>
+                            <p><span>男装</span></p>
+                            <p><span>女装</span></p>
+                            <p><span>男装</span></p>
+                            <p><span>女装</span></p>
+                            <p><span>男装</span></p>
+                            <p><span>女装</span></p>
+                            <p><span>男装</span></p>
+                            <p><span>女装</span></p>
+                            <p><span>男装</span></p>
+                            <p><span>女装</span></p>
+                            <p><span>男装</span></p>
+                            <p><span>女装</span></p>
+                            <p><span>男装</span></p>
+                            <p><span>女装</span></p>
+                            <p><span>男装</span></p>
+
+                        </div>
+                        <div class="class-bottom"></div>
+                        
+                    </div>
+                    <{foreach from=$data item=v}>
+                    <div class="weui-cells weui-cells_checkbox">
+                        <div class="weui-cell weui-cell_swiped">
+                            <div class="weui-cell__bd canellook">
+                                <label class="weui-cell weui-check__label" for="<{$v.checkbox_id}>">
+                                    <div class="weui-cell__hd check">
+                                        <input type="checkbox" class="weui-check" name="goods" id="<{$v.checkbox_id}>" value="<{$v.store_id}>" />
+                                        <i class="weui-icon-checked"></i>
+                                    </div>
+                                    <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                                        <a href="<{base_url('vmall.php/index/index?storeID=')}><{$v.store_id}>"><img src="<{if !empty($v['ous_logo'])}><{PLUGIN}><{$v.ous_logo}><{else}><{DEFAULTIMAGE}><{$config_images.store_logo}><{/if}>" onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>';" style="width: 40px;display: block"/></a>
+                                    </div>
+                                    <div class="weui-cell__bd">
+                                        <p class="goods_title"><a href="<{base_url('vmall.php/index/index?storeID=')}><{$v.store_id}>"><{$v.store_name}></a></p>
+                                        <p style="font-size: 12px;color:#ff6600;margin-top: 5px;"><!--优选好店--><span class="do showIOSActionSheet">...</span></p>
+                                    </div>
+                                </label>
+                            </div>
+                            <!--<div class="weui-mask" id="iosMask" style="display: none"></div>-->
+                            <div class="weui-cell__ft">
+                                <a class="weui-swiped-btn weui-swiped-btn_warn" href="javascript:" style="line-height:42px ;">取消关注</a>
+                                <p class="store_id"><{$v.store_id}></p>
+                            </div>
+                        </div>
+                    </div>
+                    <{/foreach}>
+                    <div class="delate">取消关注</div>
+                    <{/if}>
+
+
+
+</body>
+<script type="text/javascript">
+    $(function(){
+
+        //	基于zepto的左滑删除
+        $('.canellook').live("click",function(){//右滑恢复
+            $(this).animate({transform:"translateX(0px)"},300);
+        });
+        
+        $('.weui-navbar__item').on('click', function () {
+            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        });
+
+        var $searchBar = $('.searchBar'),
+            $searchResult = $('.searchResult'),
+            $searchText = $('.searchText'),
+            $searchInput = $('.searchInput'),
+            $searchClear = $('.searchClear'),
+            $searchCancel = $('.searchCancel');
+
+        function hideSearchResult(){
+            $searchResult.hide();
+            $searchInput.val('');
+        }
+        function cancelSearch(){
+            hideSearchResult();
+            $searchBar.removeClass('weui-search-bar_focusing');
+            $searchText.show();
+        }
+
+        $searchText.on('click', function(){
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.focus();
+        });
+        $searchInput
+            .on('blur', function () {
+                if(!this.value.length) cancelSearch();
+            })
+            .on('input', function(){
+                if(this.value.length) {
+                    $searchResult.show();
+                } else {
+                    $searchResult.hide();
+                }
+            })
+        ;
+        $searchClear.on('click', function(){
+            hideSearchResult();
+            $searchInput.focus();
+        });
+        $searchCancel.on('click', function(){
+            cancelSearch();
+            $searchInput.blur();
+        })
+
+
+
+        $(".showIOSActionSheet").on("click", function(){
+            $(this).parent().parent().parent().parent().animate({transform:"translateX(-88px)"},300);
+        });
+
+//        取消收藏
+        $(".star").on('click',function(){
+            $(this).css('color','#666');
+
+        })
+        var i=0;
+//        全部分类弹出收起
+//        $('.goodsclass').on('click',function(){
+//            if(i==1){
+//                $('.all-icon').animate({transform:'rotate(0deg)'});
+//                $(".class-content").animate({height:'0'});
+//                $(".class-bottom").animate({opacity:'0'});
+//                $(".class-bottom").animate({display:'none'});
+//                i=0;
+//            }else {
+//                $('.all-icon').animate({transform: 'rotate(180deg)'});
+//                $(".class-content").animate({height:'40%'});
+//                $(".class-bottom").animate({display:'block'});
+//                $(".class-bottom").animate({opacity:'0.2'});
+//                i = 1;
+//
+//            }
+//        })
+//点击空白处收起分类
+        $(".class-bottom").on('click',function(){
+            $('.all-icon').animate({transform:'rotate(0deg)'});
+            $(".class-content").animate({height:'0'});
+            $(".class-bottom").animate({opacity:'0'});
+            $(".class-bottom").animate({display:'none'});
+            i=0;
+            return false;
+        })
+
+        $(".class-content p").on('click',function(){
+            $(".class-content p span").removeClass('active');
+            $(this).find("span").addClass('active');
+        })
+
+//编辑
+        $(document).on('click','.edit',function(){
+
+            if(i==1){
+                $('.all-icon').animate({transform:'rotate(0deg)'});
+                $(".class-content").animate({height:'0'});
+                $(".class-bottom").animate({opacity:'0'});
+                $(".class-bottom").animate({display:'none'});
+                i=0;
+            }
+            var len=$('.check').length;
+            if(len>0) {
+                var isshow = $(".check").css('display') == 'block';
+                if (isshow) {
+                    $(".check").css('display', 'none');
+                    $(this).text('编辑');
+                    $(".delate").hide();
+                } else {
+                    $('.check').css('display', 'block');
+                    $(this).text('完成');
+                    $(".delate").show();
+                    $('input[name="goods"]').each(function () {
+                        $(this).prop('checked', false);
+                    });
+                }
+            }else{
+                $('.delate').hide();
+                $(this).text('编辑');
+                $('.tips').show();
+                $('.weui-cells').hide();
+            }
+        })
+
+        $(".delate").on('click',function(){
+            $('input[name="goods"]:checked').each(function(){
+                $(this).parents('.weui-cells').remove();
+                var n = $('.goodsnum').html();
+                $('.goodsnum').html(n - 1);
+                $.getJSON("delete?store_id=" + $(this).val()), function (data) {
+
+                }
+            });
+        })
+
+        $('.weui-swiped-btn').on('click',function(){
+            $(this).parents('.weui-cells').remove();
+            var n = $('.goodsnum').html();
+            $('.goodsnum').html(n - 1);
+            var store_id=$(this).next('.store_id').html();
+            $.getJSON("delete?store_id=" + store_id), function (data) {
+
+            }
+        })
+
+        $('.searchInput').bind('keydown',function(e){
+            if(e.keyCode == 13){
+                var val=$(this).val();
+                window.location.href="<{base_url('vmall.php/user/user_collection?type=store&store_name=')}>"+val;
+                return false;
+            }
+
+        })
+
+
+       
+
+    });
+</script>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>评价服务顾问</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<link href="<{TEMPLE}>css/mobileslider.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+<script src="<{TEMPLE}>js/base.js"></script>
+</head>
+<style>
+	.evaluate-title{
+		width: 100%;
+		text-align: center;
+		padding:5px;
+		background: #F1F1F1;
+	}
+	.evaluate-img{
+		width: 50px;
+		margin: 20px auto 30px auto;
+	}
+	.img-logo{
+		max-width: 100%;
+		height: auto;
+		border-radius: 50%;
+	}
+	.diamond{
+		width: 170px;
+		margin: 0 auto;
+	}
+	.diamond li{
+		float:left;
+		margin-left: 3px;
+	}
+	.diamond img{
+		width: 30px;
+	}
+	.clear{
+		clear: both;
+	}
+	.evaluate-text{
+		width: 100%;
+		text-align: center;
+		padding: 5px 0 10px 0;
+		border-bottom: 0.5px solid #E7E7E7;
+	}
+	.say{
+		color: #99999c;
+		width: 100%;
+		text-align: center;
+		padding: 10px 0 20px 0;
+	}
+	.impress{
+		padding: 0 30px
+	}
+	.evaluate-btn{
+		padding: 5px 8px;
+		border: 1px solid #99999c;
+		color: #99999c;
+		background: #fff;
+		border-radius: 5px;
+		margin:5px 3px;
+	}
+	.evaluate-btn-add{
+		padding: 5px 8px;
+		border: 1px solid #99999c;
+		color: #99999c;
+		background: #fff;
+		border-radius: 5px;
+		margin:5px 3px;
+		color: blue
+	}
+	.evaluate-btn-check{
+		background: #e64340;
+		color: #fff;
+	}
+	.to{
+		padding: 30px;
+	}
+</style>
+<body ontouchstart>
+
+<p class="evaluate-title">评价本单服务顾问</p>
+<div class="evaluate-img"><img src="<{if !empty($guide_info.head_portrait)}><{base_url()}><{$guide_info.head_portrait}><{else}><{TEMPLE}>images/loimg1.jpg<{/if}>" alt="" class="img-logo" ></div>
+<div>
+	<ul class="diamond">
+		<li><img src="<{TEMPLE}>images/diamond.png" alt="1"></li>
+		<li><img src="<{TEMPLE}>images/diamond.png" alt=""></li>
+		<li><img src="<{TEMPLE}>images/diamond.png" alt=""></li>
+		<li><img src="<{TEMPLE}>images/diamond.png" alt=""></li>
+		<li><img src="<{TEMPLE}>images/diamond.png" alt=""></li>
+	</ul>
+</div>
+<div class="clear"></div>
+<p class="evaluate-text">满意不？来评价一下吧！</p>
+<p class="say">请描述您对TA的印象</p>
+<div class="impress">
+	<button class="evaluate-btn">成熟大气</button><button class="evaluate-btn">娃娃脸</button><button class="evaluate-btn">女王范</button><button class="evaluate-btn">黄金圣斗士</button><button class="evaluate-btn">正能量传递着</button><button class="evaluate-btn">低调内敛</button><button class="evaluate-btn-add">+ 标签</button>
+</div>
+<div class="to">
+	<a href="javascript:;"class="weui-btn weui-btn_warn post_evaluate_guide">提交</a>
+</div>
+
+<!--添加标签弹窗-->
+<div class="js_dialog" id="iosDialog1" style="display: none">
+	<div class="weui-mask"></div>
+	<div class="weui-dialog">
+		<div class="weui-dialog__hd">
+			<strong class="weui-dialog__title">添加标签</strong>
+		</div>
+		<div class="weui-dialog__bd">
+			<textarea rows="2" class="weui-textarea" id="tag" placeholder="请填写标签"></textarea>
+		</div>
+		<div class="weui-dialog__ft">
+			<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default cancel">取消</a>
+			<a href="javascript:;" id="add" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+		</div>
+	</div>
+</div>
+</body>
+<script>
+var leng = 0,
+    order_sn ="<{if !empty($order_sn)}><{$order_sn}><{else}>''<{/if}>",
+    spg_id ="<{if !empty($guide_info.spg_id)}><{$guide_info.spg_id}><{else}>''<{/if}>";
+
+	$(".diamond li").click(function(){
+		$(".diamond li").find("img").attr("src","<{TEMPLE}>images/diamond.png");
+		var sum = $(this).index();
+		    leng = parseInt(sum)+1;
+		for(var i=0;i<=sum;i++){
+			$(".diamond li:eq("+i+")").find("img").attr("src","<{TEMPLE}>images/diamond2.png");
+		}
+		
+	})
+	
+	$("body").on("click",".evaluate-btn",function(){
+		if($(this).hasClass("evaluate-btn-check")){
+			$(this).removeClass("evaluate-btn-check");
+		}else{
+			$(this).addClass("evaluate-btn-check");
+		}
+	})
+	
+	$(".evaluate-btn-add").click(function(){
+		$("#iosDialog1").css("display","block");
+	})
+	$(".cancel").click(function(){
+		$("#iosDialog1").css("display","none");
+	})
+	
+	$("#add").click(function(){
+		var tag = $("#tag").val();
+		if(tag!=""){
+		$(".evaluate-btn-add").before('<button class="evaluate-btn">'+tag+'</button>');
+		$("#iosDialog1").css("display","none");
+		$("#tag").val("");
+		}else{
+		$("#iosDialog1").css("display","none");
+		}
+	})
+	
+	 $("body").on("click",".post_evaluate_guide",function(){
+	       var str='';	 
+		   $(".impress .evaluate-btn-check").each(function(index){
+			   str+=$(this).html()+",";  
+            })                
+   		 $.ajax({
+   				type: "POST",
+   		        url: "post_evaluate_guide",
+   		        data: {
+   		        	lengs:leng,
+   		        	order_sn:order_sn,
+   		        	spg_id:spg_id,
+   		        	str:str
+   		        },
+   		        dataType: "json",
+   		        success: function(data){
+   		        	if(data.state){
+   		        		mobileAlert(data.msg,2000,"");
+   		        		setTimeout("window.location.href='../order/index'",1000);
+   	        	    }else{
+   	        	    	mobileAlert(data.msg,2000,"");
+   	        	    }
+   		        }
+   			})
+	 });
+</script>
+</html>

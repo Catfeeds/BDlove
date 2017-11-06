@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>填写物流信息</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/weui.min.js"></script>
+
+
+</head>
+<style>
+	.clear{
+		clear: both;
+	}
+.weui-picker__action {
+    display: block;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    color: #1AAD19 !important;
+}
+	.weui-uploader__input-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 3px;
+}
+.weui-uploader__file {
+    width: 50px;
+    height: 50px;
+}
+.weui-uploader__input-box:before {
+    width: 39.5px;
+    height: 39.5px;
+    background: url(images/addprice.png) no-repeat center;
+    background-size:80% 70%;  
+}
+.weui-uploader__input-box:after {
+    width: 0px;
+    height:0px; 
+}
+.weui-uploader__input-box{
+	border: none;
+}
+.btn-sub{
+	width:100%;
+	position: fixed;
+	height: 50px;
+	bottom: 0;
+	line-height: 50px;
+	text-align: center;
+	background: #dd2727;
+	color: #fff;
+	z-index:999;
+	font-size: 18px;
+}
+.weui-cells_radio .weui-check:checked + .weui-icon-checked:before {
+    color: #dd2727;
+}
+.weui-icon-success-no-circle {
+    font-size: 14px;
+    color: #dd2727;
+}
+.illustrate{
+	display: flex;
+}
+.illustrate .weui-cell__bd{
+	font-size: 15px;
+}
+.illustrate .weui-cell__bd span{
+	font-size: 14px;
+	color: #999;
+	margin-left: 10px;
+}
+.takeover{
+	display: none;
+}
+.weui-cells__title{
+	font-size: 16px;
+	color: #333;
+	font-weight: bold;
+}
+.weui-cells__title span{
+	color: #dd2727;
+}
+.small{
+	font-size: 13px;
+	color: #999!important;
+	margin-left: 7px;
+}
+.ill{
+	font-size: 14px;color: #999;
+	line-height: 23px;
+}
+
+/*new*/
+.good_property{
+	color: #333;
+	margin-right: 20px;
+}
+.weui-cells {
+    font-size: 15px;
+    margin-top: 10px;
+}
+.good_property_content{
+	width: 70%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.good_property_content a{
+	color: #DD2727;
+	margin-left: 10px;
+}
+.good_info{
+	margin: 15px;
+}
+.good_info p{
+	float: left;
+}
+
+</style>
+<body ontouchstart>
+	<form  method="post" enctype="multipart/form-data" id="form_email_guide"  name="settingForm">
+	<input name="refund_id" id="refund_id" type="hidden" value="<{$refundinfo.refund_id}>" />
+	<input name="ops" id="ops" type="hidden" value="<{if !empty($ops)}><{$ops}><{/if}>" />
+		<div class="weui-cells" style="margin-top: 0;padding: 8px 0;">
+            <a class="weui-cell weui-cell_access" href="javascript:;" id="showPicker_express">
+            	<div class="weui-cell__hd">
+            		<p class="good_property">快递公司</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <input type="hidden" name="express_id" id="express_id" value="" />
+                    <p id="express">请选择物流公司是</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <div class="weui-cell">
+            	<div class="weui-cell__hd">
+            		<p class="good_property">快递单号</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <input name="invoice_no" id="invoice_no" class="weui-input" type="text" placeholder="请输入快递单号" />
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+            	<div class="weui-cell__hd">
+            		<p class="good_property">手机号码</p>
+            	</div>
+                <div class="weui-cell__bd">
+                    <input name="refund_tel" id="refund_tel" class="weui-input" type="text" placeholder="方便商家联系您（必填）" value="<{$refundinfo.refund_tel}>" />
+                </div>
+            </div>
+
+            
+        </div>
+	  
+
+
+		<div style="height: 80px;"></div>
+	
+	<div class="btn-sub">提交</div>
+  </form>
+</body>
+<script type="text/javascript">
+	
+//	选择快递公司
+	$('#showPicker_express').on('click', function () {
+		var  reason = <{if !empty($reason)}><{$reason}><{/if}>;
+      weui.picker(reason, 
+      	{
+          onConfirm: function (result) {
+          	var refundreason = <{if !empty($refundreason)}><{$refundreason}><{/if}>;
+          		console.log(refundreason)
+          	 $.each(refundreason,function(k,v){
+          		 if(result == v.e_code){
+          			   $("#express").html(v.e_name);
+                       $("#express_id").val(v.e_code);
+          		 }
+          	 })
+          	console.log(result)
+              
+          }
+      });
+    });
+
+    
+    $("#refund_tel").blur(function(){
+    	var val=$("#refund_tel").val();
+        var reg=/^1[23456789]\d{9}$/;
+        if (val=='') {
+        	 mobileAlert("请输入手机号！",2000,"");
+        	 $("#refund_tel").focus();
+        	 return false; 
+        }else if(reg.test(val)){
+  
+        }else{
+        	mobileAlert("请输入有效的手机号！",2000,"");
+        	$("#refund_tel").focus();
+       	    return false; 
+        }  
+    });
+    
+   
+    
+   $("body").on("touchstart",".btn-sub",function(){
+	   if($("#invoice_no").val()==''){
+		   mobileAlert("亲,请填写快递单号！",2000,"");
+		   $("#invoice_no").focus();
+		   return false;
+	   }
+
+	   if($("#refund_tel").val()==''){
+		   mobileAlert("亲,请输入手机号码！",2000,"");
+		   $("#refund_tel").focus();
+		   return false;
+	   }
+	   
+	   
+		 var form = document.getElementById("form_email_guide");
+	     var form_data =new FormData(form);
+		 $.ajax({
+				type: "POST",
+		        url: "write_ExpressInfo?op=write",
+		        data: form_data,
+		        dataType: "json",
+		        processData: false,
+	            contentType: false,
+		        success: function(data){
+		        	if(data.state){
+		        		setTimeout("window.location.href='../order/applyReturnMoney_result_waitTake?refund_id=<{$refundinfo.refund_id}>'",2000);
+	        	    }else{
+	        	    	mobileAlert(data.msg,2000,"");
+	        	    }
+		        }
+			});
+			
+		
+	})
+</script>
+</html>

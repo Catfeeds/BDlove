@@ -1,0 +1,104 @@
+
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="<{base_url()}>admin.php/Article/article_classify" title="返回文章分类列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>文章分类 - 新增</h3>
+                <h5>资讯文章分类编辑管理</h5>
+            </div>
+        </div>
+    </div>
+    <form id="add_form" method="post" action="">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="class_name"><em>*</em>分类名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="" name="class_name" id="class_name" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">分类名称不能为空且必须小于10个字</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="class_sort"><em>*</em>排序</label>
+                </dt>
+                <dd class="opt">
+                    <input id="class_sort" name="class_sort" type="text" class="input-txt" value="255">
+                    <span class="err"></span>
+                    <p class="notic">数字范围为0~255，数字越小越靠前</p>
+                </dd>
+            </dl>
+            <div class="bot"><a id="submit" href="javascript:void(0)" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script>
+
+    $(document).ready(function(){
+        $("#submit").click(function(){
+        	if($("#add_form").valid()){
+    			var data = new FormData($('#add_form')[0]);
+    			$.ajax({
+    				data:data,
+    				type:'post',
+    				dataType:'json',
+    				url:"<{base_url()}>admin.php/Article/article_classify_add",
+    				cache: false,
+                   	processData: false,
+                    contentType: false,
+    				success:function(res){
+    					if(res=="success"){
+    						layer.alert('文章分类添加成功');
+    					}else{
+    						layer.alert('文章分类添加失败');
+    					}
+    					
+    				}
+    			});
+    		}
+        });
+
+        $('#add_form').validate({
+            errorPlacement: function(error, element){
+                var error_td = element.parent('dd').children('span.err');
+                error_td.append(error);
+            },
+            rules : {
+                class_name: {
+                    required : true,
+                    maxlength : 10
+                },
+                class_sort: {
+                    required : true,
+                    digits: true,
+                    max: 255,
+                    min: 0
+                }
+            },
+            messages : {
+                class_name: {
+                    required : "<i class='fa fa-exclamation-circle'></i>分类名称不能为空",
+                    maxlength : jQuery.validator.format("<i class='fa fa-exclamation-circle'></i>分类名称最多个{0}字符")
+                },
+                class_sort: {
+                    required : "<i class='fa fa-exclamation-circle'></i>排序不能为空",
+                    digits: "<i class='fa fa-exclamation-circle'></i>排序必须为数字",
+                    max : jQuery.validator.format("<i class='fa fa-exclamation-circle'></i>排序最大为{0}"),
+                    min : jQuery.validator.format("<i class='fa fa-exclamation-circle'></i>排序最小为{0}")
+                }
+            }
+        });
+    });
+
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

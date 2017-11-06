@@ -1,0 +1,33 @@
+<!--
+        	作者：2014882889@qq.com
+        	时间：2017-04-14
+        	描述：移动屏幕
+        -->
+<script>
+	(function() {
+		var el = document.querySelector('._v-content');
+		var startPosition, endPosition, deltaX, deltaY, moveLength;
+
+		el.addEventListener('touchstart', function(e) {
+			var touch = e.touches[0];
+			startPosition = {
+				x: touch.pageX,
+				y: touch.pageY
+			}
+		});
+
+		el.addEventListener('touchmove', function(e) {
+			var touch = e.touches[0];
+			endPosition = {
+				x: touch.pageX,
+				y: touch.pageY
+			}
+
+			deltaX = endPosition.x - startPosition.x;
+			deltaY = endPosition.y - startPosition.y;
+			moveLength = Math.sqrt(Math.pow(Math.abs(deltaX), 2) + Math.pow(Math.abs(deltaY), 2));
+			console.log(moveLength);
+			el.style.cssText = "transform: translate3d(0px, -" + moveLength + "px, 0px) scale(1);";
+		});
+	});
+</script>

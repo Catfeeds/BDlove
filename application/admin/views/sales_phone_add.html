@@ -1,0 +1,169 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>手机专享——新增商品</h3>
+        <h5>商城手机专享优惠活动设置与管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>该促销为移动端（Wap、Android，IOS）专门享有</li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li class="active"><a href="">商品列表</a></li></ul>
+
+      <a class="ncbtn ncbtn-mint" href="javascript:void(0);" nctype="select_goods"><i class="icon-plus-sign"></i>添加商品</a>
+
+    </div>
+
+
+    <!-- 商品搜索 -->
+    <div nctype="div_goods_select" class="div-goods-select" style="display: none;">
+      <table class="search-form">
+        <tbody><tr><th class="w150"><strong>第一步：搜索店内商品</strong></th><td class="w160"><input nctype="search_goods_name" type="text w150" class="text" name="goods_name" value=""></td>
+          <td class="w70 tc"><label class="submit-border"><input nctype="btn_search_goods" type="button" value="搜索" class="submit"></label></td><td class="w10"></td><td><p class="hint">不输入名称直接搜索将显示店内所有出售中的商品</p></td>
+        </tr>
+        </tbody></table>
+      <div nctype="div_goods_search_result" class="search-result"></div>
+      <a nctype="btn_hide_goods_select" class="close" href="javascript:void(0);">X</a> </div>
+    <table class="ncsc-default-table">
+      <thead>
+      <tr>
+        <th class="w10"></th>
+        <th class="w50"></th>
+        <th class="tl">商品名称</th>
+        <th class="w180">实际售价</th>
+        <th class="w180">专享价格</th>
+        <th class="w110">操作</th>
+      </tr>
+      </thead>
+      <tbody nctype="choose_goods_list">
+      <tr nctype="tr_no_promotion" style="">
+        <td colspan="20" class="norecord"><div class="no-promotion"><i class="zw"></i><span>手机专享商品列表暂无内容，请选择添加手机专享商品。</span></div></td>
+      </tr>
+      <tr class="bd-line" data-gid="100726">
+        <td></td>
+        <td>
+          <div class="pic-thumb"><a target="_blank" href=""><img src="<{TEMPLE}>img/goods_pic.jpg"></a></div>
+        </td>
+        <td class="tl">
+          <dl class="goods-name">
+            <dt><a target="_blank" href="">ada</a></dt>
+            <dd>手机</dd>
+          </dl>
+        </td>
+        <td>10.00</td>
+        <td>5.00</td>
+        <td class="nscs-table-handle"><span><a class="btn-bluejeans" href="javascript:void(0);"  nctype="a_choose_goods"><i class="fa fa-edit"></i>
+          <p>编辑</p></a></span><span><a class="btn-grapefruit" href="javascript:void(0);" nctype="del_choosed"><i class="fa fa-trash"></i>
+          <p>删除</p></a></span></td>
+      </tr>
+      </tbody>
+    </table>
+    <script>
+      $(function(){
+        // 验证是否已经选择商品
+        choosed_goods();
+
+        // 显示搜索框
+        $('a[nctype="select_goods"]').click(function(){
+          $('div[nctype="div_goods_select"]').show();
+        });
+        // 隐藏搜索框
+        $('a[nctype="btn_hide_goods_select"]').click(function(){
+          $('div[nctype="div_goods_select"]').hide();
+        });
+
+        // 搜索商品
+        $('input[nctype="btn_search_goods"]').click(function(){
+          var str = '<ul class="goods-list"><li>' +
+                  '<div class="goods-thumb"><img src="<{TEMPLE}>img/goods_pic.jpg"></div> <dl class="goods-info"> ' +
+                  '<dt><a href="" target="_blank">ada</a> </dt> <dd>销售价格：¥10.00    </dd></dl> ' +
+                  '<a nctype="a_choose_goods" href="javascript:void(0);" class="ncbtn-mini">选择商品</a> </li> </ul>' +
+                  '<div class="pagination"><ul><li><span>首页</span></li><li><span>上一页</span></li><li><span class="currentpage">1</span></li>' +
+                  '<li><a class="demo" href=""><span>2</span></a></li><li><a class="demo" href=""><span>3</span></a></li>' +
+                  '<li><span>...</span></li><li><a class="demo" href=""><span>下一页</span></a></li>' +
+                  '<li><a class="demo" href=""><span>末页</span></a></li></ul></div>';
+          $('div[nctype="div_goods_search_result"]').append(str)
+        });
+        //选择商品
+        $('div[nctype="div_goods_select"],tr[data-gid]').on("click",'a[nctype="a_choose_goods"]',function(){
+          layer.open({
+            type: 1,
+            title:'<b>商品规则设定</b>',
+            btn:['提交'],
+            skin: 'layui-layer-rim', //加上边框
+            area: ['650px', 'auto'], //宽高
+            content: '<form action="" id="form_1"><div class="dialog_content"><div class="eject_con">' +
+            '<div class="selected-goods-info"> ' +
+            '<div class="goods-thumb">' +
+            '<img id="dialog_goods_img" src="<{TEMPLE}>img/goods_pic.jpg" alt=""></div> ' +
+            '<dl class="goods-info"> <dt id="dialog_goods_name">户外登山鞋</dt> ' +
+            '<dd>实际售价：<strong class="red">¥<font id="dialog_goods_price">200.00</font></strong></dd> ' +
+            '<dd>库存：<span id="dialog_goods_storage">100</span> 件</dd> </dl> </div><dl> <dt>专享价格：</dt>' +
+            ' <dd> <input id="dialog_pintuan_price" name="price" type="text" class="text w70"> <em class="add-on"><i class="fa fa-rmb"></i></em><span class="err"></span> ' +
+            '<p class="hint">移动端的专享价格，销售价格要小于商品的实际销售价格。当前商品实际售价为(¥10.00)</p> </dd> </dl></div></div></form>',
+            yes:function(){
+              var i=$("#dialog_goods_price").text();
+              $('#form_1').validate({
+                errorPlacement: function (error, element) {
+                  var error_td = element.nextAll('span.err');
+                  error_td.append(error);
+                },
+                rules: {
+                  price: {
+                    required: true,
+                    max:i,
+                  }
+                },
+                messages: {
+                  price: {
+                    required: '<i class="fa fa-exclamation-circle"></i>专享价格不能为空，不能超过商品实际销售价格',
+                    max: '<i class="fa fa-exclamation-circle"></i>专享价格不能为空，不能超过商品实际销售价格',
+                  }
+                }
+              });
+              if($("#form_1").valid()){
+                $("#form_1").submit();
+                layer.closeAll();
+              }
+            },
+          });
+        })
+
+      });
+
+      // 验证是否已经选择商品
+      function choosed_goods() {
+        if ($('tbody[nctype="choose_goods_list"]').children('tr').length == 1) {
+          $('tr[nctype="tr_no_promotion"]').show();
+        } else {
+          $('tr[nctype="tr_no_promotion"]').hide();
+        }
+      }
+    </script>
+  </div>
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

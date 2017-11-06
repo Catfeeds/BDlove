@@ -1,0 +1,174 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="<{base_url()}>admin.php/Website/website_page_nav" title="返回列表"><i
+                class="fa fa-arrow-circle-o-left"></i></a>
+
+            <div class="subject">
+                <h3>页面导航 - 新增</h3>
+                <h5>网站全局顶部/底部及商城主导航设置</h5>
+            </div>
+        </div>
+    </div>
+    <form id="navigation_form" method="post">
+        <input type="hidden" name="form_submit" value="ok">
+        <input type="hidden" name="nav_id" value="21">
+
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label>导航类型</label>
+                </dt>
+                <dd class="opt">
+                    <ul class="nofloat">
+                        <li class="left ">
+                            <span class="radio">
+                                <input type="radio" checked="checked" value="0" name="nav_type" class="ml-5 mr-5" id="diy" onclick="showType('diy');">
+                                <label for="diy">自定义导航</label>
+                            </span>
+                        </li>
+                        <li class="left ">
+                            <span class="radio">
+                              <input type="radio" value="1" name="nav_type" id="goods_class" class="ml-5 mr-5" onclick="showType('goods_class');">
+                              <label for="goods_class">商品分类</label>
+                             </span>
+                            <select name="goods_class_id" id="goods_class_id" class="valid"  style="display: none;">
+                               <{foreach $goods_class as $key=>$val}>
+	                                <option value="<{$val.gc_id}>">&nbsp;&nbsp;<{$val.gc_name}></option>
+	                           <{/foreach}>
+                            </select>
+                        </li>
+                        <li class="left ">
+                            <span class="radio">
+                              <input type="radio" value="2" name="nav_type" id="article_class" class="ml-5 mr-5" onclick="showType('article_class');">
+                              <label for="article_class">文章分类</label>
+                            </span>
+                            <select name="article_class_id" id="article_class_id" class="valid" style="display: none;">
+                                <{foreach $Artclass as $k=>$v}>
+								 	 <option value="<{$v.ac_id}>">&nbsp;&nbsp;<{$v.ac_name}></option>
+								<{/foreach}>
+                            </select>
+                        </li>
+                        <li class="left ">
+                            <span class="radio">
+                              <input type="radio" value="3" name="nav_type" class="ml-5 mr-5" id="activity" onclick="showType('activity');">
+                              <label for="activity">活动</label>
+                            </span>
+                            <select name="activity_id" id="activity_id" style="display: none;">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </li>
+                    </ul>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="nav_title"><em>*</em>标题</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="" name="nav_title" id="nav_title" class="input-txt">
+                    <span class="err"></span>
+
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="nav_url">链接</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="" name="nav_url" id="nav_url"
+                           class="input-txt">
+                    <span class="err"></span>
+
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="type">所在位置</label>
+                </dt>
+                <dd class="opt">
+	               		<input type="radio" value="0" name="nav_location" id="nav_location0">
+	                    <label for="nav_location0">头部</label>
+	                    <input type="radio" value="1" name="nav_location" id="nav_location1"  checked="checked">
+	                    <label for="nav_location1">中部</label>
+	                    <input type="radio" value="2" name="nav_location" id="nav_location2">
+	                    <label for="nav_location2">底部 </label>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>新窗口打开</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <label for="nav_new_open1" class="cb-enable selected">是</label>
+                        <label for="nav_new_open0" class="cb-disable ">否</label>
+                        <input id="nav_new_open1" name="nav_new_open" checked="checked" value="1" type="radio">
+                        <input id="nav_new_open0" name="nav_new_open" value="0" type="radio">
+                    </div>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="nav_sort">排序</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="" name="nav_sort" id="nav_sort" class="input-txt">
+                    <span class="err"></span>
+
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function showType(type){
+        $('#goods_class_id').css('display','none');
+        $('#article_class_id').css('display','none');
+        $('#activity_id').css('display','none');
+        if(type == 'diy'){
+            $('#nav_url').attr('disabled',false);
+        }else{
+            $('#nav_url').attr('disabled',true);
+            $('#'+type+'_id').show();
+        }
+    }
+
+    	$("#submitBtn").click(function(){
+    	    if($("#navigation_form").valid()){
+       			var data =$('#navigation_form').serialize();
+       			$.ajax({
+       				data:data,
+       				type:'post',
+       				dataType:'json',
+       				url:"website_page_nav_add",
+       				cache: false,
+       				success:function(res){
+       					if(res=="success"){
+       						layer.alert('文章添加成功');
+       						setTimeout('window.location.href="<{base_url()}>admin.php/Website/website_page_nav";',2000);
+       					}else{
+       						layer.alert('文章添加失败');
+       					}
+       				}
+       			});
+    		 }
+    	});
+    	
+
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a
+        href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

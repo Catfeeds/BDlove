@@ -1,0 +1,137 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回平台绑定银行卡列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>平台绑定银行卡</h3>
+        <h5>编辑新增平台绑定银行卡信息</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+      <ul>
+      	<li>设置平台绑定的银行卡信息，请认真核实银行卡卡号</li>
+      </ul>
+  </div>
+  <form method="post" action="" id="form1" name="form1">
+    <input id="bank_id" name="bank_id" value="<{if isset($bank)}><{$bank.bank_id}><{/if}>" class="input-txt" type="hidden"/>
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label for="bank_name"><em>*</em>开户银行：</label>
+        </dt>
+        <dd class="opt">
+          <input id="bank_name" name="bank_name" value="<{if isset($bank)}><{$bank.bank_name}><{/if}>" class="input-txt" type="text"/>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="bank_sn"><em>*</em>银行卡号：</label>
+        </dt>
+        <dd class="opt">
+          <input id="bank_sn" name="bank_sn" value="<{if isset($bank)}><{$bank.bank_sn}><{/if}>" class="input-txt" type="number"/>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="bank_user_name"><em>*</em>银行卡开户人：</label>
+        </dt>
+        <dd class="opt">
+          <input id="bank_user_name" name="bank_user_name" value="<{if isset($bank)}><{$bank.bank_user_name}><{/if}>" class="input-txt" type="text"/>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="status"><em>*</em>启用</label>
+        </dt>
+        <dd class="opt">
+          <div class="onoff">
+            <input id="status_1" type="radio" name="status" value="1" <{if isset($bank) and $bank.status eq 1}> checked  <{else}> checked <{/if}> >
+            <label for="status_1" class="cb-enable <{if isset($bank) and $bank.status eq 1}> selected <{else}> selected <{/if}>">是</label>
+            <input id="status_0" type="radio" name="status" value="0" <{if isset($bank) and $bank.status neq 1}> checked <{/if}> >
+            <label for="status_0" class="cb-disable <{if isset($bank) and $bank.status eq 0}>>selected<{/if}>">否</label>
+          </div>
+
+        </dd>
+      </dl>
+      <div class="bot">
+        <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a>
+      </div>
+    </div>
+  </form>
+</div>
+<div id="goTop">
+  <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+  <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+
+</body>
+</html>
+<script>
+
+    //按钮先执行验证再提交表单
+    $("#submitBtn").click(function(){
+        if($("#form1").valid()){
+            var data = $("#form1").serialize();
+            $.ajax({
+                url:'edit_sys_bank?op=bank',
+                type:'post',
+                data:data,
+                dataType:'json',
+                success:function(data){
+                    if(data.status){
+                        layer.msg(data.msg);
+                        window.location.href = 'finance_set_account';
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        }
+    });
+
+    $("#form1").validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parent('dd').children('span.err');
+            error_td.append(error);
+        },
+        rules : {
+            bank_name : {
+                required : true,
+            },
+            bank_sn : {
+                required : true,
+            },
+            bank_user_name:{
+                required : true,
+            }
+        },
+        messages : {
+            bank_name : {
+                required : '<i class="fa fa-exclamation-circle"></i>银行名不能为空',
+            },
+            bank_sn : {
+                required : '<i class="fa fa-exclamation-circle"></i>银行卡号不能为空',
+            },
+            bank_user_name : {
+                required : '<i class="fa fa-exclamation-circle"></i>银行卡开户人不能为空',
+            }
+        }
+    });
+
+</script>

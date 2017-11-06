@@ -1,0 +1,55 @@
+<{include file="pageheader.html"}>
+<style>
+    .waybill_back {
+        position: relative;
+        width: 870.2px;
+        height: 478.8px;
+    }
+    .waybill_design {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 870.2px;
+        height: 478.8px;
+    }
+    .waybill_item {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100px;
+        height: 20px;
+        border: 1px solid #CCCCCC;
+    }
+    .waybill_back img {
+        width: 870px;
+        height: 480px;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="control">
+    <a id="btn" href="javascript:;">打印123</a>
+    <input type="hidden" id="hidden_url" value="<{base_url('data/print/CNPrintSetup.exe')}>">
+</div>
+<script type="text/javascript" src="<{TEMPLE}>js/cainiao.js"></script>
+<script>
+var print_data = <{if !empty($print_data)}><{$print_data}><{else}>''<{/if}>;
+
+    $(document).ready(function() {
+    	doConnect();
+        $('#btn').on('click', function() {
+        	//getPrinters();//获取打印机列表
+        	//getPrinterConfig();
+        	//printerConfig();//获取打印机配置(弹出打印机配置界面)
+        	//setPrinterConfig();
+        	 if(print_data){
+        		doPrint(print_data)
+        	} 
+        	//doPrint();
+        });
+      
+    });
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

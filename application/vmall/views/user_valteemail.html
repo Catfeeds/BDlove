@@ -1,0 +1,125 @@
+<!doctype>
+<html>
+<head>
+<meta charset="utf-8">
+<title>邮箱验证</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/zepto.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+
+
+</head>
+<style>
+	.tel{
+		width:90%;
+		height: 40px;
+		border-radius: 5px;
+		background: #fff;
+		margin: 15px auto;
+        position: relative;
+	}
+	.valte{
+		width: 90%;
+		margin: 10px auto;
+		display: flex;
+		justify-content: space-between;
+	}
+	.valte-inp{
+		width: 68%;
+		height: 40px;
+		border-radius: 5px;
+		background: #fff;
+        position: relative;
+	}
+	.btn-message{
+		width: 29%;
+		height: 40px;
+		border-radius: 5px;
+		background: #f54336;
+		border: none;
+		color: #fff;
+		font-size: 12px;
+	}
+    .btn-message.active{
+        background: #ccc;
+        color: #fff;
+    }
+	.illste{
+		margin-left: 5%;
+		font-size: 13px;
+		color: #999;
+	}
+	.btn-confirm{
+        display: block;
+		width:90%;
+		height: 40px;
+		border-radius: 5px;
+		background: #f54336;
+		border: none;
+		color: #fff;
+		font-size: 16px;
+		margin: 20px auto;
+	}
+    @font-face {
+        font-family: 'iconfont';  /* project id 272444 */
+        src: url('//at.alicdn.com/t/font_272444_0ntwae8141sxxbt9.eot');
+        src: url('//at.alicdn.com/t/font_272444_0ntwae8141sxxbt9.eot?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_272444_0ntwae8141sxxbt9.woff') format('woff'),
+        url('//at.alicdn.com/t/font_272444_0ntwae8141sxxbt9.ttf') format('truetype'),
+        url('//at.alicdn.com/t/font_272444_0ntwae8141sxxbt9.svg#iconfont') format('svg');
+    }
+	.phone-icon{
+		font-family: iconfont;
+		font-size: 22px;
+		color: #9a9a9a;
+		position: absolute;
+        top:3px;
+        left:10px;
+	}
+    .detae{
+        font-family: iconfont;
+        font-size: 18px;
+        color: #ccc;
+        position: absolute;
+        top:5px;
+        right:8px;
+    }
+    .weui-input{
+        padding-left:40px;
+        margin-top:8px;
+    }
+</style>
+<body ontouchstart>
+	<form name="wxuser_email" id="wx_e">
+		<div class="tel">
+			<span class="phone-icon">&#xe6f3;</span>
+			<input id="email" name="email" class="weui-input" type="tel" placeholder="请输入您的邮箱"/>
+		</div>
+		<input type="button" id="confirm" name="confirm" class="btn-confirm" value="确认">
+	</form>
+</body>
+<script type="text/javascript">
+    $("#confirm").click(function() {
+        var data = $("#wx_e").serialize();
+        $.ajax({
+            type : "POST",
+            url : "send_email",
+            data : data,
+            dataType:'json',
+            success : function(msg) {
+                // console.log(msg.state);
+                // alert(typeof(msg.state))
+                if(msg.state==true){
+                    alert(msg.errmsg);
+                     window.location.href = '<{base_url()}>vmall.php/user/user_updateperson';
+                }else if(msg.state==false){
+                    alert(msg.errmsg);
+                } 
+            }
+        });
+    })
+</script>
+</html>

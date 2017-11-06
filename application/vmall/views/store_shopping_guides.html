@@ -1,0 +1,215 @@
+<html lang="zh-cn" style="opacity: 1; font-size: 109.375px;">
+	<head>
+		<{include file="lib/Hlink.html" }>
+			<title>选择服务顾问</title>
+			<style>
+				body {
+					background: #fff;
+				}
+				
+				.smSalesList {
+					color: #444;
+				}
+				
+				.smSalesList .brandSalesContainer {
+					position: absolute;
+					z-index: 1101;
+					top: 40px;
+					right: 0;
+					left: 0;
+					bottom: 90px;
+					padding: 0 15px;
+					overflow: auto;
+				}
+				
+				.smSalesList .selectBtn {
+					position: absolute;
+					z-index: 1101;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					display: block;
+					text-align: center;
+					height: 75px;
+					padding-top: 10px;
+					color: #9b9b9b;
+				}
+				
+				.smSalesList .selectBtn.ac {
+					color: #000;
+					font-size: 17px;
+					line-height: 70px;
+					display: none;
+				}
+				
+				.smSalesList .brandItem .tit {
+					color: #888;
+					border-bottom: solid 2px #999;
+					line-height: 20px;
+					margin-top: 15px;
+					font-size: 16px;
+				}
+				
+				.smSalesList .brandItem .item {
+					width: 33%;
+					text-align: center;
+					padding: 15px 0 0;
+					float: left;
+				}
+				
+				.smSalesList .brandItem .name {
+					padding: 3px 0;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					height: 18px;
+				}
+				
+				.smSalesList .brandItem .btn {
+					padding: 0;
+					text-align: center;
+					width: 60px;
+					color: #888;
+					line-height: 28px;
+				}
+				
+				.smSalesList .brandItem .btn.ac {
+					background: #db4437;
+					color: #fff;
+					border-color: #db4437;
+				}
+				
+				.chooseSalesBox .title {
+					text-align: center;
+					font-size: 16px;
+					padding: 20px 0 10px;
+					line-height: 24px;
+				}
+				
+				.chooseSalesBox .tit {
+					font-size: 14px;
+				}
+				
+				.chooseSalesBox .storeSales {
+					overflow: auto;
+					position: absolute;
+					top: 78px;
+					bottom: 80px;
+					left: 0;
+					right: 0;
+				}
+				
+				.chooseSalesBox .storeSales .item {
+					padding: 10px 0;
+					border: none;
+					height: 44px;
+				}
+				
+				.chooseSalesBox .storeSales .item:active {
+					background: #eee;
+				}
+				
+				.chooseSalesBox .storeSales .name {
+					line-height: 44px;
+				}
+				
+				a.gotoStore {
+					display: block;
+					width: 80px;
+					height: 40px;
+					line-height: 40px;
+					color: #fff;
+					background: #e04241;
+					text-align: center;
+					border-radius: 4px;
+					margin: 30px auto 0;
+				}
+				#page{
+					position: fixed;
+					width: 100%;
+					height: 100%;
+					background: -webkit-linear-gradient(top, #f2535c,#fd856a);
+					background: -o-linear-gradient(bottom, #f2535c,#fd856a);
+					background: -moz-linear-gradient(bottom,#f2535c,#fd856a);
+					background: linear-gradient(to bottom, #f2535c,#fd856a);
+				}
+				#page-have{
+					position: fixed;
+					width: 100%;
+					height: 100%;
+					background: -webkit-linear-gradient(top, #f2535c,#fd856a);
+					background: -o-linear-gradient(bottom, #f2535c,#fd856a);
+					background: -moz-linear-gradient(bottom,#f2535c,#fd856a);
+					background: linear-gradient(to bottom, #f2535c,#fd856a);
+				}
+				.noconsultant{
+					margin-top: 60%;
+					font-size: 20px;
+					color: #fff;
+					text-align: center;
+				}
+				.butt{
+					background: #fec5b9;
+					width: 200px;
+					height: 45px;
+					font-size: 20px;
+					line-height: 45px;
+					text-align: center;
+					color: #f45d5f;
+					margin: 20px auto;
+				}
+				.servier{
+					width: 80%;
+					margin: 25% auto;
+					background: #fff;
+					height: 55%;
+					border-radius: 5px;
+					padding-top: 25%;
+				}
+				.servier-img{
+					background: #fd5459;
+					border-radius: 50%;
+					width: 110px;
+					height: 110px;
+					margin: 0 auto;
+				}
+				.servier-name{
+					color:#6A6A6A;
+					padding-top: 20px;
+					padding-bottom: 10px;
+					text-align: center;
+					font-size: 16px;
+				}
+				.servier-store{
+					color:#AAA9A9;
+					text-align: center;
+					font-size: 16px;
+				}
+				.btn-tel{
+					width: 85%;
+					height: 45px;
+					margin: 0 auto;
+					margin-top: 50px;
+					text-align: center;
+					background: #fd5459;
+					line-height: 45px;
+					color: #fff;
+					font-size: 18px;
+					border-radius: 5px;
+				}
+			</style>
+	</head>
+
+	<body>
+		<div id="page" style="display:block">
+		   <p class="noconsultant">您还没有专属导购</p>
+		   <div class="butt  other_ecshopping">选择店铺找导购</div>
+	    </div>
+	</body>
+	<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+		<script>
+			$("body").on("click", ".other_ecshopping", function() {
+				location.href = "<{base_url()}>vmall.php/store/stores";
+			});
+		</script>
+</html>

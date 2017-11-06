@@ -1,0 +1,441 @@
+<{include file="pageheader.html"}>
+<!-- 配置文件 -->
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="<{PLUGIN}>plugins/UEditor/lang/zh-cn/zh-cn.js"></script>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back(-1);" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3></h3>
+                <h5></h5>
+            </div>
+        </div>
+    </div>
+    <!-- 操作说明 -->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <{literal}>
+            <li>插入的变量必需包括花括号“{}”，当应用范围不支持该变量时，该变量将不会在前台显示(变量后边的分隔符也不会显示)，留空为系统默认设置。</li>
+            <li>变量函数说明：站点名称 {$site_name} | 时间点 {$send_time} | 验证码 {$verify_code} | 自提码 {$pickup_code}。</li>
+            <{/literal}>
+        </ul>
+    </div>
+
+
+    <!--搜索条件列-->
+ <div style="margin-bottom: 20px;">
+    <dl class="row">
+        <dt class="tit">
+            <label><strong style="color: #39b3d7">[搜索条件列]</strong></label>
+        </dt>
+        <{foreach from=$searched key='key' item="value"}>
+        <dd class="opt" style="color: red;margin-left: 150px;">
+            <{$value}>
+        </dd>
+        <{/foreach}>
+    </dl>
+</div>
+
+    <!--搜索条件列   end-->
+    <div id="first_content" style="margin-bottom: 50px;">
+        <div>
+            <dl class="row" style="margin-top:50px;">
+                <dt class="tit">
+                    <label for="email">选择默认模板:</label>
+                </dt>
+                <dd class="opt">
+                    <div class="area-region-select">
+                        <select class="valid select2" id="email" name="email">
+                            <{foreach from=$email_templates key='key' item="value"}>
+                            <option value="<{$email_templates[$key]['template_id']}>"><{$email_templates[$key]['template_subject']}></option>
+                            <{/foreach}>
+                        </select>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+
+        <form id="form_email" method="post" action="" name="form_email" enctype="multipart/form-data" >
+            <input type="hidden" name="form_submit" value="ok" />
+            <input type="hidden" name="code" value="" />
+            <div class="ncap-form-default">
+                <div class="title">
+                    <!--   <h3><strong>[修改]</strong></h3>-->
+                </div>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>标题</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="text" value="" name="title" id="email_title"class="input-txt">
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>正文</label>
+                    </dt>
+                    <dd class="opt">
+                        <div class="" style="width: 70%;">
+                            <!-- 加载编辑器的容器 -->
+                            <script id="email_content" name="email_content" type="text/plain"></script>
+                            <!-- 实例化编辑器 -->
+                            <script type="text/javascript">
+                                var ue = UE.getEditor('email_content');
+                            </script>
+
+                        </div>
+                    </dd>
+                </dl>
+
+            </div>
+        </form>
+    </div>
+
+    <!--start 短信-->
+
+    <div id="second_content">
+        <div class="ncap-form-default">
+            <form id="send_form" method="post" action="" name="form_message"  >
+                <dl class="row" >
+                    <dt class="tit">
+                        <label for="short_message">选择默认模板:</label>
+                    </dt>
+                    <dd class="opt">
+                        <div class="area-region-select">
+                            <select class="valid select2" id="short_message" name="short_message">
+                                <option value="0">空白模板</option>
+                                <{foreach from=$sms_templates key='key' item="value"}>
+                                <option value="<{$sms_templates[$key]['template_id']}>"><{$sms_templates[$key]['template_subject']}></option>
+                                <{/foreach}>
+                            </select>
+                        </div>
+                    </dd>
+                </dl>
+
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>短信变量 </label>
+                    </dt>
+                    <dd class="opt">
+                        <a class="btn btn-primary"id="input_name"  onclick="insertAtCursor(document.getElementById('short_message_input'),'{$姓名}')">姓名</a>
+                        <a class="btn btn-primary"onclick="insertAtCursor(document.getElementById('short_message_input'),'{$昵称}')" id="input_nickname">买家昵称</a>
+                    </dd>
+                </dl>
+
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>短信内容 </label>
+                    </dt>
+                    <dd class="opt">
+                        <textarea rows="10"  name='message'cols="50" id="short_message_input"></textarea>
+                    </dd>
+                </dl>
+
+            </form>
+
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>短信测试 </label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value=""  id="test_tel" class="input-txt" placeholder="填入测试手机号">
+                    <a id="short_message_test" class="btn btn-primary">发送测试短信</a>
+                </dd>
+            </dl>
+<!--            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>过滤已发送用户</label>
+                </dt>
+                <dd class="opt">
+                    <label class="mr20"><input type="radio" name="fatigue_type" value="0"  checked="checked"/><span>不过滤</span></label>
+                    <label class="mr20"><input type="radio" name="fatigue_type" value="1" /><span>今天</span></label>
+                    <label class="mr20"><input type="radio" name="fatigue_type" value="2" /><span>近3天</span></label>
+                    <label class="mr20"><input type="radio" name="fatigue_type" value="3" /><span>近7天</span></label>
+                    <label class="mr20"><input type="radio" name="fatigue_type" value="4" /><span>近15天</span></label>
+                </dd>
+            </dl>-->
+        </div>
+
+    </div>
+    <!--end  短信-->
+
+    <div id="third_content">
+        <p>微信</p>
+
+
+        <form id="form_weixin" method="POST" enctype="multipart/form-data" action="" name="form_weixin"  >
+
+            <div class="ncap-form-default">
+                <div class="title">
+                    <!--   <h3><strong>[修改]</strong></h3>-->
+                </div>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>图文标题</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="text" value="" name="title" id="weixin_title"class="input-txt">
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>本文作者</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="text" value="" name="author" id="author"class="input-txt">
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>封面图片</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="file" name="pic" id="pic">
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>原文链接</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="text" value="" name="content_source_url" id="content_source_url"class="input-txt">
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>摘要</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="text" value="" name="digest" id="digest"class="input-txt">
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label><em>*</em>正文</label>
+                    </dt>
+                    <dd class="opt">
+                        <div class="" style="width: 70%;">
+                            <!-- 加载编辑器的容器 -->
+                            <script id="weixin_content" name="weixin_content" type="text/plain"></script>
+                            <!-- 实例化编辑器 -->
+                            <script type="text/javascript">
+                                var ue = UE.getEditor('weixin_content');
+                            </script>
+
+                        </div>
+                    </dd>
+                </dl>
+
+            </div>
+        </form>
+
+
+    </div>
+
+
+
+    <div class="submit" style="margin-bottom: 200px;">
+        <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submit">确认提交</a>
+    </div>
+
+
+    <script>
+
+        $(function() {
+
+
+            if("<{$type}>"=='short_message'){
+                $("#first_content").hide();
+                $("#third_content").hide();
+            }else if("<{$type}>"=='email'){
+                $("#second_content").hide();
+                $("#third_content").hide();
+            }else{
+                $("#first_content").hide();
+                $("#second_content").hide();
+            }
+
+        });
+
+
+
+
+/*        提交发送内容*/
+
+
+        $("#submit").click(function(){
+
+     if("<{$type}>"=='email') {
+
+                var message = $('#form_email').serialize();
+                var  member=<{$email}>;
+                    $.post("start_send?type="+"<{$type}>", { "message":message,"member":member, },
+                        function(data){
+                            alert('ok')
+                        }, "json");
+
+                        }  else if ("<{$type}>"=='short_message')
+                            {
+
+
+                                var sms_template_id= $("#short_message").val();
+                                var message =$("#short_message_input").val();
+                                $.post("start_send?type="+"<{$type}>",{ "message":message,"member":<{$member}>,'sms_template_id':sms_template_id},
+                                function(data){
+                                alert('ok')
+                            }, "json");
+
+
+                            }else{
+                                /*       var message = $('#form_weixin').serialize();
+                                 var  member=<{$wx_openid}>;
+
+                                 $('#form_weixin').submit();*/
+                                doUpload();
+
+                            }
+
+
+
+
+
+
+
+                            });
+
+
+        function doUpload() {
+            var formData = new FormData($( "#form_weixin" )[0]);
+            $.ajax({
+                url: "start_send?type="+"<{$type}>",
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (returndata) {
+                    alert(returndata);
+                },
+                error: function (returndata) {
+                    alert(returndata);
+                }
+            });
+        }
+
+
+
+
+
+
+        <!--短信-->
+
+
+
+
+
+        $("#short_message").change(function(){
+            var id= $(this).val();
+
+            $.post("get_input_message?type=short_message", { "id": id },
+                    function(data){
+
+                        $("#short_message_input").val(data);
+                    /*     UE.getEditor('email_content').execCommand('inserthtml', data);*/
+                    }, "json");
+
+        });
+
+         <!--短信测试-->
+              $("#short_message_test").click(function(){
+
+                  var tel=$("#test_tel").val();
+                  var message =$("#short_message_input").val();
+
+
+                  $.post("send_message_test?type="+"<{$type}>", { "message":message,"tel":tel},
+                      function(data){
+                          ;
+                             if(data=='1'){
+                             alert('测试已发送，审核后发送，请耐心等待');
+                                                         }
+                             else{
+                                 alert('发送失败');
+
+                             }
+                      }, "json");
+
+
+              })
+
+
+
+
+        <!--邮件-->
+        $("#email").change(function(){
+            var id= $(this).val();
+
+            $.post("get_input_message?type=email", { "id": id },
+                    function(data){
+                        console.log(data);
+
+                        $("#email_title").val(data.template_subject);
+
+                        UE.getEditor('email_content').setContent(data.template_content)
+                     /*    UE.getEditor('email_content').execCommand('inserthtml', data);*/
+
+
+                    }, "json");
+
+        });
+
+
+<!--通用-->
+        function insertAtCursor(myField, myValue) {
+
+            if (document.selection) {
+                myField.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                sel.select();
+            }
+            else if (myField.selectionStart || myField.selectionStart == '0') {
+                var startPos = myField.selectionStart;
+                var endPos = myField.selectionEnd;
+                var restoreTop = myField.scrollTop;
+                myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+                if (restoreTop > 0) {
+                    myField.scrollTop = restoreTop;
+                }
+                myField.focus();
+                myField.selectionStart = startPos + myValue.length;
+                myField.selectionEnd = startPos + myValue.length;
+            } else {
+                myField.value += myValue;
+                myField.focus();
+            }
+            insertSmsContentNew();
+        }
+
+
+
+
+
+    </script>
+
+
+
+
+    <div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

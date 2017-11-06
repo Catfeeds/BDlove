@@ -1,0 +1,350 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回品牌列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>品牌管理 - <{if isset($brand_info)}>编辑<{else}>新增<{/if}></h3>
+                <h5>商品品牌管理及店铺申请品牌审核</h5>
+            </div>
+        </div>
+    </div>
+    <form id="brand_form" method="post" action="goods_brand_add">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>品牌名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{if isset($brand_info)}><{$brand_info.brand_name}><{/if}>" name="param[brand_name]" id="brand_name" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>名称首字母</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="<{if isset($brand_info)}><{$brand_info.brand_initial}><{/if}>" name="param[brand_initial]" id="brand_initial" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">商家发布商品快捷搜索品牌使用</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>尺码类型</label>
+                </dt>
+                <dd class="opt">
+                    <select class="class-select mr-5" name="param[brand_size_type]">
+                            <option value="1" <{if !(isset($brand_info.brand_size_type))||(isset($brand_info.brand_size_type)&&$brand_info.brand_size_type==1)}>selected<{/if}>>中国码</option>
+                            <option value="2" <{if isset($brand_info.brand_size_type)&&$brand_info.brand_size_type==2}>selected<{/if}>>美国码</option>
+                            <option value="3" <{if isset($brand_info.brand_size_type)&&$brand_info.brand_size_type==3}>selected<{/if}>>欧码</option>
+                            <option value="4" <{if isset($brand_info.brand_size_type)&&$brand_info.brand_size_type==4}>selected<{/if}>>日本码</option> 
+                        </select>
+                    <span class="err"></span>
+                    <p class="notic">商家发布商品快捷搜索品牌使用</p>
+                </dd>
+            </dl>
+            
+            
+            
+<!--             <dl class="row">
+                <dt class="tit">所属分类</dt>
+                <dd class="opt">
+                <div class="old_gcategory">
+                <{if isset($brand_info)}>
+                <span><{if empty($brand_info.brand_class)}>--<{else}><{$brand_info.brand_class}><{/if}></span>
+                <input type="button" class="ml-10 btn btn-default radius" id="edit_class"  value="编辑">
+                <{/if}>
+                </div>
+                    <div id="gcategory" <{if isset($brand_info)}> class="hide" <{/if}>>
+                        <input type="hidden" value="" name="param[class_id]" class="mls_id">
+                        <input type="hidden" value="" name="param[brand_class]" class="mls_name">
+                        <select class="class-select mr-5" onchange="get_next_classes(this)">
+                            <option value="0" selected>-请选择-</option>
+                            <{foreach from=$first_classes item=first_class}>
+                            <option value="<{$first_class.gc_id}>"><{$first_class.gc_name}></option>
+                            <{/foreach}>
+                        </select>
+                    </div>
+                    <span class="err"></span>
+                    <p class="notic <{if isset($brand_info)}>hide<{/if}>">选择分类，可关联大分类或更具体的下级分类。</p>
+                </dd>
+            </dl> -->
+            
+            
+            
+            <dl class="row">
+                <dt class="tit">品牌图片标识</dt>
+                <dd class="opt">
+                    <div class="input-file-show">
+                        <span class="show">
+                            <a class="nyroModal" rel="gal" href="">
+                                <i class="fa fa-picture-o" id="" data-geo='<img src=" <{if isset($brand_info) && !empty($brand_info.brand_pic)}><{base_url()}>data/shop/brand_pic/<{$brand_info.brand_pic}><{/if}>" width=100px height=50px>'></i>
+                            </a>
+                        </span>
+                    	<span class="type-file-box">
+                        <input class="type-file-file" id="_pic" name="image" type="file" size="30" hidefocus="true" title="点击按钮选择文件并提交表单后上传生效">
+                        <input type="text" name="brand_pic" id="brand_pic" class="type-file-text">
+                        <input type="button" name="button" id="button" value="选择上传..." class="type-file-button">
+                        </span>
+                    </div>
+                    <span class="err"><label class="error"></label></span>
+                    <p class="notic">品牌LOGO尺寸要求宽度为150像素，高度为50像素、比例为3:1的图片；支持格式gif,jpg,png</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">展示方式</dt>
+                <dd class="opt">
+                	<{if isset($brand_info)}>
+                    <input id="show_type_0" type="radio" <{if $brand_info.show_type=='0'}>checked="checked"<{/if}> value="0" style="margin-bottom:6px;" name="param[show_type]">
+                    <label for="show_type_0">图片</label>
+                    <input id="show_type_1" type="radio" <{if $brand_info.show_type=='1'}>checked="checked"<{/if}>value="1" style="margin-bottom:6px;" name="param[show_type]">
+                    <label for="show_type_1">文字</label>
+                    <{else}>
+                     <input id="show_type_0" type="radio" checked="checked" value="0" style="margin-bottom:6px;" name="param[show_type]">
+                    <label for="show_type_0">图片</label>
+                    <input id="show_type_1" type="radio" value="1" style="margin-bottom:6px;" name="param[show_type]">
+                    <label for="show_type_1">文字</label>
+                    <{/if}>
+                    <span class="err"></span>
+                    <p class="notic">在“全部品牌”页面的展示方式，如果设置为“图片”则显示该品牌的“品牌图片标识”，如果设置为“文字”则显示该品牌的“品牌名”</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">是否推荐</dt>
+                <dd class="opt">
+                    <div class="onoff">
+                    	<{if isset($brand_info)}>
+                        <label for="brand_recommend1" class="cb-enable <{if $brand_info.brand_recommend=='1'}>selected<{/if}>">是</label>
+                        <label for="brand_recommend0" class="cb-disable <{if $brand_info.brand_recommend=='0'}>selected<{/if}>">否</label>
+                        <input id="brand_recommend1" name="param[brand_recommend]" <{if $brand_info.brand_recommend=='1'}>checked="checked"<{/if}> value="1" type="radio">
+                        <input id="brand_recommend0" name="param[brand_recommend]" <{if $brand_info.brand_recommend=='0'}>checked="checked"<{/if}> value="0" type="radio">
+                    	<{else}>
+                    	<label for="brand_recommend1" class="cb-enable">是</label>
+                        <label for="brand_recommend0" class="cb-disable selected">否</label>
+                        <input id="brand_recommend1" name="param[brand_recommend]" value="1" type="radio">
+                        <input id="brand_recommend0" name="param[brand_recommend]" checked="checked" value="0" type="radio">
+                    	<{/if}>
+                    </div>
+                    <p class="notic">选择被推荐的图片将在所有品牌列表页“推荐品牌”位置展现。</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">排序</dt>
+                <dd class="opt">
+                    <input type="text" value="<{if isset($brand_info)}><{$brand_info.brand_sort}><{else}>255<{/if}>" name="param[brand_sort]" id="brand_sort" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">数字范围为0~255，数字越小越靠前</p>
+                </dd>
+            </dl>
+            <input type="hidden" name="brand_id" value="<{if isset($brand_info)}><{$brand_info.brand_id}><{/if}>">
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green"  id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script>
+    $(function(){
+    	var img_flag = false;
+    	function getImageWidthAndHeight(id, callback) {
+    		  var _URL = window.URL || window.webkitURL;
+    		  $("." + id).change(function (e) {
+    		    var file, img;
+    		    if ((file = this.files[0])) {
+    		      img = new Image();
+    		      img.onload = function () {
+    		        callback && callback({"width": this.width, "height": this.height, "filesize": file.size});
+    		      };
+    		      img.src = _URL.createObjectURL(file);
+    		    }
+    		  });
+    		}
+    	
+    	$(".type-file-file").change(function () {
+			console.log('aa');
+  		    var filepath=$(this).val();
+	  		var error_td = $(this).parents('dd').children('span').children('label.error');
+	  		error_td.html('');
+  		  	if(!/.(gif|jpg|png|GIF|JPG|PNG)$/.test(filepath)){
+  		  	    error_td.append('<i class="fa fa-exclamation-circle"></i>图片限于gif,jpg,png格式');
+  			  	//layer.msg("图片限于gif,jpg,png格式");
+  			  	$(".type-file-file").val("").focus();
+  			  	return false;
+  		  	}else{
+	  		  	  getImageWidthAndHeight('type-file-file', function (obj) {
+		  		  	   if (obj.width != 150 || obj.height != 50) {
+		  		  		 error_td.append('<i class="fa fa-exclamation-circle"></i>品牌LOGO尺寸要求宽度为150像素，高度为50像素、比例为3:1的图片');
+				    	 //layer.msg("品牌LOGO尺寸要求宽度为150像素，高度为50像素、比例为3:1的图片");
+				    	 $(".type-file-file").val("").focus();
+				         return false;
+		  		  	   }
+	  		  	  });
+ 			     /*var image = new Image();
+ 			     image.src = $(this).attr("width");
+ 			     var height = image.height;
+ 			     var width = image.width;
+ 			     console.log(width);
+ 			     var filesize = image.filesize;
+ 			     if(width!=58 && height!=44){
+ 			    	 error_td.append('<i class="fa fa-exclamation-circle"></i>品牌LOGO尺寸要求宽度为150像素，高度为50像素、比例为3:1的图片');
+ 			    	 //layer.msg("品牌LOGO尺寸要求宽度为150像素，高度为50像素、比例为3:1的图片");
+ 			    	 $(".type-file-file").val("").focus();
+ 			         return false;
+ 			     }*/
+ 			 }
+	  		 $(".type-file-text").val($(this).val());
+	  		 img_flag = true;
+		});
+        //表单验证
+        $("#submitBtn").click(function(){
+        	if($(".type-file-file").val() == ''){
+        		img_flag = true;
+        	}
+        	if(img_flag){
+        		$("#brand_form").validate({
+                    errorPlacement: function(error, element){
+                        var error_td = element.parents('dd').children('span.err');
+                        error_td.append(error);
+                    },
+                    rules : {
+                        "param[brand_name]" : {
+                            required : true,
+                        },
+                        "param[brand_initial]" : {
+                            required  : true,
+//                            initial  : true
+                        },
+                        "param[brand_size_type]" : {
+                            required   : true,
+                            
+                        }
+                    },
+                    messages : {
+                    	"param[brand_name]" : {
+                            required : '<i class="fa fa-exclamation-circle"></i>品牌名称不能为空',
+                          /*  remote   : '<i class="fa fa-exclamation-circle"></i>该品牌名称已经存在了，请您换一个'*/
+                        },
+                        "param[brand_initial]" : {
+                            required : '<i class="fa fa-exclamation-circle"></i>请填写内容',
+                            //initial : '<i class="fa fa-exclamation-circle"></i>请填写正确首字母'
+                        },
+                        "param[brand_size_type]"  : {
+                            required   : '<i class="fa fa-exclamation-circle"></i>请选择尺码类型',
+                            
+                        }
+                    }
+                });
+        		if($("#brand_form").valid()){
+        			var url = "goods_brand_add?op=add";
+        			if($("input[name='brand_id']").val() && $("input[name='brand_id']").val()!=null){
+        				var brand_id = $("input[name='brand_id']").val();
+        				url = "goods_brand_edit?op=edit&brand_id="+brand_id;
+        			}
+        			 var formData = new FormData($("#brand_form")[0]); 
+                      $.ajax({
+              	        type: "post",
+              	        dataType: "json",
+              	        url:url,
+              	        cache: false,
+                      	processData: false,
+                        contentType: false,
+              	        data: formData,
+              	        success: function(data){
+              	        	layer.msg(data.msg);
+							if(data.state=='403'){
+				login_ajax('shopadmin');
+			}else
+              	            if(data.state==true){
+              	            //询问框
+	              	            if(data.data){
+	              	            	layer.confirm('继续编辑？', {
+		              	            	  time: 5000, //5秒后自动关闭
+		                                  end: function(){ 
+		                                  	  window.location.href="goods_brand_management";
+		                                  },
+	                	            	  btn: ['确定','去品牌列表'] //按钮
+	                	            	}, function(){
+	                	            		window.location.href="goods_brand_edit?brand_id="+data.data;
+	                	            	}, function(){
+	                	            		window.location.href="goods_brand_management";
+	                	            	});
+	              	            }else{
+	              	            	layer.confirm('继续添加？', {
+              	            			time: 5000, //5秒后自动关闭
+	                                  	end: function(){ 
+	                                  	  window.location.href="goods_brand_management";
+	                                  	},
+	              	            	  btn: ['确定','去品牌列表'] //按钮
+	              	            	}, function(){
+	              	            		window.location.href="goods_brand_add";
+	              	            	}, function(){
+	              	            		window.location.href="goods_brand_management";
+	              	            	});
+	              	            }
+              	        	}
+              	        }
+              	    });
+                }
+        	}else{
+        		layer.msg("品牌LOGO尺寸要求宽度为150像素，高度为50像素、比例为3:1的图片；支持格式gif,jpg,png,请上传正确格式的图片再提交");
+        	}
+        });
+        $("#edit_class").click(function(){
+        	$(".old_gcategory").addClass("hide");
+        	$("#gcategory").removeClass("hide");
+        })
+
+    })
+    //获取指定渠道下相应的品牌列表
+function get_next_classes(obj){
+	var gc_parent_id = $(obj).val();
+	console.log(gc_parent_id);
+	if(gc_parent_id==0){
+		if($(obj).next('select')){
+			$(obj).nextAll('select').remove();
+		}
+		if($(obj).prev('select')){
+			var class_id = $(obj).prev('select').val();
+			var brand_class = $(obj).prev('select').find("option:selected").text();
+		}else{
+			var class_id = '';
+			var brand_class = '';
+		}
+		$("input[name='param[class_id]']").val(class_id);
+		$("input[name='param[brand_class]']").val(brand_class);
+		return false;
+	}
+	var gc_parent_name = $(obj).find("option:selected").text();
+	
+	$("input[name='param[class_id]']").val(gc_parent_id);
+	$("input[name='param[brand_class]']").val(gc_parent_name);
+	var html = ' <select class="class-select mr-5" onchange="get_next_classes(this)">';
+	html += '<option value="0" selected>-请选择-</objion>';
+	$.ajax({
+		type: "get",
+        url: "get_next_classes?gc_parent_id="+gc_parent_id,
+        data: '',
+        dataType: "json",
+        success: function(data){
+        	console.log(data);
+        	if(data!=false && data!=null){
+        		$.each(data,function(k,v){
+        			html +='<option value="'+v.gc_id+'">'+v.gc_name+'</option>';
+        		})
+        		html +='</select>';
+            	if($(obj).next('select')){
+            		$(obj).nextAll('select').remove();
+            		$(obj).after(html);
+            	}else{
+            		$(obj).after(html);
+            	}
+        	}
+        }
+	})
+}
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<{include file="pageheader.html" }>
+	<style>
+		.mb-special-layout{background-color: #fff;}
+		.mb-special-layout div{float: left;}
+		.mb-special-layout .ncap-form-default{width: 72.5%;}
+		.select2{margin-bottom:0;}
+		.limit_container{
+			width:500px;
+			height:100px;
+			border:1px solid #efefef;
+			margin-top:10px;
+			background: #f5f5f5;
+		}
+		p{
+			margin-bottom:0 ;
+		}
+		#preview img{
+			width:90px;
+			height: 90px;
+			vertical-align: top;
+			margin-right: 7px;
+			margin-bottom: 5px;
+		}
+		.uploadimg{
+			position: relative;
+			float: left;
+		}
+		.fa-close:before, .fa-times:before {
+			position: absolute;
+			top: -7px;
+			left: 88px;
+		}
+	</style>
+	<body style="background-color: #FFF; overflow: auto;">
+		<div id="append_parent"></div>
+		<div id="ajaxwaitid"></div>
+		<div class="page">
+			<div class="fixed-bar">
+				<div class="item-title">
+					<a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+					<div class="subject">
+						<h3>大转盘-添加奖品</h3>
+						<h5>添加大转盘抽奖活动</h5>
+					</div>
+					 <ul class="tab-base nc-row">
+						       
+						        <li><a href="JavaScript:void(0);">设置活动规则</a></li>
+						        <li><a href="JavaScript:void(0);" class="current">奖品设置</a></li>
+						        <li><a href="JavaScript:void(0);">完成</a></li>
+						      
+					      </ul>
+				</div>
+				
+			</div>
+			<!-- 操作说明 -->
+			<div class="explanation" id="explanation">
+				<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+					<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+					<span id="explanationZoom" title="收起提示"></span> </div>
+				<ul>
+					<li> 注意：创建好优惠券后就不可以修改，请确认后再创建</li>
+				</ul>
+			</div>
+			<form id="add_form" method="post" action="store_add" enctype="multipart/form-data">
+				<div class="mb-special-layout">
+					<div class="mb-item-box" style="padding-left: 25px;padding-top: 50px;">
+                       <img src="<{TEMPLE}>images/gameLottery.jpg"  width="300px"  height="540px"/>
+                    </div>
+                    <div class="ncap-form-default">
+						<dl class="row" >
+							<dt class="tit">
+								<label for="prize_type"><em>*</em>奖品类型：</label>
+							</dt>
+							<dd class="opt">
+								<div class="area-region-select">
+									<select class="valid select2" id="prize_type" name="lottery_time_day_limit">
+										<option value="1">折扣优惠券</option>
+										<option value="0">满减优惠券</option>
+										<option value="2">积分</option>
+										<option value="3">红包</option>
+									</select>
+								</div>
+							</dd>
+						</dl>
+						<dl class="row" id="integral_info" style="display:none;">
+							<dt class="tit">
+								<label for="integral"><em>*</em>每个奖品积分数：</label>
+							</dt>
+							<dd class="opt">
+								<input id="integral" type="text"  value="">&nbsp;&nbsp;积分
+							</dd>
+						</dl>
+						<dl class="row" id="money_info" style="display:none;">
+							<dt class="tit">
+								<label for="money"><em>*</em>红包金额：</label>
+							</dt>
+							<dd class="opt">
+								<input id="money" type="text"  value="">&nbsp;&nbsp;元
+							</dd>
+						</dl>
+                       	<dl class="row">
+							<dt class="tit">
+								<label for="prize_num"><em>*</em>奖品剩余数：</label>
+							</dt>
+							<dd class="opt">
+								<input id="prize_num" type="text"  value="">
+							</dd>
+						</dl>
+						<dl class="row">
+							<dt class="tit">
+								<label for="prize_chance"><em>*</em>中奖概率：</label>
+							</dt>
+							<dd class="opt">
+								<input id="prize_chance" type="text"  value="">&nbsp;&nbsp;%
+								<span class="err"></span>
+								<p class="notic">停止发放该奖品，可设置概率为0%</p>
+							</dd>
+						</dl>
+						<span id="coupon_reduce" style="display: none">
+							<dl class="row">
+								<dt class="tit"><b style="font-size: 16px;">满减优惠券信息</b></dt>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="coupon_name"><em>*</em>优惠券名称：</label>
+								</dt>
+								<dd class="opt">
+									<input id="coupon_name" type="text"  value="" placeholder="优惠券名称">
+								</dd>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="coupon_price"><em>*</em>面值：</label>
+								</dt>
+								<dd class="opt">
+									<input id="coupon_price" type="text"  value="" placeholder="0.00">&nbsp;&nbsp;元
+								</dd>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="coupon_full"><em>*</em>订单满：</label>
+								</dt>
+								<dd class="opt">
+									<input id="coupon_full" type="text"  value="" placeholder="0.00">&nbsp;&nbsp;元可用
+								</dd>
+							</dl>
+							<dl class="row" >
+								<dt class="tit">
+									<label for="coupon_valid"><em>*</em>优惠券有效期：</label>
+								</dt>
+								<dd class="opt">
+									<div class="area-region-select">
+										<select class="valid select2" id="coupon_valid">
+											<option value="0">固定有效期</option>
+											<option value="1">领取后计算有效期</option>
+										</select>
+									</div>
+								</dd>
+							</dl>
+							<dl class="row" id="fixed_time">
+								<dt class="tit">
+									<label for="start_time"><em>*</em>有效期：</label>
+								</dt>
+								<dd class="opt">
+									<input type="text" id="start_time" onclick="laydate()" value="" name="start_time" style="background-color: #fff" class="data-start" placeholder="起始时间">
+									至&nbsp;<input type="text" id="end_time" onclick="laydate()" value="" name="end_time" style="background-color: #fff" class="data-end" placeholder="截止时间">
+								</dd>
+							</dl>
+							<dl class="row" id="after_time" style="display: none;">
+								<dt class="tit">
+									<label for="prize_valid_time"><em>*</em>领取后，</label>
+								</dt>
+								<dd class="opt">
+									<input id="prize_valid_time" type="text"  value="" placeholder="1">&nbsp;&nbsp;天内有效
+									<p class="notic">示例：设置领取7天内有效，若消费者1月1日领取优惠券，1月1日～1月7日内有效</p>
+								</dd>
+							</dl>
+						</span>
+						<span id="coupon_sale">
+							<dl class="row">
+								<dt class="tit"><b style="font-size: 16px;">打折优惠券信息</b></dt>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="coupon_sale_name"><em>*</em>优惠券名称：</label>
+								</dt>
+								<dd class="opt">
+									<input id="coupon_sale_name" type="text"  value="" placeholder="优惠券名称">
+								</dd>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="coupon_sale_price"><em>*</em>折扣：</label>
+								</dt>
+								<dd class="opt">
+									<input id="coupon_sale_price" type="text"  value="" placeholder="0">&nbsp;&nbsp;折
+									<p class="notic">请填写0～9的数字</p>
+
+								</dd>
+							</dl>
+							<dl class="row" >
+								<dt class="tit">
+									<label for="coupon_sale_valid"><em>*</em>优惠券有效期：</label>
+								</dt>
+								<dd class="opt">
+									<div class="area-region-select">
+										<select class="valid select2" id="coupon_sale_valid">
+											<option value="0">固定有效期</option>
+											<option value="1">领取后计算有效期</option>
+										</select>
+									</div>
+								</dd>
+							</dl>
+							<dl class="row" id="fixed_sale_time">
+								<dt class="tit">
+									<label for="start_sale_time"><em>*</em>有效期：</label>
+								</dt>
+								<dd class="opt">
+									<input type="text" id="start_sale_time" onclick="laydate()" value="" name="start_time" style="background-color: #fff" class="data-start" placeholder="起始时间">
+									至&nbsp;<input type="text" id="end_sale_time" onclick="laydate()" value="" name="end_time" style="background-color: #fff" class="data-end" placeholder="截止时间">
+								</dd>
+							</dl>
+							<dl class="row" id="after_sale_time" style="display: none;">
+								<dt class="tit">
+									<label for="prize_sale_chance"><em>*</em>领取后，</label>
+								</dt>
+								<dd class="opt">
+									<input id="prize_sale_chance" type="text"  value="" placeholder="1">&nbsp;&nbsp;天内有效
+									<p class="notic">示例：设置领取7天内有效，若消费者1月1日领取优惠券，1月1日～1月7日内有效</p>
+								</dd>
+							</dl>
+						</span>
+						<span id="goods_info" style="display: none">
+							<dl class="row">
+								<dt class="tit"><b style="font-size: 16px;">实物商品基础信息</b></dt>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="prize_goods_name"><em>*</em>商品名称：</label>
+								</dt>
+								<dd class="opt">
+									<input id="prize_goods_name" type="text"  value="">
+								</dd>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="prize_stylenumber">商品款号：</label>
+								</dt>
+								<dd class="opt">
+									<input id="prize_stylenumber" type="text"  value="" placeholder="选填，款号">
+								</dd>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="prize_goods_sku">商品条形码：</label>
+								</dt>
+								<dd class="opt">
+									<input id="prize_goods_sku" type="text"  value="" placeholder="选填，sku编码">
+								</dd>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="prize_goods_code">商品编码：</label>
+								</dt>
+								<dd class="opt">
+									<input id="prize_goods_code" type="text"  value="" placeholder="选填">
+								</dd>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="prize_goods_name"><em>*</em>商品图片：</label>
+								</dt>
+								<dd class="opt">
+									<div class="formControls">
+										<div id="preview"></div>
+										<div style="clear:both"></div>
+										<input type="file" name ="pic_info" onchange="preview(this)" style="opacity:0"/>
+										<span class="btn btn-secondary radius size-S mb-10" style="margin-left:-243px"><i class="fa fa-cloud-download"></i>上传图片</span>
+									</div>
+								</dd>
+							</dl>
+							<dl class="row" >
+								<dt class="tit">
+									<label for="logistics_limit"><em>*</em>物流方式限制：</label>
+								</dt>
+								<dd class="opt">
+									<div class="area-region-select">
+										<select class="valid select2" id="logistics_limit">
+											<option value="0">不限制</option>
+											<option value="1">快递发货</option>
+											<option value="2">门店自提</option>
+										</select>
+									</div>
+									<p class="notic">可设置仅限到店自提，用于门店引流。</p>
+								</dd>
+							</dl>
+							<dl class="row">
+								<dt class="tit">
+									<label for="choice_sotre"><em>*</em>提货门店/发货门店：</label>
+								</dt>
+								<dd class="opt">
+									<input id="choice_sotre" type="text"  value="" placeholder="点击选择门店">
+								</dd>
+							</dl>
+						</span>
+						<dl class="row">
+							<dt class="tit"><b style="font-size: 16px;">其他中奖限制条件</b></dt>
+						</dl>
+						<dl class="row" >
+							<dt class="tit">
+								<label for="num_limit"><em>*</em>中奖次数限制：</label>
+							</dt>
+							<dd class="opt">
+								<div class="area-region-select">
+									<select class="valid select2" id="num_limit" name="lottery_time_day_limit">
+										<option value="0">不限制</option>
+										<option value="1">限制</option>
+									</select>
+								</div>
+								<div id="num_input" style="display: none"><input type="text"/>&nbsp;&nbsp;次</div>
+								<div style="clear: both"></div>
+								<p class="notic" id="num_input_notic" style="display: none;">可设置仅限到店自提，用于门店引流。</p>
+							</dd>
+						</dl>
+						<div class="bot">
+							<a id="submit" href="javascript:void(0)" class="btn btn-success radius">下一步</a>
+						</div>
+					</div>
+				</div>
+			</form>
+			</div>
+
+			<div id="goTop">
+				<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+				<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+			</div>
+	</body>
+	<script type="text/javascript">
+        function preview(file){
+            var lengs = $('#preview').children('.uploadimg').length;
+            if(lengs>4){
+                layer.msg("亲，最多只能上传5张图片哦！");
+                return false;
+            }
+
+            var prevDiv = document.getElementById('preview');
+            if(file.files && file.files[0]){
+                var reader = new FileReader();
+                reader.onload = function(evt){
+                    prevDiv.innerHTML += '<div class="uploadimg"><img src="' + evt.target.result + '" /><i class="fa fa-times remove" aria-hidden="true"></i></div>';
+                }
+                reader.readAsDataURL(file.files[0]);
+            }
+        }
+		$(document).ready(function() {
+            $("#prize_type").change(function() {
+                if(document.getElementById("prize_type").selectedIndex == 0) {
+                    $("#integral_info").hide();
+                    $("#money_info").hide();
+                    $("#coupon_reduce").hide();
+                    $("#coupon_sale").fadeIn();
+                } else if(document.getElementById("prize_type").selectedIndex == 1){
+                    $("#integral_info").hide();
+                    $("#coupon_sale").hide();
+                    $("#money_info").hide();
+                    $("#coupon_reduce").fadeIn();
+                }else if(document.getElementById("prize_type").selectedIndex == 2){
+                    $("#money_info").hide();
+                    $("#coupon_reduce").hide();
+                    $("#coupon_sale").hide();
+                    $("#integral_info").fadeIn();
+                }else{
+                    $("#integral_info").hide();
+                    $("#coupon_reduce").hide();
+                    $("#coupon_sale").hide();
+                    $("#money_info").fadeIn();
+                }
+            });
+            $("#coupon_valid").change(function() {
+                if(document.getElementById("coupon_valid").selectedIndex == 0) {
+                    $("#after_time").hide();
+                    $("#fixed_time").fadeIn();
+                } else {
+                    $("#fixed_time").hide();
+                    $("#after_time").fadeIn();
+                }
+            });
+            $("#coupon_sale_valid").change(function() {
+                if(document.getElementById("coupon_sale_valid").selectedIndex == 0) {
+                    $("#after_sale_time").hide();
+                    $("#fixed_sale_time").fadeIn();
+                } else {
+                    $("#fixed_sale_time").hide();
+                    $("#after_sale_time").fadeIn();
+                }
+            });
+            $("#num_limit").change(function() {
+                if(document.getElementById("num_limit").selectedIndex == 1) {
+                    document.getElementById("num_input").style.display = 'block';
+                    document.getElementById("num_input_notic").style.display = 'block';
+                } else {
+                    document.getElementById("num_input").style.display = 'none';
+                    document.getElementById("num_input_notic").style.display = 'none';
+                }
+            });
+
+            $("body").on("click","#preview .uploadimg .remove",function(){
+                var urls = $(this).parent().attr("imgname");$(this).parent().remove();
+                if(urls){
+                    $.ajax({
+                        type: "POST",
+                        url: "del_set_onload?url="+urls,
+                        data: 123,
+                        dataType: "json",
+                        success: function(data){
+                        }
+                    });
+                }
+            });
+
+		})
+		$("#choice_sotre").on('click',function(){
+            layer.open({
+                type: 1,
+				title:'选择门店',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '240px'], //宽高
+				btn:['确定','取消'],
+                content: 'html内容'
+            });
+		})
+
+	</script>
+
+	</html>

@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>申请售后结果</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/weui.min.js"></script>
+
+
+</head>
+<style>
+	.clear{
+		clear: both;
+	}
+	.btn-sub{
+	width:100%;
+	position: fixed;
+	height: 50px;
+	bottom: 0;
+	line-height: 50px;
+	text-align: center;
+	background: #dd2727;
+	color: #fff;
+	z-index:999;
+	font-size: 17px;
+}
+.btn-return{
+	width:100%;
+	position: fixed;
+	height: 50px;
+	bottom: 60px;
+	line-height: 50px;
+	text-align: center;
+	background: #fff;
+	color: #333;
+	z-index:999;
+	font-size: 17px;
+	border-top: 1px solid #E6E9EE;
+	border-bottom: 1px solid #E6E9EE;
+}
+
+/*new*/
+.good_property{
+	color: #999;
+	margin-right: 20px;
+}
+.weui-cells {
+    font-size: 15px;
+    margin-top: 10px;
+}
+.good_property_content{
+	width: 70%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.good_property_content a{
+	color: #DD2727;
+	margin-left: 10px;
+}
+.good_info{
+	margin: 15px;
+}
+.good_info p{
+	float: left;
+}
+
+/*new*2*/
+.weui-icon-info-circle {
+    font-size: 20px;
+    color: #dd2727;
+}
+.result_title{
+	font-size: 16px;
+	text-align: center;
+	margin: 23px 0;
+	color: #dd2727;
+}
+.surplus_time{
+	color: #dd2727;
+	margin: 0 5px;
+}
+.return_order{
+	margin-top: 10px;
+	background: #fff;
+}
+.ills li{
+	list-style-type: disc;
+	color: #999;
+}
+</style>
+<body ontouchstart>
+   		<p class="result_title"><i class="weui-icon-info-circle"></i>等待商家确认</p>
+   		
+   		<div class="weui-cells" style="padding: 10px 10px 10px 30px;">
+            <ul class="ills">
+            	<li>非退货申请：商家同意后将退款给您</li>
+            	<li>退货申请：商家同意后需等待您退回商品，商家收货后再退款给您</li>
+            	<li>若商家拒绝申请，您可以重新修改退款申请重新提交</li>
+            </ul>
+        </div>
+   		
+        <div class="weui-cells" style="margin-top: 10px;">
+            <div class="good_info">
+            		<p class="good_property">订单编号</p>
+                    <p class="good_property_content"><{$refundinfo.order_sn}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">申请时间</p>
+                    <p class="good_property_content"><{date("Y-m-d H:i:s",$refundinfo.add_time)}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">申请原因</p>
+                    <p class="good_property_content"><{$reason}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">退款方式</p>
+                    <p class="good_property_content"><{$refund_type}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">退款金额</p>
+                    <p class="good_property_content" style="color: #dd2727;">￥<{$refundinfo.refund_amount_apply}></p>
+                    <div class="clear"></div>
+            </div>
+            <div class="good_info">
+            		<p class="good_property">服务顾问</p>
+                    <p class="good_property_content">
+                       <{if !empty($guide_info) and isset($guide_info.spg_id)}>
+                    	<{$guide_info.spg_name}><a href="<{base_url()}>vmall.php/Store/shopping_guide_chat?spg_id=<{$guide_info.spg_id}>">联系TA</a>
+                    	
+                    	<{else}>
+                    	暂无<a href="<{base_url()}>vmall.php/store/Stores">联系其他店铺导购</a>
+                    	<{/if}>
+                    </p>
+                    <div class="clear"></div>
+            </div>
+        </div>
+
+
+		<div style="height: 80px;"></div>
+	<div class="btn-return">返回订单详情</div>
+	<div class="btn-sub">关闭退款申请</div>
+</body>
+<script type="text/javascript">
+
+$("body").on("touchstart",".btn-return",function(){
+	window.location.href="../order/order_detail?order_sn=<{$refundinfo.order_sn}>";
+})
+$("body").on("touchstart",".btn-sub",function(){
+	var refund_id = "<{if !empty($refundinfo.refund_id)}><{$refundinfo.refund_id}><{/if}>";
+		 $.ajax({
+				type: "POST",
+		        url: "colse_apply_services",
+		        data: {'refund_id':refund_id,
+		        	   'op':"colseApply"
+		        	
+		        },
+		        dataType: "json",
+		        success: function(data){
+		        	if(data.state){
+		        		mobileAlert(data.msg,2000,"");
+		        		setTimeout("window.location.href='../user/index'",2000);
+	        	    }else{
+	        	    	mobileAlert(data.msg,2000,"");
+	        	    }
+		        }
+			});
+			
+		
+})
+</script>
+</html>

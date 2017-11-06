@@ -1,0 +1,302 @@
+ <{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<nav class="breadcrumb" style="margin-bottom: 10px;"><i class="Hui-iconfont">&#xe67f;</i> 用户中心 <span class="c-gray en">&gt;</span> 账户管理 <span class="c-gray en">&gt;</span> 地址管理<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3 style="line-height: 38px;"><span><img src="<{TEMPLE}>images/blueline.png" style="vertical-align:middle;margin-right: 10px;"></span>地址管理</h3>
+      </div>
+  </div>
+  
+</div>
+    <div class="">
+        <form action="" id="form_1">
+            <table class="table table-border table-bordered table-bg">
+                <tr>
+                    <th colspan="2" bgcolor="#EAEDF1">新增收货地址</th>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-r"><span class="c-red mr-5 va-m">*</span>收货人：</td>
+                    <td width="80%" ><input type="text" name="user_name" class="input_text input-text mr-20" value="<{if !empty($info)}><{$info.user_name}><{/if}>"><span class="err"></span></td>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-r"><span class="c-red mr-5 va-m">*</span>地址：</td>
+                    <td width="80%" >
+                        <select name="province" id="" class="input_text m_w_120" onchange="get_city_list(this)">
+                        	<{if isset($info)}>
+                        	<option value="<{$info.province}>" selected><{$info.province_name}></option>
+                        	<{else}>
+                            <option value="" selected>-省份-</option>
+                            <{/if}>
+                            <{foreach from=$provinces item=province}>
+                            <option value="<{$province.area_id}>"><{$province.area_name}></option>
+                            <{/foreach}>
+                        </select>
+                        <select name="city" id="" class="input_text m_w_120" onchange="get_area_list(this)">
+                            <{if isset($info)}>
+                        	<option value="<{$info.city}>" selected><{$info.city_name}></option>
+                        	<{else}>
+                            <option value="" selected>-城市-</option>
+                            <{/if}>
+                        </select>
+                        <select name="area" id="" class="input_text m_w_120">
+                            <{if isset($info)}>
+                        	<option value="<{$info.area}>" selected><{$info.area_name}></option>
+                        	<{else}>
+                            <option value="" selected>-区-</option>
+                            <{/if}>
+                        </select>
+                        <span class="err"></span></td>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-r"><span class="c-red mr-5 va-m">*</span>详细地址：</td>
+                    <td width="80%" ><input type="text" name="address" class="input-text input_text mr-20" value="<{if !empty($info)}><{$info.address}><{/if}>" style="width: 300px !important;"><span class="err"></span></td>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-r">邮政编码：</td>
+                    <td width="80%" ><input type="text" name="postcode" value="<{if !empty($info)}><{$info.postcode}><{/if}>" class="input-text input_text mr-20"><span class="err"></span></td>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-r"><span class="c-red mr-5 va-m">*</span>手机：</td>
+                    <td width="80%" ><input type="text" name="tel" value="<{if !empty($info)}><{$info.tel}><{/if}>" class="input-text input_text mr-20"><span class="err"></span></td>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-r">备用电话：</td>
+                    <td width="80%" ><input type="text" name="tel2" value="<{if !empty($info.tel2)}><{$info.tel2}><{/if}>" class="input-text input_text mr-20"><span class="err"></span></td>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-r">设为默认：</td>
+                    <td width="80%" >
+                    	是<input type="radio" name="is_default" class="ml-5  mr-20" value="1" <{if !empty($info) && $info.is_default=="1"}>checked="checked"<{/if}>>
+                    	否<input type="radio" name="is_default" class=" ml-5 mr-20" value="0" <{if !empty($info)}><{if $info.is_default=="0"}>checked="checked"<{/if}><{else}>checked="checked"<{/if}>>
+                    </td>
+                </tr>
+            </table>
+            <div class="text-c mt-20">
+            	<{if !empty($info)}>
+            	<input type="button" class="btn btn-primary radius pl-30 pr-30"  onclick="edit(<{$info.a_id}>)" value="保存">
+            	<{else}>
+                <input type="button" class="btn btn-primary radius submit pl-30 pr-30"  value="保存">
+                <{/if}>
+            </div>
+            <{if !empty($address_infos)}>
+            <table class="table table-border table-bordered mt-20">
+                <tr>
+                    <th colspan="9">已经保存的收货地址</th>
+                </tr>
+                <tr bgcolor="#EAEDF1" class="text-c">
+                    <td>收货人</td>
+                    <td>所在地区</td>
+                    <td>详细地址</td>
+                    <td>邮编</td>
+                    <td>联系电话</td>
+                    <td>备用电话</td>
+                    <td>操作</td>
+                    <td></td>
+                </tr>
+                <{foreach from=$address_infos item=v}>
+                <tr class="text-c hide_div">
+                    <td><{$v.user_name}></td>
+                    <td><{$v.province_name}> <{$v.city_name}> <{$v.area_name}></td>
+                    <td><{$v.address}></td>
+                    <td><{$v.postcode}></td>
+                    <td><{$v.tel|substr_replace:'*******':2:7}></td>
+                    <td><{if empty($v.tel2)}>--<{else}><{$v.tel2|substr_replace:'*******':2:7}><{/if}></td>
+                    <td>
+                        <a href="address_management?op=edit&a_id=<{$v.a_id}>" class=" btn" title="修改"><i class='fa fa-edit'></i></a><a href="javascript:;" onclick="del(<{$v.a_id}>)" class=" delete_a btn btn-del" title="删除"><i class='fa fa-trash-o'></i></a>
+                    </td>
+                    <td>
+                    <{if $v.is_default != 1}>
+                        <div class="">
+                            <a href="javascript:;" class="btn btn-warning radius size-S" onclick="set_default(<{$v.a_id}>)" title="设为默认"><i class='fa fa-cog'></i>设为默认</a>
+                        </div>
+                    <{else}>
+                        <div class="">
+                            <a href="javascript:;" class="btn btn-warning-outline radius size-S" style="cursor: default">默认</a>
+                        </div>
+                    <{/if}>
+                    </td>
+                </tr>
+                <{/foreach}>
+            </table>
+            <{/if}>
+        </form>
+    </div>
+    <div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+<script src="<{TEMPLE}>js/require-2.1.18.min.js" data-main="<{TEMPLE}>js/config"></script>
+<script>
+	require(['jquery'],function(){
+	require(['layer','jquery.validate','jquery.validation.min','admin'],function(){
+
+    /*表单验证*/
+    $('#form_1').validate({
+        errorPlacement: function(error, element){
+            var error_td = element.nextAll('span.err');
+            error_td.append(error);
+        },
+        rules : {
+        	user_name : {required : true},
+        	province : {required:true},
+        	city : {required:true},
+        	area : {required:true},
+        	address :{required : true},
+        	/* postcode : {required : true}, */
+        	tel : {
+                required : true,
+                mobile  : true,
+            },
+            tel2 : { mobile  : true}
+        },
+        messages : {
+        	user_name : {required : '<i class="fa fa-exclamation-circle"></i> 请填写收货人姓名'},
+        	province : {required : '<i class="fa fa-exclamation-circle"></i>请选择退所属地区省份'},
+        	city : {required : '<i class="fa fa-exclamation-circle"></i>请选择退所属地区城市'},
+        	area: {required : '<i class="fa fa-exclamation-circle"></i>请选择退所属地区区县'},
+        	address :{required : '<i class="fa fa-exclamation-circle"></i> 请填写详细地址'},
+/*         	postcode : {required : '<i class="fa fa-exclamation-circle"></i> 请填写邮政编码'}, */
+        	tel : {
+                required : '<i class="fa fa-exclamation-circle"></i> 请填写手机号码',
+                mobile : '<i class="fa fa-exclamation-circle"></i> 请填写正确的手机号码格式'
+            },
+            tel2 : {
+                mobile : '<i class="fa fa-exclamation-circle"></i> 请填写正确的手机号码格式'
+            },
+        }
+    });
+    /*提交表单*/
+    $(".btn.submit").click(function(){
+        if($("#form_1").valid()){
+        	var data = $("#form_1").serialize();
+            $.ajax({
+            	type:'post',
+            	url:'address_edit?op=add',
+            	data:data,
+            	dataType:'json',
+            	success:function(data){
+            		layer.msg(data.msg);
+					if(data.state=='403'){
+							    login_ajax('agent',data);
+							}else
+            		if(data.state == true){
+            			window.location.href='address_management';
+            		}
+            	}
+            })
+        }
+    })
+})
+	})
+/*修改*/
+function edit(a_id){
+	if($("#form_1").valid()){
+    	var data = $("#form_1").serialize();
+        $.ajax({
+        	type:'post',
+        	url:'address_edit?op=edit_submit&a_id='+a_id,
+        	data:data,
+        	dataType:'json',
+        	success:function(data){
+        		layer.msg(data.msg);
+				if(data.state=='403'){
+							    login_ajax('agent',data);
+							}else
+        		if(data.state == true){
+        			window.location.href='address_management';
+        		}
+        	}
+        })
+    }
+}
+/*删除按钮*/
+function del(a_id){
+    layer.open({
+        type: 1,
+        title: '<b>提示信息</b>',
+        skin: 'layui-layer-rim', //加上边框
+        btn: ['确定','取消'],
+        area: ['400px', '180'], //宽高
+        content: '<div class="pd-20 f-16 text-c"><b>确定删除该地址吗？</b></div>',
+        yes:function(){
+        	$.ajax({
+            	type:'get',
+            	url:'address_edit?op=del&a_id='+a_id,
+            	data:'',
+            	dataType:'json',
+            	success:function(data){
+            		layer.msg(data.msg);
+					if(data.state=='403'){
+							    login_ajax('agent',data);
+							}else
+            		if(data.state == true){
+            			window.location.href='address_management';
+            		}
+            	}
+            })
+        },
+        no:function(){}
+    });
+}
+/*设为默认*/
+function set_default(a_id){
+    layer.open({
+        type: 1,
+        title: '<b>提示信息</b>',
+        skin: 'layui-layer-rim', //加上边框
+        btn: ['确定','取消'],
+        area: ['400px', '180'], //宽高
+        content: '<div class="pd-20 f-16 text-c"><b>确定设置此地址为默认地址吗？</b></div>',
+        yes:function(){
+        	$.ajax({
+            	type:'get',
+            	url:'address_edit?op=set_default&a_id='+a_id,
+            	data:'',
+            	dataType:'json',
+            	success:function(data){
+            		layer.msg(data.msg);
+					if(data.state=='403'){
+							    login_ajax('agent',data);
+							}else
+            		if(data.state == true){
+            			window.location.href='address_management';
+            		}
+            	}
+            })
+        },
+        no:function(){}
+    });
+}
+function get_city_list(p){
+	var p_id = $(p).val();
+	var html = '';
+	$(p).next('select').next('select').html('<option value="">-区-</option>');
+	$.ajax({
+		type: "get",
+        url: "get_son_area?p_id="+p_id,
+        data: '',
+        dataType: "json",
+        success: function(data){
+        	html += '<option value="">-城市-</option>';
+        	html += data;
+        	$(p).next('select').html(html);
+        }
+	})
+}
+function get_area_list(p){
+	var p_id = $(p).val();
+	var html = '';
+	$.ajax({
+		type: "get",
+        url: "get_son_area?p_id="+p_id,
+        data: '',
+        dataType: "json",
+        success: function(data){
+        	html += '<option value="">-区-</option>';
+        	html += data;
+        	$(p).next('select').html(html);
+        }
+	})
+}
+</script>
+</html>

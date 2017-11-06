@@ -1,0 +1,157 @@
+
+<{include file="pageheader.html"}>
+<style>
+.percent{margin-bottom:10px;}
+input.input-num{width:60px !important;}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+    <div id="append_parent"></div>
+    <div id="ajaxwaitid"></div>
+    <div class="page">
+        <div class="fixed-bar">
+            <div class="item-title">
+               <a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+					<div class="subject">
+						<h3>门店管理 - 门店<{if isset($store_data.store_name)}>(<{$store_data.store_name}>)<{/if}>其他信息设置</h3>
+						<h5>平台中的所有新闻的管理</h5>
+					</div>
+					<{if isset($store_data.store_id)}>
+                <ul class="tab-base nc-row">
+				        <li><a href="store_edit?op=edit&id=<{$store_data.store_id}>">基本信息</a></li>
+				        <li><a href="store_of_goods?op=edit&id=<{$store_data.store_id}>">商品</a></li>
+				        <li><a href="store_of_shopping_guide?op=edit&id=<{$store_data.store_id}>">导购</a></li>
+					<!-- <li><a href="store_of_freight_setting?op=edit&id=<{$store_data.store_id}>">运费</a></li>
+                      <li><a href="store_of_notice_setting?op=edit&id=<{$store_data.store_id}>" >通知</a></li> -->
+				        <li><a href="JavaScript:void(0);" class="current">其他</a></li>
+			      </ul>
+			      <{/if}>
+            </div>
+        </div>
+        <!-- 操作说明 -->
+			<div class="explanation" id="explanation">
+				<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+					<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+					<span id="explanationZoom" title="收起提示"></span> </div>
+				<ul>
+					<li> 若绑定云聚客后为未认证公众号，之后通过了微信认证，请重新授权补充权限。</li>
+					<li>仅微信认证后的服务号可使用完整云聚客功能，若微信公众号接口异常，根据提示处理后请点击上方重新授权。</li>
+					<li> 若公众号为订阅号，需通过微信认证才可支持微信支付；服务号均可支持。</li>
+				</ul>
+			</div>
+        <form method="post" id="settingForm" name="settingForm" action="store_other_set">
+            <input type="hidden" name="store_id" value="<{if isset($store_data.store_id)}><{$store_data.store_id}><{/if}>">
+            <input type="hidden" name="store_name" value="<{if isset($store_data.store_name)}><{$store_data.store_name}><{/if}>">
+            <div class="ncap-form-default">
+                <dl class="row">
+                   <dt class="tit">
+                        <label for="store_arayacak">自提订单提货码通知:</label>
+                    </dt>
+                    <dd class="opt">
+                        <select name="store_arayacak" class="valid">
+                            <option value="1" <{if isset($store_data.warn_pick_up)&&$store_data.warn_pick_up==1}>selected<{/if}>>仅微信 公众号提醒</option>
+                            <option value="2" <{if isset($store_data.warn_pick_up)&&$store_data.warn_pick_up==2}>selected<{/if}>>短信提心及微信公众号提醒</option>
+                        </select>
+                        <p class="notic">门店自提订单，发送提货码短信给用户；方便未关注用户购买后可直接查询短信；已关注用户48小时内公众号会有推送提醒，在订单内也可查询到。</p>
+                        <span class="err"></span>
+                    </dd>
+                </dl>
+                <dl class="row">
+						<dt class="tit">
+                    <label for="class_name">订单抽成比例</label>
+                </dt>
+						<dd class="opt">
+							<div class="percent">门店订单：<input type="number" value="<{if isset($store_data.order_take_percentage.offline)}><{$store_data.order_take_percentage.offline}><{/if}>" name="order_take_percentage[offline]" id="" class="input-num">
+							<span class="err"></span></div>
+							<div class="percent">微信订单：<input type="number" value="<{if isset($store_data.order_take_percentage.system)}><{$store_data.order_take_percentage.system}><{/if}>" name="order_take_percentage[system]" id="" class="input-num">
+							<span class="err"></span></div>
+							<div class="percent">分销订单：<input type="number" value="<{if isset($store_data.order_take_percentage.agent)}><{$store_data.order_take_percentage.agent}><{/if}>" name="order_take_percentage[agent]" id="" class="input-num">
+							<span class="err"></span></div>
+							<div class="percent">电商订单：<input type="number" value="<{if isset($store_data.order_take_percentage.online)}><{$store_data.order_take_percentage.online}><{/if}>" name="order_take_percentage[online]" id="" class="input-num">
+							<span class="err"></span></div>
+							<p class="notic">请填写小数</p>
+						</dd>
+						
+					</dl>
+                <dl class="row">
+						<dt class="tit">
+                    <label for="class_name">吸粉返利比例</label>
+                </dt>
+						<dd class="opt">
+							<input type="number" value="<{if isset($store_data.follow_user_percentage)}><{$store_data.follow_user_percentage}><{/if}>" name="follow_user_percentage" id="follow_user_percentage" class="input-num">
+							<span class="err"></span>
+							<p class="notic"></p>
+						</dd>
+					</dl>
+               	
+                <div class="bot"><a href="JavaScript:;" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+            </div>
+        </form>
+    </div>
+  	
+    <div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+	  valid_rule = {
+			  'order_take_percentage[offline]': {
+		            //required: true,
+		            range: [0.001,0.999],
+		          },
+			  'order_take_percentage[system]': {
+		            //required: true,
+		            range: [0.001,0.999],
+		          },
+			  'order_take_percentage[agent]': {
+		            //required: true,
+		            range: [0.001,0.999],
+		          },
+			  'order_take_percentage[online]': {
+		            //required: true,
+		            range: [0.001,0.999],
+		          },
+		     'follow_user_percentage': {
+		            //required: true,
+		            range: [0.001,0.999],
+		          },
+		        };
+	  valid_msg = {
+			  'order_take_percentage[offline]' : {
+	              //required : '<i class="icon-exclamation-sign">请填写抽成比例</i>',
+	              range : '<i class="icon-exclamation-sign">数字应在0与0.999之间</i>',
+	            },
+			  'order_take_percentage[system]' : {
+	              //required : '<i class="icon-exclamation-sign">请填写抽成比例</i>',
+	              range : '<i class="icon-exclamation-sign">数字应在0与0.999之间</i>',
+	            },
+			  'order_take_percentage[agent]' : {
+	              //required : '<i class="icon-exclamation-sign">请填写抽成比例</i>',
+	              range : '<i class="icon-exclamation-sign">数字应在0与0.999之间</i>',
+	            },
+			  'order_take_percentage[online]' : {
+	              //required : '<i class="icon-exclamation-sign">请填写抽成比例</i>',
+	              range : '<i class="icon-exclamation-sign">数字应在0与0.999之间</i>',
+	            },
+	            'follow_user_percentage' : {
+	              //required : '<i class="icon-exclamation-sign">请填写吸粉返利比例</i>',
+	              range : '<i class="icon-exclamation-sign">数字应在0与0.999之间</i>',
+	            },
+	          };
+	  $("#settingForm").validate({
+	      errorPlacement: function(error, element){
+	        var error_td = element.next('span.err');
+	        error_td.append(error);
+	      },
+	      rules : valid_rule,
+	      messages : valid_msg
+	    });
+		$('#submitBtn').click(function(){
+			if($("#settingForm").valid()){
+				$('#settingForm').submit();
+			  }  
+		    
+			 
+		})
+  })
+</script>
+</html>

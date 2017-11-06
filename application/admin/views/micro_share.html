@@ -1,0 +1,153 @@
+<{include file="pageheader.html"}>
+<style>
+    .preview_img{
+        width:90px;
+        height: 90px;
+        vertical-align: top;
+        margin-right: 7px;
+        margin-bottom: 5px;
+    }
+    .uploadimg{
+        position: relative;
+        float: left;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>微砍价分享设置</h3>
+                <h5>微砍价相关基础信息及功能设置选项</h5>
+            </div>  
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data" name="form" id="form">
+        <div class="ncap-form-default">
+            
+            <!-- 微砍价分享标题 -->
+            <dl class="row">
+                <dt class="tit">
+                    <label for="share_title"><em>*</em>微砍价分享标题</label>
+                </dt>
+                <dd class="opt">
+                    <input id="share_title" name="share_title" value="<{if !empty($micros.micro_share_title)}><{$micros.micro_share_title}><{/if}>" class="input-txt" type="text">
+                    <span class="err"></span>
+                    <p class="notic">微砍价分享标题</p>
+                </dd>
+            </dl>
+
+            <!-- 微砍价分享图片 -->
+            <dl class="row" style="border-top: none;">
+                <dt class="tit">
+                    <label for="share_img"><em>*</em>微砍价分享图片</label>
+                </dt>
+                <dd class="opt">
+                    <div class="input-file-show">
+                        <span class="show">
+                            <a class="nyroModal" rel="gal" href="javascript:void();">
+                                <i class="fa fa-picture-o"  id="s_img" data-geo='<img src="<{PLUGIN}>data/shop/album_pic/<{if !empty($micros.micro_share_url)}><{$micros.micro_share_url}><{/if}>" width=100px height=50px>'></i>
+                            </a>
+                        </span>
+                        <span class="type-file-box">
+                            <input type="text" name="textfield" id="textfield" class="type-file-text" value="<{if !empty($micros.micro_share_url)}><{$micros.micro_share_url}><{/if}>">
+                            <input type="button" name="button" id="button" value="选择上传..." class="type-file-button">
+                            <input class="type-file-file" id="share_img" name="share_img" type="file" size="30" onchange="previews(this)" hidefocus="true" nc_type="share_img_change" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+                        </span>
+                    </div>
+                    <span class="err"></span>
+                    <p class="notic">微砍价分享图片</p>
+                    <input type="hidden" id="share_images" name ="share_images" value="<{if !empty($micros.micro_share_url)}><{$micros.micro_share_url}><{/if}>" >
+                </dd>
+            </dl>
+
+           <!-- 微砍价分享描述 -->
+            <dl class="row">
+                <dt class="tit">
+                    <label for="share_content"><em>*</em>微砍价分享描述</label>
+                </dt>
+                <dd class="opt">
+                    
+                    <textarea name="share_content" style="width: 288px;height:98px;" id="share_content"><{if !empty($micros.micro_share_content)}><{$micros.micro_share_content}><{/if}></textarea>
+                    <span class="err"></span>
+                    <p class="notic">微砍价分享描述</p>
+                </dd>
+            </dl>
+    
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="submit()">确认保存</a></div>
+        </div>
+    </form>
+</div>
+<script>
+    function previews(file){
+        //上传显示
+        var img_src = $("#share_img").val();
+        //console.log(a);return;
+        $("#textfield").val(img_src);
+        var reader = new FileReader();
+        reader.onload = function(evt){
+            $("#s_img").attr('data-geo','<img src="'+evt.target.result+'" width=100px height=50px >');
+            $("#share_images").val(evt.target.result);
+        }
+        reader.readAsDataURL(file.files[0]);
+    };
+
+ function submit(){
+    $("#form").validate({
+        errorPlacement: function(error, element){
+            var error_td = element.parent('dd').children('span.err');
+            error_td.append(error);
+        },
+        rules : {
+            share_title : {
+                required : true
+            },
+            share_content : {
+                required : true
+            },
+            share_images: {
+                required : true
+            }
+        },
+        messages : {
+            share_title : {
+                required : '<i class="fa fa-exclamation-circle"></i>请输入分享标题'
+            },
+            share_content : {
+                required : '<i class="fa fa-exclamation-circle"></i>请输入分享描述'
+            },
+            
+            share_images : {
+                required : '<i class="fa fa-exclamation-circle"></i>请选择分享图'
+            },
+        }
+    });
+	if($("form").valid()){
+		var form_data = new FormData($("form")[0]);
+		$.ajax({
+			type: "post",
+            url: "micro_share_save",
+            data: form_data,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function(data){
+                layer.msg(data.msg);
+                if(data.state){
+                	setTimeout("document.location.reload();",2000);
+                }
+            }
+        });
+	 }else{
+        return false;
+     }
+ }
+ 
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a
+        href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

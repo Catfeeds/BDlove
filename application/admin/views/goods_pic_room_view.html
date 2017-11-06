@@ -1,0 +1,168 @@
+<{include file="pageheader.html"}>
+<script type="text/javascript" src="<{TEMPLE}>js/jquery.nyroModal.js"></script>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="goods_pic_room" title="返回相册列表"><i
+                class="fa fa-arrow-circle-o-left"></i></a>
+
+            <div class="subject">
+                <h3>图片空间 - <{if !empty($aclass_name)}><{$aclass_name}><{else}>查看全部图片<{/if}></h3>
+                <h5>商品图片及商家店铺相册管理</h5>
+            </div>
+        </div>
+    </div>
+    <form method="post" action="" name="picForm" id="picForm">
+    	<input type="hidden" name="aclass_id" value="<{$aclass_id}>">
+    	<input type="hidden" id="pages" value="<{$page_info.page_count}>">
+    	<input type="hidden" id="curr" value="<{$page_info.curr}>">
+    	
+        <div class="ncap-store-album">
+        <{if empty($pic_info)}>
+        	<div class="ncap-store-album">
+            	<div class="no-data"><i class="fa fa-exclamation-circle"></i>没有符合条件的记录</div>
+            </div>
+        <{else}>
+            <ul class="ncap-thumb-list">
+            <{foreach from=$pic_info item=pic}>
+                <li class="picture pic_<{$pic.apic_id}>">
+                    <input class="checkitem" type="checkbox" name="delbox[]" value="<{$pic.apic_id}>">
+                    <div class="thumb-list-pics">
+                     <a nctype="nyroModal" href="<{$pic.pic_url}>" rel="gal"><img src="<{$pic.pic_url}>"></a> 
+                       <!-- <a nctype="nyroModal" href="<{TEMPLE}>images/userdemo.png" rel="gal"><img src="<{TEMPLE}>images/userdemo.png"></a>-->
+                    </div>
+                    <a href="javascript:void(0);"  class="del" title="删除" onclick="del(<{$pic.apic_id}>)">X</a>
+
+                    <p><{$pic.upload_time}><br><{$pic.apic_spec}><br><{$pic.apic_size}>k</p>
+                </li>
+            <{/foreach}>
+            </ul>
+        <{/if}>
+        </div>
+        <div class="bot">
+            <input id="checkallBottom" class="checkall" type="checkbox">
+            <label for="checkallBottom">全选</label>
+            <{if $aclass_id}>
+            <a class="ncap-btn-mini ncap-btn-green" href="javascript:void(0);" onclick="set_cover(<{$aclass_id}>)"><span>设为相册封面</span></a>
+            <{/if}>
+            <a class="ncap-btn-mini ncap-btn-red" href="javascript:void(0);" onclick="del_batch()"><span>删除</span></a>
+            <div class="pagination" id="pagination">
+                <div id="biuuu_city"></div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('a[nctype="nyroModal"]').nyroModal();
+    });
+  //好像很实用的样子，后端的同学再也不用写分页逻辑了。
+    var pages = $("#pages").val();
+    var curr = $("#curr").val();
+    var aclass_id = $("input[name='aclass_id']").val();
+    laypage({
+      cont: 'pagination',
+      pages: pages, //可以叫服务端把总页数放在某一个隐藏域，再获取。假设我们获取到的是18
+      curr: curr, 
+      skin: '#41BEDD', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+      groups: 5 ,//连续显示分页数
+      jump: function(e, first){ //触发分页后的回调
+        if(!first){ //一定要加此判断，否则初始时会无限刷新
+          location.href = 'goods_pic_room_view?aclass_id='+aclass_id+'&curpage='+e.curr;
+        }
+      }
+    });
+    function del(apic_id){
+    	layer.confirm('确定删除此项吗？', {
+            btn: ['确定','取消'] //按钮
+          }, function(){
+            $.ajax({
+                type: "get",
+                url: "delete_pic?op=del&ids="+apic_id,
+                data: '',
+                dataType: "json",
+                success: function(data){
+                        layer.msg(data.msg);
+                            if(data.state=='403'){
+                        login_ajax('shopadmin');
+                }else
+                        if(data.state == true && data.data){
+                                $('.pic_'+data.data).remove();
+                        }
+                }
+          })
+        });
+    }
+    function del_batch(apic_id){
+    	layer.confirm('确定要批量删除吗？', {
+            btn: ['确定','取消'] //按钮
+          }, function(){
+            var data = $('#picForm').serialize();
+            $.ajax({
+                type: "post",
+                url: "delete_pic?op=del_batch",
+                data: data,
+                dataType: "json",
+                success: function(data){
+                        layer.msg(data.msg);
+                    if(data.state=='403'){
+                            login_ajax('shopadmin');
+                    }else
+                        if(data.state == true && data.data){
+                                if(data.data==0){
+                                        window.location.href = 'goods_pic_room_view';
+                                }else{
+                                        window.location.href = 'goods_pic_room_view?aclass_id='+data.data;
+                                }
+                        }
+                }
+          })
+        });
+    }
+    function set_cover(){
+        var length = 0;
+        var apic_id = 0;
+        $.each($("li input[type='checkbox']"),function(){
+            if($(this).is(':checked')){
+                apic_id = $(this).val();
+                length++;
+            }
+        })
+        if(length <= 0){
+            layer.msg("请选择要设置为封面的一项！");return false;
+        }else if(length >1){
+            layer.msg("最多选择一项！");return false;
+        }
+        var aclass_name = "<{$aclass_name}>";
+    	layer.confirm('确定要设置为'+aclass_name+'的封面吗？', {
+            btn: ['确定','取消'] //按钮
+          }, function(){
+            var data = $('#picForm').serialize();
+            $.ajax({
+                type: "post",
+                url: "set_cover?",
+                data: data,
+                dataType: "json",
+                success: function(data){
+                    layer.msg(data.msg);
+                    if(data.state=='403'){
+                            login_ajax('shopadmin');
+                    }else if(data.state == true){
+                        window.location.href = 'goods_pic_room';
+//                        if(data.data==0){
+//                            window.location.href = 'goods_pic_room_view';
+//                        }else{
+//                            window.location.href = 'goods_pic_room_view?aclass_id='+data.data;
+//                        }
+                    }
+                }
+          })
+        }, function(){
+          return false;
+        });
+    }
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a
+        href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

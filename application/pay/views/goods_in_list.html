@@ -1,0 +1,144 @@
+<style>
+  .border-b{border-bottom: 1px solid #ddd;min-width:26px}
+</style>
+<{if isset($goods_info)==true}>
+<div class="bk-gray pd-10">
+  <ul id="list">
+    <{if empty($goods_info)!== TRUE}>
+    <{foreach from = $goods_info item=goods}>
+
+    <li class="goods_list mb-40">
+      <div class="goods_info cl">
+        <img src="<{$goods.sku.goods_image}>" width="100" height="70"  data-geo='<img src="<{$goods.sku.goods_image}>" width=300px>' class="f-l" alt="">
+        <div class="goods_info_text f-l ml-20">
+          <div class="f-16"><b>货号：<span class="goods_article_number"><{$goods.sku.stocks_sku}> </span>名称：<{$goods.sku.goods_name}></b></div>
+          <div class="f-14">吊牌价：<span class="c-red"><{$goods.sku.stocks_marketprice}></span>元</div>
+          <div class="f-14">
+            品牌：<span class="c-red mr-5"><{$goods.sku.brand_name}></span>
+            商品分类：<span class="c-red mr-5"><{$goods.sku.gc_name}></span>
+            性别：<span class="c-red mr-5"><{$goods.sku.sex}></span>
+            <!--  <{if $goods.attr}>
+             <{foreach from = $goods.attr item=attr}>
+             <{$attr.key}>：<span class="c-red mr-5"><{$attr.val}></span>
+             <{/foreach}>
+             <{/if}> -->
+            颜色：<span class="c-red mr-5"><{if !empty($goods.sku.color_remark)}><{$goods.sku.color_remark}><{else}><{$goods.sku.color}><{/if}></span>
+            重量：<span class="c-red mr-5"><{$goods.sku.weight}>KG</span>
+            发布季：<span class="c-red mr-5"><{$goods.sku.year_to_market}><{$goods.sku.season_to_market}></span>
+            款号：<span class="c-red mr-5"><{$goods.sku.goods_spu}></span>
+          </div>
+        </div>
+      </div>
+      <div class="goods_table mt-10">
+        <table class=" table table-border table-bordered table-bg" style="width:auto;">
+          <tr class="text-c"  bgcolor="F6F6F6">
+            <th width="100px;">仓库</th>
+            <{foreach from = $goods.sku_size item = size key=k_size}>
+            <th class="size_stock" width="80px;">
+              <div class=" china_size" data-size="<{$k_size}>">
+                <{if !empty($size)}><{$size}><{else}><{$k_size}><{/if}>
+              </div>
+            </th>
+            <{/foreach}>
+            <th width="80px;">合计</th>
+            <th width="80px;">销售价</th>
+            <th width="80px;">折扣</th>
+
+            <th width="170px;">退货比例+超出扣款</th>
+
+
+          </tr>
+          <{if isset($goods.sku_info)}>
+          <{foreach from = $goods.sku_info item = stock}>
+          <tr class="text-c va-t">
+            <td class="">
+              <div class="" style="">
+                <{if !empty($stock.kf_qq)}>
+                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=<{$stock.kf_qq}>&amp;site=qq&amp;menu=yes" target="_blank">
+                  <img src="<{TEMPLE}>images/qq.gif" class="mr-5" alt="">
+                </a>
+                <{/if}>
+                <span id="depot_code" title-id="<{$stock.store_name}>" value="<{$stock.store_id}>">
+                        <span id="addr" data-info=''><{$stock.store_name}></span>
+                    
+                    </span>
+              </div>
+            </td>
+            <{foreach $goods.sku_size item=size key=k_size}>
+            <{foreach from=$stock.stock_size item=value key=key name=stock_size}>
+            <{if $k_size==$value.size}>
+            <td class="" >
+              <div class=" size_num " style=""><{$value.amount}></div>
+              <input type="text" class="w_20 text-c hide "style="">
+            </td>
+            <{break}>
+            <{elseif $smarty.foreach.stock_size.iteration == $stock.stock_size|@count}>
+            <td class="" >
+              <div class=" size_num " style=""><a href="javascript:;" class="size_">0</a></div>
+              <input type="text" class="w_20 text-c hide "style="">
+            </td>
+            <{break}>
+            <{/if}>
+            <{/foreach}>
+            <{/foreach}>
+            <td class="pos-r">
+              <div class="c-red size_num pos-r ">
+                <span  class="c-red"><{$stock.size_total}></span>
+              </div>
+            </td>
+            <td><{$stock.stocks_price}></td>
+            <td><{sprintf("%.2f",$stock.stocks_price/$goods.sku.stocks_marketprice)}></td>
+
+            <td>1%+10%</td>
+
+
+          </tr>
+          <{/foreach}>
+
+        </table>
+      </div>
+      <div class="goods_total"></div>
+    </li>
+    <{/if}>
+
+    <{/foreach}>
+    <{else}>
+    <li class="goods_list mb-40 no-data"><i class="fa fa-exclamation-circle"></i>没有符合条件的记录</li>
+    <{/if}>
+  </ul>
+</div>
+<div class="pDiv">
+  <div class="pDiv2">
+    <div class="pGroup-left">每页最多显示
+      <select class="select prp pButton" name="rp">
+        <option value="5"  <{if $page_info.rp eq 5}>selected="selected" <{/if}>>5&nbsp;&nbsp;</option>
+        <option value="10" <{if $page_info.rp eq 10}>selected="selected" <{/if}>>10&nbsp;&nbsp;</option>
+        <option value="15" <{if $page_info.rp eq 15}>selected="selected" <{/if}>>15&nbsp;&nbsp;</option>
+        <option value="20" <{if $page_info.rp eq 20}>selected="selected" <{/if}>>20&nbsp;&nbsp;</option>
+        <option value="40" <{if $page_info.rp eq 40}>selected="selected" <{/if}>>40&nbsp;&nbsp;</option>
+      </select>条
+    </div>
+    <div class="pGroup-middle">
+      <div class="pFirst pButton" title="最前页">
+        <i class="fa fa-fast-backward"></i>
+      </div>
+      <div class="pPrev pButton" title="前一页">
+        <i class="fa fa-backward"></i>
+      </div> <span class="pcontrol">
+             <input type="text" size="4" class="pcur pButton" value="<{$page_info.page}>" title="输入要跳转的页码并回车"> / <span class="ptotal"><{$page_info.page_count}></span>页</span>
+      <div class="pNext pButton" title="下一页"><i class="fa fa-forward"></i></div>
+      <div class="pLast pButton" title="最后页"><i class="fa fa-fast-forward"></i></div>
+    </div>
+    <div class="pPageStat"></div>
+    <div class="pGroup-right">
+           <span class="pPageStat1">共<span class="total"><{$page_info.total_num}></span>条记录，
+                             当前页：<span class="pfrom"><{$page_info.start}></span>-<span class="pto"><{if empty($goods_info)!== TRUE}><{$page_info.to}><{else}>0<{/if}></span>条</span>
+    </div>
+  </div>
+  <div style="clear:both"></div>
+</div>
+<{/if}>
+<script>
+    batch_order();
+</script>
+  

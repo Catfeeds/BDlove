@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<!-- saved from url=(0086)https://mall.qiakr.com/mall/customerLotteryWheel.htm?luckyDrawId=1331&supplierId=11773 -->
+<html lang="zh-cn" style="opacity: 1; font-size: 111.875px;" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="./customerLotteryWheel_files/style1503546983737.css">
+<script type="text/javascript">
+    window.logInfo = {};  //统计页面加载时间
+    window.logInfo.openTime = performance.timing.navigationStart;
+    window.logInfo.whiteScreenTime = +new Date() - window.logInfo.openTime;
+    document.addEventListener('DOMContentLoaded',function (event) {
+        window.logInfo.readyTime = +new Date() - window.logInfo.openTime;
+    });
+    window.onload = function () {
+        window.logInfo.allloadTime = +new Date() - window.logInfo.openTime;
+        var timname = {
+            whiteScreenTime: '白屏时间',
+            readyTime: '用户可操作时间',
+            allloadTime: '总下载时间'
+        };
+        var logStr = '';
+        for (var i in timname) {
+            console.warn(timname[i] + ':' + window.logInfo[i] + 'ms');
+            logStr += '&' + i + '=' + window.logInfo[i] + 'ms';
+        }
+        (new Image()).src = '/?action=speedlog' + logStr;
+    };
+</script>
+
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="full-screen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="address=no">
+
+<link href="css/weui.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<script src="js/zepto.min.js"></script>
+<script src="js/base.js"></script>
+
+<script>
+
+
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?0ae38da02c36d427b45394d1982689c8";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+
+  (function(doc, win) {
+    // 移动端REM自适应
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var clientWidth=docEl.clientWidth||320;
+          var docCls = docEl.classList;
+          var width = clientWidth < 320 ? 320 : clientWidth > 640 ? 640 : clientWidth;
+          docEl.style.fontSize = 100 * (width / 320) + 'px';
+          docEl.style.opacity=1;
+
+          // 添加屏幕标识，便于文字调整
+          if(375 <= clientWidth && clientWidth < 414){
+            docCls.add('view6');
+          }else if(414 <= clientWidth){
+            docCls.add('view6s');
+          }else{
+            docCls.remove('view6');
+            docCls.remove('view6s');
+          }
+        };
+    docEl.style.opacity=0;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+    // IOS8下1px线条改为0.5px
+    if (/iP(hone|od|ad)/.test(navigator.userAgent)) {
+        var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/),
+            version = parseInt(v[1], 10);
+        if(version >= 8){
+            document.documentElement.classList.add('hairlines');
+        }
+    }
+    })(document, window);
+</script><title></title>
+<link rel="stylesheet" href="css/customerLotteryWheel.css">
+<style type="text/css">
+    .loty_jumpmy{
+        position: absolute!important;
+    }
+    .amap-container{cursor:url(https://webapi.amap.com/theme/v1.3/openhand.cur),default;}.amap-drag{cursor:url(https://webapi.amap.com/theme/v1.3/closedhand.cur),default;}
+</style>
+<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="min-height: 410px;">
+<div class="wechatShareImg"><img src="images/wheelFavrite.png"></div>
+
+
+<a class="header ub ub-ac opcEvt noFollowEvt" id="guanzhu" style="opacity: 1;">
+    <div class="ub-f1">关注公众号 参与更多活动</div>
+    <p>点击关注</p>
+    <div class="right"></div>
+</a>
+<section id="loty" class="opcEvt" style="position: relative; overflow-x: hidden; opacity: 1;">
+    <img class="loty_bg_3" src="images/loty_bg_3.png">
+    <div class="loty_hd">
+        <a class="loty_jumpmy ub ub-ac jumpList">
+            <p></p>
+            <div>查看我的奖品</div>
+        </a>
+        <img src="images/loty_hd.png">
+        <img class="loty_bg_1 leftTopDown" src="images/loty_bg_1.png">
+        <img class="loty_bg_2 circle" src="images/loty_bg_2.png">
+    </div>
+    <p class="loty_consPoints">
+        <span class="needTip">每次抽奖消耗<span class="perNeed">10</span>积分，</span>
+        <span class="lastTip">当前剩余<span class="last">12</span>次</span>
+    </p>
+    <div class="loty_container ub box_sizing light">
+        <aside class="loty_con_top"><img src="images/loty_con_top.png"></aside>
+        <div class="ub ub-ver loty_wrap box_sizing">
+            <div class="ub-f1 ub">
+                <div class="ub-f1 loty_box loty_box_0 active">
+                    <div class="loty_p_img"><img src="images/loty_p_1.png"></div>
+                    <p class="ut-s">12fadsfasdfsdafsda</p>
+                </div>
+                <div class="ub-f1 loty_box loty_box_1">
+                    <div class="loty_p_img"><img src="images/loty_p_0.png"></div>
+                    <p class="ut-s">谢谢参与</p>
+                </div>
+                <div class="ub-f1 loty_box loty_box_2">
+                    <div class="loty_p_img"><img src="images/loty_p_0.png"></div>
+                    <p class="ut-s">谢谢参与</p>
+                </div>
+            </div>
+            <div class="ub-f1 ub">
+                <div class="ub-f1 loty_box loty_box_7">
+                    <div class="loty_p_img"><img src="images/loty_p_0.png"></div>
+                    <p class="ut-s">谢谢参与</p>
+                </div>
+                <div id="btn" class="ub-f1 loty_box_btn permissionEvt">
+                    <!-- <img src="https://qncdn.qiakr.com/mall/loty/loty_btn.png"> -->
+                </div>
+                <div class="ub-f1 loty_box loty_box_3">
+                    <div class="loty_p_img"><img src="images/loty_p_0.png"></div>
+                    <p class="ut-s">谢谢参与</p>
+                </div>
+            </div>
+            <div class="ub-f1 ub">
+                <div class="ub-f1 loty_box loty_box_6">
+                    <div class="loty_p_img"><img src="images/loty_p_0.png"></div>
+                    <p class="ut-s">谢谢参与</p>
+                </div>
+                <div class="ub-f1 loty_box loty_box_5">
+                    <div class="loty_p_img"><img src="images/loty_p_0.png"></div>
+                    <p class="ut-s">谢谢参与</p>
+                </div>
+                <div class="ub-f1 loty_box loty_box_4">
+                    <div class="loty_p_img"><img src="images/loty_p_0.png"></div>
+                    <p class="ut-s">谢谢参与</p>
+                </div>
+            </div>
+        </div>
+        <aside class="loty_con_btm">
+            <div class="floatUpDowm"></div>
+            <div class="floatUpDowm"></div>
+        </aside>
+        <aside class="loty_cofe"></aside>
+    </div>
+    <section class="loty_rule box_sizing floatUpDowm">
+        <p></p>
+        <div id="lotyRule"></div>
+    </section>
+</section>
+
+<section class="loty_cover">
+    <div class="cover_con">
+        <div class="c_con_top">恭喜您，中奖啦</div>
+        <div class="c_con_mid">
+            <img src="images/prize_cou.png">
+            <p></p>
+            <div class="c_con_btn jumpList">查看我的奖品</div>
+            <aside class="jumpListTxt pt5 pb5" style="color:#333;">查看我的奖品</aside>
+        </div>
+        <aside class="c_is_top"></aside>
+    </div>
+    <div class="cover_con_no">
+        <div class="c_con_top">很可惜，未中奖</div>
+        <div class="c_con_mid">
+            <p class="noFollowEvt">关注公众号，参与更多活动</p>
+            <img class="qrimg noFollowEvt" src="./customerLotteryWheel_files/saved_resource"><br>
+            <small class="noFollowEvt">长按二维码，关注公众号</small>
+            <p class="followEvt">别泄气，惊喜总会有的</p>
+            <div class="c_con_btn">继续抽奖</div>
+            <div class="c_con_disbtn hide">机会已用完</div>
+            <a class="c_my_btn jumpList">查看我的奖品</a>
+        </div>
+        <aside class="c_is_top"></aside>
+    </div>
+</section>
+
+<div id="qrCodeWrap" style="display: none">
+  <div class="c-8 tc">
+    <h3 style="color:#333;">关注公众号 参与更多活动</h3>
+    <p class="mt10 mb10"><img class="qrimg" src="./customerLotteryWheel_files/saved_resource" width="140" height="140"></p>
+    <p style="margin-bottom: .1rem;">长按二维码，关注公众号</p>
+  </div>
+</div>
+
+<section class="wh_status opcEvt hide" style="opacity: 1;">
+    <div class="wh_wrap">
+        <div><i class="iconfont fs32"></i></div>
+        <p>活动未开始</p>
+        <div class="wh_txt">活动开始时间：<span>2016.12.12 10：00</span></div>
+    </div>
+</section>
+<script src="js/md5-2.1.min.js"></script>
+<!--<script type="text/javascript" src="./customerLotteryWheel_files/maps"></script>-->
+<!--<script id="amap_main_js" src="./customerLotteryWheel_files/main" type="text/javascript"></script>-->
+<script src="js/wxShare.js"></script>
+<script src="js/lucky_test.js"></script>
+</body></html>

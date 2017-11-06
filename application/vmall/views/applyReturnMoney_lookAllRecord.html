@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>协商记录</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+	.logistics-content li{
+		padding: 0 5%;
+		width: 100%;
+	}
+	.logistics-content li p{
+		padding: 15px 0 5px 0;
+		border-bottom:1px solid #ddd;
+		color: #aaa;
+		font-size: 14px;
+		width: 76%;
+		float: left;
+	}
+	.logistics-content li p span{
+		display: block;
+		margin-top: 5px;
+	}
+	.center{
+		display: block;
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background: #ccc;
+	}
+	.logistics-left{
+		width: 10%;
+		float: left;
+		padding: 23px 0 0 10px;
+	}
+	.center-top{
+		display: block;
+		height: 25px;
+		width: 1px;
+		background:  #ccc;
+		margin: -25px 0 0 5px;
+	}
+	.center-bottom{
+		display: block;
+		height: 50px;
+		width: 1px;
+		background:  #ccc;
+		margin-left: 5px;
+	}
+	/*new*/
+	.good_property{
+		color: #999;
+		margin-right: 20px;
+	}
+	.weui-cells {
+	    font-size: 15px;
+	    margin-top: 10px;
+	}
+	.good_property_content{
+		width: 70%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.good_property_content a{
+		color: #DD2727;
+		margin-left: 10px;
+	}
+	.good_info{
+		margin: 15px;
+	}
+	.good_info p{
+		float: left;
+	}
+	.clear{
+		clear:both;
+	}
+	.who{
+		font-size: 18px;
+		color: #333;
+		font-weight: bold;
+		margin-bottom: 3px;
+	}
+	.cl-red{
+		color: #dd2727;
+		margin-bottom: 20px;
+	}
+	.btn-return{
+		width:100%;
+		position: fixed;
+		height: 50px;
+		bottom: 0px;
+		line-height: 50px;
+		text-align: center;
+		background: #fff;
+		color: #333;
+		z-index:999;
+		font-size: 17px;
+		border-top: 1px solid #E6E9EE;
+		border-bottom: 1px solid #E6E9EE;
+	}
+	.dis-ib{
+		display: inline-block!important;
+	}
+</style>
+<body ontouchstart>
+	<div class="weui-cells" style="margin-top: 0px;padding-top: 10px;">
+            <div class="good_info">
+            		<p class="good_property">订单编号</p>
+                    <p class="good_property_content"><{$refundinfo.order_sn}></p>
+                    <div class="clear"></div>
+            </div>
+           <div class="good_info">
+            		<p class="good_property">服务顾问</p>
+                      <{if !empty($guide_info) and isset($guide_info.spg_id)}>
+                    	<p class="good_property_content"><{$guide_info.spg_name}><a href="<{base_url()}>vmall.php/Store/shopping_guide_chat?spg_id=<{$guide_info.spg_id}>">联系TA</a></p>
+                    	<{else}>
+                    	<p class="good_property_content">暂无<a href="<{base_url()}>vmall.php/store/Stores">联系其他店铺导购</a></p>
+                    	<{/if}>
+                    <div class="clear"></div>
+            </div>
+            <{foreach from=$orderInfo item=goods}>
+             <div class="good_info">
+            		<p class="good_property" style="margin-right: 30px;"><img src="<{$goods.goods_image}>" onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>'" alt="" style="width: 50px;display: block;margin: 10px 0;"/></p>
+                    <p style="width: 55%;"><{$goods.goods_name}><br><{if !empty($goods.goods_size_remark)}><{$goods.goods_size_remark}><{else}><{$goods.goods_size}><{/if}>/<{if !empty($goods.goods_color_remark)}><{$goods.goods_color_remark}><{else}><{$goods.goods_color}><{/if}></p>
+                    <p style="width: 10%;float: right;margin-right: 25px;">￥<{$goods.goods_pay_price}><br>&nbsp;x<{$goods.goods_num}></p>
+                    <div class="clear"></div>
+            </div>
+            <{/foreach}>
+       </div>
+	<div class="weui-cells" id="logistics-main">
+		<ul class="logistics-content">
+		       <{if !empty($logoinfo)}>
+		       <{foreach from=$logoinfo item=goods}>
+				<li>
+					<div class="logistics-left">
+						<span class="center-top"></span>
+						<span class="center"></span>
+						<span class="center-bottom"></span>
+					</div>
+					<p>
+					    <span class="who"><{if !empty($goods.actiontype)}><{$goods.actiontype}><{/if}></span>
+					    <{if $goods.type eq 1}>
+						    <span class="cl-red">申请退款</span>
+						    <span>退款原因：<{$goods.reason_info}></span>
+						    <span>买家备注：<{$goods.content}></span>
+						    <{if !empty($goods.pic_info)}>
+							<{foreach from=$goods.pic_info item=good}>
+							<span class="dis-ib"><img src="<{TEMPLE}>images/<{$good}>" onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>'" style="width: 50px;"/></span>
+							<{/foreach}>
+							<{/if}>
+					    <{elseif $goods.type eq 5}>
+					       <span class="cl-red">填写退货物流</span>
+					       <span><{$goods.content}></span>
+					    <{elseif $goods.type eq 6}>
+					       <span class="cl-red">物流已通过审核,正在处理中 </span>  
+					    <{elseif $goods.type eq 10}>
+					       <span class="cl-red">退款成功</span>
+					    <{else}>
+					        <span class="cl-red"><{$goods.content}></span>
+					    <{/if}>
+						<span><{date("Y-m-d H:i:s",$goods.add_time)}></span>
+					</p>
+				</li>
+				<{/foreach}>
+				<{/if}>
+		</ul>
+	</div>
+		
+	<div style="height: 80px;"></div>
+	<div class="btn-return">返回订单详情</div>
+</body>
+<script type="text/javascript">
+$("body").on("touchstart",".btn-return",function(){
+	window.location.href="../order/order_detail?order_sn=<{$refundinfo.order_sn}>";
+})
+
+//	设置物流内容整个屏幕都是白色
+	var pelheight = document.body.clientHeight;
+	$("#logistics-main").css("min-height",pelheight-140);
+	$(".logistics-content .center-top:first").hide();
+//	设置前面点的下条
+	$(".center-bottom").each(function(){
+		var height = $(this).parent().next().height()-15;
+		$(this).css("height",height)
+	})
+</script>
+</html>

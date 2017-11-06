@@ -1,0 +1,222 @@
+<{include file="pageheader.html"}>
+<script src='http://localhost:8000/CLodopfuncs.js'></script>
+<style>
+    .waybill_back {
+        position: relative;
+        width: 870.2px;
+        height: 478.8px;
+  
+    }
+    .waybill_design {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 870.2px;
+        height: 478.8px;
+    }
+    .waybill_item {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100px;
+        height: 20px;
+        border: 1px solid #CCCCCC;
+    }
+    .waybill_back img {
+        width: 870.2px;
+        height: 478.8px;
+    }
+   #form3 tr{
+	   text-align:center;
+    }
+    #form3 ul{text-align:center;margin:0 20%;}
+    #form3 ul li{
+	  float:left;margin:20px 10px;
+    }
+   #form3 ul li a{color:#0096ff;}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="waybill_back">
+    <img src="<{$img}>" alt="">
+</div>
+<div class="waybill_design">
+    <{if isset($waybill_data) && !empty($waybill_data)}>
+      <{foreach $waybill_data  as $key=>$val}>
+          <div class="waybill_item" style="text-align:<{$val['text-align']}>;text-decoration:<{$val['text-decoration']}>;font-style:<{$val['font-style']}>;font-weight:<{$val['font-weight']}>;font-family: <{$val['font-family']}>;font-size:<{$val['font-size']}>; left:<{$val.left}>; top:<{$val.top}>; width:<{$val.width}>; height:<{$val.height}>;"><{$val.name}></div>
+      <{/foreach}>
+   <{/if}>
+</div>
+<div class="control" style="margin:100px 250px;">
+    <a id="btn" href="javascript:;">打印</a>
+    <a id="btns" href="javascript:Setup2();">打印设计</a>
+    <select name="template" id="template">
+    <{foreach from=$waybill item=v}>
+    <option value="<{$v.waybill_id}>" <{if $v.waybill_id==$will_info.waybill_id}>selected<{/if}> ><{$v.waybill_name}></option>
+    <{/foreach}>
+    </select>
+    <a id="change_btn" href="javascript:;">切换模板</a>
+</div>
+<script src="<{TEMPLE}>js/require-2.1.18.min.js" data-main="<{TEMPLE}>js/config"></script>
+<script>
+/*      $(document).ready(function() {
+        $('#btn').on('click', function() {
+            pos();
+
+            $('.waybill_back').hide();
+            $('.control').hide();
+
+            window.print();
+        });
+
+        var pos = function () {
+            var top = -11.4;
+            var left = -19;
+
+            $(".waybill_design").each(function(index) {
+                var offset = $(this).offset();
+                var offset_top = offset.top + top;
+                var offset_left = offset.left + left;
+                $(this).offset({ top: offset_top, left: offset_left})
+            });
+        };
+    });  */
+    var LODOP; //声明为全局变量   
+    
+    require(['jquery'],function(){
+	require(['layer','admin','common'],function(){
+    
+
+    $(document).ready(function() {
+    	if(typeof(LODOP)=='object'&&typeof(LODOP.PRINT_INITA)=='function'){
+    		s_print();
+    	}else{
+    		layer.msg('你还没有安装打印控件');
+    		setTimeout(function(){
+    			install_print();
+    	    },2000);
+    	}
+        $('#change_btn').on('click', function() {
+        	var waybill = $('#template').val();
+        	var now_id = '<{$will_info.waybill_id}>';
+        	var order_sn = '<{$order_sn}>';
+        	if(waybill!=now_id){
+        		window.location.href="waybill_print?order_sn="+order_sn+'&id='+waybill;
+        	}
+        })
+    });
+	
+	    $(document).ready(function() {
+		$('#btns').on('click', function() {
+        	if(typeof(LODOP)=='object'&&typeof(LODOP.PRINT_INITA)=='function'){
+        		Setup2();
+        	}else{
+        		layer.msg('你还没有安装打印控件');
+        		setTimeout(function(){
+        			install_print();
+        	    },2000);
+        	}
+            /* pos();
+            $('.control').hide();
+            $('.waybill_back').hide();
+            $('.waybill_item').css('border','none');
+            window.print(); */
+        });
+	})
+	
+	
+	
+	
+    })
+	})
+    function install_print(){
+    	url_32 = "<{base_url('data/print/CLodop_Setup_for_Win32NT_2.090.zip')}>";
+		url_64 = "<{base_url('data/print/CLodop_Setup_for_Win64NT_2.090.zip')}>";
+		url_3264 = "<{base_url('data/print/CLodopPrint_Setup_for_Win32NT.zip')}>";
+		layer.open({
+            type: 1,
+            title: '<b>打印控件下载</b>',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['520px', 'auto'], //宽高
+            content: '<div class="pt-10 pb-10 pl-30 pr-30 "><form action="" id="form3" method="POST" enctype=multipart/form-data>' +
+            '<div id="" style="width:100%;text-align:center;font-size:14px;color:#FF00FF;" class="">打印机控件尚未安装启动!点击下载并安装,安装后请刷新页面。</div>'+
+            '<div style="width: 100%;text-align:center;color:#0096ff"><ul><li>点击下载：</li>' +
+            '<li><a href="'+url_32+'">32位版</a></li><li><a href="'+url_64+'">64位版</a></li><li><a href="'+url_3264+'">综合版</a></li></ul></div>'+
+            '</form></div>',
+
+        })
+    }
+    function s_print(){
+    	var printname = '<{if isset($will_info.printer_name)}><{$will_info.printer_name}><{/if}>';
+    	if(printname!=''){
+    		LODOP.SET_PRINTER_INDEX(printname);
+    	}else{
+    		LODOP.SELECT_PRINTER();
+    	}
+    	//LODOP.SELECT_PRINTER();
+    	CreateDataBill();
+    	//LODOP.PREVIEW();
+    	LODOP.PRINT();
+    }
+    function Setup2() {
+    	if(typeof(LODOP)=='object'&&typeof(LODOP.PRINT_INITA)=='function'){
+        	var printname = '<{if isset($will_info.printer_name)}><{$will_info.printer_name}><{/if}>';
+        	if(printname!=''){
+        		LODOP.SET_PRINTER_INDEX(printname);
+        	}else{
+        		LODOP.SELECT_PRINTER();
+        	}
+        	//LODOP.SELECT_PRINTER();
+    		CreateDataBill();
+        	LODOP.ADD_PRINT_SETUP_BKIMG('<img src="<{$img}>" style="top:<{$will_info.waybill_top}>;left:<{$will_info.waybill_left}>;" alt="">');
+        	//LODOP.PREVIEW();
+        	LODOP.PRINT();
+    	}else{
+    		layer.msg('你还没有安装打印控件');
+    		setTimeout(function(){
+    			install_print();
+    	    },2000);
+    	}
+    			
+	}
+	
+	
+	
+	
+	
+	
+	
+    function CreateDataBill() {
+		//LODOP=getLodop(); 
+		var printdemo = <{if isset($waybill_data_json)}><{$waybill_data_json}><{/if}>;
+	    var waybill_top = "<{$will_info.waybill_top}>";
+	    var waybill_left = "<{$will_info.waybill_left}>";
+	    var waybill_width = "<{$will_info.waybill_width}>";
+	    var waybill_height = "<{$will_info.waybill_height}>";
+	    LODOP.PRINT_INITA(waybill_top,waybill_left,waybill_width,waybill_height,"打印控件功能演示");
+		var top = 0;var left = 0;
+		if(printdemo){
+			$(printdemo).each(function(k,v){
+				bn_top = v.tops; 
+				console.log("bn_top1"+bn_top)
+				bn_left = v.lefts; 
+				console.log("bn_left1"+bn_left)
+				bn_top = parseInt(bn_top)+parseInt(waybill_top)-15;//bn_top = parseInt(bn_top)+parseInt(waybill_top)-25;
+				console.log("bn_top2"+bn_top)
+				bn_left = parseInt(bn_left)+parseInt(waybill_left)-10;
+				console.log("bn_left2"+bn_left)
+	        	LODOP.ADD_PRINT_TEXT(bn_top,bn_left,v.widths,v.heights,v.name);
+	        	LODOP.SET_PRINT_STYLEA(0,"FontSize",v.fontsizes);
+	        	LODOP.SET_PRINT_STYLEA(0,"FontFamily",v.fontfamily);
+	        	LODOP.SET_PRINT_STYLEA(0,"FontAlign",v.textalign);
+	        	LODOP.SET_PRINT_STYLEA(0,"FontStyle",v.fontstyle);
+	        	LODOP.SET_PRINT_STYLEA(0,"FontWeight",v.fontweight);
+	        	LODOP.SET_PRINT_STYLEA(0,"TextDecoration",v.textdecoration); 
+			})
+		}
+}
+ 
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

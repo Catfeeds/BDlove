@@ -1,0 +1,157 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>平台红包</h3>
+        <h5>平台红包新增与管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>红包模板失效或者过期后,用户将不能领取,但是已经领取的红包仍然可以使用</li>
+      <li>已兑换红包后则相应红包模板不可删除</li>
+    </ul>
+  </div>
+  <div id="flexigrid"></div>
+  <div class="ncap-search-ban-s" id="searchBarOpen"><i class="fa fa-search-plus"></i>高级搜索</div>
+  <div class="ncap-search-bar">
+    <div class="handle-btn" id="searchBarClose"><i class="fa fa-search-minus"></i>收起边栏</div>
+    <div class="title">
+      <h3>高级搜索</h3>
+    </div>
+    <form method="get" name="formSearch" id="formSearch">
+      <input type="hidden" name="advanced" value="1">
+      <div id="searchCon" class="content ps-container ps-active-x" style="height: 806px;">
+        <div class="layout-box">
+          <dl>
+            <dt>红包名称</dt>
+            <dd>
+              <input type="text" name="rpt_title" class="s-input-txt" placeholder="请输入红包名称关键字">
+            </dd>
+          </dl>
+          <dl>
+            <dt>最近修改时间</dt>
+            <dd>
+              <label>
+                <input type="text" name="sdate" onclick="laydate()" data-dp="1" class="s-input-txt" placeholder="请选择筛选时间段起点" id="dp1478049806311" >
+              </label>
+              <label>
+                <input type="text" name="edate" onclick="laydate()" data-dp="1" class="s-input-txt" placeholder="请选择筛选时间段终点" id="dp1478049806312" >
+              </label>
+            </dd>
+          </dl>
+          <dl>
+            <dt>领取方式</dt>
+            <dd>
+              <select name="rpt_gettype" class="s-select">
+                <option value="0" selected="">全部</option>
+                <option value="1">积分兑换</option>
+                <option value="2">卡密兑换</option>
+                <option value="3">免费领取</option>
+              </select>
+            </dd>
+          </dl>
+          <dl>
+            <dt>有效状态</dt>
+            <dd>
+              <select name="rpt_state" class="s-select">
+                <option value="0" selected="">全部</option>
+                <option value="1">有效</option>
+                <option value="2">失效</option>
+                <option value="5">过期</option>
+              </select>
+            </dd>
+          </dl>
+          <dl>
+            <dt>推荐</dt>
+            <dd>
+              <select name="rpt_recommend" class="s-select">
+                <option value="" selected="">全部</option>
+                <option value="1">是</option>
+                <option value="0">否</option>
+              </select>
+            </dd>
+          </dl>
+          <dl>
+            <dt>有效期时期筛选</dt>
+            <dd>
+              <label>
+                <input type="text" name="pdate1" onclick="laydate()" data-dp="1" class="s-input-txt " placeholder="开始时间" id="dp1478049806313" >
+              </label>
+              <label>
+                <input type="text" name="pdate2" onclick="laydate()" data-dp="1" class="s-input-txt " placeholder="结束时间" id="dp1478049806314" >
+              </label>
+            </dd>
+          </dl>
+
+        </div>
+        </div>
+      <div class="bottom">
+        <a href="javascript:void(0);" id="ncsubmit" class="ncap-btn ncap-btn-green">提交查询</a>
+        <a href="javascript:void(0);" id="ncreset" class="ncap-btn ncap-btn-orange" title="撤销查询结果，还原列表项所有内容"><i class="fa fa-retweet"></i>撤销</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+
+  $(function(){
+    $("#flexigrid").flexigrid({
+      url: '',
+      colModel: [
+        {display: '操作', name: 'operation', width: 150, sortable: false, align: 'center', className: 'handle'},
+        {display: '红包名称', name: 'rpacket_t_title', width: 200, sortable: false, align: 'left'},
+        {display: '面额(元)', name: 'rpacket_t_price', width: 80, sortable: true, align: 'left'},
+        {display: '消费限额(元)', name: 'rpacket_t_limit', width: 80, sortable: true, align: 'left'},
+        {display: '会员级别', name: 'rpacket_t_mgradelimittext', width: 80, sortable: true, align: 'center'},
+        {display: '最近修改时间', name: 'rpacket_t_updatetimetext', width: 120, sortable: true, align: 'center'},
+        {display: '开始时间', name: 'rpacket_t_start_datetext', width: 120, sortable: true, align: 'center'},
+        {display: '结束时间', name: 'rpacket_t_end_datetext', width: 120, sortable: true, align: 'center'},
+        {display: '领取方式', name: 'rpacket_t_gettype_text', width: 80, sortable: false, align: 'center'},
+        {display: '状态', name: 'rpacket_t_statetext', width: 80, sortable: false, align: 'center'},
+        {display: '推荐', name: 'rpacket_t_recommend', width: 80, sortable: false, align: 'center'}
+      ],
+      searchitems: [
+        {display: '红包名称', name: 'rpt_title', isdefault: true}
+      ],
+      buttons : [
+        {display: '<i class="fa fa-plus"></i>新增数据', name : 'add', bclass : 'add', title : '新增数据', onpress : fg_operate },
+        {display: '编辑信息', name : 'add', bclass : 'add', title : '新增数据', onpress : fg_bj },
+        {display: '查看详情', name : 'add', bclass : 'add', title : '新增数据', onpress : fg_xq }
+      ],
+      sortname: "rpacket_t_id",
+      sortorder: "desc",
+      title: '红包模板列表'
+    });
+
+    // 高级搜索重置
+    $('#ncreset').click(function(){
+      //$("#flexigrid").flexOptions({url: flexUrl}).flexReload();
+      $("#formSearch")[0].reset();
+    });
+
+
+  });
+  function fg_operate() {
+      window.location.href = 'sales_red_packets_add';
+  }
+  function fg_bj() {
+    window.location.href = 'sales_red_packets_edit';
+  }  function fg_xq() {
+    window.location.href = 'sales_red_packets_details';
+  }
+</script>
+</body>
+</html>

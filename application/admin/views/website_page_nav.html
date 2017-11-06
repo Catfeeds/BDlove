@@ -1,0 +1,117 @@
+
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+	<div class="fixed-bar">
+		<div class="item-title">
+			<div class="subject">
+				<h3>页面导航</h3>
+				<h5>网站全局顶部/底部及商城主导航设置</h5>
+			</div>
+		</div>
+	</div>
+
+	<div id="flexigrid">
+
+	</div>
+
+
+</div>
+<script>
+$(function(){
+	$('#flexigrid').flexigrid({
+		url: 'website_page_nav?&op=get_xml',
+		height:'auto',// 高度自动
+		usepager: true,// 不翻页
+		striped:false,// 不使用斑马线
+		resizable: false,// 不调节大小
+		title: '文章分类列表',// 表格标题
+		reload: true,// 不使用刷新
+		colModel : [
+			{display: '操作', name : 'operation', width : 200, sortable : false, align: 'center'},
+			{display: '排序', name : 'member_login_ip', width : 60, sortable : true, align: 'center'},
+			{display: '标题', name : 'member_state', width : 100, sortable : true, align: 'center'},
+			{display: '链接', name : 'member_state', width : 200, sortable : true, align: 'center'},
+			{display: '所在位置', name : 'member_state', width : 80, sortable : true, align: 'center'},
+			{display: '新窗口打开', name : 'member_state', width : 80, sortable : true, align: 'center'},
+		],
+		buttons : [
+			{display: '<i class="fa fa-plus"></i>新增数据', name : 'add', bclass : 'add', title : '新增数据' ,onpress : fg_operate},
+			{display: '<i class="fa fa-trash"></i>批量删除', name : 'delete', bclass : 'del', title : '将选定行数据批量删除' ,onpress : fg_operate}
+		],
+		sortname: "nav_sort",
+		sortorder: "asc",
+	});
+})	
+	function  fg_operate(name, grid){
+		if (name == 'delete') {
+            if($('.trSelected',grid).length>0){
+                var itemlist = new Array();
+                $('.trSelected',grid).each(function(){
+                	itemlist.push($(this).attr('data-id'));
+                });
+                fg_delete(itemlist);
+            }else{
+                return false;
+            }
+        }
+		if (name == 'add') {
+		 	window.location.href = '<{base_url()}>admin.php/Website/website_page_nav_add';
+		}
+	}
+	function fg_delete(id) {
+		if (typeof id == 'number') {
+	    	var id = new Array(id.toString());
+		};
+		layer.confirm('删除后将不能恢复，确认删除这 ' + id.length + ' 项吗？', {
+			  btn: ['确认','取消'] //按钮
+			}, function(){
+				id = id.join(',');
+				$.ajax({
+			        type: "GET",
+			        dataType: "json",
+			        url: " website_page_nav?op=list_del",
+			        data: "del_id="+id,
+			        success: function(data){
+					if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+			            if (data.state){
+			                $("#flexigrid").flexReload();
+			                layer.msg(data.msg);
+			            } else {
+			            	layer.msg('删除失败');
+			            }
+			        }
+			    });
+			});
+		
+	}
+	function update_sort(id){
+    	var Article_sort=document.getElementById(id).value;
+    	$.ajax({
+			type:'post',
+			dataType:'json',
+			data:{
+				flag:'website_nav_sort',
+				id:id,
+				sort:Article_sort
+			},
+			url:"<{base_url()}>admin.php/Website/update_sort_all",
+			cache: false,
+			success:function(res){
+				if(res!="success"){
+					layer.alert('排序修改失败，请重试');
+				}
+			}
+		});
+    }
+	function  fg_bj(id){
+		window.location.href = 'website_page_nav_edit/'+id;
+	}
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>限时折扣</h3>
+        <h5>商品限时折扣促销活动设置及管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>商家发布的限时折扣活动列表</li>
+      <li>取消操作不可恢复，请慎重操作</li>
+      <li>点击详细链接查看活动详细信息</li>
+    </ul>
+  </div>
+  <div id="flexigrid"></div>
+  <div class="ncap-search-ban-s" id="searchBarOpen"><i class="fa fa-search-plus"></i>高级搜索</div>
+  <div class="ncap-search-bar">
+    <div class="handle-btn" id="searchBarClose"><i class="fa fa-search-minus"></i>收起边栏</div>
+    <div class="title">
+      <h3>高级搜索</h3>
+    </div>
+    <form method="get" name="formSearch" id="formSearch">
+      <input type="hidden" name="advanced" value="1">
+      <div id="searchCon" class="content ps-container ps-active-x">
+        <div class="layout-box">
+          <dl>
+            <dt>活动名称</dt>
+            <dd>
+              <input type="text" name="xianshi_name" class="s-input-txt" placeholder="请输入活动名称关键字">
+            </dd>
+          </dl>
+          <dl>
+            <dt>店铺名称</dt>
+            <dd>
+              <input type="text" name="store_name" class="s-input-txt" placeholder="请输入店铺名称关键字">
+            </dd>
+          </dl>
+          <dl>
+            <dt>状态</dt>
+            <dd>
+              <select name="state" class="s-select">
+                <option value="0">全部</option>
+                <option value="1">正常</option>
+                <option value="2">已结束</option>
+                <option value="3">管理员关闭</option>
+              </select>
+            </dd>
+          </dl>
+          <dl>
+            <dt>活动时期筛选</dt>
+            <dd>
+              <label>
+                <input type="text" name="pdate1" data-dp="1" onclick="laydate()" class="s-input-txt hasDatepicker" placeholder="结束时间不晚于" id="dp1477905957221" readonly="readonly">
+              </label>
+              <label>
+                <input type="text" name="pdate2" data-dp="1" onclick="laydate()" class="s-input-txt hasDatepicker" placeholder="开始时间不早于" id="dp1477905957222" readonly="readonly">
+              </label>
+            </dd>
+          </dl>
+
+        </div>
+        </div>
+      <div class="bottom">
+        <a href="javascript:void(0);" id="ncsubmit" class="ncap-btn ncap-btn-green">提交查询</a>
+        <a href="javascript:void(0);" id="ncreset" class="ncap-btn ncap-btn-orange" title="撤销查询结果，还原列表项所有内容"><i class="fa fa-retweet"></i>撤销</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+  $(function(){
+    $("#flexigrid").flexigrid({
+      url: 'sales_discount_add?op=table',
+      colModel: [
+        {display: '操作', name: 'operation', width: 150, sortable: false, align: 'center', className: 'handle'},
+        {display: '活动名称', name: 'xianshi_name', width: 200, sortable: false, align: 'left'},
+        {display: '活动标题', name: 'xianshi_title', width: 200, sortable: false, align: 'left'},
+        {display: '开始时间', name: 'start_time_text', width: 120, sortable: false, align: 'center'},
+        {display: '结束时间', name: 'end_time_text', width: 120, sortable: false, align: 'center'},
+        {display: '购买下限', name: 'lower_limit', width: 80, sortable: false, align: 'center'},
+        {display: '状态', name: 'xianshi_state_text', width: 80, sortable: false, align: 'center'}
+      ],
+      buttons : [
+        {display: '新增活动', name : 'add', bclass : 'add', title : '新增活动', onpress : fg_add },
+        
+      ],
+      searchitems: [
+        {display: '活动名称', name: 'xianshi_name', isdefault: true},
+      ],
+      sortname: "xianshi_id",
+      sortorder: "desc",
+      title: '限时折扣活动列表'
+    });
+    function fg_add(){
+      window.location='sales_discount_add';
+    }
+   
+    
+
+    // 高级搜索重置
+    $('#ncreset').click(function(){
+      //$("#flexigrid").flexOptions({url: flexUrl}).flexReload();
+      $("#formSearch")[0].reset();
+    });
+
+
+  });
+  function fg_spgl(id){
+	  id = JSON.stringify(id);
+      window.location='sales_discount_goods?id='+id;
+    }
+  function edit_discount(id){
+	  id = JSON.stringify(id);
+      window.location='sales_discount_add?id='+id;
+    }
+  function fg_delete(id,name){
+  	layer.confirm('确认删除活动“'+name+'”吗？', {
+  		  btn: ['确认','取消'] //按钮
+  		}, function(){
+  			$.ajax({
+  		        type: "post",
+  		        dataType: "json",
+  		        url: "sales_discount?op=del",
+  		        data: {id:id,name:name},
+  		        success: function(data){
+  		            //alert(123);
+					if(data.state=='403'){
+				login_ajax('shopadmin');
+			}else
+  		            if (data.state){
+  		            	layer.msg(data.msg,{icon:1});
+  		                $("#flexigrid").flexReload();
+  		            } else {
+  		            	layer.msg(data.msg,{icon:2});
+  		            }
+  		        }
+  		    });
+  		});
+  }
+</script>
+</body>
+</html>

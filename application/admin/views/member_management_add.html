@@ -1,0 +1,242 @@
+
+<{include file="pageheader.html"}>
+<script type="text/javascript" src="<{PLUGIN}>plugins/jQuery_md5/jQuery.md5.js"></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/jQuery_md5/jQuery.md5.add.js"></script>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+	<div class="fixed-bar">
+		<div class="item-title"><a class="back" href="javascript:window.history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+			<div class="subject">
+				<h3>会员管理 - 新增/编辑会员</h3>
+				<h5>网站所有注册会员索引及管理</h5>
+			</div>
+		</div>
+	</div>
+	<!-- 操作说明 -->
+	<div class="explanation" id="explanation">
+		<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+			<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+			<span id="explanationZoom" title="收起提示"></span> </div>
+		<ul>
+			<li>编辑会员选项，会员名不可变，其余内容可重新填写，忽略或留空则保持原有信息数据。</li>
+		</ul>
+	</div>
+	<form id="user_form" enctype="multipart/form-data" method="post">
+		<div class="ncap-form-default">
+		<{if isset($info)}>
+			<input type="hidden" name="member_id" value="<{$info.user_id}>">
+		<{/if}>
+			<dl class="row">
+				<dt class="tit">
+					<label>会员</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" class="input-txt" id="member_name" name="member_name" value="<{if isset($info)}><{$info.user_name}><{/if}>" <{if isset($info)}>readonly="readonly"<{/if}>>
+					<span class="err"></span>
+					<p class="notic">会员用户名不可修改。</p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="member_passwd"><{if $operate eq 'add'}><em>*</em><{/if}>密码</label>
+				</dt>
+				<dd class="opt">
+					<input type="password" id="member_passwd" name="member_passwd" class="input-txt" value="">
+					<input type="hidden" id="member_pwd" name="member_pwd" class="input-txt" value="">
+					<span class="err"></span>
+					<p class="notic"><{if $operate neq 'add'}>留空表示不修改密码。<{/if}></p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="member_email"><em>*</em>电子邮箱</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" id="member_email" name="member_email" class="input-txt" value="<{if isset($info)}><{$info.user_email}><{/if}>">
+					<span class="err"></span>
+					<p class="notic">请输入常用的邮箱，将用来找回密码、接受订单通知等。</p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="member_truename">真实姓名</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" id="member_truename" name="member_truename" class="input-txt" value="<{if isset($info)}><{$info.true_name}><{/if}>">
+					<span class="err"></span> </dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label>性别</label>
+				</dt>
+				<dd class="opt">
+					<input type="radio" <{if $operate eq 'add'}>checked="checked"<{/if}> <{if isset($info) and ($info['member_sex'] eq 0) }>checked="checked"<{/if}> value="0" name="member_sex" id="member_sex0">
+					<label for="member_sex0">保密</label>
+					<input type="radio" value="1" name="member_sex" id="member_sex1" <{if isset($info) and ($info['member_sex'] eq 1) }>checked="checked"<{/if}>>
+					<label for="member_sex1">男</label>
+					<input type="radio" value="2" name="member_sex" id="member_sex2" <{if isset($info) and ($info['member_sex'] eq 2) }>checked="checked"<{/if}>>
+					<label for="member_sex2">女</label>
+					<span class="err"></span> </dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label class="member_qq">QQ</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" id="member_qq" name="member_qq" class="input-txt" value="<{if isset($info.QQ)}><{$info.QQ}><{/if}>">
+					<span class="err"></span></dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label class="member_ww">阿里旺旺</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" id="member_ww" name="member_ww" class="input-txt" value="<{if isset($info.aliId)}><{$info.aliId}><{/if}>">
+					<span class="err"></span> </dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label>头像</label>
+				</dt>
+				<dd class="opt">
+					<div class="input-file-show">
+						<span class="show">
+							<a class="nyroModal" rel="gal" href="">
+								<i class="fa fa-picture-o"  id="view_img" data-geo="<img src='<{if empty($info.head_portrait)}><{TEMPLE}>images/default_user_portrait.gif <{else}><{base_url()}><{$info.head_portrait}><{/if}>' width=100px height=50px>" ></i>
+							</a>
+						</span>
+						<span class="type-file-box">
+							<input class="type-file-file" id="_pic" name="_pic" type="file" size="30" hidefocus="true" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+							<input type="text" name="member_avatar" id="member_avatar" class="type-file-text">
+							<input type="button" name="button" id="button" value="选择上传..." class="type-file-button">
+						</span>
+					</div>
+					<span class="err"></span>
+					<p class="notic">默认会员头像图片请使用100*100像素jpg/gif/png格式的图片。</p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label>允许登录</label>
+				</dt>
+				<dd class="opt">
+					<div class="onoff">
+						<label for="memberstate_1" class="cb-enable <{if $operate eq 'add'}>selected<{/if}> <{if isset($info) && ($info['is_status'] eq 1) }>selected<{/if}>"><span>允许</span></label>
+						<label for="memberstate_2" class="cb-disable <{if isset($info) && ($info['is_status'] eq 0) }>selected<{/if}>"><span>禁止</span></label>
+						<input id="memberstate_1" name="member_state" <{if $operate eq 'add'}>checked="checked"<{/if}> <{if isset($info) && ($info['is_status'] eq 1) }>checked="checked"<{/if}> value="1" type="radio">
+						<input id="memberstate_2" name="member_state" <{if isset($info) && ($info['is_status'] eq 0) }>checked="checked"<{/if}> value="0" type="radio">
+					</div>
+					<p class="notic">如果禁止该项则会员不能登录站点。</p>
+				</dd>
+			</dl>
+			<div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+		</div>
+	</form>
+
+</div>
+<script>
+$(function(){
+	$("#submitBtn").click(function(){
+		if($("#user_form").valid()){
+			var pwd = $('input[name=member_passwd]').val();
+			  if(pwd){
+				  $('input[name=member_pwd]').val(pwd_addMD5(pwd));
+				  $('input[name=member_passwd]').val('');
+			  }
+			var data = new FormData($('#user_form')[0]);
+			var url = 'member_<{$operate}>';
+			$.ajax({
+				data:data,
+				type:'post',
+				dataType:'json',
+				url:<{if $operate eq 'editing'}>'../'+<{/if}>url,
+				cache: false,
+               	processData: false,
+                contentType: false,
+				beforeSend:function(){
+					$("#submitBtn").attr({ disabled: "disabled" });
+            		layer.msg('<{if isset($info)}>修改中...<{else}>添加中...<{/if}>', {time: 0, icon:3});
+				},
+			
+				success:function(res){
+					if(res.state==403){
+						login_ajax('shopadmin');return false;
+					}
+					layer.closeAll()
+					if(res['state']){
+						layer.alert(res.msg,{closeBtn: 0},function(){
+							
+							<{if isset($edit_flag)}>
+								window.location.href="<{base_url()}>admin.php/member/member_add";
+							<{else}>
+								window.location.href="<{base_url()}>admin.php/User/member_add";
+							<{/if}>
+                			
+                		});
+					}else{
+						layer.msg(res['msg']);
+						$("#submitBtn").removeAttr('disabled');
+					}
+				}
+			});
+		}
+	});
+	$('#user_form').validate({
+		errorPlacement: function(error, element){
+			var error_td = element.parent('dd').children('span.err');
+			error_td.append(error);
+		},
+		rules : {
+		<{if !isset($info)}>
+			member_name:{
+				required : true,
+				remote:{
+					url :'member_name_check',
+					async:false,
+					type:'post'
+				}
+			},
+		<{/if}>
+			member_passwd: {
+				<{if $operate eq 'add'}>required : true,<{/if}>
+				maxlength: 20,
+				minlength: 6
+			},
+			member_email   : {
+				required : true,
+				email : true,
+				remote:{
+					url :'member_mail_check',
+					type:'post'
+				}
+			}
+		},
+		messages : {
+		<{if !isset($info)}>
+			member_name:{
+				required : '<i class="fa fa-exclamation-circle"></i>用户名不能为空',
+				remote   : '<i class="fa fa-exclamation-circle"></i>用户名有重复，请您换一个'
+			},
+		<{/if}>
+			member_passwd : {
+				<{if $operate eq 'add'}>required : '<i class="fa fa-exclamation-circle"></i>密码不能为空',<{/if}>
+				maxlength: '<i class="fa fa-exclamation-circle"></i>密码长度应在6-20个字符之间',
+				minlength: '<i class="fa fa-exclamation-circle"></i>密码长度应在6-20个字符之间'
+			},
+			member_email  : {
+				required : '<i class="fa fa-exclamation-circle"></i>电子邮箱不能为空',
+				email   : '<i class="fa fa-exclamation-circle"></i>请您填写有效的电子邮箱',
+				remote   : '<i class="fa fa-exclamation-circle"></i>邮箱有重复，请您换一个'
+			}
+		}
+	});
+
+
+})
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,262 @@
+body{background: url('../images/loty_bg.png') no-repeat left top;background-size: 100% 120%;background-position: 0 -.5rem;}
+
+.ub{display: -webkit-box !important;display: box !important;position:relative;}
+.ub-con{position:absolute;width:100%;height:100%;}
+.ub-ac{-webkit-box-align:center;box-align:center;}
+.ub-ae{-webkit-box-align:end;box-align:end;}
+.ub-pc{-webkit-box-pack:center;box-pack:center;}
+.ub-pe{-webkit-box-pack:end;box-pack:end;}
+.ub-pj{-webkit-box-pack:justify;box-pack:justify;}
+.ub-ver{-webkit-box-orient:vertical;box-orient:vertical;}
+.ub-f1{position:relative;-webkit-box-flex: 1; box-flex: 1;width:100%;}
+.hide{display: none !important;}
+.ovh{overflow: hidden !important;}
+.box_sizing{box-sizing:border-box;-webkit-box-sizing:border-box;}
+.ut-s{text-overflow: ellipsis;overflow: hidden;white-space: nowrap;outline: 0 !important;padding-top: .03rem}
+#loading{width:100%;}
+.loading-icon{width:.3rem; height:.3rem;position: absolute;top: 50%;left: 50%; margin:-.5rem 0 0 -.15rem;background:url(https://qncdn.qiakr.com/mall/loty/loty_icon.png) no-repeat center top;background-size:.3rem auto; -webkit-animation:openShake 1.5s linear infinite;-webkit-animation-fill-mode:forwards;animation:openShake 1.5s linear infinite;animation-fill-mode:forwards;}
+.loading-tiao {width: 50%;height: 2px;top: 50%;left: 25%;position: absolute;background-color: #ffe11b;overflow:hidden;}
+.loading-tiao div {width: 0;height: 100%;background-color: #D24E83;-webkit-transition: all 1s linear;transition: all 1s linear;}
+.ctn-hide-ani {-webkit-animation: container-hide 0.7s ease 0s both;}
+@-webkit-keyframes container-hide {
+    0% {
+        -webkit-transform: scale(1);
+    }
+    100% {
+        -webkit-transform: scale(0);
+    }
+}
+.opcEvt{opacity:0;transition: opacity 1s;-webkit-transition: opacity 1s;}
+.bor5{border:5px solid #fff;}
+.msg-alert{z-index:99999 !important;}
+.header{z-index:999 !important;}
+.loty_jumpmy{z-index:2 !important;}
+.header{background-color: #f23728;color:#fff;padding:.08rem .15rem;font-size: .12rem;z-index: 1;}
+.header>p{color:#fff !important;margin-right:.1rem;}
+.header>.right{display:block;width: .06rem;height: .06rem;border: 2px solid #fff;transform: rotate(45deg);-webkit-transform: rotate(45deg);border-bottom: transparent;border-left: transparent;}
+.followEvt{display:none;}
+.follow .noFollowEvt{display:none !important;}
+.follow .followEvt{display:block !important;}
+.loty_hd{position:relative;text-align: center;margin:.25rem auto .15rem;position:relative;}
+.loty_hd>img{width:60%;}
+.loty_jumpmy{display:block;position:absolute;top:-.08rem;right:.05rem;background-color: #ffde00;border-radius: .2rem;-webkit-border-radius: .2rem;padding: .04rem .08rem;color:#9c1d14;}
+.loty_jumpmy>p{width:.15rem;height:.15rem;background-size: cover;margin-right:.05rem;/*-webkit-animation:openShake 2.5s linear infinite;-webkit-animation-fill-mode:forwards;animation:openShake 2.5s linear infinite;animation-fill-mode:forwards;*/}
+.loty_consPoints{color:#fff;font-size:.12rem;width:90%;margin:0 auto;padding: 0 0 .05rem .05rem;box-sizing: border-box;}
+.loty_consPoints>span>span{font-size:.18rem;color:#ffde00;}
+.loty_container{position:relative;width: 90%;margin:0 auto;background-color: #f23728;border-radius: 8px;-webkit-border-radius: 8px;padding:.2rem;-webkit-box-shadow: 0px 0px 0px 1px #d11410 inset, 0px 0px 0px 2px #d11410 inset, 0px 4px 0px 0px #d11410, 0px 5px 0px 0px #d11410, 0px 8px 0px 0px rgba(0,0,0,.15);box-shadow: 0px 0px 0px 1px #d11410 inset, 0px 0px 0px 2px #d11410 inset, 0px 4px 0px 0px #d11410, 0px 5px 0px 0px #d11410, 0px 8px 0px 0px rgba(0,0,0,.15);}
+.loty_con_top{position:absolute;top:-19%;right:0;text-align: center;width:28%;z-index:-1;}
+.loty_con_top>img{width:100%;}
+.loty_wrap{padding:0 0 .1rem .05rem;border-radius: 8px;-webkit-border-radius: 8px;width:100%;background-color: #cf1e0e;}
+.loty_wrap>div:first-child .loty_box{margin: .05rem .05rem 0 0;}
+.loty_box{background-color: #feeeee;padding: 2.5% 0 1.5% 0;border-radius: 6px;-webkit-border-radius: 6px;margin: .1rem .05rem 0 0;-webkit-box-shadow: 0px 0px 0px 1px #fecbc7 inset, 0px 0px 0px 2px #fecbc7 inset, 0px 4px 0px 0px #fecbc7, 0px 5px 0px 0px #fecbc7, 0px 8px 0px 0px rgba(0,0,0,.15);box-shadow: 0px 0px 0px 1px #fecbc7 inset, 0px 0px 0px 2px #fecbc7 inset, 0px 4px 0px 0px #fecbc7, 0px 5px 0px 0px #fecbc7, 0px 8px 0px 0px rgba(0,0,0,.15);}
+.loty_box:active, .loty_box.active{-webkit-box-shadow: 0px 0px 0px 1px #f4d65e inset, 0px 0px 0px 2px #f4d65e inset, 0px 4px 0px 0px #f4d65e, 0px 5px 0px 0px #f4d65e, 0px 8px 0px 0px rgba(0,0,0,.15);box-shadow: 0px 0px 0px 1px #f4d65e inset, 0px 0px 0px 2px #f4d65e inset, 0px 4px 0px 0px #f4d65e, 0px 5px 0px 0px #f4d65e, 0px 8px 0px 0px rgba(0,0,0,.15);background-color: #ffe585;}
+
+.loty_box>p{font-size: .11rem;color:#9c1d14;text-align: center;margin-top: .02rem;width:.7rem;margin:0 auto;}
+.loty_box>.loty_p_img{text-align: center;}
+.loty_p_img>img{width:.35rem;height:.35rem;}
+.loty_box_btn{background: url(https://qncdn.qiakr.com/mall/loty/loty_btn.png) no-repeat;background-size: 100% 110%;margin: .1rem .05rem 0 0;border-radius: 6px;-webkit-box-shadow: 0px 0px 0px 1px #da9223 inset, 0px 0px 0px 2px #da9223 inset, 0px 4px 0px 0px #da9223, 0px 5px 0px 0px #da9223, 0px 8px 0px 0px rgba(0,0,0,.15);box-shadow: 0px 0px 0px 1px #da9223 inset, 0px 0px 0px 2px #da9223 inset, 0px 4px 0px 0px #da9223, 0px 5px 0px 0px #da9223, 0px 8px 0px 0px rgba(0,0,0,.15);}
+.loty_box_btn.ing{background: url(https://qncdn.qiakr.com/mall/loty/loty_btn_ing.png) no-repeat;background-size: 100% 110%;margin: .1rem .05rem 0 0;border-radius: 6px;-webkit-box-shadow: 0px 0px 0px 1px #bebebe inset, 0px 0px 0px 2px #bebebe inset, 0px 4px 0px 0px #bebebe, 0px 5px 0px 0px #bebebe, 0px 8px 0px 0px rgba(0,0,0,.15);box-shadow: 0px 0px 0px 1px #bebebe inset, 0px 0px 0px 2px #bebebe inset, 0px 4px 0px 0px #bebebe, 0px 5px 0px 0px #bebebe, 0px 8px 0px 0px rgba(0,0,0,.15);}
+.loty_box_btn:active{-webkit-box-shadow: 0px 0px 0px 1px #ffcc00 inset, 0px 0px 0px 2px #ffcc00 inset, 0px 4px 0px 0px #ffcc00, 0px 5px 0px 0px #ffcc00, 0px 8px 0px 0px rgba(0,0,0,.15);box-shadow: 0px 0px 0px 1px #ffcc00 inset, 0px 0px 0px 2px #ffcc00 inset, 0px 4px 0px 0px #ffcc00, 0px 5px 0px 0px #ffcc00, 0px 8px 0px 0px rgba(0,0,0,.15);}
+.loty_box_btn>img{width:100%;}
+.loty_con_btm>div{position:absolute;width:.15rem;height:.45rem;background: url(https://qncdn.qiakr.com/mall/loty/loty_line.png) no-repeat;background-size: cover;bottom: -.35rem;z-index:1;}
+.loty_con_btm>div:first-child{left: 12%;}
+.loty_con_btm>div:last-child{right: 12%;}
+
+.odd, .even{position:absolute;display:block;width:10px;height:10px;    box-shadow: rgba(0,0,0,.2) 0px 3px 0px;border-radius:50%;-webkit-border-radius:50%;transition: all 400ms ease-out;}
+.light.even{background-color: #ffe585;}
+.light.odd{background-color: #fc6358;}
+.odd{background-color: #ffe585;}
+.even{background-color: #fc6358;}
+
+.loty_rule{width:90%;min-height:1rem;margin:.2rem auto;padding:.15rem;background-color: #dc332c;color:#333;border-radius: 6px;-webkit-border-radius: 6px;-webkit-box-shadow: 0px 0px 0px 1px #d11410 inset, 0px 0px 0px 2px #d11410 inset, 0px 4px 0px 0px #d11410, 0px 5px 0px 0px #d11410, 0px 8px 0px 0px rgba(0,0,0,.15);box-shadow: 0px 0px 0px 1px #d11410 inset, 0px 0px 0px 2px #d11410 inset, 0px 4px 0px 0px #d11410, 0px 5px 0px 0px #d11410, 0px 8px 0px 0px rgba(0,0,0,.15);position:relative;}
+.loty_rule>p{width:100%;height:.2rem;background: url(../images/loty_rule_tt.png) no-repeat;background-size: 100%;margin-bottom: .05rem;}
+/*.loty_rule>p{color:#fff;font-size:.13rem;text-align: center;padding:.05rem 0;}*/
+.loty_rule li{padding-top:.02rem;}
+.loty_cofe{position:absolute;bottom:-40%;left:-10%;width:120%;height:62%;background: url(https://qncdn.qiakr.com/mall/loty/loty_cofe.png) no-repeat;background-size: 100% 100%;z-index:1;}
+
+.loty_cover{width:100%;height:100%;background-color:rgba(0,0,0,.5);position:fixed;left:0;top:0;display:none;z-index:3;}
+.cover_con{position:relative;width:110%;height:3rem;margin:22% auto;left:-5%}
+@media screen and (max-device-width:320px) and (device-height: 480px){
+  .cover_con{margin:22% auto;}
+}
+.c_con_top{position:relative;padding:.10rem;text-align: center;color:#fff;font-size:.16rem;/*text-shadow:#333 5px 5px 10px;*/border-bottom: 2px solid #333;}
+.c_con_top:before{content:"";display:block;position:absolute;left:-.3rem;top:.08rem;width:.5rem;height:.5rem;background: url(https://qncdn.qiakr.com/mall/loty/loty_r_l.png) no-repeat;background-size: 100% 100%;z-index:-1;}
+.c_con_top:after{content:"";display:block;position:absolute;right:-.3rem;top:.08rem;width:.5rem;height:.5rem;background: url(https://qncdn.qiakr.com/mall/loty/loty_r_r.png) no-repeat;background-size: 100% 100%;z-index:-1;}
+.c_con_mid{text-align: center;padding:.15rem;color:#fff;font-size:.15rem;}
+.c_con_mid>img{width:40%;}
+.c_con_mid>p{margin: .2rem 0 .1rem;font-size: .14rem;}
+.c_con_btn{display: inline-block;font-size:.15rem;color:#9c1d14;border:1px solid #9c1d14;padding:.08rem .2rem;border-radius:.2rem;-webkit-border-radius:.2rem;background-color: #ffd95e;margin:.1rem auto;}
+.c_is_top{position: absolute;top: -1.35rem;left: 50%;width: 3.4rem;height: 3.8rem;background: url(https://qncdn.qiakr.com/mall/loty/loty_is_top.png) no-repeat;background-size: 100% 100%;z-index: -1;margin-left: -1.7rem;transform:scale(.5) translateY(30%);-webkit-transform:scale(.5) translateY(30%);}
+
+.no .cover_con{display:none;}
+.no .cover_con_no{display:block;}
+.cover_con_no{display:none;position:relative;width:110%;height:3rem;margin:22% auto;left:-5%}
+.no .c_con_top{color:#333;font-size:.16rem;text-shadow:#fff 5px 5px 10px;}
+.no .c_con_top:before{content:"";display:block;position:absolute;left:-.3rem;top:.08rem;width:.5rem;height:.5rem;background: url(https://qncdn.qiakr.com/mall/loty/loty_w_l.png) no-repeat;background-size: 100% 100%;z-index:-1;}
+.no .c_con_top:after{content:"";display:block;position:absolute;right:-.3rem;top:.08rem;width:.5rem;height:.5rem;background: url(https://qncdn.qiakr.com/mall/loty/loty_w_r.png) no-repeat;background-size: 100% 100%;z-index:-1;}
+.no .c_con_mid{color:#333;}
+.no .c_con_mid>p{margin: .05rem 0 .05rem;}
+.no .c_con_mid small{color:#666;}
+.no .c_con_mid>.c_my_btn{display:block;color:#f23728;margin: .1rem 0 .1rem;}
+.no .c_con_btn{color:#fff;border:none;background-color: #f23728;margin:.1rem auto;}
+.no .c_con_btn.disabled{background-color: #fff;color:#888;}
+.no .c_con_disbtn{color:#888;display: inline-block;font-size:.15rem;padding:.08rem .2rem;border-radius:.2rem;margin:.1rem auto;}
+.no .c_is_top{top: -.75rem;left: 50%;width: 1.2rem;height: .8rem;background: url(https://qncdn.qiakr.com/mall/loty/loty_p_top.png) no-repeat;background-size: 100% 100%;z-index: 2;margin-left: -.6rem;}
+.loty_bg_1{width:20% !important;position:absolute;left:7%;top:43%;z-index:-1;}
+.loty_bg_2{width:14% !important;position:absolute;right:40%;top:75%;z-index:-1;}
+.loty_bg_3{width:14% !important;position:absolute;right:0;top:42%;z-index:-1;-webkit-animation:leftTopDown 5s infinite linear 2s;animation:leftTopDown 5s infinite linear 2s;}
+
+.wh_status{width:100%;height:100%;background-color:rgba(255,255,255,0);position:fixed;left:0;top:0;display:block;z-index:1;}
+.wh_wrap{position:absolute;left:15%;top:50%;width:70%;min-height:.6rem;margin-top:-.4rem;padding:.05rem 0 .1rem;background-color:rgba(0,0,0,.9);color:#fff;font-size:.12rem;text-align: center;z-index:99999;border-radius: 6px;-webkit-border-radius: 6px;}
+.wh_wrap>p{margin: .08rem 0 .04rem;font-size:.15rem;}
+
+@keyframes openShake {
+  	0% {
+		transform: scale(1);
+    	transform: scale3d(1, 1, 1);
+  	}
+  	6%{
+	    transform: scale(.9) rotate(-8deg);
+	    transform: scale3d(1, 1, 1) rotate(0, 0, 1, -8deg);
+  	}
+  	18%, 30%,42%{
+	    transform: scale(1.1) rotate(8deg);
+	    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 8deg);
+  	}
+  	12%,24%, 36%,48%{
+	    transform: scale(1.1) rotate(-8deg);
+	    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -8deg);
+  	}
+  	80%{
+	    transform: scale(1);
+	    transform: scale3d(1, 1, 1);
+  	}
+  	100%{
+	    transform: scale(1);
+	    transform: scale3d(1, 1, 1);
+  	}
+}
+@-webkit-keyframes openShake {
+  	0% {
+		-webkit-transform: scale(1);
+    	-webkit-transform: scale3d(1, 1, 1);
+  	}
+  	6%{
+	    -webkit-transform: scale(.9) rotate(-8deg);
+	    -webkit-transform: scale3d(1, 1, 1) rotate(0, 0, 1, -8deg);
+  	}
+  	18%, 30%,42%{
+	    -webkit-transform: scale(1.1) rotate(8deg);
+	    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 8deg);
+  	}
+  	12%,24%, 36%,48%{
+	    -webkit-transform: scale(1.1) rotate(-8deg);
+	    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -8deg);
+  	}
+  	80%{
+	    -webkit-transform: scale(1);
+	    -webkit-transform: scale3d(1, 1, 1);
+  	}
+  	100%{
+	    -webkit-transform: scale(1);
+	    -webkit-transform: scale3d(1, 1, 1);
+  	}
+}
+@keyframes float{
+  0%,100%,5%,95%{
+    transform:translateY(-20px);-webkit-transform:translateY(-20px)
+  }
+  25%,75%{
+    transform:translateY(-12px);-webkit-transform:translateY(-12px)
+  }
+  50%,55%{
+    transform:translateY(0);-webkit-transform:translateY(0)}
+  }
+@-webkit-keyframes float{
+  0%,100%,5%,95%{
+    transform:translateY(-20px);-webkit-transform:translateY(-20px)
+  }
+  25%,75%{
+    transform:translateY(-12px);-webkit-transform:translateY(-12px)
+  }
+  50%,55%{
+    transform:translateY(0);-webkit-transform:translateY(0)
+  }
+}
+.float{-webkit-animation: float 1s linear infinite;animation: float 1s linear infinite;}
+@-webkit-keyframes circle{
+  0%{ transform:rotate(0deg); }
+  100%{ transform:rotate(-360deg); }
+}
+@keyframes circle{
+  0%{ transform:rotate(0deg); }
+  100%{ transform:rotate(-360deg); }
+}
+.circle{-webkit-animation:circle 4s infinite linear;animation:circle 4s infinite linear;}
+
+@-webkit-keyframes leftTopDown {
+  0% {
+    -webkit-transform:translate(200%, -220%);
+            transform:translate(200%, -220%);
+    -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+            animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  100% {
+    -webkit-transform:translate(-400%, 500%);
+            transform:translate(-400%, 500%);
+    -webkit-transform-origin: center bottom;
+            transform-origin: center bottom;
+    -webkit-animation-timing-function: cubic-bezier(0.35, 0.885, 0.5, 1);
+            animation-timing-function: cubic-bezier(0.35, 0.885, 0.5, 1);
+  }
+}
+
+@keyframes leftTopDown {
+  0% {
+    -webkit-transform:translate(200%, -220%);
+            transform:translate(200%, -220%);
+    -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+            animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  100% {
+    -webkit-transform:translate(-400%, 500%);
+            transform:translate(-400%, 500%);
+    -webkit-transform-origin: center bottom;
+            transform-origin: center bottom;
+    -webkit-animation-timing-function: cubic-bezier(0.35, 0.885, 0.5, 1);
+            animation-timing-function: cubic-bezier(0.35, 0.885, 0.5, 1);
+  }
+}
+.leftTopDown{-webkit-animation:leftTopDown 10s infinite linear;animation:leftTopDown 10s infinite linear;}
+
+@keyframes bottomShow{
+  0%{
+    transform:scale(.5) translateY(30%);-webkit-transform:scale(.5) translateY(30%);
+  }
+  100%{
+    transform:scale(1) translateY(0);-webkit-transform:scale(1) translateY(0);
+  }
+}
+@-webkit-keyframes bottomShow{
+  0%{
+    transform:scale(.5) translateY(30%);-webkit-transform:scale(.5) translateY(30%);
+  }
+  100%{
+    transform:scale(1) translateY(0);-webkit-transform:scale(1) translateY(0);
+  }
+}
+.bottomShow{-webkit-animation:bottomShow 400ms forwards linear 400ms;animation:bottomShow 400ms forwards linear 400ms;}
+
+@-webkit-keyframes floatUpDowm{
+  0%{ transform:rotateX(20deg);-webkit-transform:rotateX(20deg); }
+  50%{ transform:rotateX(0deg);-webkit-transform:rotateX(0deg); }
+  100%{ transform:rotateX(-20deg);-webkit-transform:rotateX(-20deg); }
+}
+@keyframes floatUpDowm{
+  0%{ transform:rotateX(20deg);-webkit-transform:rotateX(20deg); }
+  50%{ transform:rotateX(0deg);-webkit-transform:rotateX(0deg); }
+  100%{ transform:rotateX(-20deg);-webkit-transform:rotateX(-20deg); }
+}
+.floatUpDowm{transform-origin: top center;-webkit-transform-origin: top center;-webkit-animation:floatUpDowm 4s infinite linear;animation:floatUpDowm 4s infinite linear;}

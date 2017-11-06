@@ -1,0 +1,306 @@
+<{include file="pageheader.html"}>
+<style>
+.bottom {
+    top: 0;
+    bottom: auto;
+}
+
+.left {
+    left: 0;
+    right: auto;
+}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 购物车 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page-container">
+  <div class="fixed-bar">
+</div>
+<form id="form1">
+<div class="bk-gray radius">
+   <!--  <div class="consignee_info pd-20">
+        <h4><b>收货人信息</b></h4>
+        <div class="f-14 c-666 mt-15" style="text-indent: 2em"><{$name}> &nbsp;<{$addr}>&nbsp;<{$phone}></div>
+    </div> -->
+    <div class="line"></div>
+    <div class="order_info pd-20">
+        <h4><b>订购清单</b></h4>
+        <{foreach from=$data item=depot_info key=key}>
+        <table class="table table-border table-bordered radius mt-15 ">
+            <tr>
+                <td colspan="12" bgcolor="#E4E4E4">订单号：<{$depot_info.order_sn}></td>
+            </tr>
+            <tr class="text-c" bgcolor="#F2F2F2">
+                <td>款号</td>
+                <td>货号</td>
+                <td>品牌</td>
+                <td>店铺</td>
+                <td>颜色</td>
+                <td>尺码</td>
+                <td>发布季</td>
+                <td>数量</td>
+                <td>单价</td>
+                <td>重量（KG/款）</td>
+                <td>合计金额</td>
+            </tr>
+            <{foreach from=$depot_info.stock item=v key=k}>
+            <tr class="text-c">
+                <td><{$v.goods_spu}></td>
+                <td><{$v.stocks_sn}></td>
+                <td><{$v.brand_name}></td>
+                <td><{$v.store_name}></td>
+                <td><{$v.color}></td>
+                <td><{$v.size}></td>
+                <td><{$v.time_to_market}></td>
+                <td class="amount"><{$v.amount}></td>
+                <td><{$v.stocks_price}></td>
+                <td class="weight"><{$v.weight}></td>
+                <td><{sprintf("%.2f",$v.stocks_price*$v.amount)}></td>
+            </tr>
+            <{/foreach}>
+            <tr class="text-c" bgcolor="#EAEDF1">
+                <td>物流</td>
+                <td>运费</td>
+                <td colspan="2">预计发货日期</td>
+                <td colspan="2">预计到货日期</td>
+                <td colspan="2">首重</td>
+                <td colspan="4">续重</td>
+            </tr>
+            <{if $depot_info.fee_info}>
+            <{foreach from=$depot_info.fee_info item=v key=k}>
+            
+            <tr class="text-c">
+                 <input type="hidden" name="no_fee" class="no_fee" disabled value="<{$v.free_fee_num}>"/>
+                 <input type="hidden" name="express_depot[<{$key}>][]" class="express_depot" value="<{$key}>|<{if $v.ept_id}><{$v.ept_id}><{/if}>">
+                <td class="pos-r">
+                    <{if isset($v.default)}><{if $v.default eq 1}><img src="<{TEMPLE}>/images/moren.png" class="pos-a bottom left" alt=""><{/if}><{/if}>
+                    <input type="radio" class="mr-5 express_checked radio" name="<{$key}>"  <{if $v.default}><{if $v.default eq 1}>checked value="1" <{else}> value="0" <{/if}><{/if}> ><{if $v.express_name}><{$v.express_name}><{/if}>
+                </td>
+                <td class="c-red express_depot_fee" data-id="<{$key}>|<{$v.express_code}>"> <{$v.express_fee}></td>
+                <td colspan="2"><{$depot_info.deliver_day}></td>
+                <td colspan="2"><{$depot_info.arrive_day}></td>
+                <td colspan="2"><span class="first_weight"><{$v.first_fee}></span>元/<span class="f_w"><{$v.first_nums}></span>KG</td>
+                <td colspan="4"><span class="continue_weight"><{$v.loan_fee}></span>元/<span class="l_w"><{$v.loan_nums}></span>KG</td>
+            </tr>
+            
+            <{/foreach}>
+            <{else}>
+            <tr class="text-c" ><td colspan="12" class="c-red f-14">此渠道下该收货地址不存在物流信息！！！</td>
+            </tr>
+            <{/if}>
+            <tr >
+                <td class="text-c">共计</td>
+                <td colspan="11"><span class=""><{$depot_info.stock_num}></span> 款商品 大概重量：<span class="t_weight"><{$depot_info.total_weight}></span>(kg) 商品总价：<span class=""><{$depot_info.total_money}></span> 元  运费：<span class="express_money">0.00</span> 元</td>
+            </tr>
+        </table>
+       <{/foreach}>
+        
+        <div class="mt-20 va-t"><span class="va-t">添加订单备注：</span><textarea name="" id="bz_note" cols="" rows="" style="width: 80%;height: 40px" class="pd-5" ><{$note}></textarea></div>
+    </div>
+</div>
+<!--     <div class="cl">
+        <div class="f-r">
+            <table class="table mt-10 f-14">
+                <tr>
+                    <td><span class=""><{$total_stock_num}></span> 件商品，总商品金额：</td>
+                    <td>￥<span class="goods_money"><{$money}></span></td>
+                </tr>
+                <tr class="text-r">
+                    <td>总运费：</td>
+                    <td>￥<span class="total_freight">0.00</span></td>
+                </tr>
+            </table>
+        </div>
+    </div> -->
+    <div class="bk-gray pd-20 mt-10 cl" style="background-color: #F4F4F4">
+        <div class="f-r text-r">
+            <div class="mb-10 ">
+            <span class=""><{$total_stock_num}></span> 件商品，总商品金额：￥<span class="goods_money"><{sprintf("%0.2f",$money)}></span>
+            总运费：￥<span class="total_freight">0.00</span>
+            应付总额：<b class="c-red f-16">￥<span class="total_money">0.00</span></b></div>
+            <div class="">寄送至：<span class="mr-30"><{$addr}></span>收货人：<span class=""><{$name}> &nbsp; <{$phone}></span></div>
+        </div>
+
+    </div>
+<div class="text-c mt-20 mb-30">
+    <input type="button" value="确认订购" name="sure_submit" id="" onclick="order_submit(<{$user_id}>)" class="btn btn-primary radius sure_do pl-30 pr-30 mr-10 size-L">
+    <!--  <input type="button" value="确认订购并付款" name="sure_submit" id="" onclick="pay_submit(<{$user_id}>)"  class="btn btn-primary radius sure_do pl-30 pr-30 mr-10 size-L">-->
+    <input type="button" value="取消" name="no_submit" id="" onclick="cancel_submit(<{$user_id}>)" class="btn btn-danger radius sure_do pl-30 pr-30 size-L">
+</div>
+</form>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+<script>
+   $(function(){
+
+       total_freight();
+       total();
+       //每个快递的运费
+      /*  $(".express_depot_fee").each(function(){
+           var t=$(this).parents("table"),f_w= $(this).parents("tr").find(".f_w").text(),c_w= parseFloat($(this).parents("tr").find(".continue_weight").text()),
+                   f_weight=parseFloat($(this).parents("tr").find(".first_weight").text()),k= 0,kg= 0;
+               l_w = parseFloat($(this).parents("tr").find(".l_w").text());
+           t.find(".weight").each(function(){
+               var amount=$(this).parents("tr").find(".amount").text()*1
+               kg+=parseFloat($(this).text()*amount);
+           })
+           //console.log(f_weight);
+           //console.log(c_w);
+           kg=kg.toFixed(2);
+           no_fee = parseFloat($(this).parents('tr').find('input.no_fee').val());
+           console.log(f_w);//首重
+           console.log(c_w);//续费
+           console.log(l_w);//绪重
+           console.log(f_weight);//续fee
+           console.log(kg); 
+           if(no_fee<=kg&&no_fee>0){
+        	   $(this).text(0);
+           }else{
+        	   
+        	   if(kg>f_w){
+                   k = f_weight+(Math.ceil((kg-f_w)/l_w)*c_w);
+               }else{
+                   k=f_weight;
+               }
+               k=k.toFixed(2);
+               $(this).text(k);
+           }
+           
+       }) */
+       //默认快递的运费
+        $("input[type='radio']:checked").each(function(){
+           var t=$(this).parents("table");/*,f_w= $(this).parents("tr").find(".f_w").text(),c_w= parseFloat($(this).parents("tr").find(".continue_weight").text()),
+                   f_weight=parseFloat($(this).parents("tr").find(".first_weight").text()),k= 0,kg= 0;
+           l_w = parseFloat($(this).parents("tr").find(".l_w").text());
+           t.find(".weight").each(function(){
+               var amount=$(this).parents("tr").find(".amount").text()*1
+               kg+=parseFloat($(this).text()*amount);
+           })
+           kg=kg.toFixed(2);
+           k=k.toFixed(2);
+           t.find(".t_weight").text(kg);
+           //console.log(k)
+           no_fee = parseFloat($(this).parents('tr').find('input.no_fee').val());
+           //console.log(no_fee);
+           //console.log(kg);
+           if(no_fee<=kg&&no_fee>0){
+        	   k=0;
+           }else{
+        	   if(kg>f_w){
+        		   k = f_weight+(Math.ceil((kg-f_w)/l_w)*c_w);
+               }else{
+                   k=f_weight;
+               }
+               k=k.toFixed(2);
+           }*/
+           var fee = $(this).parents('tr').find('.express_depot_fee').text();
+           t.find(".express_money").html(fee);
+           total_freight();
+           total();
+       }) 
+       //单个运费
+        $("input.express_checked").change(function(){
+        	var t=$(this).parents("table");
+            /* var t=$(this).parents("table"),k= 0,kg= 0,f_w= $(this).parents("tr").find(".f_w").text(),c_w= parseFloat($(this).parents("tr").find(".continue_weight").text()),
+                    f_weight=parseFloat($(this).parents("tr").find(".first_weight").text());
+            l_w = parseFloat($(this).parents("tr").find(".l_w").text());
+            t.find(".weight").each(function(){
+                var amount=$(this).parents("tr").find(".amount").text()*1
+                kg+=parseFloat($(this).text()*amount);
+            })
+            kg=kg.toFixed(2);
+
+            
+            $(this).parents("table").find(".t_weight").text(kg);
+            no_fee = parseFloat($(this).parents('tr').find('input.no_fee').val());
+            //console.log(no_fee);
+            //console.log(kg);
+            if(no_fee<=kg&&no_fee>0){
+         	   k=0;
+            }else{
+         	   if(kg>f_w){
+         		  k = f_weight+(Math.ceil((kg-f_w)/l_w)*c_w);
+               }else{
+                   k=f_weight;
+               }
+               k=k.toFixed(2);
+            }
+            t.find(".express_money").html(k); */
+            var fee = 0;
+            fee = $(this).parents('tr').find('.express_depot_fee').text();
+            t.find(".express_money").html(fee);
+            total_freight();
+            total();
+        })
+       //总运费
+       function total_freight(){
+           var total=0;
+           $(".express_money").each(function(){
+               total+=parseFloat($(this).text());
+           })
+           $(".total_freight").text(total.toFixed(2));
+       }
+       //总价
+       function total(){
+           var total_money= parseFloat($(".goods_money").text())+parseFloat($(".total_freight").text());
+           $(".total_money").html(total_money.toFixed(2));
+       }
+   })
+   function cancel_submit(id){
+	   window.location.href='javascript:history.go(-1)';
+   }
+   var order_data = <{$data_js}>;
+   var phone_js = <{$phone_js}>;
+   var tel_js = <{$tel_js}>;
+   var name_js = <{$name_js}>;
+   var addr_js = <{$addr_js}>;
+   var post_code = <{$post_code}>;
+   var custom_sn = <{$custom_sn}>;
+   var oos_deal = <{$oos_deal}>;
+   var province = <{$province}>;
+   var city = <{$city}>;
+   var area = <{$area}>;
+   var sender = <{$sender}>;
+   var sender_mobile = <{$sender_mobile}>;
+   function order_submit(id){
+	   $("input[name='sure_submit']").attr("disabled",true).val('提交中...').css("background","#999");
+	   var note = $('#bz_note').val();
+	   //var express_depot = $('#bz_note').val();
+	   var express_depot = [];
+	  $('.radio:checked').each(function(){
+		  express_depot.push($(this).parents('tr').children('.express_depot_fee').text()+'|'+$(this).parents('tr').children('.express_depot_fee').attr('data-id'));
+	  })
+	   //console.log(express_depot);
+	   //return false;
+	   //var express_fee='';
+	   $.ajax({
+			type: "post",
+	        url: "order_submit?user_id="+id,
+	        data: {order_data:order_data,express_fee:express_depot,phone:phone_js,tel:tel_js,note:note,post_code:post_code,
+	        	name:name_js,addr:addr_js,custom_sn:custom_sn,oos_deal:oos_deal,province:province,city:city,area:area,sender:sender,sender_mobile:sender_mobile},
+	        dataType: "json",
+	        beforeSend:function(){
+				layer.msg('提交中...');
+			},
+	        success: function(data){
+			    $("input[name='sure_submit']").attr("disabled",false).val('确认订购').css("background","#0099CC");
+                if(data.state == '403'){
+                    layer.msg(data.msg);
+                    window.top.location.href = "<{base_url('pay.php/Index/')}>login_out";
+                }else if(data.state == '401'){
+                    layer.msg(data.msg);
+                    return false;
+                }else if(data.state){
+	        		layer.msg(data.msg);
+	        		$('#shop_cart_total', window.parent.document).text(data.num);
+	        		window.location.href='place_order';
+	        	}else{
+	        		layer.alert(data.msg,{icon:2});
+	        	}
+	        }
+	   })
+   }
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <{include file="lib/Hlink.html"}>
+        <title>我的收藏</title>
+        <style>
+            body {
+                background: #fff;
+                padding: 10px;
+            }
+
+            .products-list {
+                padding-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="qk-pro-list">
+
+            <ul class="small-block-grid-2" id="favListItem">
+            </ul>
+        </div>
+    </body>
+    <script type="text/javascript" src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+    <script>
+    var dataPage=1,allowScroll=true;
+    getAjaxData(dataPage,true);
+    
+    function getAjaxData(idx,clear){
+        if(allowScroll){
+            allowScroll = false;
+            $("body").append('<div class="loading-bottom">加载中...</div>');
+            $.getJSON("user_collection?op=page&index="+idx+"&length="+10,function(data){
+                if(data.state){
+                    if(data.result.length>0){
+                        var htmlStr = '',vgoods_image="";
+                        $.each(data.result.info,function(k,v){
+                        	if(v.goods_image){
+                        		var imgs = v.goods_image;
+                        		if(imgs.match(/[^\.][jp]$/i)){
+                        			vgoods_image = v.goods_image;
+                        		}else{
+                        			vgoods_image = "<{DEFAULTIMAGE}>"+"<{$config_images.goods_image}>";
+                        		}
+                        		
+                        	}else{
+                        		vgoods_image = "<{DEFAULTIMAGE}>"+"<{$config_images.goods_image}>";
+                        	}
+                             htmlStr += '<li>'+
+                                        '<a href="<{base_url()}>vmall.php/goods/goods_collection?store_id='+v.store_id+'&goods_id='+v.fav_id+'&goods_ea_id='+v.goods_ea_id+'">'+
+                                        '<div class="p-img" style="background-image:url('+vgoods_image+')">';
+                                        if(v.goods_tag!==null && v.goods_tag!==''){
+                                            var goods_tag = '特价';
+                                            if(v.goods_tag=='1'){
+                                                goods_tag='新品';
+                                            }else if(v.goods_tag=='2'){
+                                                goods_tag='推荐';
+                                            }
+                                            htmlStr +='<span class="p-tag">'+goods_tag+'</span>';
+                                        }
+                                        
+                                htmlStr +='</div><div class="p-info" style="overflow: hidden">'+v.goods_name+'</div>'+
+                                        '<div class="p-flag">'+
+                                        '<span class="sku-price normal" style="color:red">¥'+v.goods_price+'&nbsp;&nbsp;<del class="fs16">¥'+v.goods_marketprice+'</del></span>'+
+                                        '</div>'+
+                                        '</a>'+
+                                        '</li>';
+                        })
+                        $('#favListItem').append(htmlStr);
+                    }else{
+                        if(clear){
+                            $('#favListItem').html('<section class="noResult tc"><span>收藏夹为空哦</span><div><a href="<{base_url()}>vmall.php/goods/" class="btn btn-red" style="display:inline-block;background:#e04241;">立即去添加</a></div></section>');
+                        }
+                    }
+                    $(".loading-bottom").remove();
+                    allowScroll = data.result.all ? false : true;
+                }
+
+            });
+        }
+    }
+    scrollToLoadMore({
+        callback:function(){
+            getAjaxData(dataPage);
+        }
+    });
+    
+function scrollToLoadMore(option){
+    var wHeight = $(window).height();
+    window.onscroll = function(){
+        var sHeight = $("body").scrollTop(), cHeight = $(document).height();
+        if(sHeight >= cHeight-wHeight-(option.distance ? option.distance : 10)){
+            if($(".loading-bottom").length > 0) {
+                return false;
+            }else{
+                dataPage += (option.length ? option.length : 1);
+                option.callback();
+            }
+        }
+    }
+}
+//    $(function(){ 
+//        $(window).on("scroll",function(){
+//            console.log('aaa');
+//        var aa=$(document).height();
+//        var bb=$(this).scrollTop();
+//        var cc=$(this).height();
+//        var dd=aa-bb-cc;
+//        if(dd<50){
+//            $(".js-load-more").show();
+//            var html='<p>22222222222222222222222222</p><p>22222222222222222222222222</p><p>22222222222222222222222222</p><p>22222222222222222222222222</p>';
+//            //请求数据，然后添加内容，成功后隐藏加载器
+//            // $.ajax(){ }
+//            setTimeout(function(){
+//            $(".m-content").append(html);
+//            $(".js-load-more").hide();
+//            },2000);
+//            }
+//        });
+//    })
+    </script>
+
+</html>

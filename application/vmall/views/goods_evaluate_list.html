@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <{include file="lib/Hlink.html"}>
+        <title>我的收藏</title>
+        <style>
+            body {
+                background: #fff;
+                padding: 10px;
+            }
+
+            .products-list {
+                padding-top: 10px;
+            }
+            .appriseBox .tit, .appriseBox .cont {
+                padding: 0;
+            }
+            .appriseBox .tit {
+    height: 42px;
+    line-height: 42px;
+    padding-left: 15px;
+    display: block;
+}
+        </style>
+    </head>
+    <body>
+        <div class="appriseBox">
+            <a class="tit">商品评价(<span id="commentCount">1</span>条)</a>
+            <div class="cont">
+                <div class="item">
+                    <div class="wbox">
+                        <img src="<{TEMPLE}>images/0.jpg" class="size43 round mr10">
+                        <div class="wbox-1 lh22">
+                            <div>
+                                单行线<div class="appProgress ml5"><span class="val" style="width:100.00%"></span></div>
+                            </div>
+                            <div class="fc-grey fs12">2017-02-22 18:08:13</div>
+                        </div>
+                    </div>
+                    <div class="fc-grey pt5">此品测试</div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+    <script>
+    var dataPage=1,allowScroll=true;
+    getAjaxData(dataPage,true);
+    
+    function getAjaxData(idx,clear){
+        if(allowScroll){
+            allowScroll = false;
+            $("body").append('<div class="loading-bottom">加载中...</div>');
+            $.getJSON("user_collection?op=page&index="+idx+"&length="+10,function(data){
+                if(data.state){
+                    if(data.result.length>0){
+                        var htmlStr = '';
+                        $.each(data.result.info,function(k,v){
+                             htmlStr += '<li>'+
+                                        '<a href="">'+
+                                        '<div class="p-img" style="background-image:url(<{PLUGIN}>data/shop/album_pic/'+v.goods_image+')"></div>'+
+                                        '<div class="p-info" style="overflow: hidden">'+v.goods_name+'</div>'+
+                                        '<div class="p-flag">'+
+                                        '<span class="sku-price normal" style="color:red">¥'+v.log_price+'</span>'+
+                                        '</div>'+
+                                        '</a>'+
+                                        '</li>';
+                        })
+                        $('#favListItem').append(htmlStr);
+                    }else{
+                        if(clear){
+                            $('#favListItem').html('<section class="noResult tc"><span>评价为空哦</span></section>');
+                        }
+                    }
+                    $(".loading-bottom").remove();
+                    allowScroll = data.result.all ? false : true;
+                }
+
+            });
+        }
+    }
+    scrollToLoadMore({
+        callback:function(){
+            getAjaxData(dataPage);
+        }
+    });
+    
+function scrollToLoadMore(option){
+    var wHeight = $(window).height();
+    window.onscroll = function(){
+        var sHeight = $("body").scrollTop(), cHeight = $(document).height();
+        if(sHeight >= cHeight-wHeight-(option.distance ? option.distance : 10)){
+            if($(".loading-bottom").length > 0) {
+                return false;
+            }else{
+                dataPage += (option.length ? option.length : 1);
+                option.callback();
+            }
+        }
+    }
+}
+    </script>
+
+</html>

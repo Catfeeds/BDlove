@@ -1,0 +1,85 @@
+
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+    <div id="append_parent"></div>
+    <div id="ajaxwaitid"></div>
+    <div class="page">
+        <div class="fixed-bar">
+            <div class="item-title">
+               <a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+					<div class="subject">
+						<h3>门店管理 - 门店<{if isset($store_data.store_name)}>(<{$store_data.store_name}>)<{/if}>其他信息设置</h3>
+						<h5>平台中的所有新闻的管理</h5>
+					</div>
+					<{if isset($store_data.store_id)}>
+                <ul class="tab-base nc-row">
+				        <li><a href="store_edit?op=edit&id=<{$store_data.store_id}>">基本信息</a></li>
+				        <li><a href="store_of_goods?op=edit&id=<{$store_data.store_id}>">商品</a></li>
+				        <li><a href="store_of_shopping_guide?op=edit&id=<{$store_data.store_id}>">导购</a></li>
+				        <li><a href="store_of_freight_setting?op=edit&id=<{$store_data.store_id}>">运费</a></li>
+				        <li><a href="JavaScript:void(0);" class="current">通知</a></li>
+				        <li><a href="store_of_other?op=edit&id=<{$store_data.store_id}>">其他</a></li>
+			      </ul>
+			      <{/if}>
+            </div>
+        </div>
+        <!-- 操作说明 -->
+			<div class="explanation" id="explanation">
+				<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+					<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+					<span id="explanationZoom" title="收起提示"></span> </div>
+				<ul>
+					<li> 若绑定云聚客后为未认证公众号，之后通过了微信认证，请重新授权补充权限。</li>
+					<li>仅微信认证后的服务号可使用完整云聚客功能，若微信公众号接口异常，根据提示处理后请点击上方重新授权。</li>
+					<li> 若公众号为订阅号，需通过微信认证才可支持微信支付；服务号均可支持。</li>
+				</ul>
+			</div>
+        <form method="post" id="settingForm" name="settingForm" action="store_notice_set">
+            <input type="hidden" name="store_id" value="<{if isset($store_data.store_id)}><{$store_data.store_id}><{/if}>">
+            <input type="hidden" name="store_name" value="<{if isset($store_data.store_name)}><{$store_data.store_name}><{/if}>">
+            <div class="ncap-form-default">
+                <dl class="row">
+                   <dt class="tit">
+                        <label for="store_arayacak">自提订单提货码:</label>
+                    </dt>
+                    <dd class="opt">
+                        <select name="store_arayacak" class="valid">
+                            <option value="1" <{if isset($store_data.warn_pick_up)&&$store_data.warn_pick_up==1}>selected<{/if}>>仅微信 公众号提醒</option>
+                            <option value="2" <{if isset($store_data.warn_pick_up)&&$store_data.warn_pick_up==2}>selected<{/if}>>短信提心及微信公众号提醒</option>
+                        </select>
+                        <p class="notic">门店自提订单，发送提货码短信给用户；方便未关注用户购买后可直接查询短信；已关注用户48小时内公众号会有推送提醒，在订单内也可查询到。</p>
+                        <span class="err"></span>
+                    </dd>
+                </dl>
+               <!--  <dl class="row">
+                    <dt class="tit">
+                        <label for="store_arayacak">预约订单状态变更:</label>
+                    </dt>
+                    <dd class="opt">
+                       <select name="store_bespoke" class="valid">
+                            <option value="1" selected>仅微信 公众号提醒</option>
+                            <option value="2" >短信提心及微信公众号提醒</option>
+                        </select>
+                        <p class="notic">预约订单任何状态变更都会提醒给消费者，如预约订单被确认、被拒绝；已关注用户48小时内公众号会有推送提醒，订单内也可查询订单状态。</p>
+                        <span class="err"></span>
+                    </dd>
+                </dl> -->
+               
+                <div class="bot"><a href="JavaScript:;" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+            </div>
+        </form>
+    </div>
+  
+    <div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+		$('#submitBtn').click(function(){
+			  
+		    $('#settingForm').submit();
+			 
+		})
+  })
+</script>
+</html>

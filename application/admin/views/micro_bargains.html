@@ -1,0 +1,99 @@
+<{include file="pageheader.html" }>
+	<body style="background-color: #FFF; overflow: auto;">
+		<div id="append_parent"></div>
+		<div id="ajaxwaitid"></div>
+		<div class="page">
+			<div class="fixed-bar">
+				<div class="item-title">
+		          <a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+					<div class="subject">
+						<h3>微砍价</h3>
+						<h5><{if  isset($microInfo.goods_name) && !empty($microInfo.goods_name)}><{$microInfo.goods_name}><{else}>活动统计<{/if}></h5>
+
+					</div>
+		        </div>
+			</div>
+			<!-- 操作说明-->
+			<div class="explanation" id="explanation">
+				<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+					<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+					<span id="explanationZoom" title="收起提示"></span> </div>
+				<ul>
+					<li>活动详情</li>
+				</ul>
+		    </div>
+		    <div class="mt-10 mb-10"><!--
+        		<form method="post" name="formSearch" id="formSearch">
+            		<div class="search mt-20 mb-10">
+                		&nbsp;&nbsp;
+                		砍价时间
+						<input type="text" id="start_date" onclick="laydate()" value="" name="start_date" style="background-color: #fff" class="input-text input_text mb-10">
+						&nbsp;至&nbsp;
+						<input type="text" id="end_date" onclick="laydate()" value="" name="end_date" style="background-color: #fff" class="input-text input_text mb-10">
+                		&nbsp;&nbsp;
+                		<input type="text" name="name" id="name" class="input-text input_text mb-10" placeholder="姓名">
+                		&nbsp;&nbsp;
+                		<input type="text" name="wx_name" id="wx_name" class="input-text input_text mb-10" placeholder="微信昵称">
+                		&nbsp;&nbsp;
+                		<input type="text" name="tel" id="tel" class="input-text input_text mb-10" placeholder="手机号">
+                		<input type="submit" class="btn btn-warning radius ml-10 mb-10" id="submit" name="submit" onclick="return false;" value="搜索">
+            		</div>
+        		</form>
+    		--></div>
+		    
+            <div id="flexigrid">
+            </div>
+	</div> 
+	<script>
+$(function(){
+	$("#flexigrid").flexigrid({
+		url: 'get_micro_list?bargain_id='+"<{if !empty($opId)}><{$opId}><{/if}>",
+		colModel : [
+			{display: '姓名', name : 'operation', width : 100, sortable : true, align: 'center',className: 'handle-s'},
+			{display: '微信昵称', name : 'user_name', width : 100, sortable : false, align: 'center',},
+			{display: '手机号', name : 'user_tel', width : 100, sortable : true, align: 'center'},
+			{display: '地址', name : 'user_address', width : 150, sortable : true, align: 'center',},
+			{display: '砍价时间', name : 'user_time', width : 150, sortable : true, align: 'center',},
+			{display: '活动名称', name : 'goods_name', width : 150, sortable : true, align: 'center'},
+			{display: '帮砍人数', name : 'help_count', width : 80, sortable : true, align: 'center'},
+			{display: '当前砍后售价', name : 'price_now', width :80, sortable : true, align: 'center'},
+			{display: '累计砍掉金额', name : 'cut_price', width :80, sortable : true, align: 'center'},
+		],
+		title:'活动详情'
+	});
+
+	$('#submit').click(function(){
+            var search = $("#formSearch").serialize();
+            //console.log(search);return;
+            $("#flexigrid").flexOptions({url: 'get_micro_list?'+search, method: 'post', qtype:'', query:'',}).flexReload();
+	});
+
+});
+	function fg_operate(name, grid) {
+		if(name == 'view'){
+			if($('.trSelected').length>0){
+                var itemlist = new Array();
+                $('.trSelected').each(function(){
+                    itemlist.push($(this).attr('data-id'));
+                });
+                fg_view(itemlist);
+            }else{
+                layer.msg('请至少选择一项！',{icon:2});
+            }
+		}
+	}
+
+	function fg_view(ids) {	
+		id = ids.join(',');
+		alert(id);return;
+	}
+	
+	
+	</script>
+			<div id="goTop">
+				<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+				<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+			</div>
+	</body>
+
+	</html>

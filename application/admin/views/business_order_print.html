@@ -1,0 +1,135 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="print-layout">
+    <div class="print-btn" id="printbtn" title="选择喷墨或激光打印机<br/>根据下列纸张描述进行<br/>设置并打印发货单据"><i></i><a href="javascript:void(0);">打印</a></div>
+    <div class="a5-size"></div>
+    <dl class="a5-tip">
+        <dt>
+        <h1>A5</h1>
+        <em>Size: 210mm x 148mm</em></dt>
+        <dd>当打印设置选择A5纸张、横向打印、无边距时每张A5打印纸可输出1页订单。</dd>
+    </dl>
+    <div class="a4-size"></div>
+    <dl class="a4-tip">
+        <dt>
+        <h1>A4</h1>
+        <em>Size: 210mm x 297mm</em></dt>
+        <dd>当打印设置选择A4纸张、竖向打印、无边距时每张A4打印纸可输出2页订单。</dd>
+    </dl>
+    <div class="print-page">
+        <div id="printarea">
+            <div class="orderprint">
+                <div class="top">
+                    <div class="full-title"> 发货单</div>
+                </div>
+                <table class="buyer-info">
+                    <tbody><tr>
+                        <td class="w200">收货人：<{$order.receive_name}></td>
+                        <td>电话：<{$order.receive_tel}></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">地址：<{$order.receive_address}></td>
+                    </tr>
+                    <tr>
+                        <td>订单号：<{$order.order_sn}></td>
+                        <td>下单时间：<{date("Y-m-d H:i:s",$order.created_time)}></td>
+                        <td></td>
+                    </tr>
+                    </tbody></table>
+                <table class="order-info">
+                    <thead>
+                    <tr>
+                        <th class="w40">序号</th>
+                        <th class="tl">商品名称</th>
+                        <th class="w70 tl">单价(元)</th>
+                        <th class="w50">数量</th>
+                        <th class="w70 tl">小计(元)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <{foreach from=$order.son key=k item=goods}>
+                    <tr>
+                        <td><{$k+1}></td>
+                        <td class="tl"><{$goods.goods_name}></td>
+                        <td class="tl">¥<{$goods.goods_price}></td>
+                        <td class="goods_num"><{$goods.goods_num}></td>
+                        <td class="tl">¥<{$goods.goods_price}></td>
+                    </tr>
+                    <{/foreach}>
+                    <tr>
+                        <th></th>
+                        <th colspan="2" class="tl">合计</th>
+                        <th id="total">0</th>
+                        <th class="tl">¥<{$order.order_price}></th>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="10"><span>总计：¥<{$order.order_price}></span>
+                            <{if $order.shipping_type == 1}>
+                            <span>运费：¥<{$order.carriage}></span>
+                            <{else}>
+                            <span>运送方式：自提</span>
+                            <{/if}>
+                            <span>优惠：¥<{$order.counpon_amount+$order.integral_amount}></span>
+                            <span>订单总额：¥<{$order.order_price}></span><span><{$order.store_name}></span>
+                        </th>
+                    </tr>
+                    </tfoot>
+                </table>
+                <div class="explain">
+                </div>
+<!--                <div class="tc page">第1页/共1页</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(function(){
+        $("#printbtn").click(function(){
+            $("#printarea").printArea();
+        });
+        var total = 0;
+        $('.goods_num').each(function(){
+            total += $(this).text()*1;
+        });
+        $('#total').html(total);
+    });
+    /*打引 插件*/
+    (function($) {
+        var printAreaCount = 0;
+        $.fn.printArea = function()
+        {
+            var ele = $(this);
+            var idPrefix = "printArea_";
+            removePrintArea( idPrefix + printAreaCount );
+            printAreaCount++;
+            var iframeId = idPrefix + printAreaCount;
+            var iframeStyle = 'position:absolute;width:0px;height:0px;left:-730px;top:-730px;';
+            iframe = document.createElement('IFRAME');
+            $(iframe).attr({ style : iframeStyle,id    : iframeId});
+            document.body.appendChild(iframe);
+            var doc = iframe.contentWindow.document;
+            $(document).find("link").filter(function(){
+                return $(this).attr("rel").toLowerCase() == "stylesheet";
+            }).each(function(){
+                doc.write('<link type="text/css" rel="stylesheet" href="' + $(this).attr("href") + '" >');
+            });
+            doc.write('<div class="' + $(ele).attr("class") + '">' + $(ele).html() + '</div>');
+            doc.close();
+            var frameWindow = iframe.contentWindow;
+            frameWindow.close();
+            frameWindow.focus();
+            frameWindow.print();
+        }
+        var removePrintArea = function(id){
+            $( "iframe#" + id ).remove();
+        };
+    })(jQuery);
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

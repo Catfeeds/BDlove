@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    #icc ul{
+        display: flex;
+        justify-content: space-around;
+        list-style-type: none;
+    }
+</style>
+<body>
+    <a id="app" :href="url" v-once>{{message.split('').reverse().join('')}}</a>
+    <div id="icc">
+        <input type="text" v-model="mess">
+        <p v-if="type == 'A'">a {{mess}}</p>
+        <p v-else-if=" type == 'B'">b {{mess}}</p>
+        <p v-else>c {{mess}}</p>
+        <p v-show="seen">d {{mess}}</p>
+        <p>{{mess | captalize}}</p>
+        <p>{{reversedMessage}}</p>
+        <ul>
+            <li v-for="(good,index) in goods" :key="good.id">序号：{{good.id}}<br>名字：{{good.name}}<br>尺码：{{good.size}}<br>颜色：{{good.color}}</li>
+        </ul>
+        <button @click="say()">点击触发事件！</button>
+        <a v-bind:href="url" v-bind:class="{'btn' : isactive,'btn-primary' : isactive}">你是我见过最亮的星星</a>
+        <input type="text" v-on:keyup.13="warn2()" v-model="mic">
+        <button class="btn btn-warning" v-on:click="change()">让我来改变你的样式吧</button>
+        <div class="container">
+            <input type="text" class="form-input" v-model="icoc">
+            <div class="panel panel-default">
+                <eagle v-bind:miss="icoc"></eagle>
+            </div>
+        </div>
+        <input type="text" class="form-input" v-model="btn_me">
+        <br>
+        <purple v-bind:btn="btn_me" v-on:click="let()"></purple>
+    </div>
+    <child my-message="hello!"></child>
+    <div id="little">
+        <p>{{total}}</p>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+    </div>
+
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    Vue.component('button-counter',{
+        template:'<button v-on:click="increment">{{counter}}</button>',
+        data:function () {
+            return{
+                counter:0
+            }
+        },
+        methods:{
+            increment:function () {
+                this.counter+=1
+                this.$emit('increment')
+            }
+        }
+
+    })
+    new Vue({
+        el:'#little',
+        data:{
+            total:0
+        },
+        methods:{
+            incrementTotal:function () {
+                this.total+=1
+            }
+        }
+    })
+    Vue.component('child', {
+        // 声明 props
+        props: ['miss'],
+        // 就像 data 一样，prop 可以用在模板内
+        // 同样也可以在 vm 实例中像 “this.message” 这样使用
+        template: '<span>{{ miss }}</span>'
+    })
+    Vue.component('eagle',{
+        props:['miss'],
+        template:'<div class="panel-body">{{miss}}</div>'
+    })
+    Vue.component('purple',{
+        props:['btn'],
+        template:'<button class="btn btn-primary">{{btn}}</button>'
+    })
+    var ic = new Vue({
+        el:"#icc",
+        data:{
+            mess:'loveyourself',
+            seen:false,
+            type:'',
+            goods:[
+                {id:1,name:'李宁',size:'L',color:'red'},
+                {id:3,name:'阿迪达斯',size:'L',color:'white'},
+                {id:2,name:'LV',size:'L',color:'purple'}
+            ],
+            mic:'',
+            isactive:true,
+            url:'javascript:;',
+            icoc:'父组件内容',
+            btn_me:''
+        },
+        computed:{
+            reversedMessage:function(){
+                return this.mess.split('').reverse().join('')
+            }
+        },
+        filters:{
+            captalize:function(value){
+                if(!value) return ''
+                value = value.toString()
+                return value.charAt(0).toUpperCase()+value.slice(1)
+            }
+        },
+        methods:{
+            say:function(){
+                this.seen = !this.seen;
+            },
+            warn:function(message,event){
+                if(event) event.preventDefault()
+                alert(message)
+            },
+            warn2:function(){
+                alert('您现在输入的是'+this.mic)
+            },
+            change:function () {
+                this.isactive = !this.isactive;
+                this.url = 'http://www.baidu.com'
+            }
+        }
+    })
+</script>
+</html>

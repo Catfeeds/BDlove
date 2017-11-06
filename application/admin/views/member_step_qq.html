@@ -1,0 +1,117 @@
+
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+	<div class="fixed-bar">
+		<div class="item-title">
+			<div class="subject">
+				<h3>账号同步</h3>
+				<h5>设置使用第三方账号登录本站</h5>
+			</div>
+			<ul class="tab-base nc-row">
+			    <li><a class="current"><span>QQ互联</span></a></li>
+				<li><a href="member_step_sina"><span>新浪微博</span></a></li>
+				<li><a href="member_step_phone"><span>手机短信</span></a></li>
+				<li><a href="member_step_weixin"><span>微信登录</span></a></li>
+			</ul>
+		</div>
+	</div>
+	<form method="post" id="form_" name="settingForm">
+		
+		<div class="ncap-form-default">
+			<dl class="row">
+				<dt class="tit">
+					<label>是否启用QQ互联功能</label>
+				</dt>
+				<dd class="opt">
+					<div class="onoff">
+						<label for="qq_isuse_1" class="cb-enable <{if $data.isuse eq 1}> selected <{/if}>" title="开启"><span>开启</span></label>
+						<label for="qq_isuse_0" class="cb-disable <{if $data.isuse eq 0}> selected <{/if}>" title="关闭"><span>关闭</span></label>
+						<input type="radio" id="qq_isuse_1" name="qq_isuse" <{if $data.isuse eq 1}> checked <{/if}> value="1"  >
+						<input type="radio" id="qq_isuse_0" name="qq_isuse" <{if $data.isuse eq 0}> checked <{/if}> value="0"  >
+					</div>
+					<p class="notic">开启后可使用QQ账号登录商城系统</p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label>回调地址</label>
+				</dt>
+				<dd class="opt">
+					1233122321        <p class="notic">在QQ互联平台中会要求填写回调地址。</p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="qq_appcode">域名验证信息</label>
+				</dt>
+				<dd class="opt">
+					<textarea name="qq_appcode" rows="6" class="tarea" id="qq_appcode"><{$data.appcode}></textarea>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="qq_appid"><em>*</em>应用标识</label>
+				</dt>
+				<dd class="opt">
+					<input id="qq_appid" name="qq_appid" value="<{$data.appid}>" class="input-txt" type="text"><span class="err"></span>
+					<p class="notic"><a class="ncap-btn" target="_blank" href="http://connect.qq.com">立即在线申请</a></p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="qq_appkey"><em>*</em>应用密钥</label>
+				</dt>
+				<dd class="opt">
+					<input id="qq_appkey" name="qq_appkey" value="<{$data.appkey}>" class="input-txt" type="text"><span class="err"></span>
+					<p class="notic">&nbsp;</p>
+				</dd>
+			</dl>
+			<div class="bot"><a href="JavaScript:;" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+		</div>
+	</form>
+
+
+</div>
+<script>
+$(function(){
+	$("#submitBtn").click(function(){
+		if($("#form_").valid()){
+			form_data = $("#form_").serialize();
+			//console.log(form_data)
+			$.ajax({
+				type: "post",
+		        url: "member_qq_edit",
+		        data: form_data,
+		        dataType: "json",
+		        success: function(data){
+		        		layer.msg(data.msg);
+		        }
+			})
+			
+		}
+	});
+	$('#form_').validate({
+		errorPlacement: function(error, element){
+			var error_td = element.parent('dd').children('span.err');
+			error_td.append(error);
+		},
+		rules : {
+			qq_appid: {required : true,},
+			qq_appkey   : {required : true,}
+		},
+		messages : {
+			qq_appid : {required: '<i class="fa fa-exclamation-circle"></i>请填写应用标识 '},
+			qq_appkey : {required: '<i class="fa fa-exclamation-circle"></i>请填写应用密钥 '},
+
+		}
+	});
+})
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

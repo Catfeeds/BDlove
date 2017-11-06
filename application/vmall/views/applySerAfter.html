@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>申请售后</title>
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="<{TEMPLE}>css/weui1.css">
+<link rel="stylesheet" href="<{TEMPLE}>css/example.css">
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="<{TEMPLE}>js/example.js"></script>
+<link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+<link href="<{TEMPLE}>css/mobileslider.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<{TEMPLE}>js/zepto.min.js"></script>
+<script src="<{TEMPLE}>js/base.js"></script>
+
+</head>
+<style>
+    p{ 
+		font-size: 14px;
+	}
+	.small{
+		font-size: 13px!important;
+		color: #999;
+	}
+	.small1{
+		font-size: 13px;
+	}
+	.btn-apply{
+		padding:6px 10px;
+		margin-right: 10px;
+		border: 1px solid #ff0000;
+		font-size: 14px;
+		border-radius: 5px;
+		color: #FF0000 !important;
+		float: right;
+	}
+	.btn-applys{
+		padding:6px 10px;
+		margin-right: 10px;
+		border: 1px solid #666;
+		font-size: 14px;
+		border-radius: 5px;
+		color: #666;
+		float: right;
+	}
+@media only screen and (max-width:370px) {
+	.time{
+		display: block;
+		margin-top: 5px;
+	}
+}
+.weui-cells{
+	margin-top: 10px;
+}
+.apply-content{
+	width: 100%;
+	border:1px solid #eee;
+	padding: 0 0 8px 5px;
+	margin: 5px 0;
+}
+.apply-bottom{
+	margin-left:-5px;
+	padding: 10px;
+	border-top: 1px solid #eee;
+}
+.weui-picker__action {
+    display: block;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    color: #1AAD19 !important;
+}
+</style>
+<body ontouchstart>
+   
+	<div class="weui-cells" style="margin-top: 0px;">
+		<div class="weui-cell">
+			<div class="weui-cell__bd">
+				<p class="small1">订单编号：<{$reciveInfo.order_sn}>　<span class="time">下单时间：<{$reciveInfo.order_time}></span></p>
+			</div>
+		</div>
+		<div class="weui-cell" style="flex-direction: column;">
+			<{foreach from=$orderInfo item=good}>
+				<div class="apply-content">
+					<div class="weui-cell apply-top">
+						<div class="weui-cell__hd">
+							<img src="<{$good.goods_image}>" onerror="javascript:this.src='<{DEFAULTIMAGE}><{$config_images.goods_image}>';" alt="" style="width: 80px;display: block;margin: 10px 0;"/>
+						</div>
+						<div class="weui-cell__bd" style="margin-left:10px;">
+							<p><{$good.goods_name}></p><br>
+							<p class="small">数量：<{$good.goods_num}></p>
+						</div>
+					</div>
+					<div class="apply-bottom">
+						<{if $good.refund_state eq 0 or $good.refund_state eq 3}>
+						    <a href="apply_service?order_sn=<{$orderInfo[0].order_sn}>&goods_id=<{$good.goods_id}>" class="btn-apply">申请售后</a>
+						<{else}>
+						    <a href="javascript:void(0)" class="btn-apply" onclick="alertapplyservice()">申请售后</a>
+						<{/if}>  
+						
+						
+					</div>
+				</div>
+			<{/foreach}>
+
+		</div>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	function alertapplyservice(){
+		mobileAlert("该商品您已申请售后,请等待客服处理完毕后再提出售后申请!",3000,"");
+		return false;
+	}
+</script>
+</html>

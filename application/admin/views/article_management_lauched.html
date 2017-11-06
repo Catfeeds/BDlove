@@ -1,0 +1,401 @@
+
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>文章管理</h3>
+                <h5>资讯文章内容审核及管理</h5>
+            </div>
+            <ul class="tab-base nc-row">
+                <li><a  href="article_management">列表</a></li>
+                <li><a href="article_management_pending_audit">待审核列表</a></li>
+                <li><a class="current" >已发布列表</a></li>
+            </ul>
+        </div>
+    </div>
+  <!-- 操作说明 -->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>通过修改排序数字可以控制前台显示顺序，数字越小越靠前</li>
+            <li>可以直接在列表中修改文章对应的浏览数，开启关闭评论和心情功能</li>
+        </ul>
+    </div>
+    <div id="flexigrid"></div>
+    <div class="ncap-search-ban-s" id="searchBarOpen"><i class="fa fa-search-plus"></i>高级搜索</div>
+    <div class="ncap-search-bar">
+        <div class="handle-btn" id="searchBarClose"><i class="fa fa-search-minus"></i>收起边栏</div>
+        <div class="title">
+            <h3>高级搜索</h3>
+        </div>
+        <form method="get" name="formSearch" id="formSearch">
+            <input type="hidden" name="advanced" value="1">
+            <div id="searchCon" class="content ps-container ps-active-x" style="height: 572px;">
+                <div class="layout-box">
+                    <dl>
+                        <dt>标题</dt>
+                        <dd>
+                            <input type="text" name="article_title" class="s-input-txt" placeholder="请输入标题关键字">
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>作者</dt>
+                        <dd>
+                            <input type="text" name="article_publisher_name" class="s-input-txt" placeholder="请输入作者">
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>推荐文章</dt>
+                        <dd>
+                            <select name="article_commend_flag" class="s-select">
+                                <option value="">-请选择-</option>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>推荐图文</dt>
+                        <dd>
+                            <select name="article_commend_image_flag" class="s-select">
+                                <option value="">-请选择-</option>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>评论</dt>
+                        <dd>
+                            <select name="article_comment_flag" class="s-select">
+                                <option value="">-请选择-</option>
+                                <option value="1">开启</option>
+                                <option value="0">关闭</option>
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>心情</dt>
+                        <dd>
+                            <select name="article_attitude_flag" class="s-select">
+                                <option value="">-请选择-</option>
+                                <option value="1">开启</option>
+                                <option value="0">关闭</option>
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>状态</dt>
+                        <dd>
+                            <select name="article_state" class="s-select">
+                                <option value="">-请选择-</option>
+                                <option value="1">草稿箱</option>
+                                <option value="2">待审核</option>
+                                <option value="3">已发布</option>
+                                <option value="4">回收站</option>
+                            </select>
+                        </dd>
+                    </dl>
+
+                </div>
+                <div class="ps-scrollbar-x-rail" style="width: 156px; display: inherit; left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" style="left: 0px; width: 142px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 572px; display: none; right: 3px;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
+            <div class="bottom">
+                <a href="javascript:void(0);" id="ncsubmit" class="ncap-btn ncap-btn-green">提交查询</a>
+                <a href="javascript:void(0);" id="ncreset" class="ncap-btn ncap-btn-orange" title="撤销查询结果，还原列表项所有内容"><i class="fa fa-retweet"></i>撤销</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+    $(function(){
+
+
+        $("#flexigrid").flexigrid({
+        	url: 'article_management_lauched?op=get_xml',
+            colModel: [
+                {display: '操作', name: 'operation', width: 150, sortable: false, align: 'center', className: 'handle'},
+                {display: '排序', name: 'article_sort', width: 60, sortable: false, align: 'left'},
+                {display: '标题', name: 'article_title', width: 200, sortable: false, align: 'left'},
+                {display: '图片', name: 'img', width: 40, sortable: false, align: 'left'},
+                {display: '作者', name: 'article_publisher_name', width: 80, sortable: false, align: 'left'},
+                {display: '点击数', name: 'article_click', width: 60, sortable: false, align: 'left'},
+                {display: '推荐文章', name: 'article_commend_flag', width: 50, sortable: false, align: 'center'},
+                {display: '推荐图文', name: 'article_commend_image_flag', width: 50, sortable: false, align: 'center'},
+                {display: '评论', name: 'article_comment_flag', width: 50, sortable: false, align: 'center'},
+                {display: '心情', name: 'article_attitude_flag', width: 50, sortable: false, align: 'center'},
+                {display: '状态', name: 'article_state', width: 50, sortable: false, align: 'center'}
+            ],
+            buttons: [
+                {
+                    display: '<i class="fa fa-trash"></i>批量删除',
+                    name: 'del',
+                    bclass: 'del',
+                    title: '将选定行数据批量删除',
+                }
+            ],
+            searchitems: [
+                {display: '标题', name: 'article_title', isdefault: true},
+                {display: '作者', name: 'article_publisher_name'}
+            ],
+            sortname: "article_sort",
+            sortorder: "asc",
+            title: '文章列表'
+        });
+
+        // 高级搜索提交
+        $('#ncsubmit').click(function(){
+            $("#flexigrid").flexOptions({url: 'article_management_lauched?op=get_xml&' + $("#formSearch").serialize(),query:'',qtype:''}).flexReload();
+        });
+
+        // 高级搜索重置
+        $('#ncreset').click(function(){
+            $("#flexigrid").flexOptions({url: 'article_management_lauched?op=get_xml'}).flexReload();
+            $("#formSearch")[0].reset();
+        });
+
+    });
+    function fg_operation(name, grid) {
+    	if (name == 'del') {
+            if($('.trSelected',grid).length>0){
+                var itemlist = new Array();
+                $('.trSelected',grid).each(function(){
+                	itemlist.push($(this).attr('data-id'));
+                });
+                fg_delete(itemlist);
+            }else{
+                return false;
+            }
+        }
+    }
+    function fg_delete(id) {
+    	if (typeof id == 'number') {
+        	var id = new Array(id.toString());
+    	};
+    	layer.confirm('删除后将不能恢复，确认删除这 ' + id.length + ' 项吗？', {
+    		  btn: ['确认','取消'] //按钮
+    		}, function(){
+    			id = id.join(',');
+    			$.ajax({
+    		        type: "GET",
+    		        dataType: "json",
+    		        url: "article_management_lauched?op=list_del",
+    		        data: "del_id="+id,
+    		        success: function(data){
+					if(data.state=='403'){
+				login_ajax('shopadmin');
+			}else
+    		            if (data.state){
+    		                $("#flexigrid").flexReload();
+    		                layer.msg(data.msg);
+    		            } else {
+    		            	layer.msg('删除失败');
+    		            }
+    		        }
+    		    });
+    		});
+    }
+    function update_sort(id){
+    	var Article_sort=document.getElementById(id).value;
+    	$.ajax({
+			type:'post',
+			dataType:'json',
+			data:{
+				flag:'update_article_sort',
+				id:id,
+				sort:Article_sort
+			},
+			url:"<{base_url()}>admin.php/Article/update_sort_all",
+			cache: false,
+			success:function(res){
+				if(res!="success"){
+					layer.alert('排序修改失败，请重试');
+				}
+				
+			}
+		});
+    }
+     function update_click(id){
+        var span="click"+id;
+    	var Article_click=document.getElementById(span).value;
+    	$.ajax({
+			type:'post',
+			dataType:'json',
+			data:{
+				flag:'update_article_click',
+				id:id,
+				sort:Article_click
+			},
+			url:"<{base_url()}>admin.php/Article/update_sort_all",
+			cache: false,
+			success:function(res){
+				if(res!="success"){
+					layer.alert('点击量修改失败，请重试');
+				}
+				
+			}
+		});
+    }
+     function update_comment_flag(id){
+    	 
+    	 var str=id.toString();
+    	 //截取评论状态
+    	 var flag = str.substr(-1,1);
+	    	 if(flag=='1'){
+	    		 var tmpflag=0;
+	    	 }else{
+	    		 var tmpflag=1;
+	    	 }
+    	 var len = str.length;
+    	 var Artlen=Number(len)-1;
+    	 //截取文章id号
+    	 var Articleid=str.substr(0,Artlen);
+    	
+         $.ajax({
+ 			url:"<{base_url()}>admin.php/Article/update_comment",			
+ 			type:"post",
+ 			dataType:'json',
+ 			cache: false,
+ 			data:{
+ 					flags:'comment_flag',
+ 					id:Articleid,
+ 					comment_flag:tmpflag
+ 				},
+ 			success:function(response){
+ 				if(response=="success"){
+ 					 layer.alert('评论状态已修改');
+					 window.location.href="<{base_url()}>admin.php/Article/article_management"
+				  }else{
+					 layer.alert('评论状态修改失败，请重试');
+				  }
+ 			}
+ 		});
+     }
+     function update_attitude_flag(id){
+    	 
+    	 var str=id.toString();
+    	 //截取评论状态
+    	 var flag = str.substr(-1,1);
+	    	 if(flag=='1'){
+	    		 var tmpflag=0;
+	    	 }else{
+	    		 var tmpflag=1;
+	    	 }
+    	 var len = str.length;
+    	 var Artlen=Number(len)-1;
+    	 //截取文章id号
+    	 var Articleid=str.substr(0,Artlen);
+    	
+         $.ajax({
+ 			url:"<{base_url()}>admin.php/Article/update_comment",			
+ 			type:"post",
+ 			dataType:'json',
+ 			cache: false,
+ 			data:{
+ 					flags:'attitude_flag',
+ 					id:Articleid,
+ 					comment_flag:tmpflag
+ 				},
+ 			success:function(response){
+ 				if(response=="success"){
+ 					 layer.alert('心情状态已修改');
+					 window.location.href="<{base_url()}>admin.php/Article/article_management_lauched"
+				  }else{
+					 layer.alert('心情状态修改失败，请重试');
+				  }
+ 			}
+ 		});
+     }
+     /*更新推荐文章状态*/
+     function update_commend_flag(id){
+    	 var str=id.toString();
+    	 //截取心情状态
+    	 var flag = str.substr(-1,1);
+	    	 if(flag=='1'){
+	    		 var tmpflag=0;
+	    	 }else{
+	    		 var tmpflag=1;
+	    	 }
+    	 var len = str.length;
+    	 var Artlen=Number(len)-1;
+    	 //截取文章id号
+    	 var Articleid=str.substr(0,Artlen);
+    	
+         $.ajax({
+ 			url:"<{base_url()}>admin.php/Article/update_comment",			
+ 			type:"post",
+ 			dataType:'json',
+ 			cache: false,
+ 			data:{
+ 					flags:'commend_flag',
+ 					id:Articleid,
+ 					comment_flag:tmpflag
+ 				},
+ 			success:function(response){
+ 				if(response=="success"){
+ 					 layer.alert('推荐文章状态已修改');
+					 window.location.href="<{base_url()}>admin.php/Article/article_management_lauched"
+				  }else{
+					 layer.alert('推荐文章状态修改失败，请重试');
+				  }
+ 			}
+ 		});
+     }
+     /*更新推荐推文状态*/
+     function update_image_flag(id){
+    	 var str=id.toString();
+    	 //截取评论状态
+    	 var flag = str.substr(-1,1);
+	    	 if(flag=='1'){
+	    		 var tmpflag=0;
+	    	 }else{
+	    		 var tmpflag=1;
+	    	 }
+    	 var len = str.length;
+    	 var Artlen=Number(len)-1;
+    	 //截取文章id号
+    	 var Articleid=str.substr(0,Artlen);
+    	
+         $.ajax({
+ 			url:"<{base_url()}>admin.php/Article/update_comment",			
+ 			type:"post",
+ 			dataType:'json',
+ 			cache: false,
+ 			data:{
+ 					flags:'image_flag',
+ 					id:Articleid,
+ 					comment_flag:tmpflag
+ 				},
+ 			success:function(response){
+ 				if(response=="success"){
+ 					 layer.alert('推荐推文状态已修改');
+					 window.location.href="<{base_url()}>admin.php/Article/article_management_lauched"
+				  }else{
+					 layer.alert('推荐推文状态修改失败，请重试');
+				  }
+ 			}
+ 		});
+     }
+     /*编辑文章*/
+     function article_edit(id){
+    	 window.location='article_management_edit?id='+id;
+     }
+     /*回收文章*/
+     function update_state(id){
+    	 window.location='article_management_update_state?id='+id;
+     }
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

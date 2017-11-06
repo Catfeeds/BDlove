@@ -1,0 +1,68 @@
+<{include file="pageheader.html"}>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.config.js"></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="<{PLUGIN}>plugins/UEditor/lang/zh-cn/zh-cn.js"></script>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>咨询管理</h3>
+                <h5>设置店铺咨询类型及管理咨询/回复内容</h5>
+            </div>
+            <ul class="tab-base nc-row">
+                <li><a href="business_consultation"><span>咨询管理</span></a></li>
+                <li><a href="business_consultation_typeset"><span>类型设置</span></a></li>
+                <li><a class="current" ><span>头部文字设置</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>在商品详细页咨询选项卡头部显示的文字提示。</li>
+        </ul>
+    </div>
+    <form method="post" name="form_consultingsetting">
+        <input type="hidden" name="form_submit" value="ok">
+        <div class="ncap-form-default">
+            <dl class="row"><dt class="tit"><label>咨询头部文字提示</label></dt>
+                <dd class="opt">
+                    <div class="" style="width: 70%;">
+                        <!-- 加载编辑器的容器 -->
+                        <textarea id="content" name="content" type="text/plain"><{$content}></textarea>
+                        <!-- 实例化编辑器 -->
+                        <script type="text/javascript">
+                            var appcontent = UE.getEditor('content');
+                        </script>
+
+                    </div>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+$(function(){
+    $("#submitBtn").click(function(){
+        if($('form').valid()){
+            $.ajax({
+                url:'consultation_header_edit',
+                data:$('form').serialize(),
+                type:'post',
+                dataType:'json',
+                success:function(msg){
+                    layer.alert(msg);
+                }
+            });
+
+        }
+    });
+})
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

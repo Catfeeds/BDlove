@@ -1,0 +1,334 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+<style>
+	.flexigrid .bDiv td div{min-height:22px;height:auto;}
+	.flexigrid .bDiv td div.goods-thumb{padding:0;width:auto;height:auto;}
+	.flexigrid .bDiv td div.goods-thumb	img{width:100%;height:100%;}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+	<a class="back" href="sales_discount" title="返回限时折扣列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>限时折扣——商品管理</h3>
+        <h5>商品限时折扣促销活动设置及管理</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>限时折扣商品的时间段不能重叠</li>
+      <li>点击添加商品按钮可以搜索并添加参加活动的商品，点击删除按钮可以删除该商品</li>
+    </ul>
+  </div>
+  <input name="xianshi_data" type="hidden" value="">
+  <table class="ncsc-default-table mt-20">
+    <tbody>
+    <tr>
+      <td class="w90 tr"><strong>活动名称：</strong></td>
+      <td class="w120 tl"><{$data.xianshi_name}></td>
+      <td class="w90 tr"><strong>开始时间：</strong></td>
+      <td class="w120 tl"><{$data.stime}></td>
+      <td class="w90 tr"><strong>结束时间：</strong></td>
+      <td class="w120 tl"><{$data.etime}></td>
+      <td class="w90 tr"><strong>购买下限：</strong></td>
+      <td class="w120 tl"><{$data.lower_limit}></td>
+      <td class="w90 tr"><strong>状态：</strong></td>
+      <td class="w120 tl"><{$data.is_state}></td>
+    </tr>
+    </tbody>
+  </table>
+   <!-- 商品搜索 ,添加-->
+    <div nctype="div_goods_select" class="div-goods-select" style="display: none;">
+      <table class="search-form">
+        <tbody><tr><th class="w150"><strong>第一步：搜索店内商品</strong></th><td class="w160"><input nctype="search_goods_name" type="text w150" class="text" name="goods_name" value=""></td>
+          <td class="w70 tc"><label class="submit-border"><input nctype="btn_search_goods" type="button" value="搜索" class="submit"></label></td><td class="w10"></td><td><p class="hint">不输入名称直接搜索将显示店内所有出售中的商品</p></td>
+        </tr>
+        </tbody></table>
+      <div nctype="div_goods_search_result" class="search-result"></div>
+      <a nctype="btn_hide_goods_select" class="close" href="javascript:void(0);">X</a> </div>
+  
+  <div id="flexigrid"></div>
+  <!-- <table class="ncsc-default-table">
+    <thead>
+    <tr>
+      <th class="w10"></th>
+      <th class="w50"></th>
+      <th class="tl">商品名称</th>
+      <th class="w90">商品价格</th>
+      <th class="w120">折扣价格</th>
+      <th class="w120">折扣率</th>
+      <th class="w120">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="bd-line">
+      <td></td>
+      <td><div class="pic-thumb"><a href="&lt;%=goods_url%&gt;" target="_blank"><img src="<{TEMPLE}>img/default_goods_image_60.gif" alt=""></a></div></td>
+      <td class="tl"><dl class="goods-name"><dt><a href="" target="_blank">苹果（Apple）iPhone 6 Plus (A1524)移动联通电信4G手机 深空灰色 128G</a></dt></dl></td>
+      <td>¥7488.00</td>
+      <td>¥<span nctype="xianshi_price">6488.00</span></td>
+      <td><span nctype="xianshi_discount">8.7折</span></td>
+      <td class="nscs-table-handle">
+        <span><a class="btn-bluejeans"  href="javascript:void(0);"><i class="fa fa-edit"></i><p>编辑</p></a></span>
+        <span><a class="btn-grapefruit" href="javascript:void(0);"><i class="fa fa-trash"></i><p>删除</p></a></span>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="20"><div class="pagination"><ul><li><span>首页</span></li><li><span>上一页</span></li><li><span class="currentpage">1</span></li><li><span>下一页</span></li><li><span>末页</span></li></ul></div></td>
+    </tr>
+    </tfoot>
+  </table> -->
+</div>
+<div id="goTop">
+    <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+    <a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+<script type="text/javascript">
+  $(function(){
+    //编辑
+    $("#flexigrid").flexigrid({
+      url: 'sales_discount_goods?op=table&id=<{$data.xianshi_id}>',
+      colModel: [
+        {display: '操作', name: 'operation', width: 150, sortable: false, align: 'center', className: 'handle'},
+        {display: '', name: 'goods_name', width: 40, sortable: false, align: 'center'},
+        {display: '商品名称', name: 'goods_name', width: 400, sortable: false, align: 'left'},
+        {display: '商品价格', name: 'goods_price', width: 100, sortable: false, align: 'left'},
+        {display: '折扣价格', name: 'discount_price', width: 120, sortable: false, align: 'center'},
+        {display: '折扣率', name: 'discount', width: 120, sortable: false, align: 'center'},
+      ],
+      buttons : [
+        {display: '新增商品', name : 'add', bclass : 'add', title : '新增活动', onpress : fg_add },
+        
+      ],
+      sortname: "goods_id",
+      sortorder: "desc",
+      title: '限时折扣活动商品列表'
+    });
+    function fg_add(){
+    	$('div[nctype="div_goods_select"]').show();
+    }
+ // 隐藏搜索框
+    $('a[nctype="btn_hide_goods_select"]').click(function(){
+      $('div[nctype="div_goods_select"]').hide();
+    });
+
+    // 搜索商品
+    $('input[nctype="btn_search_goods"]').click(function(){
+      search_goods_name = $('input[nctype=search_goods_name]').val();
+      function show_content(curr){
+    	  $.ajax({
+  			type: "post",
+  	        url: "sales_discount_goods?op=search_goods_name",
+  	        data: {search_goods_name:search_goods_name,page:curr},
+  	        dataType: "json",
+  	        success: function(data){
+			if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+  	        	page = parseInt(data.page);data_goods = data.data;total_page = parseInt(data.total_page);rp = parseInt(data.rp);
+  	        	if(data.state){
+  	        		str = '<ul class="goods-list">';
+  	        		$.each(data_goods,function(k,v){
+  	        	      str +='<li>' +
+  				             '<div class="goods-thumb"><input type="hidden" name="stock_amount" value="'+v.stock_amount+'"><img src="<{PLUGIN}>data/shop/album_pic/'+v.thumb+'"></div> <dl class="goods-info"> ' +
+  				             '<dt><a href="" target="_blank"><span class="goods_name">'+v.goods_name+'</span></a> </dt> <dd>销售价格：¥<span class="goods_price">'+v.goods_price+'</span>   </dd></dl> ' +
+  				             '<a nctype="a_choose_goods" href="javascript:void(0);" class="ncbtn-mini"><input type="hidden" name="a_choose_goods_id" value="'+v.goods_id+'"><input type="hidden" name="a_choose_goods_img" value="'+v.thumb+'">选择商品</a> </li> ';
+  	        		})	
+  	        		str +='</ul><input type="hidden" name="total_pages" id="total_pages" value="'+total_page+'"><input type="hidden" name="now_pages" id="now_pages" value="'+page+'"><div class="pagination"></div>';
+  	                //console.log(str)
+  	                $('div[nctype="div_goods_search_result"]').html(str)
+  	                pages = $('#total_pages').val()
+  	                curr = $('#now_pages').val()
+  	                laypage({
+  	          	      cont: $('div.pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+  	          	      pages: pages, //通过后台拿到的总页数
+  	          	      curr:  curr || 1, //当前页
+  	          	      first: '首页',
+  	          	      last: '末页',
+  	          	      groups:5,
+  	          	      jump: function(obj, first){ //触发分页后的回调
+  	          	        if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+  	          	           show_content(obj.curr);
+  	          	        }
+  	          	      }
+  	          	    });
+  	        	}else{
+  	        		str = '<div style="font-size:20px;color:red;">未找到符合条件的商品！</div>';
+  	        		$('div[nctype="div_goods_search_result"]').html(str)
+  	        		
+  	        	}
+  	        }
+         })
+       }   
+      show_content()
+    });
+    //选择商品
+    $('div[nctype="div_goods_select"],tr[data-gid]').on("click",'a[nctype="a_choose_goods"]',function(){
+      src = $(this).parents('li').find('input[name=a_choose_goods_img]').val();
+      amount = $(this).parents('li').find('input[name=stock_amount]').val();
+      price = $(this).parents('li').find('span.goods_price').text();
+      name = $(this).parents('li').find('span.goods_name').text();
+      goods_id = $(this).parents('li').find('input[name=a_choose_goods_id]').val();
+      layer.open({
+        type: 1,
+        title:'<b>限时折扣商品规则设定</b>',
+        btn:['提交'],
+        skin: 'layui-layer-rim', //加上边框
+        area: ['650px', 'auto'], //宽高
+        content: '<form action="" id="form_1"><div class="dialog_content"><div class="eject_con">' +
+        '<input  name="select_goods_src" type="hidden" value="'+src+'">'+
+        '<input  name="select_goods_price" type="hidden" value="'+price+'">'+
+        '<input  name="select_goods_name" type="hidden" value="'+name+'">'+
+        '<input  name="select_goods_id" type="hidden" value="'+goods_id+'">'+
+        '<div class="selected-goods-info"> ' +
+        '<div class="goods-thumb">' +
+        '<img id="dialog_goods_img" src="<{PLUGIN}>data/shop/album_pic/'+src+'" alt=""></div> ' +
+        '<dl class="goods-info"> <dt id="dialog_goods_name">'+name+'</dt> ' +
+        '<dd>销售价格：<strong class="red">¥<font id="dialog_goods_price">'+price+'</font></strong></dd> ' +
+        '<dd style="display:none">库存：<span id="dialog_goods_storage">'+amount+'</span> 件</dd> </dl> </div><dl> <dt>限时折扣价格：</dt>' +
+        ' <dd> <input id="dialog_pintuan_price" name="dialog_pintuan_price" type="number" class="text w70"> <em class="add-on"><i class="fa fa-rmb"></i></em><span class="err"></span> ' +
+        '<p class="hint">限时折扣价应低于正常商品售价，活动开始时，系统将自动转换销售价为促销价。</p> </dd> </dl></div></div></form>',
+        yes:function(index){
+          var i=$("#dialog_goods_price").text();
+          $('#form_1').validate({
+            errorPlacement: function (error, element) {
+              var error_td = element.nextAll('span.err');
+              error_td.append(error);
+            },
+            rules: {
+            	dialog_pintuan_price: {
+                required: true,
+                range:[0,price],
+              }
+            },
+            messages: {
+            	dialog_pintuan_price: {
+                required: '<i class="fa fa-exclamation-circle"></i>限时折扣价格不能为空，不能超过商品实际销售价格',
+                range: '<i class="fa fa-exclamation-circle"></i>限时折扣价格不能为空，且不能超过商品实际销售价格',
+              }
+            }
+          });
+          if($("#form_1").valid()){
+        	  form_data = $("#form_1").serialize();
+        	  $.ajax({
+        			type: "post",
+        	        url: "sales_discount_goods?op=add_goods",
+        	        data: form_data+'&xianshi_id=<{$data.xianshi_id}>&lower_limit=<{$data.lower_limit}>',
+        	        dataType: "json",
+        	        success: function(data){
+					if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+        	        	if(data.state){
+        	        		layer.msg(data.msg,{icon:1});
+        	        		$("#flexigrid").flexReload();
+        	        		layer.close(index);
+        	        	}else{
+        	        		layer.msg(data.msg,{icon:2});
+        	        	}
+        	        	//layer.close(index);
+        	        }
+        	  })
+            
+          }
+        },
+      });
+    })
+
+
+  })
+  //删除
+function fg_delete(id,goods_id,name){
+	  layer.confirm('<div class="pd-5 text-c"><i class="fa fa-warning c-orange" style="margin-right: 10px;font-size: 30px"></i>确认删除商品‘'+name+'’吗?</div>', {
+	        title:'<b>提示信息</b>',btn: ['确定','取消'],}, //按钮
+	        function(){
+	        	$.ajax({
+	  		        type: "post",
+	  		        dataType: "json",
+	  		        url: "sales_discount_goods?op=del",
+	  		        data: {id:id,goods_id:goods_id,name:name},
+	  		        success: function(data){
+	  		            //alert(123);
+						if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+	  		            if (data.state){
+	  		            	layer.msg(data.msg,{icon:1});
+	  		                $("#flexigrid").flexReload();
+	  		            } else {
+	  		            	layer.msg(data.msg,{icon:2});
+	  		            }
+	  		        }
+	  		    });
+	        }
+	      );
+  }
+  function fg_edit(arr_data){
+	  layer.open({
+	        type: 1,
+	        title:'<b>修改价格</b>',
+	        btn:['确定'],
+	        skin: 'layui-layer-rim', //加上边框
+	        area: ['420px', '240px'], //宽高
+	        content: '<div class="pd-10"><form action="" id="form1"><table class="table"><tr><td width="30%" class="text-r">商品价格：</td><td width="70%" class="text-l">'+arr_data.goods_price+'</td></tr>' +
+	        '<tr><td width="30%" class="text-r va-t">折扣价格：</td><td width="70%" class="text-l">'+
+	        '<input id="xianshi_goods_id" name="xianshi_goods_id" value="'+arr_data.xianshi_goods_id+'" type="hidden">'+
+	        '<input id="dialog_edit_xianshi_price" name="money" value="'+arr_data.xianshi_price+'" type="text" class="text w70"><em class="add-on"><i class="fa fa-rmb"></i></em>' +
+	        '<div class="err"></div></td></tr></table></form></div>',
+	        yes:function(index){
+
+	          $("#form1").validate({
+	            errorPlacement: function(error, element){
+	              var error_td = element.nextAll('div.err');
+	              error_td.append(error);
+	            },
+	            rules : {
+	              money : {
+	                required : true,
+	                range:[0,arr_data.goods_price],
+	              },
+	            },
+	            messages : {
+	              money : {
+	                required : '<i class="fa fa-exclamation-circle"></i>折扣价格不能为空，且必须小于商品价格',
+	                range: '<i class="fa fa-exclamation-circle"></i>限时折扣价格不能为空，且不能超过商品实际销售价格',
+	              },
+	            }
+	          });
+	          if($("#form1").valid()){
+	        	  price = $('#dialog_edit_xianshi_price').val();
+	        	  $.ajax({
+		  		        type: "post",
+		  		        dataType: "json",
+		  		        url: "sales_discount_goods?op=edit",
+		  		        data: {id:arr_data.xianshi_goods_id,price:price,name:arr_data.goods_name},
+		  		        success: function(data){
+		  		            //alert(123);
+							if(data.state=='403'){
+				login_ajax('shopadmin');return false;
+			}
+		  		            if (data.state){
+		  		            	layer.msg(data.msg,{icon:1});
+		  		                $("#flexigrid").flexReload();
+		  		                
+		  		            } else {
+		  		            	layer.msg(data.msg,{icon:2});
+		  		            }
+		  		          layer.close(index);
+		  		        }
+		  		    });
+	          }
+	        }
+	      });
+  }
+</script>
+</body>
+</html>

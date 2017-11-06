@@ -1,0 +1,77 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>退款管理</h3>
+                <h5>商品订单退款申请及审核处理</h5>
+            </div>
+            <ul class="tab-base nc-row">
+                <li><a href="business_refund_pending"><span>待处理</span></a></li>
+                <li><a  href="business_refund_all"  ><span>所有记录</span></a></li>
+                <li><a class="current"><span>退款退货原因</span></a></li>
+            </ul>
+        </div>
+    </div>
+  <!-- 操作说明 -->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>系统初始化的原因不能删除</li>
+            <li>排序显示规则为排序小的在前，新增的在前</li>
+        </ul>
+    </div>
+
+
+  <div id="flexigrid"></div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('#flexigrid').flexigrid({
+            height:'auto',// 高度自动
+            usepager: false,// 不翻页
+            striped: true,// 使用斑马线
+            resizable: false,// 不调节大小
+            title: '列表',// 表格标题
+            reload: false,// 不使用刷新
+            columnControl: false,// 不使用列控制
+            title: '退货退款原因列表',
+            url:'refund_reason_list',
+            colModel : [
+                {display: '操作', name : 'operation', width : 100, sortable : false, align: 'center', className: 'handle-s'},
+                {display: '排序', name : 'refund_sn', width : 200, sortable : false, align: 'center'},
+                {display: '原因', name : 'refund_amount', width : 100, sortable : true, align: 'center'},
+            ],
+            buttons : [
+                {display: '<i class="fa fa-plus"></i>新增数据', name : 'add', bclass : 'add', title : '新增数据', onpress : fg_operation }
+            ]
+        });
+    });
+    function fg_operation() {
+        window.location.href = 'business_refund_reason_ae';
+    }
+    function del_this(id){
+        layer.confirm('确定要删除吗？', {
+            btn: ['确定','取消'] //按钮
+          }, function(){
+              $.ajax({
+                 url:'refund_reason_del',
+                 data:{id:id},
+                 type:'post',
+                 dataType:'json',
+                 success:function(msg){
+                     layer.msg(msg);
+                     $('#flexigrid').flexReload();
+                 }
+              });
+          });
+    }
+
+
+</script> 
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

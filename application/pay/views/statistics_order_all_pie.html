@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>云聚客门店收银系统 | 智慧店铺</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<{include file="lib/link.html"}>
+			<link href="<{TEMPLE}>css/cashier.css" type="text/css" rel="stylesheet">
+			<link href="<{TEMPLE}>css/datepicker3.css" type="text/css" rel="stylesheet">
+		<!-- Mainly scripts -->
+		<script src="<{TEMPLE}>js/Chart.min.js" type="text/javascript"></script>
+		<script src="<{TEMPLE}>js/bootstrap-datepicker.js" type="text/javascript"></script>
+			<style>
+		.ibox-title h5 { margin: 10px 0 0px; }
+		select.input-sm { height: 35px; line-height: 35px; }
+		.float-e-margins .btn-info{ margin-bottom:0px; }
+		.fa-paste{ margin-right:7px; padding: 0px; }
+		.dz-preview{ display:none; }
+		.ibox-title ul{ list-style: outside none none !important; margin: 0; padding: 0;}
+		.ibox-title li:nth-child(1) { float: left;width: 30%; }
+		.ibox-title li:nth-child(2) { float: left;width: 32%; }
+		.ibox-title li:nth-child(3){width: 35%; }
+		#commonpage {float: right;margin-bottom: 10px;}
+		#table-list-body .btn-st{background-color: #337ab7;border-color: #2e6da4;cursor:auto;}
+		#oderinfo{overflow-y: scroll;}
+		.float-e-margins .ibox-content{border-style:none;}
+		.nav-tabs > li > a:hover,.nav-tabs > li > a:focus { background-color: #FFF; }
+		.nav-tabs li.active  a {border-color:#dddddd #dddddd #fff}
+		.nav-tabs li.active  a:hover,.nav-tabs li.active a:focus {border-color:#dddddd #dddddd #fff;background-color:#FFF;}
+		#screenForm .input-group{display: inline-block;width: 280px;}
+		#screenForm select{display: inline-block;float:none;width: 70%;}
+		#dataselect  input {border-radius: 7px;height: 35px;display: inline-block;width:220px;margin-bottom:1px;}
+	</style>
+	</head>
+
+	<body>
+		<div id="wrapper">
+			<{include file="lib/header.html"}>
+<div class="row wrapper border-bottom white-bg page-heading">
+				<div class="col-lg-10">
+					<h2>已支付订单列表</h2>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			<div class="wrapper wrapper-content">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="ibox float-e-margins">
+
+							<div class="ibox-title" id="screenForm">
+								<form method="get" action="?m=User&amp;c=statistics&amp;a=orderstaLists">
+									<input type="hidden" value="User" name="m">
+									<input type="hidden" value="statistics" name="c">
+									<input type="hidden" value="orderstaLists" name="a">
+									<div class="form-group">
+										
+
+										<div class="form-group input-group">
+											<label class="font-noraml">订单状态</label>&nbsp;&nbsp;&nbsp;
+											<select class="form-control m-b" name="refunds">
+												<option value="0">不选择</option>
+												<option value="1">未退款</option>
+												<option value="2">已退款</option>
+											</select>
+										</div>
+
+										<div class="form-group input-group">
+											<label class="font-noraml">支付方式</label>&nbsp;&nbsp;&nbsp;
+											<select class="form-control m-b" name="pwy">
+												<option value="0">不选择</option>
+												<option value="alipay">支付宝支付</option><option value="weixin">微信支付</option><option value="CardPay">会员卡余额支付</option><option value="Cash">现金支付</option><option value="UnionPay">银联支付</option><option value="openapi">第三方支付</option><option value="WeiDian">微店支付</option>											</select>
+										</div>
+																				
+										
+																				
+																			</div>
+									<div id="dataselect" class="form-group">
+										<div id="datepicker" class="input-daterange">
+											<label class="font-noraml">选择日期</label>&nbsp;&nbsp;&nbsp;
+											<input type="text" value="" name="start" class="input-sm form-control" id="datestart" placeholder="开始时间">
+											&nbsp;<span> 到 </span>&nbsp;
+											<input type="text" value="" name="end" class="input-sm form-control" id="dateend" placeholder="结束时间">
+											&nbsp;&nbsp;&nbsp;<input class="btn btn-primary" type="submit" value="查 询" style="width:70px;border-radius: 3px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default" style="width:80px;" href="javascript:;">导 出</a>
+										</div>
+									</div>
+								</form>
+							</div>
+<script type="text/javascript">
+$('#screenForm .btn-primary').click(function(){
+	var datestart=$("#datestart").val();
+	var dateend=$("#dateend").val();
+	if(datestart>dateend){
+		swal({
+			title: "温馨提示",
+			text: "开始日期要小于结束日期",
+			type: "error"
+		});
+		return false;
+	}
+})
+</script>
+							<div class="ibox-content">
+								<div class="app__content js-app-main page-cashier">
+									<div>
+										<!-- 实时交易信息展示区域 -->
+										<div class="cashier-realtime">
+											<div class="realtime-title-block clearfix">
+												<h1 class="realtime-title">收款情况 (总计0条)</h1>
+											</div>
+										</div>
+										<div class="js-real-time-region realtime-list-box loading">
+											<div class="widget-list">
+												<div class="js-list-filter-region clearfix ui-box" style="position: relative;">
+													<div class="widget-list-filter"></div>
+												</div>
+												<div class="ui-box">
+													<table class="ui-table" data-page-size="20" style="padding: 0px;">
+														<thead class="js-list-header-region tableFloatingHeaderOriginal">
+															<tr class="widget-list-header">
+																<th>编号</th>
+																<th data-hide="phone">付款人</th>
+																<th data-hide="phone">付款时间</th>
+																<th data-hide="phone">付款理由</th>
+																<th data-hide="phone">来源</th>
+																<th data-hide="phone">付款金额(元)</th>
+																<th data-hide="phone">退款情况</th>
+																<th data-hide="phone">对账情况</th>
+																
+																<th data-hide="phone">收款人</th>
+																<th>操作</th>
+															</tr>
+														</thead>
+														<tbody class="js-list-body-region" id="table-list-body">																		<tr class="widget-list-item"><td colspan="11">暂无订单</td></tr>
+																																			</tbody>
+																</table>
+																<div class="js-list-empty-region"></div>
+															</div>
+															<div class="js-list-footer-region ui-box">
+																<div class="widget-list-footer"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+															</div>
+						</div>
+						<{include file="lib/footer.html"}>
+        </div>
+
+</body>
+</html>

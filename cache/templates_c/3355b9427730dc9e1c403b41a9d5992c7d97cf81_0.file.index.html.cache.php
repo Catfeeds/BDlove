@@ -1,0 +1,501 @@
+<?php
+/* Smarty version 3.1.29, created on 2017-09-21 14:31:25
+  from "D:\www\yunjuke\application\pay\views\index.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_59c35cbd957211_83892315',
+  'file_dependency' => 
+  array (
+    '3355b9427730dc9e1c403b41a9d5992c7d97cf81' => 
+    array (
+      0 => 'D:\\www\\yunjuke\\application\\pay\\views\\index.html',
+      1 => 1504951389,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:lib/footer.html' => 1,
+  ),
+),false)) {
+function content_59c35cbd957211_83892315 ($_smarty_tpl) {
+$_smarty_tpl->compiled->nocache_hash = '2470959c35cbd223463_98989265';
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link href="favicon.ico" rel="shortcut icon" />
+<link rel="Shortcut Icon" href="favicon.ico" />
+<link rel="Bookmark" href="favicon.ico" />
+<meta content="成都云聚客科技有限公司" name="author" />
+<meta content="Copyright 1999-2017. www.jukeyunduan.cn . All Rights Reserved." name="copyright" />
+<meta name="application-name" content="云聚客" />
+<link rel="stylesheet" type="text/css" href="<?php echo PLUGIN;?>
+plugins/H-ui/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo PLUGIN;?>
+plugins/H-ui/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo PLUGIN;?>
+plugins/H-ui/lib/Hui-iconfont/1.0.7/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo PLUGIN;?>
+plugins/H-ui/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="<?php echo PLUGIN;?>
+plugins/H-ui/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" href="<?php echo TEMPLE;?>
+css/iconfont.css" />
+<title>云聚客-【O2O2S新零售 全渠道】商家端-成都云聚客科技有限公司</title>
+<style type="text/css">
+
+.navbar-nav>ul>li, .navbar-nav>ul>li>a {
+    line-height: 51px;
+    color: #999c9e;
+    font-weight: bold;
+}
+.Hui-aside .menu_dropdown dt {
+    color: #a7b1c2;
+    border-bottom: none;
+}
+.menu_dropdown dt:hover,.menu_dropdown dd ul li a:hover{
+	background: #293846!important;
+	color: #fff!important;
+}
+.menu_dropdown dl.active{
+	border-left: 4px solid #44b549;
+	background: #293846;
+}
+.Hui-aside .menu_dropdown li a{
+	color:#a7b1c2;
+}
+.Hui-msg .badge {
+    position: absolute;
+    left: 19px;
+    top: 4px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 1px 5px;
+}
+.now{
+	margin: 20px;
+	text-align: center;
+}
+.layui-layer-btn0{
+	width: 60px;
+	margin-right: 110px !important;
+	background: #F37B1D!important;
+	border: 0!important;
+	margin-right: 110px;
+}
+</style>
+</head>
+<body>
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top" style="background: #293846;">
+		<div class="container-fluid cl">
+		<img src="<?php echo TEMPLE;?>
+images/logo-pigcms.png" alt="" class="mb-5"/>
+		<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+			<ul class="cl">
+				<!--<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger" style="top: 10px;left: 60px;">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i>&nbsp;<p class="f-r" style="line-height: 49px;">消息</p></a></li>-->
+				<?php if ($_SESSION['shop_spg_store_type'] == 2) {?>
+					<li class="Hui-msg">
+							<a href="<?php echo base_url('pay.php/');?>
+order/shop_cart" target="shopcartFrame" data-para="myShopcart" onclick="top_href(this)" data-title="我的购物车"><span class="badge badge-danger" style="top: 10px;left: 78px;" id="shop_cart_total">	<?php if (empty($_smarty_tpl->tpl_vars['cart_total']->value)) {?>0<?php } else {
+echo $_smarty_tpl->tpl_vars['cart_total']->value;
+}?></span>我的购物车</a>
+					</li>
+				<?php }?>
+				<li> <a href="#" title="用户名"><i class="Hui-iconfont" style="font-size:15px">&#xe62d;</i>&nbsp;<p class="f-r" style="line-height: 49px;"><?php echo $_SESSION['shop_spg_name'];?>
+</p></a></li>
+				<li> <a href="#" title="帮助中心"><i class="Hui-iconfont" style="font-size:15px">&#xe633;</i>&nbsp;<p class="f-r" style="line-height: 49px;">帮助中心</p></a></li>
+				<li> <a href="#" title="二维码"><i class="Hui-iconfont" style="font-size:15px">&#xe6cb;</i>&nbsp;<p class="f-r" style="line-height: 49px;"><?php echo $_SESSION['shop_store_name'];?>
+</p></a></li>
+				<li> <a href="<?php echo base_url('pay.php/Index/');?>
+login_out" title="退出"><i class="iconfont" style="font-size:15px">&#xe61a;</i>&nbsp;<p class="f-r" style="line-height: 49px;">退出</p></a></li>
+			</ul>
+		</nav>
+	</div>
+</div>
+</header>
+<aside class="Hui-aside" style="background: #2f4050;">
+	<div class="menu_dropdown bk_2">
+		<dl id="menu-article">
+			<dt><i class="iconfont f-16">&#xe778;</i>&nbsp;&nbsp;首页</dt>
+		</dl>
+		<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_pay') !== false) {?>
+		<dl id="menu-article">
+			<dt><i class="iconfont">&#xe61f;</i>&nbsp;&nbsp;收银台</dt>
+			<dd>
+				<ul>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_online') !== false) {?>
+					<li><a data-href="<?php echo base_url('pay.php/account/');?>
+pay_scan" data-title="在线收银" href="javascript:void(0)">在线收银</a></li>
+					<?php }?>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_refund') !== false) {?>
+					<li><a data-href="<?php echo base_url('pay.php/account/');?>
+pay_refund" data-title="退换商品" href="javascript:void(0)">退换商品</a></li>
+					<?php }?>
+				</ul>
+			</dd>
+		</dl>
+		<?php }?>
+		<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_order') !== false) {?>
+		<dl id="menu-picture">
+			<dt><i class="iconfont">&#xe672;</i>&nbsp;&nbsp;订单管理</dt>
+			<dd>
+				<ul>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_order_manage') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/order/');?>
+order_management" data-title="订单管理" href="javascript:void(0)">订单管理</a></li>
+					<?php }?>
+
+					<?php if ($_SESSION['shop_spg_store_type'] == 2) {?>
+						<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_ecorder_synchronize') !== false) {?>
+							<li><a data-href="<?php echo base_url('pay.php/order/');?>
+store_order" data-title="网店订单管理" href="javascript:void(0)">网店订单</a></li>
+						<?php }?>
+
+						<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_retail') !== false) {?>
+							<li><a data-href="<?php echo base_url('pay.php/order/');?>
+place_order" data-title="手工下单" href="javascript:void(0)">手工下单</a></li>
+						<?php }?>
+
+						<!-- <li><a data-href="javascript:;" data-title="订单同步" href="javascript:void(0)">订单同步</a></li> -->
+						<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_ecorder_import') !== false) {?>
+							<li><a data-href="<?php echo base_url('pay.php/stock/');?>
+import_order" data-title="订单导入" href="javascript:void(0)">订单导入</a></li>
+						<?php }?>
+					<?php }?>
+
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_sellafter') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/stock/');?>
+service_management" data-title="售后管理" href="javascript:void(0)">售后管理</a></li>
+					<?php }?>
+
+				</ul>
+			</dd>
+		</dl>
+		<?php }?>
+
+		<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_store') !== false) {?>
+		<dl id="menu-product">
+			<dt><i class="iconfont">&#xe68c;</i>&nbsp;&nbsp;店铺管理</dt>
+			<dd>
+				<ul>
+					<?php if ($_SESSION['shop_spg_store_type'] == 2) {?>
+						<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_goods_immigration') !== false) {?>
+							<li><a data-href="<?php echo base_url('pay.php/store/place_order');?>
+" data-title="商品迁入" href="javascript:void(0)">商品迁入</a></li>
+						<?php }?>
+					<?php }?>
+
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_goods') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/store/');?>
+goods_management" data-title="商品管理" href="javascript:void(0)">商品管理</a></li>
+					<?php }?>
+
+					<?php if ($_SESSION['shop_spg_store_type'] == 1) {?>
+						<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_tags') !== false) {?>
+							<li><a data-href="<?php echo base_url('pay.php/store/');?>
+freetag" data-title="自定义标签管理" href="javascript:void(0)">标签管理</a></li>
+						<?php }?>
+						<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_decoration') !== false) {?>
+							<li><a data-href="<?php echo base_url('pay.php/store/');?>
+store_decoration_template" data-title="店铺装修" href="javascript:void(0)">店铺装修</a></li>
+						<?php }?>
+					<?php }?>
+
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_guides') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/store/');?>
+store_shopping_guide" data-title="导购管理" href="javascript:void(0)">导购管理</a></li>
+					<?php }?>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_carriage') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/store/');?>
+mall_express_tools" data-title="运费管理" href="javascript:void(0)">运费管理</a></li>
+					<?php }?>
+
+				</ul>
+			</dd>
+		</dl>
+		<?php }?>
+
+
+		<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_member') !== false) {?>
+		<dl id="menu-comments">
+			<dt><i class="iconfont">&#xe66a;</i>&nbsp;会员管理</dt>
+			<dd>
+				<ul>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_member_manage') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/user/');?>
+user_management" data-title="会员管理" href="javascript:;">会员管理</a></li>
+					<?php }?>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_member_import') !== false) {?>
+						<li><a data-href="javascript:;" data-title="会员导入" href="javascript:void(0)">会员导入</a></li>
+					<?php }?>
+				</ul>
+			</dd>
+		</dl>
+		<?php }?>
+
+		<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_stock') !== false) {?>
+		<dl id="menu-member">
+			<dt><i class="iconfont">&#xe713;</i>&nbsp;&nbsp;库存管理</dt>
+			<dd>
+				<ul>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_stock_manage') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/stock/');?>
+stock_query" data-title="库存管理" href="javascript:;">库存管理</a></li>
+					<?php }?>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_inventory') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/stock/');?>
+stock_checking" data-title="盘点管理" href="javascript:;">盘点管理</a></li>
+					<?php }?>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_stock_import') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/stock/');?>
+stock_leading" data-title="导入库存" href="javascript:;">导入库存</a></li>
+					<?php }?>
+				</ul>
+			</dd>
+		</dl>
+		<?php }?>
+
+
+
+		<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_statistics') !== false) {?>
+		<dl id="menu-admin">
+			<dt><i class="iconfont">&#xe606;</i>&nbsp;&nbsp;统计报表</dt>
+			<dd>
+				<ul>
+
+					<li><a data-href="javascript:;" data-title="New Page 1" href="javascript:void(0)">New Page 1</a></li>
+
+				</ul>
+			</dd>
+		</dl>
+		<?php }?>
+
+		<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_order') !== false) {?>
+		<?php }?>
+
+		<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_account') !== false) {?>
+		<dl id="menu-tongji">
+			<dt><i class="iconfont">&#xe604;</i>&nbsp;&nbsp;账户管理</dt>
+			<dd>
+				<ul>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_account_detail') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/account/');?>
+accountDetails" data-title="收支明细" href="javascript:void(0)">收支明细</a></li>
+					<?php }?>
+
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_safe') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/account/');?>
+userInfo" data-title="安全设置" href="javascript:void(0)">安全设置</a></li>
+					<?php }?>
+
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_info') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/account/');?>
+info" data-title="基本资料" href="javascript:void(0)">基本资料</a></li>
+					<?php }?>
+
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_recharge') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/account/');?>
+recharge" data-title="账户充值" href="javascript:void(0)">账户充值</a></li>
+					<?php }?>
+
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_cash') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/account/');?>
+takeCash" data-title="账户提现" href="javascript:void(0)">账户提现</a></li>
+					<?php }?>
+                    <?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'address_management') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/user/');?>
+address_management" data-title="地址管理" href="javascript:void(0)">地址管理</a></li>
+					<?php }?>
+					<?php if (isset($_SESSION['role']) && strpos($_SESSION['role'],'seller_cash') !== false) {?>
+						<li><a data-href="<?php echo base_url('pay.php/account/');?>
+notice_manage" data-title="通知管理" href="javascript:void(0)">通知管理</a></li>
+					<?php }?>
+				</ul>
+			</dd>
+		</dl>
+		<?php }?>
+	</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<section class="Hui-article-box">
+	<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
+		<div class="Hui-tabNav-wp">
+			<ul id="min_title_list" class="acrossTab cl">
+				<li class="active">
+					<span title="我的桌面" data-href="welcome.html">我的桌面</span>
+					<em></em></li>
+		</ul>
+	</div>
+		<div class="Hui-tabNav-more btn-group"><a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a><a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a></div>
+</div>
+	<div id="iframe_box" class="Hui-article">
+		<div class="show_iframe">
+			<div style="display:none" class="loading"></div>
+			<iframe scrolling="yes" frameborder="0" src="<?php echo base_url('pay.php/order/');?>
+order_management"></iframe>
+	</div>
+</div>
+</section>
+
+<div class="contextMenu" id="Huiadminmenu">
+	<ul>
+		<li id="closethis">关闭当前 </li>
+		<li id="closeall">关闭全部 </li>
+	</ul>
+</div>
+<?php $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:lib/footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+
+<!--请在下方写此页面业务相关的脚本-->
+<?php echo '<script'; ?>
+ type="text/javascript" src="<?php echo PLUGIN;?>
+plugins/H-ui/lib/jquery.contextmenu/jquery.contextmenu.r2.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ type="text/javascript">
+	
+	
+	
+	
+	function line(){
+		layer.confirm('当前正在排队人数：1051...', {
+		  title:'当前操作人数较多，需要排队：',
+		  btn: ['取消排队'] //按钮
+		}, function(){
+		  layer.msg('取消排队成功，如需执行需重新排队', {icon: 1});
+		});	
+//		点击关闭浏览器执行的方法
+		window.onbeforeunload = function()  
+		{  
+			console.log(1)
+		    return "离开页面?";  
+		}  
+		window.onunloadcancel = function()  
+		{  
+		      
+		}
+	}
+	
+	
+//	点击左侧菜单显示样式
+$(".menu_dropdown dl").click(function(){
+	$(".menu_dropdown dl").removeClass("active");
+	$(this).addClass("active");
+})
+	
+$(function(){
+	/*$("#min_title_list li").contextMenu('Huiadminmenu', {
+		bindings: {
+			'closethis': function(t) {
+				console.log(t);
+				if(t.find("i")){
+					t.find("i").trigger("click");
+				}
+			},
+			'closeall': function(t) {
+				alert('Trigger was '+t.id+'\nAction was Email');
+			},
+		}
+	});*/
+});
+function top_href(obj){
+    var obj_name = $(obj).attr('target');
+    var obj_url = $(obj).attr('href');
+    var obj_title = $(obj).attr('data-title');
+    var obj_id = $(obj).attr('data-para');
+    var obj_iframe = obj_id+'_iframe';
+	$('#min_title_list').find('li').removeClass('active');
+	$('#iframe_box').find('div.show_iframe').hide();
+	if($('#'+obj_id).size()==1){
+		$('#'+obj_id).addClass('active');
+		$('#'+obj_iframe).show();
+	}else{
+		statu = false;
+		$.each($('#min_title_list').find('li'),function(){
+			if($(this).children('span').attr('data-href')==obj_url){
+				statu = true;
+				$(this).remove();
+			}
+		})
+		if(statu){
+			$.each($('#iframe_box').find('div.show_iframe'),function(){
+				if($(this).children('iframe').attr('src')==obj_url){
+					$(this).remove();
+				}
+			})
+		}
+		titleWidth = $('#min_title_list').width();
+		titleWidth = titleWidth+$('#min_title_list').children('li:eq(0)').innerWidth();
+		//console.log(titleWidth)
+		$('#min_title_list').width(titleWidth);
+		$('#min_title_list').append('<li class="active" id="'+obj_id+'"><span data-href="'+obj_url+'">'+obj_title+'</span><i></i><em></em></li>');
+		
+		var iframeBox = '<div class="show_iframe" id="'+obj_iframe+'" style="display: block;">'+
+			'<div class="loading"></div>'+
+			'<iframe scrolling="yes" frameborder="0" name="'+obj_name+'" src="'+obj_url+'"></iframe></div>';
+        $('#iframe_box').append(iframeBox);
+	}
+}
+/*个人信息*/
+function myselfinfo(){
+	layer.open({
+		type: 1,
+		area: ['300px','200px'],
+		fix: false, //不固定
+		maxmin: true,
+		shade:0.4,
+		title: '查看信息',
+		content: '<div>管理员信息</div>'
+	});
+}
+
+/*资讯-添加*/
+function article_add(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+/*图片-添加*/
+function picture_add(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+/*产品-添加*/
+function product_add(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+/*用户-添加*/
+function member_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+
+
+<?php echo '</script'; ?>
+> 
+
+</body>
+</html><?php }
+}

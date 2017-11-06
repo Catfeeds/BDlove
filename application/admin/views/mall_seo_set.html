@@ -1,0 +1,310 @@
+<{include file="pageheader.html"}>
+<style>
+    #tag_tips{
+        padding:4px;border-radius: 2px 2px 2px 2px;box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);display:none;padding: 4px;width:300px;z-index:9999;background-color:#FFFFFF;
+    }
+    .dialog_title {
+        background-color: #F2F2F2;
+        border-bottom: 1px solid #EAEAEA;
+        color: #666666;
+        display: block;
+        font-weight: bold;
+        line-height: 14px;
+        padding: 5px;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>SEO设置</h3>
+                <h5>商城各级页面搜索引擎优化设置选项</h5>
+            </div>
+            <ul class="tab-base nc-row">
+                <li><a href="JavaScript:void(0);" nctype="index" class="current">首页</a></li>
+                <li><a href="JavaScript:void(0);" nctype="group" class="">团购</a></li>
+                <li><a href="JavaScript:void(0);" nctype="brand" class="">品牌</a></li>
+                <li><a href="JavaScript:void(0);" nctype="product" class="">商品</a></li>
+                <li><a href="JavaScript:void(0);" nctype="category">商品分类</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--操作提示-->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>插入的变量必需包括花括号“{}”，当应用范围不支持该变量时，该变量将不会在前台显示(变量后边的分隔符也不会显示)，留空为系统默认设置，SEO自定义支持手写。以下是可用SEO变量:</li>
+            <li>站点名称 {sitename}，（应用范围：全站）</li>
+            <li nctype="vmore">名称 {name}，（应用范围：团购名称、商品名称、品牌名称、文章标题、分类名称）</li>
+            <li nctype="vmore">文章分类名称 {article_class}，（应用范围：文章分类页）</li>
+            <li nctype="vmore">店铺名称 {shopname}，（应用范围：店铺页）</li>
+            <li nctype="vmore">关键词 {key}，（应用范围：商品关键词、文章关键词、店铺关键词）</li>
+            <li nctype="vmore">简单描述 {description}，（应用范围：商品描述、文章摘要、店铺关键词）</li>
+            <!--<li><a>提交保存后，需要到 工具 -> 清理缓存 清理SEO，新的SEO设置才会生效</a></li>-->
+        </ul>
+    </div>
+    <form method="post" name="form_index" id="form_index" action="">
+        <input type="hidden" name="form_submit" value="ok">
+        <span style="display:none" nctype="hide_tag"><a style="padding-left: 5px;">{sitename}</a></span>
+        <div class="ncap-form-default">
+            <div class="title">
+                <h3>首页</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">title</dt>
+                <dd class="opt">
+                    <input id="SEO[index][title]" name="SEO[index][title]" value="<{$index_seo.title}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">keywords</dt>
+                <dd class="opt">
+                    <input id="SEO[index][keywords]" name="SEO[index][keywords]" value="<{$index_seo.keywords}>" type="text" class="input-txt" maxlength="200">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">description</dt>
+                <dd class="opt">
+                    <input id="SEO[index][description]" name="SEO[index][description]" value="<{$index_seo.description}>" type="text" class="input-txt" maxlength="200">
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="submit(this)">确认提交</a></div>
+        </div>
+    </form>
+    <form method="post" name="form_group" id="form_group" action="" style="display: none;">
+        <input type="hidden" name="form_submit" value="ok">
+        <span style="display:none" nctype="hide_tag"><a style="padding-left: 5px;">{sitename}</a><a style="padding-left: 5px;">{name}</a></span>
+        <div class="ncap-form-default">
+            <div class="title">
+                <h3>团购</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">title</dt>
+                <dd class="opt">
+                    <input id="SEO[group][title]" name="SEO[group][title]" value="<{$group_seo.title}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">keywords</dt>
+                <dd class="opt">
+                    <input id="SEO[group][keywords]" name="SEO[group][keywords]" value="<{$group_seo.keywords}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">description</dt>
+                <dd class="opt">
+                    <input id="SEO[group][description]" name="SEO[group][description]" value="<{$group_seo.description}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <div class="title">
+                <h3>团购内容</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">title</dt>
+                <dd class="opt">
+                    <input id="SEO[group_content][title]" name="SEO[group_content][title]" value="<{$group_content_seo.title}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">keywords</dt>
+                <dd class="opt">
+                    <input id="SEO[group_content][keywords]" name="SEO[group_content][keywords]" value="<{$group_content_seo.keywords}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">description</dt>
+                <dd class="opt">
+                    <input id="SEO[group_content][description]" name="SEO[group_content][description]" value="<{$group_content_seo.description}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="submit(this)">确认提交</a></div>
+        </div>
+    </form>
+    <form method="post" name="form_brand" id="form_brand" action="" style="display: none;">
+        <input type="hidden" name="form_submit" value="ok">
+        <span style="display:none" nctype="hide_tag"><a style="padding-left: 5px;">{sitename}</a><a style="padding-left: 5px;">{name}</a></span>
+        <div class="ncap-form-default">
+            <div class="title">
+                <h3>品牌</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">title</dt>
+                <dd class="opt">
+                    <input id="SEO[brand][title]" name="SEO[brand][title]" value="<{$brand_seo.title}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">keywords</dt>
+                <dd class="opt">
+                    <input id="SEO[brand][keywords]" name="SEO[brand][keywords]" value="<{$brand_seo.keywords}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">description</dt>
+                <dd class="opt">
+                    <input id="SEO[brand][description]" name="SEO[brand][description]" value="<{$brand_seo.description}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <div class="title">
+                <h3>某一品牌商品列表</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">title</dt>
+                <dd class="opt">
+                    <input id="SEO[brand_list][title]" name="SEO[brand_list][title]" value="<{$brand_list_seo.title}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">keywords</dt>
+                <dd class="opt">
+                    <input id="SEO[brand_list][keywords]" name="SEO[brand_list][keywords]" value="<{$brand_list_seo.keywords}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">description</dt>
+                <dd class="opt">
+                    <input id="SEO[brand_list][description]" name="SEO[brand_list][description]" value="<{$brand_list_seo.description}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="submit(this)">确认提交</a></div>
+        </div>
+    </form>
+    <form method="post" name="form_product" id="form_product" action="" style="display: none;">
+        <input type="hidden" name="form_submit" value="ok">
+        <span style="display:none" nctype="hide_tag"><a style="padding-left: 5px;">{sitename}</a><a style="padding-left: 5px;">{name}</a></span>
+        <div class="ncap-form-default">
+            <div class="title">
+                <h3>商品</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">title</dt>
+                <dd class="opt">
+                    <input id="SEO[product][title]" name="SEO[product][title]" value="<{$product_seo.title}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">keywords</dt>
+                <dd class="opt">
+                    <input id="SEO[product][keywords]" name="SEO[product][keywords]" value="<{$product_seo.keywords}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">description</dt>
+                <dd class="opt">
+                    <input id="SEO[product][desciption]" name="SEO[product][description]" value="<{$product_seo.description}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="submit(this)">确认提交</a></div>
+        </div>
+    </form>
+    <form method="post" name="form_category" id="form_category" action="" style="display: none;">
+        <input type="hidden" name="form_submit" value="ok">
+        <span style="display:none" nctype="hide_tag"> <a style="padding-left: 5px;">{sitename}</a><a style="padding-left: 5px;">{name}</a></span>
+        <div class="ncap-form-default">
+            <div class="title">
+                <h3>商品分类</h3>
+            </div>
+            <dl class="row">
+                <dt class="tit">商品分类</dt>
+                <dd class="opt">
+                    <select name="category" id="category">
+                        <option value="<{$goods_cate_seo.cate}>"><{$goods_cate_seo.cate_name}></option>
+                        <{$cate_option}>
+                    </select>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">title</dt>
+                <dd class="opt">
+                    <input id="cate_title" name="cate_title" value="<{$goods_cate_seo.title}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">keywords</dt>
+                <dd class="opt">
+                    <input id="cate_keywords" name="cate_keywords" value="<{$goods_cate_seo.keywords}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">description</dt>
+                <dd class="opt">
+                    <input id="cate_description" name="cate_description" value="<{$goods_cate_seo.description}>" type="text" class="input-txt">
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="submit(this)">确认提交</a></div>
+        </div>
+    </form>
+    <div id="tag_tips" > <span class="dialog_title">可用的代码，点击插入</span>
+        <div style="margin: 0px; padding: 0px;line-height:25px;"><a style="padding-left: 5px; cursor: pointer;">{sitename}</a><a style="padding-left: 5px; cursor: pointer;">{name}</a></div>
+    </div>
+</div>
+<script>
+
+    $(function(){
+        $('.tab-base').find('a').bind('click',function(){
+            $("#tag_tips").css('display','none');
+            $('.tab-base').find('a').removeClass('current');
+            $(this).addClass('current');
+            $('form').css('display','none');
+            $('form[name="form_'+$(this).attr('nctype')+'"]').css('display','');
+            $('span[nctype="hide_tag"]').find('a').css('padding-left','5px');
+            $("#tag_tips>div").html($('form[name="form_'+$(this).attr('nctype')+'"]').find('span').html());
+            $("#tag_tips").find('a').css('cursor','pointer');
+            $("#tag_tips").find('a').bind('click',function(){
+                var value = $(CUR_INPUT).val();
+                if(value.indexOf($(this).html())<0 ){
+                    $(CUR_INPUT).val(value+$(this).html());
+                }
+            });
+        });
+        $('input[type="text"]').bind('focus',function(){
+            CUR_INPUT = this;
+            //定位弹出层的坐标
+            var pos = $(this).offset();
+            var pos_x = pos.left+300;
+            var pos_y = pos.top-20;
+            $("#tag_tips").css({'left' : pos_x, 'top' : pos_y,'position' : 'absolute','display' : 'block'});
+        });
+
+        $('form').css('display','none');
+        $('form[name="form_index"]').css('display','');
+
+        $('#category').bind('change',function(){
+            $.getJSON('index.php?act=seo&op=ajax_category&id='+$(this).val(), function(data){
+                if(data){
+                    $('#cate_title').val(data.gc_title);
+                    $('#cate_keywords').val(data.gc_keywords);
+                    $('#cate_description').val(data.gc_description);
+                }else{
+                    $('#cate_title').val('');
+                    $('#cate_keywords').val('');
+                    $('#cate_description').val('');
+                }
+            });
+        });
+        $('.tab-base').find('a').eq(0).click();
+
+    });
+function submit(obj){
+	form_data = $(obj).parents('form').serialize();
+	//console.log(form_data)
+	$.ajax({
+		type: "post",
+        url: "mall_seo_set?op=edit",
+        data: form_data,
+        dataType: "json",
+        success: function(data){
+        		layer.msg(data.msg);
+        }
+	})
+}
+</script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

@@ -1,0 +1,1114 @@
+<{include file="pageheader.html"}>
+<style>
+    .waybill_item{
+        background-color: #FEF5E6;
+        width: 90px;
+        height: 20px;
+        padding: 1px 5px 4px 5px !important;
+        border-color: #FFBEBC;
+        border-style: solid;
+        border-width: 1px 1px 1px 1px;
+        cursor: move;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    .waybill_item:hover{
+        padding: 1px 5px 1px 5px !important;
+        border-color: #FF7A73 !important;
+        border-width: 1px 1px 4px 1px !important;
+    }
+    .waybill_back { position: relative; width: 870px; height:490px; }
+    .waybill_back img { width: 100%; height: 100%; }
+    .waybill_area {
+        position: relative;
+        width: 870.2px;
+        height: 478.8px;
+    }
+    #edit_model{
+    	width: 1100px;
+    	height: 600px;
+    	border: 1px solid #ccc;
+    	font-size: 15px;
+    	padding: 10px;
+    }
+    .model_top{
+    	width:100%;
+    	height:110px;
+    }
+    .cl-red{
+    	color: red;
+    }
+    .form-group{
+    	margin-right: 30px;
+    }
+    .model_left{
+    	width:160px;
+    	height: 490px;
+    	float: left;
+    }
+    .print_con{
+    	width: 160px;
+    	height: 460px;
+    	border: 1px solid #666;
+    	overflow-y:scroll;
+    }
+    .print_con p{
+    	cursor: pointer;
+    	padding: 3px;
+    	margin-bottom: 0;
+    }
+    .print_con p.selected{
+    	background: #a8c6ee;
+    }
+    .print_con p:hover{
+    	background: #cedbef;
+    }
+    .model_right{
+    	width: 385px;
+    	height: 395px;
+    	border: 2px solid #ccc;
+    	margin-left: 20px;
+    	float: left;
+    	position: relative;
+    	background: no-repeat;
+    	background-size:385px auto;
+    }
+    .model_right p{
+    	border: 1px solid #666;
+    	padding: 0;
+    	background: #ffe6e6;
+    	cursor: pointer;
+    	margin-bottom: 0;
+    	z-index: 999999;
+    }
+    .model_right p.active{
+    	border: 1px solid #0f0;
+    }
+    .remove_p{
+    	position: absolute;
+    	right: -5px;
+    	top: -10px;
+    }
+    .form-group label{
+    	display: inline-block;
+    	text-align: right;
+    }
+    .w_120{
+    	width: 120px!important;
+    }
+    .w_155{
+    	width: 155px!important;
+    }
+    .w_80{
+    	width: 80px;
+    }
+    .set{
+    	color: blue;
+    	text-decoration: underline;
+    }
+    .size-MINI{
+    	width: 30px!important;
+    	height: 26px!important;
+    }
+    .num-minus{
+    	border-bottom-left-radius: 4px;
+    	border-top-left-radius: 4px;
+    }
+    .num-plus{
+    	border-bottom-right-radius: 4px;
+    	border-top-right-radius: 4px;
+    }
+    .form-group{
+    	margin-bottom: 5px;
+    }
+    .illsu{
+    	margin-top: -5px;
+    	color: red;
+    }
+    .text-right{
+    	text-align: right;
+    	font-weight: bold;
+    }
+    .look{
+    	width: 585px;
+    	height: 150px;
+    	border: 1px solid #555;
+    }
+    .look-header{
+    	background: #dfdfdf;
+    	border: #ccc;
+    	padding: 0px 10px;
+    }
+    #goodinfo{
+    	font-size: 15px;
+    }
+    .clear{
+    	clear: both;
+    }
+    .form-set{
+    	margin-bottom: 8px;
+    	font-family: ;
+    }
+    .right_top{
+    	width: 100%;
+    	height: 275px;
+    }
+    .right_edit{
+    	width: 100%;
+    	height: 120px;
+    	background: #ffffcd;
+    }
+    .text{
+    	color: #ccc;
+    	font-size: 30px;
+    	position: absolute;
+    	bottom: 40px;
+    	left: 115px;
+    }
+    .noedit{
+    	width: 385px;
+    	height: 275px;
+    	background-color:rgba(0,0,0,0.3);
+    	position: absolute;
+    	top: 0;
+    	color: red;
+    	font-size: 30px;
+    	text-align: center;
+    	line-height: 275px;
+    }
+    textarea{
+    	border: 0px!important;
+    	background: #ffe6e6!important;
+    	box-shadow: none;
+    }
+    textarea:hover,
+    textarea:active,
+    textarea:focus{
+    	border-color: #ffe6e6!important;
+    	box-shadow: none;
+    }
+    .look-body p{
+    	margin-bottom: 0;
+    	line-height: 16px;
+    	font-size: 14px;
+    } 
+    .goodinfo{
+    	margin-left: 5px;
+    }
+    .look-body{
+    	overflow-y: auto;
+    	height: 125px;
+    }
+    #print_separate{
+    	opacity: 0;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+    <div class="fixed-bar">
+        <!--<div class="item-title"><a class="back" href="index.php?act=waybill&amp;op=waybill_list" title="返回运单模板列表"><i class="fa fa-arrow-circle-o-left"></i></a>-->
+        <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>运单模板 - 设计“<{if isset($waybill_express_name)}><{$waybill_express_name}><{/if}>”运单模板</h3>
+                <h5>预设供商家选择的运单快递模板</h5>
+            </div>
+
+        </div>
+    </div>
+    <!--操作提示-->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>勾选需要打印的项目，勾选后可以用鼠标拖动确定项目的位置、宽度和高度，也可以点击项目后边的微调按钮手工录入</li>
+            <li>设置完成后点击提交按钮完成设计</li>
+        </ul>
+    </div>
+    <div class="ncap-form-default">
+        <div id="edit_model">
+        <form id="add_form" method="post" action="mall_waybill_submit" enctype="multipart/form-data">
+        <input type="hidden" name="waybill_types" value="2">
+        	<div class="model_top">
+				  <div class="form-group">
+				    <label class="w_120"><span class="cl-red">* </span>模板名称：&nbsp;</label>
+				    <input type="hidden" name="waybill_id" value="<{if isset($will_info)}><{$will_info.waybill_id}><{/if}>">
+				    <input type="text" value="<{if isset($will_info)}><{$will_info.waybill_name}><{/if}>" name="waybill_name" id="waybill_name" class="form-control w_155">
+				  </div>
+				  <div class="form-group">
+				    <label class="w_80" style="margin-left: 45px;"><span class="cl-red">* </span>打印机：&nbsp;</label>
+				    <select name="printe_name" style="width: 215px;" id="labelprinte">
+				    </select>
+				  </div>
+				  <div class="form-group">
+				    <label class="w_100" style="margin-left: 90px;"><span class="cl-red">* </span>物流公司：&nbsp;</label>
+				    <select name="waybill_express_id" id="waybill_express" style="width: 130px;">
+				        <{if !empty($express_info)}>
+				           <{foreach $express_info as $key=>$val}>
+				               <option value="<{$val.id}>"><{$val.e_name}></option>
+				           <{/foreach}>
+				        <{/if}>
+				    </select>
+				  </div>
+				  <div class="form-group">
+				    <label class="w_120">打印位置调整：&nbsp;</label>
+				    上移 <input type="text" class="form-control" value="<{if isset($data)}><{$data.waybill_top}><{else}>-3<{/if}>" name="waybill_top" id="waybill_top" style="width: 30px;"> 毫米&nbsp;左移 <input type="text" class="form-control" value="<{if isset($data)}><{$data.waybill_left}><{else}>-5<{/if}>" name="waybill_left" id="waybill_left" style="width: 30px;"> 毫米
+				  </div>
+				  <div class="form-group">
+				    <label><span class="cl-red">* </span>面单大小：&nbsp;</label>
+				    宽度 <input type="text" class="form-control" value="<{if isset($data)}><{$data.waybill_width}><{else}>229<{/if}>" name="waybill_width" id="img_width" style="width: 70px;"> 毫米 &nbsp;高度 <input type="text" class="form-control" value="<{if isset($data)}><{$data.waybill_height}><{else}>127<{/if}>" name="waybill_height" id="img_height" style="width: 70px;"> 毫米
+				  </div>
+				  <div class="form-group">
+				    <label class="w_80" style="margin-left: -2px;">背景图片：&nbsp;</label>
+				    <span class="btn btn-primary radius size-S">选择图片</span>
+				    <input type="hidden" name="textfield" value="<{if isset($will_info['waybill_image']) && !empty($will_info['waybill_image'])}><{$will_info['waybill_image']}><{/if}>" id="textfield" class="type-file-text">
+				    <input type="file"  id="waybill_image"  name="waybill_image" onchange="preview(this)" style="opacity:0;margin-left:-70px;display: inline-block;width: 70px;"/>
+				  </div>
+				  <br>
+				  <div class="form-group">
+				    <label class="w_120">字体：&nbsp;</label>
+					<select class="form-control font_size" style="width: 170px;">
+					    <option value="宋体">宋体</option>
+					   	<option value="微软雅黑">微软雅黑</option>
+					   	<option value="黑体">黑体</option>
+					   	<option value="楷体">楷体</option>
+					   	<option value="仿宋">仿宋</option>
+					</select>
+				  </div>
+				  <div class="form-group">
+				  		<label class="w_80" style="margin-left: 52px;">字体大小：&nbsp;</label>
+						<div class="btn-group" style="float: right;">
+						    <span class="btn btn-default size-MINI num-minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+						    <input type="text" name="" id="f-size" value="15" style="width: 20px;border-radius: 0px;"/>
+						    <span class="btn btn-default size-MINI num-plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+						</div>
+				  </div>
+				  <div class="form-group">
+						<div class="btn-group">
+						  <span class="btn btn-default size-MINI radius bold"><i class="fa fa-bold" aria-hidden="true"></i></span>
+						  <span class="btn btn-default size-MINI radius italic"><i class="fa fa-italic" aria-hidden="true"></i></span>
+						  <span class="btn btn-default size-MINI radius underline"><i class="fa fa-underline" aria-hidden="true"></i></span>
+						</div>
+				  </div>
+				  <div class="form-group">
+						<div class="btn-group">
+						  <span class="btn btn-default size-MINI radius align-left"><i class="fa fa-align-left" aria-hidden="true"></i></span>
+						  <span class="btn btn-default size-MINI radius align-center"><i class="fa fa-align-center" aria-hidden="true"></i></span>
+						  <span class="btn btn-default size-MINI radius align-right"><i class="fa fa-align-right" aria-hidden="true"></i></span>
+						</div>
+				  </div>
+				  <div class="form-group">
+				    	<a href="javascript:;"class="set" style="margin-left: 60px;">商品信息设置</a>
+				  </div>
+        	</div>
+        	<div class="model_left">
+        		<p class="illsu">将打印项拖拽至面单</p>
+        		<div class="print_con">
+        			<p>商品信息</p>
+        			<a href="javascript:;" class="set" style="float: right;margin-top: -28px;z-index: 99999;">配置</a>
+        			<p name="waybill_sender_name">寄件人</p>
+        			<p name="waybill_sender_postcode">寄件人_邮编</p>
+        			<p name="waybill_sender_province">寄件人_省</p>
+        			<p name="waybill_sender_city">寄件人_市</p>
+        			<p name="waybill_sender_district">寄件人_区</p>
+        			<p name="waybill_sender_town">寄件人_街道地址</p>
+        			<p name="waybill_sender_detail">寄件人_完整地址</p>
+        			<p name="waybill_sender_phone">寄件人_电话</p>
+        			<p name="waybill_sender_mobile">寄件人_手机</p>
+        			<p name="waybill_sender_tel">寄件人_手机/电话</p>
+        			<p name="waybill_sender_company">寄件人_公司</p>
+        			<!-- <p name="waybill_sender_num1">寄件人_自定义1</p>
+        			<p name="waybill_sender_num2">寄件人_自定义2</p>
+        			<p name="waybill_sender_num3">寄件人_自定义3</p> 
+        			<p name="waybill_sender_id">卖家_ID</p>-->
+        			<p name="waybill_sender_note">卖家备注</p>
+        			
+        			<p name="waybill_store_name">店铺名称</p>
+        			
+        			
+        			<p name="waybill_recipient_note">买家留言</p>
+        			<p name="waybill_recipient_name">收件人</p>
+        			<!-- <p name="waybill_recipient_id">收件人_ID</p> -->
+        			<p name="waybill_recipient_postcode">收件人_邮编</p>
+        			<p name="waybill_recipient_province">收件人_省</p>
+        			<p name="waybill_recipient_city">收件人_市</p>
+        			<p name="waybill_recipient_district">收件人_区</p>
+        			<p name="waybill_recipient_town">收件人_街道地址</p>
+        			<p name="waybill_recipient_detail">收件人_完整地址</p>
+        			<p name="waybill_recipient_phone">收件人_电话</p>
+        			<p name="waybill_recipient_mobile">收件人_手机</p>
+        			<p name="waybill_recipient_tel">收件人_手机/电话</p>
+        			
+        			
+        			<p name="waybill_goods_count">商品数量合计</p>
+        			<!-- <p name="waybill_goods_weight">商品重量合计</p>
+        			
+        			<p name="waybill_invoice_title">发票抬头</p> -->
+        	
+        			
+        			<p name="waybill_sender_station">始发站点</p>
+        			<p name="waybill_recipient_station">目的站点</p>
+        			<!-- <p name="waybill_sender_station_code">始发编号</p>
+        			<p name="waybill_sender_station_code128">始发编号128A</p>
+        			
+        			<p name="waybill_recipient_station_code">末端分拣号</p>
+        			<p name="waybill_recipient_station_code128">末端分拣号128A</p> -->
+        			
+        			<!-- <p name="waybill_routingInfo">大头笔</p>
+        			<p name="waybill_routingInfo_area">集包地</p>
+        			<p name="waybill_routingInfo_area_code">集包代码</p>
+        			<p name="waybill_routingInfo_area_code4">安能四段码</p>
+        			<p name="waybill_routingInfo_code">包裹编码</p>
+        			
+        			<p name="waybill_goods_images">二维码或图片</p>
+        			<p name="waybill_goods_img">图片</p>
+        			<p name="waybill_goods_money">金额合计</p>
+        			<p name="waybill_goods_money_w">金额大写</p>
+        			
+        			<p name="waybill_recipient_province_j">收件人简省</p>
+        			<p name="waybill_ordersn">订单编号</p> -->
+        			
+        			
+        			<p name="waybill_print_data">打印日期</p>
+        			<!--<p name="waybill_print_time">打印时间</p>
+        			<p name="waybill_pay_type">付款方式</p>
+        			<p name="waybill_pay_time">付款时间</p>
+        			<p name="waybill_ordersn']">月结账号</p>
+        			<p name="waybill_ordersn']">陆运</p>
+        			<p name="waybill_ordersn']">业务类型</p>
+        			<p name="waybill_ordersn']">自定义内容</p> 
+        			<p name="waybill_invoice_w">横线</p>
+        			<p name="waybill_invoice_h">竖线</p>-->
+        			<p><i class="fa fa-check" aria-hidden="true"></i></p>
+        		</div>
+        	</div>
+        	<div class="model_right">
+        		<div class="right_top"></div>
+        		<div class="noedit">请在下方编辑修改</div>
+        		<div class="right_edit"></div>
+        		<div class="text">可编辑区域</div>
+        	</div>
+        </div>
+        <div class="bot"><a id="submit" href="javascript:;" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+    </div>
+</div>
+<div id="goodinfo" style="display: none;">
+<p style="color: #999;text-align: center;">商品信息的内容主要由三项组成：商品标题，商品规格，数量</p>
+<form>
+   <div class="form-set" id="print_obj">
+  	<div class="col-xs-3 text-right">打印项：</div>
+    <div class="col-xs-9">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox">商品信息
+        </label>
+        <label>
+          <input type="checkbox">数量合计
+        </label>
+        <label>
+          <input type="checkbox">买家留言
+        </label>
+        <label>
+          <input type="checkbox">卖家备注
+        </label>
+        <label>
+          <input type="checkbox">买家旺旺
+        </label>
+        <label>
+          <input type="checkbox">订单编号
+        </label>
+        <label>
+          <input type="checkbox">总金额
+        </label>
+      </div>
+  	</div>
+  	<div class="clear"></div>
+  </div>
+  <div class="form-set" id="print_other">
+  	<div class="col-xs-3 text-right">其他选项：</div>
+    <div class="col-xs-9">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox">商品数量置前
+        </label>
+        <label>
+          <input type="checkbox">打印商品序号
+        </label>
+        <label>
+          <input type="checkbox">打印单价
+        </label>
+        <label>
+          <input type="checkbox">打印重量
+        </label>
+      </div>
+  	</div>
+  	<div class="clear"></div>
+  </div>
+  <div class="form-set" id="print_title">
+  	<div class="col-xs-3 text-right">商品标题打印方式：</div>
+    <div class="col-xs-9">
+      <div class="checkbox">
+        <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline" id="" value="优先编码">	优先打印商家编码
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline" id=""  value="简称"> 仅商品简称
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline" id="" value="编码"> 仅商家编码
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline" id=""  value="两个都打印"> 两者都打印
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline" id=""  value="不打印"> 不打印
+	    </label>
+      </div>
+  	</div>
+  	<div class="clear"></div>
+  </div>
+  <div class="form-set" id="print_if">
+  	<div class="col-xs-3 text-right">商品规格是否打印：</div>
+    <div class="col-xs-9">
+      <div class="checkbox">
+      	<label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline1" id="" value="打印">	打印
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline1" id="" value="未填写编码时打印"> 未填写商家编码时打印
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline1" id="" value="不打印"> 不打印
+	    </label>
+      </div>
+  	</div>
+  	<div class="clear"></div>
+  </div>
+  <div class="form-set" id="print_show">
+  	<div class="col-xs-3 text-right">商品数量显示方式：</div>
+    <div class="col-xs-9">
+      <div class="checkbox">
+        <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline2" id="" value="数字">	数字
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline2" id=""  value="-x件"> -X件
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline2" id="" value="件"> 加'件'
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline2" id=""  value="-"> 加-
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline2" id=""  value="*"> 加*
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline2" id=""  value="()"> 用()区分
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline2" id=""  value="[]"> 用[]区分
+	    </label>
+      </div>
+  	</div>
+  	<div class="clear"></div>
+  </div>
+  <div class="form-set" id="print_line">
+  	<div class="col-xs-3 text-right">每款商品是否换行：</div>
+    <div class="col-xs-9">
+      <div class="checkbox">
+        <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline21" id=""  value="自动"> 自动
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline21" id=""  value="换行"> 换行
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline21" id=""  value="不换行"> 不换行
+	    </label>
+      </div>
+  	</div>
+  	<div class="clear"></div>
+  </div>
+  <div class="form-set" id="print_separate">
+  	<div class="col-xs-3 text-right">每款商品分隔符：</div>
+    <div class="col-xs-9">
+      <div class="checkbox">
+        <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline23" id=""  value="空格"> 空格
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline23" id=""  value="+"> 加号+
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline23" id=""  value=";"> 分号；
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline23" id=""  value="/"> 斜杠/
+	    </label>
+	    <label class="radio-inline">
+	        <input type="radio" name="optionsRadiosinline23" id=""  value="|"> 竖线|
+	    </label>
+      </div>
+  	</div>
+  	<div class="clear"></div>
+  </div>
+</form>
+	<div class="look col-xs-offset-2">
+	    <input type="hidden" id="hidden_url" value="<{base_url('data/print/CNPrintSetup.exe')}>">
+		<div class="look-header">预览</div>
+		<div class="look-body"></div>
+  	</div>
+</div>
+<script type="text/javascript" src="<{TEMPLE}>js/cainiao.js"></script>
+<script>
+$(document).ready(function() {
+	doConnect();
+	setTimeout("getPrinters()",50);
+    $('#btn').on('click', function() {
+    	//getPrinters();//获取打印机列表
+    	//getPrinterConfig();
+    	//printerConfig();//获取打印机配置(弹出打印机配置界面)
+    	//setPrinterConfig();
+    	doPrint();
+    });
+  
+});
+	$(".print_con p").click(function(){
+		$(this).parent().find('p').removeClass('selected');
+		$(this).addClass('selected');
+	})
+	function preview(file){
+	 	if(file.files && file.files[0]){
+	 		var reader = new FileReader();
+	 		reader.onload = function(evt){
+	 			$(".model_right").css('background-image','url(' + evt.target.result + ')');
+			}
+	 		reader.readAsDataURL(file.files[0]);
+	 	}
+	}
+	
+$(function() {
+//  $( ".print_con" ).accordion();
+    $( ".print_con p" ).draggable({
+      appendTo: "body",
+      helper: "clone"
+    });
+    $( ".right_edit" ).droppable({
+      activeClass: "",
+      hoverClass: "",
+      accept: ".print_con p",
+      drop: function( event, ui ) {
+      	var posix = event.pageX-document.getElementsByClassName('model_right')[0].offsetLeft;
+      	var posiy = event.pageY-document.getElementsByClassName('model_right')[0].offsetTop;
+      	if(ui.draggable.text()=='自定义内容'){
+      		$( "<p></p>" ).html('<textarea placeholder="请输入" style="width: 100%;height:100%"></textarea><span class="remove_p fa fa-times"></span>').appendTo($(this)).css({'position':'absolute','top':posiy-10,'left':posix-30}).draggable({ containment: ".right_edit", scroll: false })
+			.resizable({
+	      		containment: ".right_edit"
+	    	}).mouseenter(function(){
+			//$(".ui-icon-gripsmall-diagonal-se").css('background','red');
+	    	}).click(function(){
+	    		$(this).parent().find('p').removeClass('active');
+	    		$(this).addClass('active');
+	    	});
+    		$("textarea").draggable({ containment: ".right_edit", scroll: false })
+    		
+      	}else if(ui.draggable.text()=='商品信息'){
+      		$( "<p style='width: 250px;height: 100px;'></p>" ).html(ui.draggable.html()+'<span class="remove_p fa fa-times"></span>').appendTo($(this)).css({'position':'absolute','top':posiy-10,'left':posix-30}).draggable({ containment: ".right_edit", scroll: false })
+			.resizable({
+	      		containment: ".right_edit"
+	    	}).mouseenter(function(){
+			//$(".ui-icon-gripsmall-diagonal-se").css('background','red');
+	    	}).click(function(){
+	    		$(this).parent().find('p').removeClass('active');
+	    		$(this).addClass('active');
+	    	});
+      	}else{
+      		$( "<p></p>" ).html(ui.draggable.html()+'<span class="remove_p fa fa-times"></span>').appendTo($(this)).css({'position':'absolute','top':posiy-10,'left':posix-30}).draggable({ containment: ".right_edit", scroll: false })
+			.resizable({
+	      		containment: ".right_edit"
+	    	}).mouseenter(function(){
+			//$(".ui-icon-gripsmall-diagonal-se").css('background','red');
+	    	}).click(function(){
+	    		$(this).parent().find('p').removeClass('active');
+	    		$(this).addClass('active');
+	    	});
+      	}
+		
+    	$(".remove_p").click(function(){
+    		$(this).parent().remove();
+    	})
+      }
+   })
+
+//字体大小设置
+$(".num-minus").click(function(){
+	$(this).next().val($(this).next().val()-1);
+	var v = $(this).next().val();
+	$(".model_right p.active").css('font-size',v+'px')
+})
+$(".num-plus").click(function(){
+	$(this).prev().val(parseInt($(this).prev().val())+1);
+	var v = $(this).prev().val();
+	$(".model_right p.active").css('font-size',v+'px')
+})
+$('.model_top').bind('input propertychange', function() {  
+    $(".model_right p.active").css('font-size',$('#f-size').val()+'px');
+}); 
+//加粗
+var i=0,u=0,b=0;
+$(".bold").click(function(){
+	if(b==0){
+		$(".model_right p.active").css('font-weight','bold');
+		b=1;
+	}else{
+		$(".model_right p.active").css('font-weight','100');
+		b=0;
+	}
+})
+//斜体
+$(".italic").click(function(){
+	if(i==0){
+		$(".model_right p.active").css('font-style','italic');
+		i=1;
+	}else{
+		$(".model_right p.active").css('font-style','normal');
+		i=0;
+	}
+})
+//下划线
+$(".underline").click(function(){
+	if(u==0){
+		$(".model_right p.active").css('text-decoration','underline');
+		u=1;
+	}else{
+		$(".model_right p.active").css('text-decoration','none');
+		u=0;
+	}
+})
+//左对齐
+$(".align-left").click(function(){
+	$(".model_right p.active").css('text-align','left');
+})
+//居中
+$(".align-center").click(function(){
+	$(".model_right p.active").css('text-align','center');
+})
+//右对齐
+$(".align-right").click(function(){
+	$(".model_right p.active").css('text-align','right');
+})
+
+//改变字体
+$(".font_size").change(function(){
+	$(".model_right p.active").css('font-family',$(this).val());
+})
+
+//弹出设置商品信息
+$('.set').click(function(){
+	layer.open({
+	  type: 1,
+	  skin: 'layui-layer-rim', //加上边框
+  	  area: ['766px', '524px'], //宽高
+	  shadeClose: true, //开启遮罩关闭
+	  btn:['保存','取消'],
+	  title: '商品信息打印设置', //不显示标题
+	  content: $('#goodinfo'), //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+	  cancel: function(){
+	    
+	  }
+	});
+})
+
+});
+
+//商品信息设置
+//打印项
+$("#print_obj label input").click(function(){
+	switch ($(this).parent().index())
+{
+case 0:
+	if($(this).prop('checked')){
+		$('.look-body').append('<p class="goodinfo"><span class="order">一 . </span><span class="infocontent"><span class="good_title"> kz213123 </span><span class="good_spec"> 黄色 M2 </span><span class="good_money"> 2.00 </span><span class="good_kg"> 2kg </span><span class="good_num"> 2件 </span></span></p>'
+		+'<span class="good_separate"></span>'+'<p class="goodinfo"><span class="order">二 . </span><span class="infocontent"><span class="good_title"> kz213123 </span><span class="good_spec"> 黄色 M2 </span><span class="good_money"> 2.00 </span><span class="good_kg"> 2kg </span><span class="good_num"> 2件 </span></span></p>');
+		if($('#print_other label:eq(0)').find('input').prop('checked')){
+			$('.good_num').remove();
+		$(".infocontent").prepend('<span class="good_num">2件</span>');
+		}else{
+			$('.good_num').remove();
+			$(".infocontent").append('<span class="good_num">2件</span>');
+		}
+		if($('#print_other label:eq(1)').find('input').prop('checked')){
+			$('.order').show();
+		}else{
+			$('.order').hide();
+		}
+		if($('#print_other label:eq(2)').find('input').prop('checked')){
+			$('.good_money').show();
+		}else{
+			$('.good_money').hide();
+		}
+		if($('#print_other label:eq(3)').find('input').prop('checked')){
+			$('.good_kg').show();
+		}else{
+			$('.good_kg').hide();
+		}
+	}else{
+		$(".goodinfo").remove();
+	}
+  break;
+case 1:
+  	if($(this).prop('checked')){
+		$('.look-body').append('<p class="num">【合计】共5件</p>');
+	}else{
+		$(".num").remove();
+	}
+  break;
+case 2:
+  	if($(this).prop('checked')){
+		$('.look-body').append('<p class="talk_cus">【买家留言】买家留言速速发货</p>');
+	}else{
+		$(".talk_cus").remove();
+	}
+  break;
+case 3:
+  	if($(this).prop('checked')){
+		$('.look-body').append('<p class="talk_store">【卖家备注】卖家备注恭喜发财</p>');
+	}else{
+		$(".talk_store").remove();
+	}
+  break;
+case 4:
+  	if($(this).prop('checked')){
+		$('.look-body').append('<p class="dog">【买家旺旺】出水芙蓉</p>');
+	}else{
+		$(".dog").remove();
+	}
+  break;
+case 5:
+  	if($(this).prop('checked')){
+		$('.look-body').append('<p class="tel">【订单编号】124588777441</p>');
+	}else{
+		$(".tel").remove();
+	}
+  break;
+case 6:
+  	if($(this).prop('checked')){
+		$('.look-body').append('<p class="money">【总金额】共8.00元</p>');
+	}else{
+		$(".money").remove();
+	}
+  break;
+}
+	if(check_length($('#print_obj label input'))>=6&&$('#print_line label:eq(0)').find('input').prop('checked')){
+		$(".look-body p").css('display','inline-block');
+		$(".good_separate").show();
+	}else{
+		$(".look-body p").css('display','block');
+		$(".good_separate").hide();
+	}
+})
+
+//其他选项
+$("#print_other label input").click(function(){
+	switch ($(this).parent().index())
+	{
+	case 0:
+		if($(this).prop('checked')){
+			$('.good_num').remove();
+			$(".infocontent").prepend('<span class="good_num">2件</span>');
+		}else{
+			$('.good_num').remove();
+			$(".infocontent").append('<span class="good_num">2件</span>');
+		}
+	  break;
+	case 1:
+	  	if($(this).prop('checked')){
+			$('.order').show();
+		}else{
+			$('.order').hide();
+		}
+	  break;
+	case 2:
+	  	if($(this).prop('checked')){
+			$('.good_money').show();
+		}else{
+			$('.good_money').hide();
+		}
+	  break;
+	case 3:
+	  	if($(this).prop('checked')){
+			$('.good_kg').show();
+		}else{
+			$('.good_kg').hide();
+		}
+	  break;
+	}
+})
+
+//商品标题打印方式
+$("#print_title label input").change(function(){
+	switch ($(this).val())
+	{
+	case '优先编码':
+		$('.good_title').text(' kz213123 ');
+		if($("#print_if label:eq(1)").find('input').prop('checked')){
+			$('.good_spec').hide();
+		}
+	  break;
+	case '简称':
+	  	$('.good_title').text(' 裤子 ');
+	  	if($("#print_if label:eq(1)").find('input').prop('checked')){
+			$('.good_spec').show();
+		}
+	  break;
+	case '编码':
+	  	$('.good_title').text(' kz213123 ');
+	  	if($("#print_if label:eq(1)").find('input').prop('checked')){
+			$('.good_spec').hide();
+		}
+	  break;
+	case '两个都打印':
+	  	$('.good_title').text(' kz213123 裤子 ');
+	  	if($("#print_if label:eq(1)").find('input').prop('checked')){
+			$('.good_spec').hide();
+		}
+	  break;
+	case '不打印':
+	  	$('.good_title').text('');
+	  	if($("#print_if label:eq(1)").find('input').prop('checked')){
+			$('.good_spec').show();
+		}
+	  break;
+	}
+})
+
+//商品规格是否打印
+$("#print_if label input").change(function(){
+	switch ($(this).val())
+	{
+	case '打印':
+		$('.good_spec').show();
+	  break;
+	case '未填写编码时打印':
+		if($(".good_title").text().indexOf('kz213123')>0){
+			$('.good_spec').hide();
+		}else{
+			$('.good_spec').show();
+		}
+	  	
+	  break;
+	case '不打印':
+	  	$('.good_spec').hide();
+	  break;
+	}
+})
+
+//商品数量显示方式
+$("#print_show label input").change(function(){
+	switch ($(this).val())
+	{
+	case '数字':
+		$('.good_num').text('2');
+	  break;
+	case '-x件':
+		$('.good_num').text('-2件');
+	  break;
+	case '件':
+	  	$('.good_num').text('2件');
+	  break;
+	case '-':
+		$('.good_num').text('-2');
+	  break;
+	case '*':
+		$('.good_num').text('*2');
+	  break;
+	case '()':
+	  	$('.good_num').text('(2)');
+	  break;
+	case '[]':
+	  	$('.good_num').text('[2]');
+	  break;
+	}
+})
+
+//每款商品是否换行
+$("#print_line label input").change(function(){
+	switch ($(this).val())
+	{
+	case '自动':
+		if(check_length($('#print_obj label input'))>=6){
+			$(".look-body p").css('display','inline-block');
+			$(".good_separate").show();
+		}else{
+			$(".look-body p").css('display','block');
+			$(".good_separate").hide();
+		}
+		$("#print_separate").css('opacity','1');
+	  break;
+	case '换行':
+		$(".look-body p").css('display','block');
+	  	$(".good_separate").hide();
+	  	$("#print_separate").css('opacity','0');
+	  break;
+	case '不换行':
+		$(".look-body p").css('display','inline-block');
+		$(".good_separate").show();
+		$("#print_separate").css('opacity','1');
+	  break;
+	}
+})
+
+//每款商品分隔符
+$("#print_separate label input").change(function(){
+	switch ($(this).val())
+	{
+	case '空格':
+		$(".good_separate").text('　');
+	  break;
+	case '+':
+		$(".good_separate").text(' + ');
+	  break;
+	case ';':
+	  	$(".good_separate").text(' ; ');
+	  break;
+	  case '/':
+		$(".good_separate").text(' / ');
+	  break;
+	case '|':
+	  	$(".good_separate").text(' | ');
+	  break;
+	}
+})
+
+//封装查看被选中的checkbox的个数
+function check_length(obj){
+	var n=0;
+	obj.each(function(){
+		if($(this).prop('checked')){
+			n++;
+		}
+	})
+	return n;
+}
+
+
+//上传显示
+$("#waybill_image").change(function () {
+    $("#textfield").val($(this).val());
+});
+$("#submit").click(function(){
+	var flag = true;
+     if($("#waybill_name").val()==''){
+    	 layer.msg("请填写模板名称");
+    	 flag = false;
+    	 return false;
+     }
+     if($("#labelprinte").val()==''){
+    	 layer.msg("请选择打印机");
+    	 flag = false;
+    	 return false;
+     }
+     if($("#waybill_express").val()==''){
+    	 layer.msg("请选择物流公司");
+    	 flag = false;
+    	 return false;
+     }
+     if($("#img_width").val()==''){
+    	 layer.msg("面单宽度不能为空");
+    	 flag = false;
+    	 return false;
+     }else{
+    	if(isNumbers($("#img_width").val())==false){
+    		layer.msg("面单宽度只能是数字");
+       	 	flag = false;
+       	 	return false;
+    	}
+     }
+     
+     if($("#img_height").val()==''){
+    	 layer.msg("面单高度不能为空");
+    	 flag = false;
+    	 return false;
+     }else{
+    	if(isNumbers($("#img_height").val())==false){
+    		layer.msg("面单高度只能是数字");
+       	 	flag = false;
+       	 	return false;
+    	}
+     }
+     
+     if($("#waybill_top").val()==''){
+    	 layer.msg("上移距离不能为空");
+    	 flag = false;
+    	 return false;
+     }else{
+    	if(isNumbers($("#waybill_top").val())==false){
+    		layer.msg("上移距离只能是数字");
+       	 	flag = false;
+       	 	return false;
+    	}
+     }
+     
+     if($("#waybill_left").val()==''){
+    	 layer.msg("左移距离不能为空");
+    	 flag = false;
+    	 return false;
+     }else{
+    	if(isNumbers($("#waybill_left").val())==false){
+    		layer.msg("左移距离只能是数字");
+       	 	flag = false;
+       	 	return false;
+    	}
+     }
+     if(flag){
+    	 $("#add_form").submit();
+     }
+});
+function isNumbers(value) {  //验证是否为数字
+    var patrn = /^(\-|\+)?\d+(\.\d+)?$/;
+    if (patrn.exec(value) == null || value == "") {
+        return false
+    } else {
+        return true
+    }
+}
+
+function fg_delete(id, name) {
+    if (typeof id == 'number') {
+        var id = new Array(id.toString());
+    };
+    if(typeof name == 'undefined'){
+        var str = '删除后将不能恢复，确认删除 这' + id.length + ' 项吗？';
+    }else{
+        var str = '删除后将不能恢复，确认删除 ' + name + ' 吗？';
+    }
+    layer.confirm(str, {
+        btn: ['确定','取消'] //按钮
+    }, function(){
+        layer.msg('删除中', {icon: 1});
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "mall_waybill_del",
+            data: "id="+id,
+            success: function(data){
+                if(data.state==403){
+                    login_ajax('shopadmin');return false;
+                }
+                layer.msg(data);
+                $("#flexigrid").flexReload();
+            }
+        });
+    }, function(){
+        return ;
+    });
+}  	
+</script>
+<div id="goTop"><a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

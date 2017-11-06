@@ -1,0 +1,233 @@
+<html lang="zh-cn">
+
+<head>
+    <title>个人中心</title>
+    <{include file="lib/Hlink-c.html" }>
+    <link href="<{TEMPLE}>css/style.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+    body{
+        background: #fb3e32;
+        overflow-x:visible;
+    }
+    .sign{
+        width:100%;
+        overflow: hidden;
+        height:5rem;
+        background: url("<{TEMPLE}>images/sign_bg.png") no-repeat;
+        background-size: 100% auto;
+        overflow-x:visible;
+    }
+    .sign_people{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+        padding:.15rem;
+    }
+    .people_img{
+        width:.44rem;
+        height:.44rem;
+    }
+    .people_img img{
+        width:100%;
+        height: 100%;
+        border-radius: 50%;
+    }
+    .info_num{
+        font-size: .19rem;
+        margin-left:.03rem;
+        font-weight: 400;
+    }
+    .info_name{
+        font-weight: 400;
+        font-size: .14rem;
+    }
+    .people_info{
+        width:1.7rem;
+        font-weight: 300;
+        font-size: .12rem;
+    }
+    .rule{
+        font-size: .13rem;
+    }
+    .sign_time{
+        background: url("<{TEMPLE}>images/sign_time.png") no-repeat;
+        width:1.7rem;
+        height:1.6rem;
+        background-size: 100% 100%;
+        margin: .25rem auto 0 auto;
+
+    }
+    .sign_title{
+        padding-top:.24rem;
+        text-align: center;
+        font-weight: 500;
+    }
+    .day{
+        margin-top:.22rem;
+        text-align: center;
+        color: #fff;
+    }
+    .day span{
+        font-size: .55rem;
+    }
+    .sign_ills{
+        color: #fff;
+        margin-top:.17rem;
+        text-align: center;
+        letter-spacing: 1px;
+        font-size: .15rem;
+    }
+    .other{
+        color: #fff;
+        top: 3.2rem !important;
+        width:422%;
+        background: #fff;
+    }
+    .other li{
+        background: url("<{TEMPLE}>images/sign_show.png") no-repeat;
+        background-size: 100% 100%;
+        width:.45rem;
+        height:.8rem;
+        float: left;
+        color: #999;
+        text-align: center;
+        line-height: 1.2rem;
+    }
+    .other li.active{
+        background: url("<{TEMPLE}>images/sign_active.png") no-repeat!important;
+        background-size: 100% 100%!important;
+    }
+    .other li.today_active{
+        background: url("<{TEMPLE}>images/sign_today.png") no-repeat!important;
+        background-size: 100% 100%!important;
+    }
+    .sign_btn{
+        width:60%;
+        margin:1.3rem auto;
+    }
+    .sign_btn.active{
+        border:1px solid #555;
+        color: #555;
+        font-weight: 200;
+        line-height:.4rem;
+        height:.4rem;
+        text-align: center;
+        border-radius: 50px;
+    }
+    .weui-mask{
+        position: fixed;
+        top:0;
+        left:0;
+        right: 0;
+        bottom: 0;
+        background: #000;
+        opacity: 0.5;
+        display: none;
+    }
+    .sign_success{
+        border-radius: .12rem;
+        width:2.6rem;
+        position: fixed;
+        left:.3rem;
+        top:1rem;
+        background: #fff;
+        text-align: center;
+        z-index: 9999999;
+        display: none;
+    }
+    .suc_img img{
+        width:100%;
+        height: auto;
+    }
+    .suc_title{
+        font-size: .2rem;
+        margin-top:.1rem;
+    }
+    .suc_ill{
+        font-size: .13rem;
+        margin-top: .05rem;
+    }
+    .sucbtn{
+        width:.9rem;
+        height:.3rem;
+        border-radius: 20px;
+        background: #fc3d33;
+        color: #fff;
+        line-height: .3rem;
+        margin:.1rem auto .15rem auto;
+    }
+</style>
+<body>
+<div class="sign">
+    <div class="sign_people">
+        <div class="people_img"><img src="<{TEMPLE}>images/2.jpg" alt=""></div>
+        <div class="people_info">
+            <p class="info_name">小小神</p>
+            当前积分<span class="info_num">999</span>
+        </div>
+        <div class="rule"><span class="iconfont"></span>签到规则</div>
+    </div>
+    <div class="sign_time">
+        <p class="sign_title">已连续签到</p>
+        <p class="day"><span>4</span>天</p>
+    </div>
+    <p class="sign_ills">再签到2天可获得5积分和30元优惠券</p>
+    <div id="wrapper">
+        <ul class="other">
+            <li></li><li></li><li></li><li></li><li></li><li></li>
+            <li></li><li></li><li></li><li></li><li></li><li></li>
+            <li></li><li></li><li></li><li></li><li></li><li></li>
+            <li></li><li></li><li></li><li></li><li></li><li></li>
+            <li></li><li></li><li></li><li></li><li></li><li></li>
+        </ul>
+    </div>
+    <div class="sign_btn"><img src="<{TEMPLE}>images/sign_btn.png" alt=""></div>
+</div>
+<div class="weui-mask"></div>
+<div class="sign_success">
+    <div class="suc_img"><img src="<{TEMPLE}>images/sign_success.png" alt=""></div>
+    <div>
+        <p class="suc_title">签到成功</p>
+        <p class="suc_ill">再签到6天可获得50积分</p>
+        <p class="sucbtn">知道了</p>
+    </div>
+</div>
+
+</body>
+<script src="<{TEMPLE}>js/jquery-2.1.1.js"></script>
+<script src="<{TEMPLE}>js/iscroll.js"></script>
+<script>
+//    滑动初始化
+    var Scroll = new iScroll('wrapper',{hScrollbar:false, vScrollbar:false,vScroll: false});
+    $(".other li:eq(15)").css({'background':'url(<{TEMPLE}>images/sign_today.jpg) no-repeat','background-size':'100% 100%'});
+    $('.sign_btn').one('click',function(){
+        $(this).addClass('active');
+        $(this).html('今日已签到');
+        $(".other li:eq(15)").addClass('today_active');
+        $(".weui-mask").fadeIn();
+        $(".sign_success").fadeIn();
+    })
+//    阻止外面滑动
+    document.addEventListener("touchmove",function(e){
+        e.preventDefault();
+        e.stopPropagation();
+    },false);
+
+//    签到日期设置
+    var n=-15;
+    $(".other li").each(function(){
+        var dt = new Date();
+        dt.setDate(dt.getDate()+n);
+        $(this).html(dt.getDate());
+        n++;
+    })
+
+    $('.other').css('left','-168%');
+    $(".sucbtn").click(function(){
+        $(".weui-mask").fadeOut();
+        $(".sign_success").fadeOut();
+    })
+</script>
+</html>

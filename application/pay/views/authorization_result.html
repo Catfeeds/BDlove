@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<!--<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">-->
+		<!-- <meta http-equiv="Cache-Control" content="no-siteapp"> -->
+		<!--<meta name="viewport" content="width=device-width, target-densitydpi=high-dpi" />-->
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=0.24, user-scalable=no"/>
+
+		<script>
+			if (window.parent != window)
+        	{
+        		window.top.location.href = window.location.href;
+        	}
+		</script>
+		<!--<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">-->
+		<title>店铺授权</title>
+		<style>
+			body>div{
+				min-width: 1200px;
+				width: auto;
+				margin: auto;
+				z-index: 99999;
+			}
+		 .msg{
+		        font: 100 36px/48px arial,"microsoft yahei";
+		        color: #555;
+		        background-color: #FFF;
+		        text-align: center;
+		        width: 100%;
+		        margin-bottom: 10px;
+		        padding: 150px 0;
+		    }
+		    .msg i {
+		        font-size: 48px;
+		        vertical-align: middle;
+		        margin-right: 10px;
+		    }
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="w_1200">
+			<div class="login_main " >
+				<div class="msg">
+				    <{if $data.state}><i class="icon-ok-sign" style=" color: #099;"></i>
+				    <{else}>
+				    <i class="fa fa-close" style=" color: #099;"></i>
+				    <{/if}>
+				  <{$data.msg}>
+				</div>
+			</div>
+		</div>
+
+		<script>
+		setTimeout(function(){
+				window.opener=null;  
+				window.open('','_self');  
+				window.close();  
+		},3000);
+		</script>
+		
+	</body>
+</html>

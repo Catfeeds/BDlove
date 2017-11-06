@@ -1,0 +1,713 @@
+<{include file="pageheader.html"}>
+<link href="<{TEMPLE}>css/admin_other.css" rel="stylesheet" type="text/css"/>
+<style>
+	.more{
+		position: relative;
+	}
+	.more a{
+		color: #27A9E3;
+	}
+	.moreinfo{
+		position: absolute;
+		top: 30px;
+		left: 0;
+		display: none;
+	}
+	.info {
+   position  :relative;
+   width   :250px;
+   padding: 10px;
+   background :#fff;
+   border  :1px solid #ddd;
+   border-radius :4px;
+  }
+  .nav {
+   position   :absolute;
+   top    :-8px;
+   left    :120px;
+   overflow   :hidden;
+   width    :13px;
+   height   :13px;
+   background  :#fff;
+   border-left  :1px solid #ddd;
+  border-top  :1px solid #ddd;
+  -webkit-transform :rotate(45deg);
+  -moz-transform :rotate(45deg);
+  -o-transform  :rotate(45deg);
+   transform   :rotate(45deg);
+  }
+  .ncap-order-style {
+	width:100%;
+	}
+	.ncap-order-details {
+    border: none;
+}
+.cl-red{
+	color: red;
+}
+.total-amount{
+	border-bottom: 1px solid #e6e6e6;
+}
+.propmt{
+	border-bottom: 1px solid #e6e6e6;
+	padding: 20px 0;
+}
+.ncap-order-flow{
+	margin-bottom: 30px;
+}
+.show{
+	border: 1px solid #ffe5b1;
+	background: #fff3db;
+	padding: 10px;
+	border-radius: 4px;
+}
+.style{
+	color: #999;
+}
+.num{
+	color: #c53929;
+}
+.flexigrid .mDiv .ftitle h3 {
+    margin-bottom: 20px;
+}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+	<nav class="breadcrumb">
+	    <i class="Hui-iconfont">&#xe67f;</i> 订单管理 <span class="c-gray en p-lr">&gt;</span>售后管理<span class="c-gray en p-lr">&gt;</span>售后管理—详情
+	    &nbsp;<a href="javascript:;" id="goback"><i class="iconfont" style="font-size: 13px;">&#xe670;</i>返回</a>
+	    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+	    <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+<div class="page" style="padding-top: 20px;">
+    <div class="fixed-bar">
+    </div>
+    <div class="ncap-order-style">
+        <div class="ncap-order-flow">
+
+            <ol class="num5">
+               <li class="current">
+                    <h5>发起售后</h5>
+                    <i class="fa fa-arrow-circle-right mt-10"></i>
+                    <time><{$return.apply_time}></time>
+                </li>
+               <li class="<{if isset($return.doing_time)}>current<{/if}>">
+                    <h5>处理售后</h5>
+                    <i class="fa fa-arrow-circle-right mt-10"></i>
+                    <time><{$return.doing_time}></time>
+                </li>
+                <li class="<{if isset($return.end_time)}>current<{/if}>">
+                    <h5>完成售后</h5>
+                    <time><{$return.end_time}></time>
+                </li>
+            </ol>
+        </div>
+
+        <div class="ncap-order-details">
+            <div class="tabs-panels">
+               <div class="misc-info">
+                    <h4>售后详情</h4>
+                    <dl>
+                        <dt>售后类型：</dt>
+                        <dd class="cl-red"><span class="cl-red"><{if $return.refund_type==1}>退款<{else}>退款并退货<{/if}></span></dd>
+                    </dl>
+                    <dl>
+                        <dt>退款金额：</dt>
+                        <dd class="cl-red"><span class="cl-red">￥<{$return.refund_amount}></span></dd>
+                    </dl>
+                </div>
+                
+                
+                <div class="addr-note">
+                    <h4>订单信息</h4>
+                    <dl>
+                        <dt>买家：</dt>
+                        <dd><{$order.receive_name}></dd>
+                        <dt>联系方式：</dt>
+                        <dd><{$order.receive_mobile}></dd>
+                        <dt>归属店铺：</dt>
+                        <dd><{$order.store_name}></dd>
+                        <dt>导购归属：</dt>
+                        <dd><{$order.spg_name}></dd>
+                    </dl>
+                    <dl>
+                        <dt>收货地址：</dt>
+                        <dd style="min-width: 500px;"><{$order.province}><{$order.city}><{$order.area}><{$order.receive_address}></dd>
+                        <dt>买家留言：</dt>
+                        <dd><{$order.buyer_memo}></dd>
+                    </dl>
+                    <dl>
+                        <dt>收银单号：</dt>
+                        <dd class="more"><{$order.pay_sn}></a>
+                        	<div class="moreinfo">
+                        		<div class="info">
+                        			<div class="nav"></div>
+                        		</div>
+                        	</div>
+                        </dd>
+                        <dt>订单来源：</dt>
+                        <dd><{$order.order_from}></dd>
+                        <dt>下单时间：</dt>
+                        <dd><{$order.created_time}></dd>
+                        <dt>发货时间：</dt>
+                        <dd><{$order.delivery_date}></dd>
+                    </dl>
+                    <dl>
+                        <dt>订单号：</dt>
+                        <dd><{$order.order_sn}></dd>
+                        <dt>运送方式：</dt>
+                        <dd><{$order.shipping}></dd>
+                        <dt>支付时间：</dt>
+                        <dd><{$order.pay_time}></dd>
+                        <dt>物流单号：</dt>
+                        <dd><{$order.waybill_sn}></dd>
+                    </dl>
+                </div>
+
+
+                <div class="goods-info">
+                    <h4>商品信息</h4>
+                     <table>
+                        <thead>
+                        <tr>
+                            <th colspan="2">商品</th>
+                            <th>单价</th>
+                            <th>实际支付单价</th>
+                            <th>数量</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <{foreach from=$return.goods_info item=goods}>
+                        <tr>
+                            <td class="w30"><div class="goods-thumb"><a href="<{base_url()}>index.php/goods/goods_details/<{$goods.goods_id}>.html" target="_blank"><img alt="" src="<{$goods.goods_image}>"> </a></div></td>
+                            <td style="text-align: left;"><a href="<{base_url()}>index.php/goods/goods_details/<{$goods.goods_id}>.html" target="_blank"><{$goods.goods_name}></a><span class="rec"><a target="_blank" href="">[交易快照]</a></span><br></td>
+                            <td class="w80">￥<{$goods.goods_price}></td>
+                            <td class="w80">￥<{$goods.goods_pay_price}></td>
+                            <td class="w60"><{$goods.goods_num}></td>
+                        </tr>
+                        <{/foreach}>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="total-amount">
+                    <h3>订单总额：<strong class="red_common">￥<{$order.order_price}></strong></h3>
+                    <{if $order.shipping_type==1}><h4>(运费：￥<{$order.carriage}>)</h4><{/if}>
+                    <h3>返点比例：<strong class="red_common"><{sprintf("%.2f",$order.rebate)}></strong>返点金额：<strong class="red_common">￥<{sprintf("%.2f",$order.rebate_amount*$order.rebate)}></strong></h3>
+                    
+                </div>
+                <div class="propmt" id="propmt">
+
+                </div>
+                <div class="talkhistory">
+                    <div id="flexigrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+<script type="text/javascript">
+    $(function(){
+        $("#flexigrid").flexigrid({
+            url: 'refund_notes?id=<{$return.refund_id}>',
+            dataType: 'xml',
+            colModel : [
+                {display: '操作人', name : 'operation_name', width : 100, sortable : false, align: 'center'},
+                {display: '行为', name : 'user_id', width : 200, sortable : false, align: 'center'},
+                {display: '时间', name : 'name', width : 125, sortable : false, align: 'center'},
+                {display: '内容', name : 'username', width : 600, sortable : false, align: 'center'},
+            ],
+            rp: 10,
+            title: '沟通日志列表'
+        });
+    });
+</script> 
+
+
+<script type="text/javascript">
+	var i=1;
+	$(".more a").click(function(){
+		$(".moreinfo").toggle();
+//		阻止冒泡
+		return false;
+	})
+	$("body").click(function(){
+		$(".moreinfo").hide();
+	})
+	$("img").error(function(){ 
+          $(this).attr("src", "<{PLUGIN}>data/images/<{$defaultImg}>"); 
+          $(this).attr("data-geo", "<img src='<{PLUGIN}>data/images/<{$defaultImg}>' width=120px>"); 
+    });
+
+	$(function () {
+        var refund_type="<{$return.refund_type}>";
+        var seller_state="<{$return.seller_state}>";
+        var refund_state="<{$return.refund_state}>";
+        var refund_address="<{$return.refund_address}>";
+        var invoice_no="<{$return.invoice_no}>";
+        var express_name="<{$return.express_name}>";
+        var html='';
+        if(refund_type==1){
+            if(refund_state==4){
+                html='<p class="f-16">买家取消退款申请</p>'+
+                    '<p>退款金额：<span class="cl-red">￥<{$return.refund_amount}></span></p>'+
+                    '<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+            }else if(refund_state==3) {
+                if(seller_state==3){
+                    html='<p class="f-16">买家退款申请被拒绝</p>'+
+                        '<p>退款金额：<span class="cl-red">￥<{$return.refund_amount}></span></p>'+
+                        '<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+                }else {
+                    html='<p class="f-16">买家完成退款</p>'+
+                        '<p>退款金额：<span class="cl-red">￥<{$return.refund_amount}></span></p>'+
+                        '<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+                }
+
+            }else {
+                html='<p class="f-16">买家申请退款</p>'+
+                    '<p>退款金额：<span class="cl-red">￥<{$return.refund_amount}></span></p>'+
+                    '<button class="btn btn-danger radius" id="money_agree">同意退款</button>'+
+                    '\n<button class="btn btn-primary radius" id="money_refuse">不同意退款</button>'+
+                    '\n<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+            }
+
+        }else {
+            if(refund_state==4){
+                html='<p class="f-16">买家取消退款并退货申请</p>'+
+                    '<p>退款金额：<span class="cl-red">￥<{$return.refund_amount}></span></p>'+
+                    '<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+            }else if(refund_state==3){
+                if(seller_state==3){
+                    html='<p class="f-16">买家退款并退货申请被拒绝</p>'+
+                        '<p>退款金额：<span class="cl-red">￥<{$return.refund_amount}></span></p>'+
+                        '<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+                }else {
+                    html='<p class="f-16">买家完成退款并退货</p>'+
+                        '<p>退款金额：<span class="cl-red">￥<{$return.refund_amount}></span></p>'+
+                        '<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+                }
+            }else {
+                if(seller_state==1){
+                    html='<p class="f-16">买家申请退款并退货</p>'+
+                        '<p>若同意退货,点击"同意退货"并填写退货地址</p>'+
+                        '<button class="btn btn-danger radius" id="goods_agree">同意退货</button>'+
+                        '\n<button class="btn btn-primary radius" id="goods_refuse">不同意退货</button>'+
+                        '\n<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+                }else if(seller_state==2){
+                    if(invoice_no==''){
+                        html='<p class="f-16">等待买家退货</p>'+
+                            '<p>退货地址:'+refund_address+'</p>'+
+                            '<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+                    }else {
+                        html='<p class="f-16">买家已退货，请确认收货</p>'+
+                            '<p>买家已退货，快递公司：'+express_name+'，快递单号：'+invoice_no+'</p>'+
+                            '<p>若已收到货请确认收货并退款，若未收货请点击"未收到货驳回"，驳回后，买家将重新填写退货单号</p>'+
+                            '<button class="btn btn-danger radius" id="agree">已收到货同意退款</button>'+
+                            '\n<button class="btn btn-primary radius" id="refuse">未收到货驳回</button>'+
+                            '\n<button class="btn btn-secondary radius" id="notes">内部备注</button>';
+                    }
+
+                }else {
+
+                }
+            }
+        }
+        $("#propmt").html(html);
+    });
+
+    var notes='<form action="" method="post" class="form form-horizontal" id="demoform-1">'+
+        '<div class="row cl">'+
+        '<label class="form-label col-xs-4 col-sm-3"><span class="cl-red">*</span>内部备注：</label>' +
+        '<div class="formControls col-xs-8 col-sm-9">' +
+        '<textarea type="text" class="input-text mr-10" id="note"  name="note" autocomplete="off" placeholder="" style="width: 300px;height: 100px"></textarea>' +
+        '</div>' +
+        '</div>' +
+        '</form>'+
+        '<div class="layui-layer-btn row cl">' +
+        '<a class="layui-layer-btn0 btn btn-primary radius col-xs-offset-5 col-sm-offset-4" id="note_sure">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>'+
+        '<a class="layui-layer-btn1 btn btn-default radius ml-10" id="quxiao">&nbsp;&nbsp;取消&nbsp;&nbsp;</a>'+
+        '</div>';
+
+    var reason='<form action="" method="post" class="form form-horizontal" id="demoform-1">'+
+        '<div class="row cl">'+
+        '<label class="form-label col-xs-4 col-sm-3"><span class="cl-red">*</span>不同意理由：</label>' +
+        '<div class="formControls col-xs-8 col-sm-9">' +
+        '<textarea type="text" class="input-text mr-10" id="reason"  name="reason" autocomplete="off" placeholder="" style="width: 200px;height: 80px"></textarea>' +
+        '</div>' +
+        '</div>' +
+        '</form>'+
+        '<div class="layui-layer-btn row cl">' +
+        '<a class="layui-layer-btn0 btn btn-primary radius col-xs-offset-5 col-sm-offset-4" id="note_sure">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>'+
+        '<a class="layui-layer-btn1 btn btn-default radius ml-10" id="quxiao">&nbsp;&nbsp;取消&nbsp;&nbsp;</a>'+
+        '</div>';
+
+    var address='<form action="" method="post" class="form form-horizontal" id="demoform-1">'+
+        '<div class="row cl">'+
+        '<label class="form-label col-xs-4 col-sm-3"><span class="cl-red">*</span>退货地址：</label>' +
+        '<div class="formControls col-xs-8 col-sm-9">' +
+        '<input type="text" class="input-text mr-10" id="address"  name="address" autocomplete="off" placeholder="请填入详细的地址" style="width: 200px;height: 40px">' +
+        '</div>' +
+        '</div>' +
+        '</form>'+
+        '<div class="row cl mt-40">' +
+        '<a class="layui-layer-btn0 btn btn-primary radius col-xs-offset-5 col-sm-offset-4" id="address_sure">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>'+
+        '<a class="layui-layer-btn1 btn btn-default radius ml-10" id="quxiao">&nbsp;&nbsp;取消&nbsp;&nbsp;</a>'+
+        '</div>';
+
+    /*备注弹出框*/
+    $("body").on('click','#notes',function () {
+        layer.open({
+            type: 1,
+            title:'内部备注',
+            btn: ['确认', '取消'],
+            skin: 'layui-layer-rim', //加上边框
+            area: ['520px', 'auto'], //宽高
+            content: '<form action="" method="post" class="form form-horizontal" id="demoform-1">'+
+				        '<div class="row cl">'+
+				        '<label class="form-label col-xs-4 col-sm-3"><span class="cl-red">*</span>内部备注：</label>' +
+				        '<div class="formControls col-xs-8 col-sm-9">' +
+				        '<textarea type="text" class="input-text mr-10" id="note"  name="note" autocomplete="off" placeholder="" style="width: 300px;height: 100px"></textarea>' +
+				        '</div>' +
+				        '</div>' +
+				        '</form>'+
+				        '<div class="layui-layer-btn row cl">' +
+				        '</div>',
+		   yes:function(index){
+		        if($("#note").val()==''){
+		            layer.msg('备注内容不能为空！');
+		            return false;
+		        }
+		        $.ajax({
+		            url:'add_refund_note?id=<{$return.refund_id}>',
+		            type:'post',
+		            data:{note:$("#note").val()},
+		            dataType:'json',
+		            success:function(data) {
+		                if (data.state) {
+		                    window.location.href='refund_details?id=<{$return.refund_id}>';
+		                } else {
+		                    layer.msg(data.msg);
+		                }
+		            }
+		        })
+			   
+		   },no:function(index){
+			   layer.close(index);
+		   }
+        });
+    });
+    
+    
+    
+
+    /*添加备注提交*/
+    $("body").on('click','#note_sure',function () {
+        var note=$("#note").val();
+        if(note==''){
+            layer.msg('备注内容不能为空！');
+            return false;
+        }
+        $.ajax({
+            url:'add_refund_note?id=<{$return.refund_id}>',
+            type:'post',
+            data:{note:note},
+            dataType:'json',
+            success:function(data) {
+                if (data.state) {
+                    window.location.href='refund_details?id=<{$return.refund_id}>';
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+        })
+    });
+    /*同意退货*/
+    $("body").on('click','#goods_agree',function () {
+    	var refund_amount = "<{$return.refund_amount}>";
+        layer.open({
+            type: 1,
+            title:'处理售后',
+            btn: ['确认', '取消'],
+            skin: 'layui-layer-rim', //加上边框
+            area: ['650px', '450px'], //宽高
+            content: '<form action="" method="post" class="form form-horizontal" id="demoform-1">'+
+            '<div style="margin:25px 60px">'+
+    		'<p class="show">您正在同意退款申请，由于买家选择退款并退货，同意退款后需要等买家根据退货地址寄回商品，寄回您确认后才会最终退款。</p>'+
+    		'<p>处理方式：<span class="style">退款并退货</span></p>'+
+    		'<p>退款金额：<span class="num">￥'+refund_amount+'</span></p>'+
+    		'<p>退款数量：<input id="span_nums" type="text" style="width: 80px;" /></p>'+
+    		'<p style="width:70px;float:left">退货地址：</p><textarea id="address"  name="address" rows="" cols="" style="width:350px;height:100px"></textarea>'+
+    		'<div style="clear:both;margin-bottom:20px"></div>'+
+    		'</div></form>',
+    		yes:function(index){
+    	        if($("#span_nums").val()==''){
+    	        	if(document.getElementById("span_num_errors")){
+    	        		$("#span_num_errors").html("退款数量不能为空!!!");
+    	        	}else{
+    	        		$("#address").after('<p>提示信息：<span id ="span_num_errors" class="num">退款数量不能为空!!!</span></p>');
+    	        	}
+    	            return false;
+    	        }else{
+    	        	var  nums = "<{if isset($goods.goods_num)}><{$goods.goods_num}><{/if}>";
+    	        	if($("#span_nums").val() >nums ){
+    	        	 	if(document.getElementById("span_num_errors")){
+        	        		$("#span_num_errors").html("退款数量不能超过:"+nums);
+        	        	}else{
+        	        		$("#address").after('<p>提示信息：<span id ="span_num_errors" class="num">退款数量不能超过:'+nums+'</span></p>');
+        	        	}
+        	            return false;
+    	        	}
+    	        }
+    	        if($("#address").val()==''){
+    	        	if(document.getElementById("span_num_errors")){
+    	        		$("#span_num_errors").html("退货地址不能为空!!!");
+    	        	}else{
+    	        		$("#address").after('<p>提示信息：<span id ="span_num_errors" class="num">退货地址不能为空!!!</span></p>');
+    	        	}
+    	            return false;
+    	        }
+    	        $.ajax({
+    	            url:'refund_do?id=<{$return.refund_id}>',
+    	            type:'post',
+    	            data:{address:$("#address").val(),tag:'ga',num:$("#span_nums").val()},
+    	            dataType:'json',
+    	            success:function(data) {
+    	                if (data.state) {
+    	                    window.location.href='refund_details?id=<{$return.refund_id}>';
+    	                } else {
+    	                    layer.msg(data.msg);
+    	                }
+    	            }
+    	        })
+    			
+    		},no:function(index){
+    			layer.close(index);
+    		}
+        });
+    });
+    /*同意退货提交*/
+/*     $("body").on('click','#address_sure',function () {
+        var address=$("#address").val();
+        if(address==''){
+            layer.msg('地址不能为空！');
+            return false;
+        }
+        $.ajax({
+            url:'refund_do?id=<{$return.refund_id}>',
+            type:'post',
+            data:{address:address,tag:'ga'},
+            dataType:'json',
+            success:function(data) {
+                if (data.state) {
+                    window.location.href='refund_details?id=<{$return.refund_id}>';
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+        })
+    }); */
+    /*不同意退货*/
+    $("body").on('click','#goods_refuse',function () {
+        layer.open({
+            type: 1,
+            title:'拒绝退货',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['500px', '250px'], //宽高
+            content: reason
+        });
+        reason_sure('gr');
+    });
+
+    /*拒绝退款*/
+    $("body").on('click',"#money_refuse",function(){
+        layer.open({
+            type: 1,
+            title:'拒绝退款',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['500px', '250px'], //宽高
+            content: reason
+        });
+        reason_sure('mr');
+    });
+    
+    /*同意退款*/
+    $("body").on('click',"#money_agree",function(){
+        //询问框
+       var refund_amount = "<{$return.refund_amount}>";
+       layer.open({
+            type: 1,
+            title:'处理售后',
+            btn: ['确认', '取消'],
+            skin: 'layui-layer-rim', //加上边框
+            area: ['650px', '350px'], //宽高
+            content: '<div style="margin:25px 60px">'+
+    		'<p class="show">您正在同意退款申请，同意退款后，退款将在3个工作日原路返回买家支付宝账户。</p>'+
+    		'<p>处理方式：<span class="style">退款不退货</span></p>'+
+    		'<p>退款金额：<span class="num">￥'+refund_amount+'</span></p>'+
+    		'<p>支付密码：<input class="pay_pasword_check1" type="text" style="width: 400px;" /></p>'+
+    		'<div style="clear:both;margin-bottom:20px"></div>'+
+    		'</div>',
+    		yes:function(index){
+    			if($(".pay_pasword_check1").val()==''){
+    				$(".pay_pasword_check1").attr("placeholder","支付密码不能为空!")
+    				return false;
+    			}
+    			$.ajax({
+                    url:'pay_pasword_check',
+                    type:'post',
+                    data:$(".pay_pasword_check1").val(),
+                    dataType:'json',
+                    success:function(data) {
+                        if (data.state) {
+                        	$.ajax({
+                                url:'refund_do?id=<{$return.refund_id}>',
+                                type:'post',
+                                data:{tag:'ma'},
+                                dataType:'json',
+                                success:function(data) {
+                                    if (data.state) {
+                                        window.location.href='refund_details?id=<{$return.refund_id}>';
+                                    } else {
+                                        layer.msg(data.msg);
+                                    }
+                                }
+                            }) 
+                        } else {
+                        	$(".pay_pasword_check1").parent().after('<p>提示信息：<span id ="span_num_error" class="num">支付密码不正确!!!</span></p>');
+                        	return false;
+                        }
+                    }
+                })
+    		},no:function(index){
+    			layer.close()
+    		}
+        });
+    });
+
+    $("body").on("focus",".pay_pasword_check1",function(){
+    	if($("#span_num_error")){
+    		$("#span_num_error").parent().remove();
+    	}
+    	
+    })
+    /*已收到货同意退款*/
+    $("body").on('click',"#agree",function(){
+    	 //询问框
+        var refund_amount = "<{$return.refund_amount}>";
+        layer.open({
+             type: 1,
+             title:'处理售后',
+             btn: ['确认', '取消'],
+             skin: 'layui-layer-rim', //加上边框
+             area: ['650px', '350px'], //宽高
+             content: '<div style="margin:25px 60px">'+
+     		'<p class="show">您正在同意退款申请，同意退款后，退款将在3个工作日原路返回买家支付宝账户。</p>'+
+     		'<p>处理方式：<span class="style">退款不退货</span></p>'+
+     		'<p>退款金额：<span class="num">￥'+refund_amount+'</span></p>'+
+     		'<p>支付密码：<input class="pay_pasword_check1" type="text" style="width: 400px;" /></p>'+
+     		'<div style="clear:both;margin-bottom:20px"></div>'+
+     		'</div>',
+     		yes:function(index){
+     			if($(".pay_pasword_check1").val()==''){
+     				$(".pay_pasword_check1").attr("placeholder","支付密码不能为空!")
+     				return false;
+     			}
+     			$.ajax({
+                     url:'pay_pasword_check',
+                     type:'post',
+                     data:$(".pay_pasword_check1").val(),
+                     dataType:'json',
+                     success:function(data) {
+                         if (data.state) {
+                         	$.ajax({
+                                 url:'refund_do?id=<{$return.refund_id}>',
+                                 type:'post',
+                                 data:{tag:'a'},
+                                 dataType:'json',
+                                 success:function(data) {
+                                     if (data.state) {
+                                         window.location.href='refund_details?id=<{$return.refund_id}>';
+                                     } else {
+                                         layer.msg(data.msg);
+                                     }
+                                 }
+                             }) 
+                         } else {
+                         	$(".pay_pasword_check1").parent().after('<p>提示信息：<span id ="span_num_error" class="num">支付密码不正确!!!</span></p>');
+                         	return false;
+                         }
+                     }
+                 })
+     		},no:function(index){
+     			layer.close()
+     		}
+         });
+    });
+
+    /*未收到货拒绝退款*/
+    $("body").on('click',"#refuse",function(){
+        layer.open({
+            type: 1,
+            title:'拒绝退款',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['500px', '250px'], //宽高
+            content: reason
+        });
+        reason_sure('r');
+    });
+
+    function reason_sure(tag) {
+        $("body").on('click',"#reason_sure",function(){
+            var reason=$("#reason").val();
+            if(reason==''){
+                layer.msg('拒绝理由不能为空！');
+                return false;
+            }
+            $.ajax({
+                url:'refund_do?id=<{$return.refund_id}>',
+                type:'post',
+                data:{reason:reason,tag:tag},
+                dataType:'json',
+                success:function(data) {
+                    if (data.state) {
+                        window.location.href='refund_details?id=<{$return.refund_id}>';
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        })
+    }
+
+    $("body").on('click',"#quxiao",function(){
+        $(".layui-layer-shade").remove();
+        $(".layui-layer").remove();
+    });
+    
+</script>
+
+
+
+<script type="text/javascript">
+	$(".after2").click(function(){
+		var content = '<div style="margin:25px 60px">'+
+		'<p class="show">您正在同意退款申请，由于买家选择退款并退货，同意退款后需要等买家根据退货地址寄回商品，寄回您确认后才会最终退款。</p>'+
+		'<p>处理方式：<span class="style">退款并退货</span></p>'+
+		'<p>退款金额：<span class="num">￥59.40</span></p>'+
+		'<p>登录数量：<input type="text" style="width: 80px;" /></p>'+
+		'<p style="width:70px;float:left">支付密码：</p><textarea name="" rows="" cols="" style="width:450px;height:100px"></textarea>'+
+		'<div style="clear:both;margin-bottom:20px"></div>'+
+		'<button class="btn btn-warning radius" style="margin-left:70px">确定</button>'+
+		'<button class="btn btn-default radius ml-50">取消</button>'+
+		'</div>';
+		layer.open({
+			type: 1,
+			title: '<b>处理售后</b>',
+			skin: 'layui-layer-rim', //加上边框n
+			area: ['650px', 'auto'], //宽高
+			content: content,
+		})
+	})
+</script>
+</html>

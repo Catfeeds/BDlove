@@ -1,0 +1,72 @@
+<{include file="pageheader.html"}>
+
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>消息模板</h3>
+        <h5>商城对邮件/手机类消息模板设定</h5>
+      </div>
+      <ul class="tab-base nc-row"><li><a href="set" ><span>服务器设置</span></a></li>
+      <li><a  class="current"><span>邮件模板</span></a></li>
+      <li><a href="log" ><span>邮件日志</span></a></li>
+      </ul> </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>系统自动给注册用户发送用户邮件等信息所使用的模板，可根据需求编辑其中内容。</li>
+    </ul>
+  </div>
+  <form name='form1' method='post'>
+    <input type="hidden" name="form_submit" value="ok" />
+    <input type="hidden" name="submit_type" id="submit_type" value="" />
+    <table class="flex-table">
+      <thead>
+        <tr>
+          <th width="24" align="center" class="sign"><i class="ico-check"></i></th>
+          <th width="100" align="center" class="handle-s">操作</th>
+          <th width="400" align="left">模板描述</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+	    <{foreach from=$mail_tpl item=v}>
+        <tr>
+          <td width="24" class="sign"><i class="ico-check"></i></td>
+          <td width="100" class="handle-s">
+            <a class="btn blue" href="tp_change/<{$v.template_id}>"><i class="fa fa-pencil-square-o"></i>编辑</a>
+          </td>
+          <td width="200"><span>[用户]</span><span title=""></span><{$v.template_subject}></td>
+		  <td width="200"><span>[内容]</span><span title="<{$v.template_content}>"><{$v.template_content}></span></td>
+          <td></td>
+        </tr>
+		<{/foreach}>
+      </tbody>
+    </table>
+  </form>
+</div>
+<script type="text/javascript" src="<{TEMPLE}>/js/jquery.edit.js" charset="utf-8"></script> 
+<script type="text/javascript">
+$(function(){
+	$('.flex-table').find('p').css('display','inline-block');
+	$('.flex-table').flexigrid({
+		height:'auto',// 高度自动
+		usepager: false,// 不翻页
+		striped: true,// 使用斑马线
+		resizable: false,// 不调节大小
+		title: '邮件模板列表',// 表格标题
+		reload: false,// 不使用刷新
+		columnControl: false// 不使用列控制      
+		});
+});
+</script><div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

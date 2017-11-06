@@ -1,0 +1,65 @@
+<{include file="pageheader.html"}>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>其他设置</h3>
+        <h5>商城所有商品索引及管理</h5>
+      </div>
+ </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li></li>
+    </ul>
+  </div>
+  <form method="post" id="form_other" name="otherForm">
+    <input type="hidden" name="form_submit" value="ok" />
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">商品名称规范化格式</dt>
+        <dd class="opt">
+          <input type="text" value="<{$data}>" name="goods_name_format" id="goods_name_format" class="input-txt">
+          <p class="notic">插入的变量必需包括花括号“{}”，当应用范围不支持该变量时，该变量将不会在前台显示(变量后边的分隔符也不会显示)，留空为系统默认设置,
+            名称的组合顺序和变量顺序一致：支持变量:商品名称 {goodname},品牌名称 {brandname},性别{sex},上市季节｛seasontm｝，上市年份｛yearmt｝,分类名称 {catename},</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">平台资源吞吐量</dt>
+        <dd class="opt">
+          <input type="number" value="<{$num}>" name="system_throughput" id="system_throughput" class="input-txt">
+          <p class="notic">代表如商品导入、商品下载等同时执行的个数</p>
+        </dd>
+      </dl>
+
+      <div class="bot"><a href="JavaScript:void(0);" class="btn btn-warning radius" id="getup">确认提交</a></div>
+    </div>
+  </form>
+</div>
+<script>
+  $('#getup').click(function () {
+      var data = $("#form_other").serialize();
+      $.ajax({
+          type:'POST',
+          data : data,
+          dataType:'json',
+          url:'mall_other_submit',
+          error:function(){
+              layer.msg('设置保存失败，请重新提交。');
+          },
+          success:function(data){
+              layer.msg(data.data);
+          },
+      });
+  });
+</script><div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

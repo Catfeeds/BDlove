@@ -1,0 +1,44 @@
+	<link href="<{TEMPLE}>css/bootstrap.min.css" type="text/css" rel="stylesheet">
+		<link href="<{TEMPLE}>css/sweetalert.css" type="text/css" rel="stylesheet">
+		<link href="<{TEMPLE}>css/animate_new.css" type="text/css" rel="stylesheet">
+		<link href="<{TEMPLE}>css/style.css" type="text/css" rel="stylesheet">
+		<link href="<{TEMPLE}>css/app.css" type="text/css" rel="stylesheet">
+		<link type="text/css" rel="stylesheet" href="<{PLUGIN}>plugins/select2/css/select2.min.css">
+		<link rel="stylesheet" type="text/css" href="<{PLUGIN}>plugins/H-ui/static/h-ui.admin/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="<{PLUGIN}>plugins/H-ui/static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="<{PLUGIN}>plugins/H-ui/static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="<{PLUGIN}>plugins/H-ui/lib/Hui-iconfont/1.0.7/iconfont.css" />
+		<link href="<{TEMPLE}>css/font-awesome.css" type="text/css" rel="stylesheet">
+		<!-- Mainly scripts -->
+		<script src="<{TEMPLE}>js/jquery.js" type="text/javascript"></script>
+		<script src="<{TEMPLE}>js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="<{TEMPLE}>js/jquery.metisMenu.js" type="text/javascript"></script>
+		<script src="<{TEMPLE}>js/jquery.slimscroll.min.js" type="text/javascript"></script>
+		<!-- Custom and plugin javascript -->
+		<script type="text/javascript" src="<{TEMPLE}>js/select2.js"></script>
+		<script src="<{TEMPLE}>js/inspinia.js" type="text/javascript"></script>
+		<script src="<{TEMPLE}>js/sweetalert.min.js" type="text/javascript"></script>
+		<script src="<{TEMPLE}>js/jquery.qrcode.min.js" type="text/javascript"></script>
+		<script src="<{PLUGIN}>plugins/common/common.js" type="text/javascript"></script>
+		<script type="text/javascript" src="<{PLUGIN}>plugins/select2/js/select2.min.js"></script>
+		<!----开放式头部，请在自己的页面加上--</head>-->
+		<script type="text/javascript">
+			$(function() {
+				var system = {};
+				var p = navigator.platform;
+				system.win = p.indexOf("Win") == 0;
+				system.mac = p.indexOf("Mac") == 0;
+				system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+				if(system.win || system.mac || system.xll) {
+					//pc
+				} else {
+					//mobile
+					$(".iconList li").eq(0).hide();
+					$(".iconList li").eq(3).hide();
+					$(".iconList li").eq(5).hide();
+					$(".iconList li").eq(6).hide();
+					$(".iconList li").eq(7).hide();
+					$(".iconList li").eq(8).hide();
+				}
+			})
+		</script>
